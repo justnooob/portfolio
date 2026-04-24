@@ -1,0 +1,226 @@
+.section {
+  padding: 28px 32px 40px;
+}
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 22px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-strong);
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.count {
+  font-size: 13px;
+  color: var(--text-faint);
+  font-weight: 400;
+}
+.sub {
+  font-size: 11px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.card {
+  background: var(--bg-elev);
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+.card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+}
+.preview {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mock {
+  color: rgba(255, 255, 255, 0.18);
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+}
+.phone {
+  width: 70px;
+  height: 140px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+}
+.browser {
+  width: 150px;
+  height: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+.browser::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px 6px 0 0;
+}
+.browser::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 8px 0 0 rgba(255, 255, 255, 0.25), 16px 0 0 rgba(255, 255, 255, 0.25);
+}
+
+.selfPreview {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  border-bottom: 0.5px solid var(--border);
+}
+.selfBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(74, 222, 128, 0.15);
+  border: 0.5px solid rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+.selfName {
+  font-size: 22px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: -1px;
+}
+.selfSub {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.body {
+  padding: 16px 18px;
+}
+.card .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  gap: 10px;
+}
+.name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-strong);
+  letter-spacing: -0.2px;
+}
+.arrow {
+  font-size: 14px;
+  color: var(--text-faint);
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+.card:hover .arrow {
+  color: var(--text-strong);
+}
+.desc {
+  font-size: 11px;
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 10px;
+  color: var(--text-faint);
+  flex-wrap: wrap;
+}
+.mdot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+
+.dividerWrap {
+  padding: 0 32px;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 24px 16px 32px;
+  }
+  .grid2,
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+  .dividerWrap {
+    padding: 0 16px;
+  }
+}

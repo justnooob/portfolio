@@ -1,0 +1,183 @@
+.section {
+  padding: 40px 32px;
+}
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.title {
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--text-strong);
+  letter-spacing: -0.5px;
+}
+.sub {
+  font-size: 11px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card {
+  background: var(--bg-elev);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.25s, background 0.25s;
+}
+.card:hover {
+  border-color: var(--border-hover);
+}
+.open {
+  border-color: var(--border-hover);
+  background: var(--bg-elev-2);
+}
+.cardHead {
+  display: grid;
+  grid-template-columns: 42px 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 20px;
+  cursor: pointer;
+}
+.logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #0c0c0e;
+}
+.company {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-strong);
+  margin-bottom: 3px;
+  letter-spacing: -0.2px;
+}
+.meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-soft);
+  flex-wrap: wrap;
+}
+.mdot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+.kpi {
+  text-align: right;
+}
+.kpiNum {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-strong);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.kpiLbl {
+  font-size: 10px;
+  color: var(--text-soft);
+  margin-top: 2px;
+}
+.chev {
+  font-size: 16px;
+  color: var(--text-soft);
+  transition: transform 0.3s;
+}
+.open .chev {
+  transform: rotate(180deg);
+}
+
+.body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.open .body {
+  max-height: 500px;
+}
+.bodyIn {
+  padding: 18px 20px 22px 78px;
+  border-top: 0.5px solid var(--border);
+}
+.product {
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+.metrics {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.metricNum {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-strong);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.metricLbl {
+  font-size: 10px;
+  color: var(--text-faint);
+}
+.achList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.ach {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  display: flex;
+  gap: 8px;
+}
+.ach::before {
+  content: '→';
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 32px 16px;
+  }
+  .cardHead {
+    grid-template-columns: 38px 1fr auto;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .chev {
+    display: none;
+  }
+  .bodyIn {
+    padding: 14px 16px 18px 16px;
+  }
+}
