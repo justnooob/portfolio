@@ -8,7 +8,7 @@ export const translations = {
       experience: 'Опыт',
     },
     hero: {
-      badge: 'Открыт к предложениям · СПб',
+      badge: 'Открыт к предложениям · СПб | Удалённо',
       name1: 'Максим',
       name2: 'Сорокин',
       typewriter: ['Продуктовый дизайнер', 'UX/UI дизайнер', 'Дизайнер интерфейсов', '5+ лет опыта'],
@@ -41,7 +41,7 @@ export const translations = {
       title1: 'Давайте сделаем',
       title2: 'что-то классное',
       title3: 'вместе',
-      description: 'Ищу интересные продуктовые задачи и команды, где дизайн действительно меняет метрики. Напишите — обсудим проект за чашкой кофе.',
+      description: 'Ищу интересные продуктовые задачи и команды, где дизайн действительно меняет метрики. Напишите, буду рад обсудить.',
       telegram: 'Написать в Telegram',
     },
     footer: {
@@ -74,7 +74,7 @@ export const translations = {
       experience: 'Experience',
     },
     hero: {
-      badge: 'Open to opportunities · Saint Petersburg',
+      badge: 'Open to opportunities · Saint Petersburg | Remote',
       name1: 'Maxim',
       name2: 'Sorokin',
       typewriter: ['Product Designer', 'UX/UI Designer', 'Interface Designer', '5+ years of experience'],
@@ -107,7 +107,7 @@ export const translations = {
       title1: "Let's create",
       title2: 'something great',
       title3: 'together',
-      description: "I'm looking for interesting product challenges and teams where design truly moves metrics. Drop me a line — let's discuss over coffee.",
+      description: "I'm looking for interesting product challenges and teams where design truly moves metrics. Drop me a line, happy to chat.",
       telegram: 'Message on Telegram',
     },
     footer: {
@@ -143,6 +143,10 @@ export interface Project {
   featured?: boolean;
   isThisSite?: boolean;
   color: string; // gradient CSS
+  coverImage?: string; // путь к картинке обложки, например '/projects/iywi.jpg'
+  lightText?: boolean; // если true — на странице проекта текст будет тёмным (для светлых градиентов)
+  cover?: string; // путь к обложке-картинке (например "/projects/iywi/cover.jpg")
+  screenshots?: string[]; // массив длинных макетов для страницы проекта
   logo: string; // letters
   logoColor: string;
   behanceUrl?: string;
@@ -169,6 +173,7 @@ export const projects: Project[] = [
     category: 'saas',
     featured: true,
     color: 'linear-gradient(135deg, #1a2b4a 0%, #2a1f3f 50%, #0a1a2a 100%)',
+    coverImage: '/projects/iywi.png',
     logo: 'IY',
     logoColor: '#4fa3ff',
     behanceUrl: 'https://www.behance.net/gallery/247519813/IYWI-B2B-Medical-SaaS-UXUI-Design',
@@ -230,7 +235,8 @@ export const projects: Project[] = [
   {
     slug: 'buildit',
     category: 'saas',
-    color: 'linear-gradient(135deg, #0e3a2e 0%, #1a5f4a 100%)',
+    color: 'linear-gradient(135deg, #1e40af 0%, #0ea5e9 50%, #38bdf8 100%)',
+	coverImage: '/projects/buildit.jpg',
     logo: 'BI',
     logoColor: '#1a5f4a',
     behanceUrl: 'https://www.behance.net/gallery/232621029/BuildIT-SAAS-System-UXUI-Design',
@@ -282,7 +288,8 @@ export const projects: Project[] = [
   {
     slug: 'hobbist',
     category: 'mobile',
-    color: 'linear-gradient(135deg, #2a0a3e 0%, #5a1e7f 100%)',
+    color: 'linear-gradient(135deg, #4ade80 0%, #84cc16 50%, #22d3ee 100%)',
+    lightText: true,
     logo: 'H',
     logoColor: '#e879f9',
     behanceUrl: 'https://www.behance.net/gallery/233364373/Hobbist-Dating-App-UXUI-Design',
@@ -459,7 +466,7 @@ export const projects: Project[] = [
   {
     slug: 'pioner',
     category: 'web',
-    color: 'linear-gradient(135deg, #3e0a0a 0%, #7f1e1e 100%)',
+    color: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #60a5fa 100%)',
     logo: 'П',
     logoColor: '#7f1e1e',
     behanceUrl: 'https://www.behance.net/gallery/181286239/redizajn-glavnoj-stranicy-sajta-zavoda-pioner',
@@ -478,7 +485,8 @@ export const projects: Project[] = [
   {
     slug: 'aveji',
     category: 'web',
-    color: 'linear-gradient(135deg, #3e2a0e 0%, #7f5a1e 100%)',
+    color: 'linear-gradient(135deg, #e7d5b5 0%, #d4a574 50%, #c89766 100%)',
+    lightText: true,
     logo: 'AV',
     logoColor: '#7f5a1e',
     behanceUrl: 'https://www.behance.net/gallery/181469821/AVEJI-LANDING-PAGE',
@@ -497,7 +505,7 @@ export const projects: Project[] = [
   {
     slug: 'webinar',
     category: 'web',
-    color: 'linear-gradient(135deg, #1a1a2a 0%, #3a3a5a 100%)',
+    color: 'linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%)',
     logo: 'W',
     logoColor: '#3a3a5a',
     behanceUrl: 'https://www.behance.net/gallery/181538443/minimalizm-v-veb-dizajne-stranica-vebinara',
@@ -520,6 +528,7 @@ export interface Experience {
   logo: string;
   logoColor: string;
   company: { ru: string; en: string };
+  website?: string; // URL сайта компании (без https://)
   location: { ru: string; en: string };
   role: { ru: string; en: string };
   period: { ru: string; en: string };
@@ -536,6 +545,7 @@ export const experiences: Experience[] = [
     logo: 'МИ',
     logoColor: '#4fa3ff',
     company: { ru: 'УК Медицина · IYWI', en: 'UK Medicina · IYWI' },
+    website: 'okk.pro',
     location: { ru: 'СПб', en: 'SPb' },
     role: { ru: 'Ведущий продуктовый дизайнер', en: 'Lead Product Designer' },
     period: { ru: 'сент 2025 — апр 2026 · 8 мес', en: 'Sep 2025 — Apr 2026 · 8 mo' },
@@ -571,7 +581,8 @@ export const experiences: Experience[] = [
     logo: 'H',
     logoColor: '#e879f9',
     company: { ru: 'Hobbist', en: 'Hobbist' },
-    location: { ru: 'Remote', en: 'Remote' },
+    website: 'hobbist.com',
+    location: { ru: 'Удалённо', en: 'Remote' },
     role: { ru: 'UX/UI дизайнер', en: 'UX/UI Designer' },
     period: { ru: 'сент 2024 — сент 2025 · 1 год', en: 'Sep 2024 — Sep 2025 · 1 yr' },
     kpi: { value: '+20%', label: { ru: 'DAU', en: 'DAU' } },
@@ -603,7 +614,8 @@ export const experiences: Experience[] = [
     logo: 'С',
     logoColor: '#fbbf24',
     company: { ru: 'Сметтер · BuildIT', en: 'Smetter · BuildIT' },
-    location: { ru: 'Remote', en: 'Remote' },
+    website: 'smetter.ru',
+    location: { ru: 'СПб', en: 'SPb' },
     role: { ru: 'Ведущий UX/UI дизайнер', en: 'Lead UX/UI Designer' },
     period: { ru: 'июн — сент 2024 · 4 мес', en: 'Jun — Sep 2024 · 4 mo' },
     kpi: { value: '35→62', label: { ru: 'NPS', en: 'NPS' } },
@@ -634,7 +646,8 @@ export const experiences: Experience[] = [
     logo: 'A',
     logoColor: '#34d399',
     company: { ru: 'Aezakmi Group', en: 'Aezakmi Group' },
-    location: { ru: 'Remote', en: 'Remote' },
+    website: 'aezakmi.group',
+    location: { ru: 'Удалённо', en: 'Remote' },
     role: { ru: 'UX/UI дизайнер', en: 'UX/UI Designer' },
     period: { ru: 'май 2023 — май 2024 · 1 год', en: 'May 2023 — May 2024 · 1 yr' },
     kpi: { value: '200k+', label: { ru: 'установок', en: 'installs' } },
@@ -665,6 +678,7 @@ export const experiences: Experience[] = [
     logo: 'А',
     logoColor: '#f87171',
     company: { ru: 'Атлант', en: 'Atlant' },
+    website: 'sk-atlant.ru',
     location: { ru: 'СПб', en: 'SPb' },
     role: { ru: 'UX/UI дизайнер', en: 'UX/UI Designer' },
     period: { ru: 'янв 2021 — апр 2023 · 2+ года', en: 'Jan 2021 — Apr 2023 · 2+ yr' },

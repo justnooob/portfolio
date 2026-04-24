@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useApp } from './AppProvider';
+import { useReveal } from '@/lib/useReveal';
 import { translations, projects } from '@/lib/data';
 import styles from './Featured.module.css';
 
@@ -9,15 +10,26 @@ export default function Featured() {
   const { locale } = useApp();
   const t = translations[locale];
   const featured = projects.find((p) => p.featured);
+  const { ref, visible } = useReveal<HTMLDivElement>();
   if (!featured) return null;
 
   return (
     <div className={styles.section} id="projects">
       <div className={styles.label}>
-        <b>●</b> {t.featured.label}
+        <span className={styles.labelDot}>●</span> {t.featured.label}
       </div>
-      <Link href={`/projects/${featured.slug}`} className={styles.card} style={{ background: featured.color }}>
+      <div ref={ref} className={`reveal ${visible ? 'visible' : ''}`}>
+      <Link
+        href={`/projects/${featured.slug}`}
+        className={styles.card}
+        style={{ background: featured.color }}
+      >
         <div className={styles.glow}></div>
+        {featured.coverImage && (
+          <div className={styles.coverBg}>
+            <img src={featured.coverImage} alt={featured.name[locale]} />
+          </div>
+        )}
         <div className={styles.top}>
           <div className={styles.tags}>
             {featured.tags[locale].map((tag) => (
@@ -43,10 +55,15 @@ export default function Featured() {
           )}
           <div className={styles.cta}>
             {t.featured.cta}
-            <div className={styles.ctaIco}>↗</div>
+            <span className={styles.ctaIco}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </div>
         </div>
       </Link>
+      </div>
     </div>
   );
 }

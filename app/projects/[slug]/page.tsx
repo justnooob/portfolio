@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
@@ -9,11 +10,15 @@ import FinalCta from '@/components/FinalCta';
 import { translations, projects } from '@/lib/data';
 import styles from './project.module.css';
 
+// Видимое количество пунктов по умолчанию
+const VISIBLE_RESULTS = 3;
+
 export default function ProjectPage() {
   const params = useParams<{ slug: string }>();
   const router = useRouter();
   const { locale } = useApp();
   const t = translations[locale];
+  const [resultsExpanded, setResultsExpanded] = useState(false);
 
   const project = projects.find((p) => p.slug === params.slug);
 
@@ -26,18 +31,32 @@ export default function ProjectPage() {
           <p>Project not found</p>
           <Link href="/" className="btn-cta">
             {t.project.back}
-            <div className="btn-cta-ico">↗</div>
+            <span className="btn-cta-ico-wrap">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </Link>
         </div>
       </main>
     );
   }
 
+  const allResults = project.results[locale];
+  const hasMore = allResults.length > VISIBLE_RESULTS;
+  const displayedResults = resultsExpanded ? allResults : allResults.slice(0, VISIBLE_RESULTS);
+
+  const showMoreLabel = locale === 'ru' ? 'Показать все' : 'Show all';
+  const collapseLabel = locale === 'ru' ? 'Свернуть' : 'Collapse';
+
   return (
     <main>
       <Nav />
 
-      <div className={styles.hero} style={{ background: project.color }}>
+      <div
+        className={`${styles.hero} ${project.lightText ? styles.heroLight : ''}`}
+        style={{ background: project.color }}
+      >
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
           <button onClick={() => router.push('/')} className={styles.back}>
@@ -99,18 +118,31 @@ export default function ProjectPage() {
           <p className={styles.blockText}>{project.solution[locale]}</p>
         </section>
 
+        {/* === Результаты с "свернуть/развернуть" === */}
         <section className={styles.block}>
           <div className={styles.blockLbl}>{t.project.results}</div>
-          <ul className={styles.resultsList}>
-            {project.results[locale].map((r, i) => (
-              <li key={i} className={styles.result}>
-                {r}
-              </li>
-            ))}
-          </ul>
+          <div className={`${styles.resultsWrap} ${!resultsExpanded && hasMore ? styles.resultsCollapsed : ''}`}>
+            <ul className={styles.resultsList}>
+              {displayedResults.map((r, i) => (
+                <li key={i} className={styles.result}>
+                  {r}
+                </li>
+              ))}
+            </ul>
+            {!resultsExpanded && hasMore && <div className={styles.fadeOverlay}></div>}
+          </div>
+          {hasMore && (
+            <button
+              className={styles.expandBtn}
+              onClick={() => setResultsExpanded(!resultsExpanded)}
+            >
+              {resultsExpanded ? collapseLabel : showMoreLabel}
+              <span className={`${styles.expandChev} ${resultsExpanded ? styles.expandChevRotated : ''}`}>⌄</span>
+            </button>
+          )}
         </section>
 
-        {/* Плейсхолдер под скриншоты — сюда Максим положит свои макеты */}
+        {/* Плейсхолдер под скриншоты */}
         <section className={styles.screensBlock}>
           <div className={styles.blockLbl}>{t.project.screens}</div>
           <div className={styles.screensPlaceholder} style={{ background: project.color }}>
@@ -126,7 +158,11 @@ export default function ProjectPage() {
           <div className={styles.behance}>
             <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
               {t.project.viewBehance}
-              <div className="btn-cta-ico">↗</div>
+              <span className="btn-cta-ico-wrap">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
             </a>
           </div>
         )}

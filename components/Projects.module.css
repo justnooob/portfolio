@@ -1,30 +1,30 @@
 .section {
-  padding: 28px 32px 40px;
+  padding: 36px 32px 48px;
 }
 .head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 22px;
+  margin-bottom: 26px;
   gap: 16px;
   flex-wrap: wrap;
 }
 .title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 500;
   color: var(--text-strong);
   letter-spacing: -0.5px;
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 12px;
 }
 .count {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-faint);
   font-weight: 400;
 }
 .sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-faint);
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -32,21 +32,21 @@
 .grid2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 14px;
 }
 .grid3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .card {
   background: var(--bg-elev);
   border: 0.5px solid var(--border);
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   color: inherit;
@@ -54,48 +54,86 @@
 }
 .card:hover {
   border-color: var(--border-hover);
-  transform: translateY(-3px);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
 }
 .preview {
-  height: 200px;
+  height: 220px;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.coverImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card:hover .coverImg {
+  transform: scale(1.04);
+}
+
+/* Светлый вариант превью — для проектов с lightText (AVEJI, Hobbist и др.) */
+.previewLight .mock {
+  color: rgba(0, 0, 0, 0.2);
+}
+.previewLight .phone {
+  border-color: rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.25);
+}
+.previewLight .phone::before {
+  background: rgba(0, 0, 0, 0.3);
+}
+.previewLight .browser {
+  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.3);
+}
+.previewLight .browser::before {
+  background: rgba(0, 0, 0, 0.1);
+}
+.previewLight .browser::after {
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 9px 0 0 rgba(0, 0, 0, 0.3), 18px 0 0 rgba(0, 0, 0, 0.3);
+}
+.card:hover .preview {
+  transform: scale(1.03);
 }
 .mock {
-  color: rgba(255, 255, 255, 0.18);
-  font-size: 44px;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 48px;
   font-weight: 600;
   letter-spacing: -2px;
   text-transform: uppercase;
 }
 .phone {
-  width: 70px;
-  height: 140px;
-  border: 2px solid rgba(255, 255, 255, 0.25);
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.3);
+  width: 76px;
+  height: 152px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.35);
   position: relative;
 }
 .phone::before {
   content: '';
   position: absolute;
-  top: 6px;
+  top: 7px;
   left: 50%;
   transform: translateX(-50%);
-  width: 22px;
+  width: 24px;
   height: 3px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
 }
 .browser {
-  width: 150px;
-  height: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 164px;
+  height: 110px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 6px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.35);
   position: relative;
 }
 .browser::before {
@@ -104,24 +142,24 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 14px;
-  background: rgba(255, 255, 255, 0.08);
+  height: 16px;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 6px 6px 0 0;
 }
 .browser::after {
   content: '';
   position: absolute;
-  top: 4px;
+  top: 5px;
   left: 6px;
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 8px 0 0 rgba(255, 255, 255, 0.25), 16px 0 0 rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 9px 0 0 rgba(255, 255, 255, 0.3), 18px 0 0 rgba(255, 255, 255, 0.3);
 }
 
 .selfPreview {
-  height: 200px;
+  height: 220px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,67 +170,68 @@
 }
 .selfBadge {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(74, 222, 128, 0.15);
-  border: 0.5px solid rgba(74, 222, 128, 0.3);
-  color: #4ade80;
-  font-size: 9px;
-  padding: 3px 8px;
+  top: 12px;
+  right: 12px;
+  background: rgba(var(--accent-rgb), 0.15);
+  border: 0.5px solid rgba(var(--accent-rgb), 0.35);
+  color: var(--accent);
+  font-size: 10px;
+  padding: 4px 10px;
   border-radius: 100px;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 500;
 }
 .selfName {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
   letter-spacing: -1px;
 }
 .selfSub {
-  font-size: 9px;
-  color: rgba(255, 255, 255, 0.35);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .body {
-  padding: 16px 18px;
+  padding: 18px 20px 20px;
 }
 .card .head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 6px;
+  margin-bottom: 7px;
   gap: 10px;
 }
 .name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--text-strong);
   letter-spacing: -0.2px;
 }
 .arrow {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-faint);
   flex-shrink: 0;
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .card:hover .arrow {
   color: var(--text-strong);
+  transform: translate(2px, -2px);
 }
 .desc {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-soft);
-  line-height: 1.5;
-  margin-bottom: 10px;
+  line-height: 1.55;
+  margin-bottom: 12px;
 }
 .meta {
   display: flex;
   gap: 10px;
   align-items: center;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-faint);
   flex-wrap: wrap;
 }
@@ -209,12 +248,12 @@
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border), transparent);
-  margin: 20px 0;
+  margin: 24px 0;
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 24px 16px 32px;
+    padding: 28px 16px 36px;
   }
   .grid2,
   .grid3 {
@@ -222,5 +261,8 @@
   }
   .dividerWrap {
     padding: 0 16px;
+  }
+  .title {
+    font-size: 24px;
   }
 }

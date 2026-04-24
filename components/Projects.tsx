@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useApp } from './AppProvider';
+import { useReveal } from '@/lib/useReveal';
 import { translations, projects, Project, ProjectCategory } from '@/lib/data';
 import styles from './Projects.module.css';
 
@@ -19,23 +20,39 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
       );
     }
-    if (project.category === 'mobile') {
+
+    // Если есть обложка — показываем её вместо заглушки
+    if (project.coverImage) {
       return (
         <div className={styles.preview} style={{ background: project.color }}>
+          <img
+            src={project.coverImage}
+            alt={project.name[locale]}
+            className={styles.coverImg}
+            loading="lazy"
+          />
+        </div>
+      );
+    }
+
+    const previewCls = `${styles.preview} ${project.lightText ? styles.previewLight : ''}`;
+    if (project.category === 'mobile') {
+      return (
+        <div className={previewCls} style={{ background: project.color }}>
           <div className={styles.phone}></div>
         </div>
       );
     }
     if (project.category === 'web') {
       return (
-        <div className={styles.preview} style={{ background: project.color }}>
+        <div className={previewCls} style={{ background: project.color }}>
           <div className={styles.browser}></div>
         </div>
       );
     }
     // saas
     return (
-      <div className={styles.preview} style={{ background: project.color }}>
+      <div className={previewCls} style={{ background: project.color }}>
         <div className={styles.mock}>{project.name[locale]}</div>
       </div>
     );
@@ -77,6 +94,7 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
   const t = translations[locale];
   const catInfo = t.categories[category];
   const items = projects.filter((p) => p.category === category && !p.featured);
+  const { ref, visible } = useReveal<HTMLDivElement>();
 
   const gridClass = columns === 3 ? styles.grid3 : styles.grid2;
   const count = items.length.toString().padStart(2, '0');
@@ -89,7 +107,7 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
         </div>
         <div className={styles.sub}>{catInfo.sub}</div>
       </div>
-      <div className={gridClass}>
+      <div ref={ref} className={`${gridClass} reveal-stagger ${visible ? 'visible' : ''}`}>
         {items.map((p) => (
           <ProjectCard key={p.slug} project={p} />
         ))}

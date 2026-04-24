@@ -1,22 +1,22 @@
 .section {
-  padding: 40px 32px;
+  padding: 60px 32px;
 }
 .head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   gap: 16px;
   flex-wrap: wrap;
 }
 .title {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 500;
   color: var(--text-strong);
   letter-spacing: -0.5px;
 }
 .sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-faint);
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -24,17 +24,18 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 .card {
   background: var(--bg-elev);
   border: 0.5px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  transition: border-color 0.25s, background 0.25s;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
 }
 .card:hover {
   border-color: var(--border-hover);
+  transform: translateY(-1px);
 }
 .open {
   border-color: var(--border-hover);
@@ -42,35 +43,54 @@
 }
 .cardHead {
   display: grid;
-  grid-template-columns: 42px 1fr auto auto;
-  gap: 16px;
+  grid-template-columns: 48px 1fr auto auto;
+  gap: 18px;
   align-items: center;
-  padding: 18px 20px;
+  padding: 22px 24px;
   cursor: pointer;
 }
-.logo {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
+.logoSvg {
+  border-radius: 10px;
+}
+.info {
+  min-width: 0;
+}
+.companyRow {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: #0c0c0e;
+  gap: 10px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
 }
 .company {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--text-strong);
-  margin-bottom: 3px;
   letter-spacing: -0.2px;
+}
+.website {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-faint);
+  text-decoration: none;
+  padding: 2px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  background: var(--bg-elev);
+  border: 0.5px solid var(--border);
+}
+.website:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 .meta {
   display: flex;
   gap: 10px;
   align-items: center;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--text-soft);
   flex-wrap: wrap;
 }
@@ -84,19 +104,19 @@
   text-align: right;
 }
 .kpiNum {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   color: var(--text-strong);
   letter-spacing: -0.5px;
   line-height: 1;
 }
 .kpiLbl {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-soft);
-  margin-top: 2px;
+  margin-top: 3px;
 }
 .chev {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--text-soft);
   transition: transform 0.3s;
 }
@@ -107,57 +127,57 @@
 .body {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .open .body {
-  max-height: 500px;
+  max-height: 600px;
 }
 .bodyIn {
-  padding: 18px 20px 22px 78px;
+  padding: 22px 24px 24px 90px;
   border-top: 0.5px solid var(--border);
 }
 .product {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-soft);
-  margin-bottom: 16px;
-  line-height: 1.6;
+  margin-bottom: 20px;
+  line-height: 1.65;
 }
 .metrics {
   display: flex;
-  gap: 24px;
-  margin-bottom: 18px;
-  padding: 14px 18px;
+  gap: 28px;
+  margin-bottom: 22px;
+  padding: 16px 22px;
   background: var(--bg-elev);
-  border-radius: 8px;
+  border-radius: 10px;
   flex-wrap: wrap;
 }
 .metric {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 .metricNum {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   color: var(--text-strong);
   letter-spacing: -0.5px;
   line-height: 1;
 }
 .metricLbl {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-faint);
 }
 .achList {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 10px;
 }
 .ach {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 .ach::before {
   content: '→';
@@ -167,17 +187,20 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 32px 16px;
+    padding: 40px 16px;
   }
   .cardHead {
-    grid-template-columns: 38px 1fr auto;
-    gap: 12px;
-    padding: 14px 16px;
+    grid-template-columns: 40px 1fr auto;
+    gap: 14px;
+    padding: 16px 18px;
   }
   .chev {
     display: none;
   }
   .bodyIn {
-    padding: 14px 16px 18px 16px;
+    padding: 16px 18px 20px 18px;
+  }
+  .meta {
+    font-size: 12px;
   }
 }
