@@ -231,6 +231,55 @@ img {
   50% { opacity: 1; }
 }
 
+/* === АНИМАЦИЯ СМЕНЫ ТЕМЫ через View Transitions API ===
+   Эффект "перелистывания" — раскрывается круг от точки клика на переключателе. */
+
+/* Отключаем стандартный кросс-fade — будем делать свой эффект */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Старая тема остаётся внизу, новая накатывается сверху */
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* Переход на СВЕТЛУЮ — круг раскрывается из точки клика (правый верх),
+   как будто свет загорается оттуда */
+[data-theme-anim='to-light']::view-transition-new(root) {
+  animation: themeRevealCircle 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Переход на ТЁМНУЮ — то же самое, но круг идёт с другой стороны (левый низ),
+   ощущение что тень накрывает */
+[data-theme-anim='to-dark']::view-transition-new(root) {
+  animation: themeRevealCircle 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes themeRevealCircle {
+  from {
+    /* Точка клика записана в --theme-anim-x/y из AppProvider.
+       Радиус 0 — круг точки начала. */
+    clip-path: circle(0% at var(--theme-anim-x, 100%) var(--theme-anim-y, 0%));
+  }
+  to {
+    /* В конце круг закрывает весь экран — радиус ~150% от диагонали */
+    clip-path: circle(150% at var(--theme-anim-x, 100%) var(--theme-anim-y, 0%));
+  }
+}
+
+/* Фолбэк для браузеров без View Transitions API — плавный fade */
+@supports not (selector(::view-transition-new(root))) {
+  html {
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+}
+
 /* Адаптив */
 @media (max-width: 768px) {
   html, body { font-size: 14px; }

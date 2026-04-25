@@ -1,7 +1,5 @@
 /*
-  NAV — sticky, приклеен к верху экрана при скролле.
-  На всю ширину экрана (без обрезки 1440px),
-  внутри .navInner ограничен и центрирован.
+  NAV — sticky, с blur при скролле, на всю ширину экрана.
 */
 .nav {
   position: fixed;
@@ -14,8 +12,6 @@
   background: transparent;
   border-bottom: 0.5px solid transparent;
 }
-
-/* Когда юзер проскроллил — добавляем размытие и разделитель */
 .navScrolled {
   background: color-mix(in srgb, var(--bg) 80%, transparent);
   backdrop-filter: blur(16px) saturate(180%);
@@ -56,7 +52,6 @@
   letter-spacing: -0.2px;
 }
 
-/* Меню — по центру */
 .links {
   display: flex;
   gap: 28px;
@@ -87,35 +82,109 @@
   box-shadow: 0 0 8px var(--accent);
 }
 
-/* Переключатели — справа */
 .toggles {
   display: flex;
-  gap: 4px;
+  gap: 8px;
+  align-items: center;
   justify-self: end;
 }
-.tgb {
-  background: var(--bg-hover);
+
+/* === LANG SWITCH === */
+.langSwitch {
+  display: inline-flex;
+  background: var(--bg-elev);
   border: 0.5px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 11px;
+  border-radius: 100px;
+  padding: 3px;
+  gap: 2px;
+}
+.langBtn {
+  background: transparent;
+  border: none;
+  border-radius: 100px;
+  padding: 6px 12px;
   font-size: 12px;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: inherit;
-  white-space: nowrap;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
-.tgb:hover {
+.langBtn:hover {
   color: var(--text-strong);
-  border-color: var(--border-hover);
 }
-.tgbActive {
+.langActive {
   background: var(--text-strong);
   color: var(--bg);
-  border-color: transparent;
 }
 
-/* === БУРГЕР — только на мобилке === */
+/* === THEME SWITCH (sun-moon) === */
+.themeSwitch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 60px;
+  height: 30px;
+  background: var(--bg-elev);
+  border: 0.5px solid var(--border);
+  border-radius: 100px;
+  padding: 0 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.25s, border-color 0.25s;
+}
+.themeSwitch:hover {
+  border-color: var(--border-hover);
+}
+
+/* Бегунок — белый шарик который двигается слева/справа */
+.themeKnob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--text-strong);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+/* В тёмной теме знач выбрана луна (слева), бегунок слева */
+.themeSwitch:not(.themeSwitchLight) .themeKnob {
+  transform: translateX(0);
+}
+/* В светлой теме выбрано солнце (справа), бегунок справа */
+.themeSwitchLight .themeKnob {
+  transform: translateX(30px);
+}
+
+.themeIco {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  transition: color 0.25s;
+}
+/* Иконка под бегунком — инвертированная по цвету */
+.themeIcoMoon {
+  color: var(--bg); /* в тёмной теме (бегунок белый) — луна тёмная */
+}
+.themeIcoSun {
+  color: var(--text-soft); /* в тёмной теме (бегунок слева) — солнце приглушённое */
+}
+.themeSwitchLight .themeIcoMoon {
+  color: var(--text-soft); /* в светлой теме луна приглушённая */
+}
+.themeSwitchLight .themeIcoSun {
+  color: var(--bg); /* в светлой теме (бегунок белый/чёрный) — солнце контрастное */
+}
+
+/* === BURGER === */
 .burger {
   display: none;
   flex-direction: column;
@@ -139,7 +208,6 @@
   background: var(--text-strong);
   border-radius: 2px;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
-  transform-origin: center;
 }
 .burgerOpen span:nth-child(1) {
   transform: translateY(6.5px) rotate(45deg);
@@ -151,7 +219,7 @@
   transform: translateY(-6.5px) rotate(-45deg);
 }
 
-/* === МОБИЛЬНОЕ МЕНЮ — полноэкранное === */
+/* === MOBILE MENU === */
 .mobileMenu {
   position: fixed;
   inset: 0;
@@ -207,12 +275,9 @@
 }
 .mobileToggles {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  align-items: center;
   flex-wrap: wrap;
-}
-.mobileToggles .tgb {
-  padding: 10px 16px;
-  font-size: 14px;
 }
 
 @media (max-width: 900px) {

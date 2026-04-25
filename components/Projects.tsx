@@ -6,8 +6,14 @@ import { translations, projects, Project, ProjectCategory } from '@/lib/data';
 import styles from './Projects.module.css';
 
 function ProjectCard({ project }: { project: Project }) {
-  const { locale } = useApp();
+  const { locale, theme } = useApp();
   const t = translations[locale];
+
+  // Выбираем обложку по теме: для светлой используем coverImageLight если есть
+  const cover =
+    theme === 'light' && project.coverImageLight
+      ? project.coverImageLight
+      : project.coverImage;
 
   const renderPreview = () => {
     if (project.isThisSite) {
@@ -21,11 +27,11 @@ function ProjectCard({ project }: { project: Project }) {
     }
 
     // Если есть обложка — показываем её вместо заглушки
-    if (project.coverImage) {
+    if (cover) {
       return (
         <div className={styles.preview} style={{ background: project.color }}>
           <img
-            src={project.coverImage}
+            src={cover}
             alt={project.name[locale]}
             className={styles.coverImg}
             loading="lazy"

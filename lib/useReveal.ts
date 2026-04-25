@@ -6,10 +6,9 @@ import { useEffect, useRef, useState } from 'react';
  * Хук для появления блока при скролле.
  *
  * Защиты от пустых экранов:
- * 1) Если элемент УЖЕ виден на момент монтирования — мгновенно показываем (без ожидания observer)
+ * 1) Если элемент УЖЕ виден на момент монтирования — мгновенно показываем
  * 2) Если IntersectionObserver не поддерживается — показываем сразу
- * 3) Fallback: через 200мс после монтирования принудительно показываем,
- *    если observer ещё не сработал (страховка от долгой гидратации)
+ * 3) Fallback: через 200мс после монтирования принудительно показываем
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
@@ -19,13 +18,11 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
     const el = ref.current;
     if (!el) return;
 
-    // 2) Нет IntersectionObserver — сразу показываем
     if (typeof IntersectionObserver === 'undefined') {
       setVisible(true);
       return;
     }
 
-    // 1) Элемент уже в зоне видимости — мгновенно показываем
     const rect = el.getBoundingClientRect();
     const winH = window.innerHeight || document.documentElement.clientHeight;
     if (rect.top < winH && rect.bottom > 0) {
@@ -47,7 +44,6 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
 
     observer.observe(el);
 
-    // 3) Страховка: через 200мс показываем в любом случае
     const fallback = setTimeout(() => setVisible(true), 200);
 
     return () => {

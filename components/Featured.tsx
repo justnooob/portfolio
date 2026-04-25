@@ -6,10 +6,15 @@ import { translations, projects } from '@/lib/data';
 import styles from './Featured.module.css';
 
 export default function Featured() {
-  const { locale } = useApp();
+  const { locale, theme } = useApp();
   const t = translations[locale];
   const featured = projects.find((p) => p.featured);
   if (!featured) return null;
+
+  const cover =
+    theme === 'light' && featured.coverImageLight
+      ? featured.coverImageLight
+      : featured.coverImage;
 
   return (
     <div className={styles.section} id="projects">
@@ -23,9 +28,9 @@ export default function Featured() {
         style={{ background: featured.color }}
       >
         <div className={styles.glow}></div>
-        {featured.coverImage && (
+        {cover && (
           <div className={styles.coverBg}>
-            <img src={featured.coverImage} alt={featured.name[locale]} />
+            <img src={cover} alt={featured.name[locale]} />
           </div>
         )}
         <div className={styles.top}>

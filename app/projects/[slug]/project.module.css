@@ -28,6 +28,9 @@
   justify-content: flex-end;
   overflow: hidden;
   color: #fff;
+  /* Растягиваем фон на всю ширину экрана — без обрезки на 1440px */
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
 /*
@@ -78,6 +81,9 @@
 .heroContent {
   position: relative;
   z-index: 1;
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
 }
 .back {
   background: rgba(255, 255, 255, 0.08);
@@ -165,6 +171,8 @@
   gap: 1px;
   background: var(--border);
   border-bottom: 0.5px solid var(--border);
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 .metaItem {
   background: var(--bg);

@@ -62,20 +62,43 @@ export default function Nav() {
           </div>
 
           <div className={styles.toggles}>
+            <div className={styles.langSwitch}>
+              <button
+                className={`${styles.langBtn} ${locale === 'ru' ? styles.langActive : ''}`}
+                onClick={() => setLocale('ru')}
+              >
+                RU
+              </button>
+              <button
+                className={`${styles.langBtn} ${locale === 'en' ? styles.langActive : ''}`}
+                onClick={() => setLocale('en')}
+              >
+                EN
+              </button>
+            </div>
+
+            {/* Switch темы: луна слева, солнце справа */}
             <button
-              className={`${styles.tgb} ${locale === 'ru' ? styles.tgbActive : ''}`}
-              onClick={() => setLocale('ru')}
+              className={`${styles.themeSwitch} ${theme === 'light' ? styles.themeSwitchLight : ''}`}
+              onClick={(e) => {
+                // Передаём координаты клика чтобы анимация начиналась оттуда
+                const rect = e.currentTarget.getBoundingClientRect();
+                toggleTheme(rect.left + rect.width / 2, rect.top + rect.height / 2);
+              }}
+              aria-label="Toggle theme"
             >
-              RU
-            </button>
-            <button
-              className={`${styles.tgb} ${locale === 'en' ? styles.tgbActive : ''}`}
-              onClick={() => setLocale('en')}
-            >
-              EN
-            </button>
-            <button className={styles.tgb} onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === 'dark' ? '☀' : '☾'}
+              <span className={styles.themeKnob}></span>
+              <span className={`${styles.themeIco} ${styles.themeIcoMoon}`} aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+              <span className={`${styles.themeIco} ${styles.themeIcoSun}`} aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </span>
             </button>
           </div>
 
@@ -108,20 +131,40 @@ export default function Nav() {
           <div className={styles.mobileDivider}></div>
 
           <div className={styles.mobileToggles}>
+            <div className={styles.langSwitch}>
+              <button
+                className={`${styles.langBtn} ${locale === 'ru' ? styles.langActive : ''}`}
+                onClick={() => setLocale('ru')}
+              >
+                RU
+              </button>
+              <button
+                className={`${styles.langBtn} ${locale === 'en' ? styles.langActive : ''}`}
+                onClick={() => setLocale('en')}
+              >
+                EN
+              </button>
+            </div>
             <button
-              className={`${styles.tgb} ${locale === 'ru' ? styles.tgbActive : ''}`}
-              onClick={() => setLocale('ru')}
+              className={`${styles.themeSwitch} ${theme === 'light' ? styles.themeSwitchLight : ''}`}
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                toggleTheme(rect.left + rect.width / 2, rect.top + rect.height / 2);
+              }}
+              aria-label="Toggle theme"
             >
-              RU
-            </button>
-            <button
-              className={`${styles.tgb} ${locale === 'en' ? styles.tgbActive : ''}`}
-              onClick={() => setLocale('en')}
-            >
-              EN
-            </button>
-            <button className={styles.tgb} onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === 'dark' ? '☀ Светлая' : '☾ Тёмная'}
+              <span className={styles.themeKnob}></span>
+              <span className={`${styles.themeIco} ${styles.themeIcoMoon}`} aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+              <span className={`${styles.themeIco} ${styles.themeIcoSun}`} aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </span>
             </button>
           </div>
         </div>
