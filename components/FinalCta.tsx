@@ -2,14 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useApp } from './AppProvider';
-import { useReveal } from '@/lib/useReveal';
 import { translations } from '@/lib/data';
 import styles from './FinalCta.module.css';
 
 export default function FinalCta() {
   const { locale } = useApp();
   const t = translations[locale];
-  const { ref, visible } = useReveal<HTMLDivElement>();
 
   const words: Record<string, string[]> = {
     ru: ['что-то классное', 'SaaS-систему', 'мобильное приложение', 'сайт', 'дизайн-систему', 'AI-продукт'],
@@ -48,7 +46,7 @@ export default function FinalCta() {
   return (
     <div className={styles.section}>
       <div className={styles.glow}></div>
-      <div ref={ref} className={`${styles.inner} reveal ${visible ? 'visible' : ''}`}>
+      <div className={`${styles.inner} reveal`}>
         <div className={styles.label}>
           <div className={styles.dot}></div>
           {t.finalCta.badge}

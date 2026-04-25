@@ -1,8 +1,4 @@
-/*
-  Кастомный курсор:
-  - dot — маленькая точка, следует сразу за мышью (без задержки)
-  - glow — большое свечение, плавно догоняет (с transition)
-*/
+/* Лёгкий курсор: точка + свечение, без mix-blend-mode */
 .dot {
   position: fixed;
   top: 0;
@@ -10,19 +6,17 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--text-strong);
+  background: var(--accent);
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
-  transition: width 0.25s, height 0.25s, background-color 0.2s;
+  opacity: 0;
+  transition: width 0.2s, height 0.2s, opacity 0.2s, background-color 0.2s;
   will-change: transform;
 }
 
 .dotHover {
   width: 14px;
   height: 14px;
-  background: var(--accent);
-  mix-blend-mode: normal;
 }
 
 .dotClick {
@@ -34,47 +28,35 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 280px;
-  height: 280px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
   background: radial-gradient(
     circle,
-    rgba(100, 140, 255, 0.18) 0%,
-    rgba(168, 85, 247, 0.1) 40%,
+    rgba(var(--accent-rgb), 0.18) 0%,
+    rgba(var(--accent-rgb), 0.06) 40%,
     transparent 70%
   );
-  filter: blur(20px);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s, height 0.3s, opacity 0.3s;
+  filter: blur(16px);
+  opacity: 0;
+  transition: width 0.3s, height 0.3s, opacity 0.3s;
   will-change: transform;
 }
 
-[data-theme='light'] .glow {
-  background: radial-gradient(
-    circle,
-    rgba(100, 140, 255, 0.2) 0%,
-    rgba(168, 85, 247, 0.12) 40%,
-    transparent 70%
-  );
-}
-
 .glowHover {
-  width: 360px;
-  height: 360px;
+  width: 300px;
+  height: 300px;
   background: radial-gradient(
     circle,
     rgba(var(--accent-rgb), 0.25) 0%,
-    rgba(100, 140, 255, 0.15) 40%,
+    rgba(var(--accent-rgb), 0.1) 40%,
     transparent 70%
   );
 }
 
-.hidden {
-  opacity: 0;
-}
-
-/* Убираем кастомный курсор с мобилок и тач-устройств */
+/* На мобилках курсор не показываем */
 @media (pointer: coarse), (max-width: 768px) {
   .dot,
   .glow {

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useApp } from './AppProvider';
-import { useReveal } from '@/lib/useReveal';
 import { translations, experiences } from '@/lib/data';
 import styles from './Experience.module.css';
 
@@ -26,7 +25,6 @@ export default function Experience() {
   const { locale } = useApp();
   const t = translations[locale];
   const [openIdx, setOpenIdx] = useState<number>(0);
-  const { ref, visible } = useReveal<HTMLDivElement>();
 
   const toggle = (i: number) => setOpenIdx(openIdx === i ? -1 : i);
 
@@ -37,7 +35,7 @@ export default function Experience() {
         <div className={styles.sub}>{t.experience.sub}</div>
       </div>
 
-      <div ref={ref} className={`${styles.list} reveal-stagger ${visible ? 'visible' : ''}`}>
+      <div className={`${styles.list} reveal-stagger`}>
         {experiences.map((exp, i) => (
           <div key={exp.id} className={`${styles.card} ${openIdx === i ? styles.open : ''}`}>
             <div className={styles.cardHead} onClick={() => toggle(i)}>

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useApp } from './AppProvider';
-import { useReveal } from '@/lib/useReveal';
 import { translations, projects, Project, ProjectCategory } from '@/lib/data';
 import styles from './Projects.module.css';
 
@@ -94,7 +93,6 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
   const t = translations[locale];
   const catInfo = t.categories[category];
   const items = projects.filter((p) => p.category === category && !p.featured);
-  const { ref, visible } = useReveal<HTMLDivElement>();
 
   const gridClass = columns === 3 ? styles.grid3 : styles.grid2;
   const count = items.length.toString().padStart(2, '0');
@@ -107,7 +105,7 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
         </div>
         <div className={styles.sub}>{catInfo.sub}</div>
       </div>
-      <div ref={ref} className={`${gridClass} reveal-stagger ${visible ? 'visible' : ''}`}>
+      <div className={`${gridClass} reveal-stagger`}>
         {items.map((p) => (
           <ProjectCard key={p.slug} project={p} />
         ))}

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useApp } from './AppProvider';
-import { useReveal } from '@/lib/useReveal';
 import { translations, projects } from '@/lib/data';
 import styles from './Featured.module.css';
 
@@ -10,7 +9,6 @@ export default function Featured() {
   const { locale } = useApp();
   const t = translations[locale];
   const featured = projects.find((p) => p.featured);
-  const { ref, visible } = useReveal<HTMLDivElement>();
   if (!featured) return null;
 
   return (
@@ -18,7 +16,7 @@ export default function Featured() {
       <div className={styles.label}>
         <span className={styles.labelDot}>●</span> {t.featured.label}
       </div>
-      <div ref={ref} className={`reveal ${visible ? 'visible' : ''}`}>
+      <div className="reveal">
       <Link
         href={`/projects/${featured.slug}`}
         className={styles.card}

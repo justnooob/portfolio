@@ -79,15 +79,8 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Скрываем системный курсор на десктопе ТОЛЬКО когда JS загружен и кастомный курсор активен.
-   Если JS не загрузится — у пользователя останется обычный курсор. */
-@media (pointer: fine) {
-  .js-ready.cursor-active html,
-  .js-ready.cursor-active body,
-  .js-ready.cursor-active * {
-    cursor: none !important;
-  }
-}
+/* Скрываем системный курсор? — НЕ скрываем. Кастомный курсор удалён,
+   чтобы уменьшить размер JS-бандла и ускорить загрузку в России. */
 
 /* Ограничение макс. ширины — до Full HD */
 main {
@@ -176,43 +169,62 @@ img {
   color: var(--text-strong);
 }
 
-/* === АНИМАЦИИ ПРИ СКРОЛЛЕ ===
-   Применяются ТОЛЬКО когда JS загружен (есть класс .js-ready на html).
-   Это страховка: если JS не загрузится / упадёт — контент будет виден всё равно. */
-.js-ready .reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+/* === АНИМАЦИИ ПРИ СКРОЛЛЕ — CSS-only, без JS ===
+   Используем animation-timeline: view() для современных браузеров (Chrome 115+, Edge),
+   а для остальных — простое появление через CSS animation. */
+
+@keyframes revealFade {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.js-ready .reveal.visible {
+
+/* Базовый случай: всё показано — если JS не загрузится, контент виден */
+.reveal,
+.reveal-stagger > * {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+}
+
+/* Когда JS готов — включаем анимации */
+.js-ready .reveal {
+  animation: revealFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 25%;
 }
 
 .js-ready .reveal-stagger > * {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: revealFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
 }
-.js-ready .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
-.js-ready .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.12s; opacity: 1; transform: translateY(0); }
-.js-ready .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.19s; opacity: 1; transform: translateY(0); }
-.js-ready .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.26s; opacity: 1; transform: translateY(0); }
-.js-ready .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.33s; opacity: 1; transform: translateY(0); }
-.js-ready .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.40s; opacity: 1; transform: translateY(0); }
-.js-ready .reveal-stagger.visible > *:nth-child(n+7) { transition-delay: 0.45s; opacity: 1; transform: translateY(0); }
+.js-ready .reveal-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.js-ready .reveal-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.js-ready .reveal-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.js-ready .reveal-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.js-ready .reveal-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.js-ready .reveal-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.js-ready .reveal-stagger > *:nth-child(n+7) { animation-delay: 0.35s; }
 
-/* Появление страницы — тоже только когда JS готов */
+/* Фолбэк для браузеров без animation-timeline (Safari, старые Firefox):
+   просто плавное появление при загрузке страницы */
+@supports not (animation-timeline: view()) {
+  .js-ready .reveal,
+  .js-ready .reveal-stagger > * {
+    animation-timeline: auto;
+  }
+}
+
+/* Появление страницы — короткая анимация */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .js-ready main > * {
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.js-ready main > *:nth-child(1) { animation-delay: 0.05s; }
-.js-ready main > *:nth-child(2) { animation-delay: 0.15s; }
-.js-ready main > *:nth-child(3) { animation-delay: 0.25s; }
+.js-ready main > *:nth-child(1) { animation-delay: 0s; }
+.js-ready main > *:nth-child(2) { animation-delay: 0.08s; }
+.js-ready main > *:nth-child(3) { animation-delay: 0.15s; }
 
 @keyframes slowGlow {
   0%, 100% { opacity: 0.85; }
