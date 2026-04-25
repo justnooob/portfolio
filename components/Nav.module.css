@@ -19,6 +19,67 @@
   border-bottom-color: var(--border);
 }
 
+/* === Цвета хедера на страницах проектов ===
+   Когда у самого <nav> стоит data-hero='dark' (под ним тёмный hero) —
+   все элементы становятся БЕЛЫМИ. После скролла .navScrolled возвращает
+   обычные цвета темы. */
+.nav[data-hero='dark']:not(.navScrolled) .logo,
+.nav[data-hero='dark']:not(.navScrolled) .logoMark,
+.nav[data-hero='dark']:not(.navScrolled) .logoText {
+  color: #ffffff;
+}
+.nav[data-hero='dark']:not(.navScrolled) .link {
+  color: rgba(255, 255, 255, 0.65);
+}
+.nav[data-hero='dark']:not(.navScrolled) .link:hover,
+.nav[data-hero='dark']:not(.navScrolled) .active {
+  color: #ffffff;
+}
+.nav[data-hero='dark']:not(.navScrolled) .burger span {
+  background: #ffffff;
+}
+.nav[data-hero='dark']:not(.navScrolled) .langSwitch,
+.nav[data-hero='dark']:not(.navScrolled) .themeSwitch {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.nav[data-hero='dark']:not(.navScrolled) .langBtn {
+  color: rgba(255, 255, 255, 0.7);
+}
+.nav[data-hero='dark']:not(.navScrolled) .langActive {
+  background: #ffffff;
+  color: #0c0c0e;
+}
+
+/* Светлый hero (lightText:true) — хедер тёмный */
+.nav[data-hero='light']:not(.navScrolled) .logo,
+.nav[data-hero='light']:not(.navScrolled) .logoMark,
+.nav[data-hero='light']:not(.navScrolled) .logoText {
+  color: #0c0c0e;
+}
+.nav[data-hero='light']:not(.navScrolled) .link {
+  color: rgba(0, 0, 0, 0.6);
+}
+.nav[data-hero='light']:not(.navScrolled) .link:hover,
+.nav[data-hero='light']:not(.navScrolled) .active {
+  color: #0c0c0e;
+}
+.nav[data-hero='light']:not(.navScrolled) .burger span {
+  background: #0c0c0e;
+}
+.nav[data-hero='light']:not(.navScrolled) .langSwitch,
+.nav[data-hero='light']:not(.navScrolled) .themeSwitch {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+.nav[data-hero='light']:not(.navScrolled) .langBtn {
+  color: rgba(0, 0, 0, 0.65);
+}
+.nav[data-hero='light']:not(.navScrolled) .langActive {
+  background: #0c0c0e;
+  color: #ffffff;
+}
+
 .navInner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -124,12 +185,13 @@
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: space-between;
   width: 60px;
   height: 30px;
   background: var(--bg-elev);
   border: 0.5px solid var(--border);
   border-radius: 100px;
-  padding: 0 4px;
+  padding: 0 5px;
   cursor: pointer;
   font-family: inherit;
   transition: background 0.25s, border-color 0.25s;
@@ -141,47 +203,49 @@
 /* Бегунок — белый шарик который двигается слева/справа */
 .themeKnob {
   position: absolute;
-  top: 3px;
+  top: 50%;
   left: 3px;
   width: 22px;
   height: 22px;
   border-radius: 50%;
   background: var(--text-strong);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(-50%);
+  transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
 }
-/* В тёмной теме знач выбрана луна (слева), бегунок слева */
-.themeSwitch:not(.themeSwitchLight) .themeKnob {
-  transform: translateX(0);
-}
-/* В светлой теме выбрано солнце (справа), бегунок справа */
+/* В светлой теме бегунок справа */
 .themeSwitchLight .themeKnob {
-  transform: translateX(30px);
+  left: 33px;
 }
 
 .themeIco {
   position: relative;
   z-index: 2;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   pointer-events: none;
   transition: color 0.25s;
 }
-/* Иконка под бегунком — инвертированная по цвету */
+.themeIco svg {
+  display: block;
+}
+/* В тёмной теме (бегунок слева, под луной) — луна тёмная (контраст с белым кружком),
+   солнце справа на тёмном фоне свитча — приглушённое */
 .themeIcoMoon {
-  color: var(--bg); /* в тёмной теме (бегунок белый) — луна тёмная */
+  color: var(--bg);
 }
 .themeIcoSun {
-  color: var(--text-soft); /* в тёмной теме (бегунок слева) — солнце приглушённое */
+  color: var(--text-soft);
 }
+/* В светлой теме инвертируем */
 .themeSwitchLight .themeIcoMoon {
-  color: var(--text-soft); /* в светлой теме луна приглушённая */
+  color: var(--text-soft);
 }
 .themeSwitchLight .themeIcoSun {
-  color: var(--bg); /* в светлой теме (бегунок белый/чёрный) — солнце контрастное */
+  color: var(--bg);
 }
 
 /* === BURGER === */
@@ -226,9 +290,9 @@
   background: var(--bg);
   z-index: 99;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease;
-  display: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 .mobileMenu::before {
   content: '';
@@ -241,6 +305,7 @@
 }
 .mobileMenuOpen {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 .mobileMenuInner {
@@ -294,8 +359,5 @@
   }
   .logoText {
     font-size: 14px;
-  }
-  .mobileMenu {
-    display: block;
   }
 }

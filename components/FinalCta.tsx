@@ -9,6 +9,27 @@ export default function FinalCta() {
   const { locale } = useApp();
   const t = translations[locale];
 
+  /*
+   * ⭐ ВАРИАНТЫ TYPEWRITER (выбери 5+ из списка и положи в массив ниже).
+   *
+   * RU варианты на выбор:
+   *   • что-то классное          • великий продукт         • что-то с нуля
+   *   • SaaS-систему             • что-то полезное         • редизайн
+   *   • мобильное приложение     • интерфейс мечты         • продукт для людей
+   *   • сайт                     • крутой кейс             • новый MVP
+   *   • дизайн-систему           • запоминающийся бренд    • B2B-продукт
+   *   • AI-продукт               • продукт мирового уровня • Telegram MiniApp
+   *   • продукт, которым гордятся • дизайн с душой         • стартап
+   *
+   * EN варианты на выбор:
+   *   • something great          • a great product         • something from scratch
+   *   • a SaaS system            • something useful        • a redesign
+   *   • a mobile app             • a dream interface       • a product for people
+   *   • a website                • a memorable brand       • a new MVP
+   *   • a design system          • a world-class product   • a B2B product
+   *   • an AI product            • a meaningful design     • a Telegram MiniApp
+   *   • a product to be proud of • a startup
+   */
   const words: Record<string, string[]> = {
     ru: ['что-то классное', 'SaaS-систему', 'мобильное приложение', 'сайт', 'дизайн-систему', 'AI-продукт'],
     en: ['something great', 'a SaaS system', 'a mobile app', 'a website', 'a design system', 'an AI product'],
@@ -46,7 +67,7 @@ export default function FinalCta() {
   return (
     <div className={styles.section}>
       <div className={styles.glow}></div>
-      <div className={`${styles.inner} reveal`}>
+      <div className={`${styles.inner} reveal-pop`}>
         <div className={styles.label}>
           <div className={styles.dot}></div>
           {t.finalCta.badge}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
@@ -19,6 +19,21 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const [resultsExpanded, setResultsExpanded] = useState(false);
 
   const project = projects.find((p) => p.slug === slug);
+
+  // Управляем "режимом" хедера на странице проекта:
+  // - dark hero (белый текст) → ставим на <html> data-hero-mode="dark"
+  //   → Nav рендерит логотип/бургер белым цветом до скролла
+  // - light hero (тёмный текст) → data-hero-mode="light"
+  //   → Nav рендерит логотип чёрным цветом
+  // После скролла классы убираются, Nav возвращается к обычным цветам темы
+  useEffect(() => {
+    if (!project) return;
+    const heroMode = project.lightText ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-hero-mode', heroMode);
+    return () => {
+      document.documentElement.removeAttribute('data-hero-mode');
+    };
+  }, [project]);
 
   if (!project) {
     return (
@@ -101,22 +116,22 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       </div>
 
       <div className={styles.content}>
-        <section className={styles.block}>
+        <section className={`${styles.block} reveal-slide-left`}>
           <div className={styles.blockLbl}>{t.project.overview}</div>
           <p className={styles.blockText}>{project.overview[locale]}</p>
         </section>
 
-        <section className={styles.block}>
+        <section className={`${styles.block} reveal-slide-right`}>
           <div className={styles.blockLbl}>{t.project.challenge}</div>
           <p className={styles.blockText}>{project.challenge[locale]}</p>
         </section>
 
-        <section className={styles.block}>
+        <section className={`${styles.block} reveal-slide-left`}>
           <div className={styles.blockLbl}>{t.project.solution}</div>
           <p className={styles.blockText}>{project.solution[locale]}</p>
         </section>
 
-        <section className={styles.block}>
+        <section className={`${styles.block} reveal-stagger`}>
           <div className={styles.blockLbl}>{t.project.results}</div>
           <div className={`${styles.resultsWrap} ${!resultsExpanded && hasMore ? styles.resultsCollapsed : ''}`}>
             <ul className={styles.resultsList}>
@@ -139,7 +154,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           )}
         </section>
 
-        <section className={styles.screensBlock}>
+        <section className={`${styles.screensBlock} reveal-scale`}>
           <div className={styles.blockLbl}>{t.project.screens}</div>
           <div className={styles.screensPlaceholder} style={{ background: project.color }}>
             <div className={styles.screensMsg}>
@@ -151,7 +166,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         </section>
 
         {project.behanceUrl && (
-          <div className={styles.behance}>
+          <div className={`${styles.behance} reveal-pop`}>
             <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
               {t.project.viewBehance}
               <span className="btn-cta-ico-wrap">

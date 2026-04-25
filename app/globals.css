@@ -173,42 +173,96 @@ img {
    Используем animation-timeline: view() для современных браузеров (Chrome 115+, Edge),
    а для остальных — простое появление через CSS animation. */
 
+/* Базовая анимация — мягкое всплытие снизу с лёгким blur */
 @keyframes revealFade {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(28px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Скейл — элемент "выезжает" из глубины, как 3D объект */
+@keyframes revealScale {
+  from { opacity: 0; transform: scale(0.94) translateY(20px); filter: blur(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+
+/* Слева направо — для текстовых заголовков и секций */
+@keyframes revealSlideLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Справа налево — для счётчиков, мет, бейджей */
+@keyframes revealSlideRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Резкое "подскочение" — для CTA и важных элементов */
+@keyframes revealPop {
+  0%   { opacity: 0; transform: scale(0.85) translateY(30px); }
+  60%  { opacity: 1; transform: scale(1.03) translateY(-4px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 /* Базовый случай: всё показано — если JS не загрузится, контент виден */
 .reveal,
-.reveal-stagger > * {
+.reveal-stagger > *,
+.reveal-scale,
+.reveal-slide-left,
+.reveal-slide-right,
+.reveal-pop {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 /* Когда JS готов — включаем анимации */
 .js-ready .reveal {
-  animation: revealFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-timeline: view();
-  animation-range: entry 0% cover 25%;
-}
-
-.js-ready .reveal-stagger > * {
-  animation: revealFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: revealFade 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-timeline: view();
   animation-range: entry 0% cover 30%;
 }
-.js-ready .reveal-stagger > *:nth-child(1) { animation-delay: 0.05s; }
-.js-ready .reveal-stagger > *:nth-child(2) { animation-delay: 0.10s; }
-.js-ready .reveal-stagger > *:nth-child(3) { animation-delay: 0.15s; }
-.js-ready .reveal-stagger > *:nth-child(4) { animation-delay: 0.20s; }
-.js-ready .reveal-stagger > *:nth-child(5) { animation-delay: 0.25s; }
-.js-ready .reveal-stagger > *:nth-child(6) { animation-delay: 0.30s; }
-.js-ready .reveal-stagger > *:nth-child(n+7) { animation-delay: 0.35s; }
+.js-ready .reveal-scale {
+  animation: revealScale 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+.js-ready .reveal-slide-left {
+  animation: revealSlideLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+.js-ready .reveal-slide-right {
+  animation: revealSlideRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+.js-ready .reveal-pop {
+  animation: revealPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
 
-/* Фолбэк для браузеров без animation-timeline (Safari, старые Firefox):
-   просто плавное появление при загрузке страницы */
+.js-ready .reveal-stagger > * {
+  animation: revealFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 35%;
+}
+.js-ready .reveal-stagger > *:nth-child(1) { animation-delay: 0.04s; }
+.js-ready .reveal-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.js-ready .reveal-stagger > *:nth-child(3) { animation-delay: 0.16s; }
+.js-ready .reveal-stagger > *:nth-child(4) { animation-delay: 0.22s; }
+.js-ready .reveal-stagger > *:nth-child(5) { animation-delay: 0.28s; }
+.js-ready .reveal-stagger > *:nth-child(6) { animation-delay: 0.34s; }
+.js-ready .reveal-stagger > *:nth-child(n+7) { animation-delay: 0.40s; }
+
+/* Фолбэк для браузеров без animation-timeline (Safari старых, Firefox старых) */
 @supports not (animation-timeline: view()) {
   .js-ready .reveal,
+  .js-ready .reveal-scale,
+  .js-ready .reveal-slide-left,
+  .js-ready .reveal-slide-right,
+  .js-ready .reveal-pop,
   .js-ready .reveal-stagger > * {
     animation-timeline: auto;
   }

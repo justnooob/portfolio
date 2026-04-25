@@ -21,7 +21,7 @@ export default function Featured() {
       <div className={styles.label}>
         <span className={styles.labelDot}>●</span> {t.featured.label}
       </div>
-      <div className="reveal">
+      <div className="reveal-scale">
       <Link
         href={`/projects/${featured.slug}`}
         className={styles.card}

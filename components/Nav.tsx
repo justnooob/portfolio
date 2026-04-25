@@ -11,6 +11,7 @@ export default function Nav() {
   const t = translations[locale];
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [heroMode, setHeroMode] = useState<string | null>(null);
 
   // Добавляем тень/бэкдроп когда юзер проскроллил
   useEffect(() => {
@@ -18,6 +19,19 @@ export default function Nav() {
     window.addEventListener('scroll', onScroll);
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Следим за data-hero-mode на <html>: страницы проектов выставляют его
+  // в 'dark' (на тёмном hero нужен белый текст в Nav) или 'light' (наоборот).
+  // На главной атрибута нет → null → обычные цвета темы.
+  useEffect(() => {
+    const updateHero = () => {
+      setHeroMode(document.documentElement.getAttribute('data-hero-mode'));
+    };
+    updateHero();
+    const observer = new MutationObserver(updateHero);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-hero-mode'] });
+    return () => observer.disconnect();
   }, []);
 
   // Блокируем скролл body когда меню открыто
@@ -36,7 +50,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
+      <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`} data-hero={heroMode || undefined}>
         <div className={styles.navInner}>
           <Link href="/" className={styles.logo} onClick={closeMenu}>
             {/* ⭐ Сюда вставь свой SVG-логотип. Положи файл в public/logo.svg */}

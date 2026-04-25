@@ -16,17 +16,7 @@ function ProjectCard({ project }: { project: Project }) {
       : project.coverImage;
 
   const renderPreview = () => {
-    if (project.isThisSite) {
-      return (
-        <div className={styles.selfPreview} style={{ background: project.color }}>
-          <div className={styles.selfBadge}>{t.experience.thisSite}</div>
-          <div className={styles.selfName}>sorokin.design</div>
-          <div className={styles.selfSub}>Portfolio 2026</div>
-        </div>
-      );
-    }
-
-    // Если есть обложка — показываем её вместо заглушки
+    // Если есть обложка — используем её, даже для "this site" проекта
     if (cover) {
       return (
         <div className={styles.preview} style={{ background: project.color }}>
@@ -36,6 +26,20 @@ function ProjectCard({ project }: { project: Project }) {
             className={styles.coverImg}
             loading="lazy"
           />
+          {project.isThisSite && (
+            <div className={styles.selfBadge}>{t.experience.thisSite}</div>
+          )}
+        </div>
+      );
+    }
+
+    // Фолбэк для "this site" если обложки нет
+    if (project.isThisSite) {
+      return (
+        <div className={styles.selfPreview} style={{ background: project.color }}>
+          <div className={styles.selfBadge}>{t.experience.thisSite}</div>
+          <div className={styles.selfName}>sorokin.design</div>
+          <div className={styles.selfSub}>Portfolio 2026</div>
         </div>
       );
     }
