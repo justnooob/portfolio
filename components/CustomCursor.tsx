@@ -23,6 +23,8 @@ export default function CustomCursor() {
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
     if (isTouch || !isFinePointer) return;
     setEnabled(true);
+    // Помечаем что кастомный курсор активен — CSS скроет системный
+    document.documentElement.classList.add('cursor-active');
 
     const onMove = (e: MouseEvent) => {
       setPos({ x: e.clientX, y: e.clientY });

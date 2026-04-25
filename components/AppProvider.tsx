@@ -26,6 +26,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (savedLocale === 'ru' || savedLocale === 'en') setLocaleState(savedLocale);
     if (savedTheme === 'dark' || savedTheme === 'light') setThemeState(savedTheme);
     setMounted(true);
+    // Помечаем что JS загружен — анимации могут включаться
+    document.documentElement.classList.add('js-ready');
   }, []);
 
   useEffect(() => {

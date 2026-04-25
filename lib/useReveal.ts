@@ -2,6 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+/**
+ * Хук для появления блока при скролле.
+ *
+ * Защиты от пустых экранов:
+ * 1) Если элемент УЖЕ виден на момент монтирования — мгновенно показываем (без ожидания observer)
+ * 2) Если IntersectionObserver не поддерживается — показываем сразу
+ * 3) Fallback: через 200мс после монтирования принудительно показываем,
+ *    если observer ещё не сработал (страховка от долгой гидратации)
+ */
 export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
   const [visible, setVisible] = useState(false);
@@ -9,6 +18,20 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // 2) Нет IntersectionObserver — сразу показываем
+    if (typeof IntersectionObserver === 'undefined') {
+      setVisible(true);
+      return;
+    }
+
+    // 1) Элемент уже в зоне видимости — мгновенно показываем
+    const rect = el.getBoundingClientRect();
+    const winH = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.top < winH && rect.bottom > 0) {
+      setVisible(true);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -19,11 +42,18 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+      { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // 3) Страховка: через 200мс показываем в любом случае
+    const fallback = setTimeout(() => setVisible(true), 200);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallback);
+    };
   }, []);
 
   return { ref, visible };

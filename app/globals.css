@@ -79,11 +79,12 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Скрываем системный курсор на десктопе (кастомный его заменит).
-   На мобилках и тач-устройствах кастомный курсор не показывается,
-   поэтому оставляем системный. */
+/* Скрываем системный курсор на десктопе ТОЛЬКО когда JS загружен и кастомный курсор активен.
+   Если JS не загрузится — у пользователя останется обычный курсор. */
 @media (pointer: fine) {
-  html, body, * {
+  .js-ready.cursor-active html,
+  .js-ready.cursor-active body,
+  .js-ready.cursor-active * {
     cursor: none !important;
   }
 }
@@ -175,41 +176,43 @@ img {
   color: var(--text-strong);
 }
 
-/* === АНИМАЦИИ ПРИ СКРОЛЛЕ === */
-.reveal {
+/* === АНИМАЦИИ ПРИ СКРОЛЛЕ ===
+   Применяются ТОЛЬКО когда JS загружен (есть класс .js-ready на html).
+   Это страховка: если JS не загрузится / упадёт — контент будет виден всё равно. */
+.js-ready .reveal {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal.visible {
+.js-ready .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.reveal-stagger > * {
+.js-ready .reveal-stagger > * {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
-.reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.12s; opacity: 1; transform: translateY(0); }
-.reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.19s; opacity: 1; transform: translateY(0); }
-.reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.26s; opacity: 1; transform: translateY(0); }
-.reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.33s; opacity: 1; transform: translateY(0); }
-.reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.40s; opacity: 1; transform: translateY(0); }
-.reveal-stagger.visible > *:nth-child(n+7) { transition-delay: 0.45s; opacity: 1; transform: translateY(0); }
+.js-ready .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
+.js-ready .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.12s; opacity: 1; transform: translateY(0); }
+.js-ready .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.19s; opacity: 1; transform: translateY(0); }
+.js-ready .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.26s; opacity: 1; transform: translateY(0); }
+.js-ready .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.33s; opacity: 1; transform: translateY(0); }
+.js-ready .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.40s; opacity: 1; transform: translateY(0); }
+.js-ready .reveal-stagger.visible > *:nth-child(n+7) { transition-delay: 0.45s; opacity: 1; transform: translateY(0); }
 
-/* Появление страницы */
+/* Появление страницы — тоже только когда JS готов */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
-main > * {
+.js-ready main > * {
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-main > *:nth-child(1) { animation-delay: 0.05s; }
-main > *:nth-child(2) { animation-delay: 0.15s; }
-main > *:nth-child(3) { animation-delay: 0.25s; }
+.js-ready main > *:nth-child(1) { animation-delay: 0.05s; }
+.js-ready main > *:nth-child(2) { animation-delay: 0.15s; }
+.js-ready main > *:nth-child(3) { animation-delay: 0.25s; }
 
 @keyframes slowGlow {
   0%, 100% { opacity: 0.85; }
