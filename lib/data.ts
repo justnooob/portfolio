@@ -11,8 +11,8 @@ export const translations = {
       badge: 'Открыт к предложениям · СПб | Удалённо',
       name1: 'Максим',
       name2: 'Сорокин',
-      typewriter: ['Продуктовый дизайнер', 'UX/UI дизайнер', 'Дизайнер интерфейсов', '5+ лет опыта'],
-      description: 'UX/UI-дизайнер с опытом 5+ лет и техническим бэкграундом (ИТМО). Проектирую от CJM до дизайн-систем. Работаю с метриками, AI и управляю дизайн-процессом.',
+      typewriter: ['Продуктовый дизайнер', 'UX/UI дизайнер', 'Дизайнер интерфейсов', 'Более 5 лет опыта'],
+      description: 'UX/UI-дизайнер | Продуктовый дизайнер с опытом более 5 лет и техническим бэкграундом (ИТМО). Проектирую от CJM до дизайн-систем. Работаю с метриками, AI и управляю дизайн-процессом.',
       ctaPrimary: 'Связаться со мной',
       ctaSecondary: 'Смотреть проекты',
     },
@@ -31,7 +31,7 @@ export const translations = {
     },
     experience: {
       title: 'Опыт работы',
-      sub: '5+ лет · 5 компаний',
+      sub: 'Более 5 лет · 5 компаний',
       role: 'Роль',
       metrics: 'Метрики',
       thisSite: 'Этот сайт',
@@ -46,7 +46,7 @@ export const translations = {
     },
     footer: {
       tagline: 'UX/UI · Продуктовый дизайнер',
-      experience: '5+ лет опыта, СПб',
+      experience: 'Более 5 лет опыта, СПб',
       available: 'Доступен для проектов',
       contact: 'Связь',
       portfolio: 'Портфолио',
@@ -77,8 +77,8 @@ export const translations = {
       badge: 'Open to opportunities · Saint Petersburg | Remote',
       name1: 'Maxim',
       name2: 'Sorokin',
-      typewriter: ['Product Designer', 'UX/UI Designer', 'Interface Designer', '5+ years of experience'],
-      description: 'UX/UI designer with 5+ years of experience and technical background (ITMO). I design from CJM to design systems. I work with metrics, AI, and manage the design process.',
+      typewriter: ['Product Designer', 'UX/UI Designer', 'Interface Designer', 'Over 5 years of experience'],
+      description: 'UX/UI Designer | Product Designer with over 5 years of experience and technical background (ITMO). I design from CJM to design systems. I work with metrics, AI, and manage the design process.',
       ctaPrimary: 'Get in touch',
       ctaSecondary: 'View projects',
     },
@@ -97,7 +97,7 @@ export const translations = {
     },
     experience: {
       title: 'Experience',
-      sub: '5+ years · 5 companies',
+      sub: 'Over 5 years · 5 companies',
       role: 'Role',
       metrics: 'Metrics',
       thisSite: 'This site',
@@ -112,7 +112,7 @@ export const translations = {
     },
     footer: {
       tagline: 'UX/UI · Product Designer',
-      experience: '5+ years, Saint Petersburg',
+      experience: 'Over 5 years, Saint Petersburg',
       available: 'Available for projects',
       contact: 'Contact',
       portfolio: 'Portfolio',
@@ -173,7 +173,7 @@ export const projects: Project[] = [
     category: 'saas',
     featured: true,
     color: 'linear-gradient(135deg, #1a2b4a 0%, #2a1f3f 50%, #0a1a2a 100%)',
-    coverImage: '/projects/iywi.png',
+    coverImage: '/projects/iywi.jpg',
     logo: 'IY',
     logoColor: '#4fa3ff',
     behanceUrl: 'https://www.behance.net/gallery/247519813/IYWI-B2B-Medical-SaaS-UXUI-Design',
@@ -236,7 +236,6 @@ export const projects: Project[] = [
     slug: 'buildit',
     category: 'saas',
     color: 'linear-gradient(135deg, #1e40af 0%, #0ea5e9 50%, #38bdf8 100%)',
-	coverImage: '/projects/buildit.jpg',
     logo: 'BI',
     logoColor: '#1a5f4a',
     behanceUrl: 'https://www.behance.net/gallery/232621029/BuildIT-SAAS-System-UXUI-Design',
@@ -527,8 +526,9 @@ export interface Experience {
   id: string;
   logo: string;
   logoColor: string;
+  logoSrc?: string; // путь к SVG логотипу, например '/logos/uk-medicina.svg'
   company: { ru: string; en: string };
-  website?: string; // URL сайта компании (без https://)
+  website?: string;
   location: { ru: string; en: string };
   role: { ru: string; en: string };
   period: { ru: string; en: string };
@@ -544,6 +544,7 @@ export const experiences: Experience[] = [
     id: 'uk-medicina',
     logo: 'МИ',
     logoColor: '#4fa3ff',
+    logoSrc: '/logos/uk-medicina.svg',
     company: { ru: 'УК Медицина · IYWI', en: 'UK Medicina · IYWI' },
     website: 'okk.pro',
     location: { ru: 'СПб', en: 'SPb' },
@@ -580,6 +581,7 @@ export const experiences: Experience[] = [
     id: 'hobbist',
     logo: 'H',
     logoColor: '#e879f9',
+    logoSrc: '/logos/hobbist.svg',
     company: { ru: 'Hobbist', en: 'Hobbist' },
     website: 'hobbist.com',
     location: { ru: 'Удалённо', en: 'Remote' },
@@ -613,6 +615,7 @@ export const experiences: Experience[] = [
     id: 'smetter',
     logo: 'С',
     logoColor: '#fbbf24',
+    logoSrc: '/logos/smetter.svg',
     company: { ru: 'Сметтер · BuildIT', en: 'Smetter · BuildIT' },
     website: 'smetter.ru',
     location: { ru: 'СПб', en: 'SPb' },
@@ -645,6 +648,7 @@ export const experiences: Experience[] = [
     id: 'aezakmi',
     logo: 'A',
     logoColor: '#34d399',
+    logoSrc: '/logos/aezakmi.svg',
     company: { ru: 'Aezakmi Group', en: 'Aezakmi Group' },
     website: 'aezakmi.group',
     location: { ru: 'Удалённо', en: 'Remote' },
@@ -677,6 +681,7 @@ export const experiences: Experience[] = [
     id: 'atlant',
     logo: 'А',
     logoColor: '#f87171',
+    logoSrc: '/logos/atlant.svg',
     company: { ru: 'Атлант', en: 'Atlant' },
     website: 'sk-atlant.ru',
     location: { ru: 'СПб', en: 'SPb' },

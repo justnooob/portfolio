@@ -5,17 +5,6 @@ import { useReveal } from '@/lib/useReveal';
 import { translations, experiences } from '@/lib/data';
 import styles from './Logos.module.css';
 
-function CompanyLogoPlaceholder({ initials, color }: { initials: string; color: string }) {
-  return (
-    <svg viewBox="0 0 40 40" width="32" height="32" xmlns="http://www.w3.org/2000/svg" className={styles.placeholderSvg}>
-      <rect width="40" height="40" rx="8" fill={color} />
-      <text x="20" y="26" fontFamily="-apple-system, sans-serif" fontWeight="600" fontSize="14" fill="#0c0c0e" textAnchor="middle">
-        {initials}
-      </text>
-    </svg>
-  );
-}
-
 export default function Logos() {
   const { locale } = useApp();
   const t = translations[locale];
@@ -28,8 +17,22 @@ export default function Logos() {
         <div ref={ref} className={`${styles.row} reveal-stagger ${visible ? 'visible' : ''}`}>
           {experiences.map((exp) => (
             <div key={exp.id} className={styles.item}>
-              <CompanyLogoPlaceholder initials={exp.logo} color={exp.logoColor} />
-              <div className={styles.name}>{exp.company[locale].split(' · ')[0]}</div>
+              {/*
+                ⭐ Логотипы лежат в /public/logos/.
+                Чтобы заменить логотип компании — просто положи свой файл
+                с тем же именем, например: public/logos/uk-medicina.svg
+              */}
+              {exp.logoSrc ? (
+                <img
+                  src={exp.logoSrc}
+                  alt={exp.company[locale]}
+                  className={styles.logo}
+                />
+              ) : (
+                <div className={styles.logoFallback} style={{ background: exp.logoColor }}>
+                  {exp.logo}
+                </div>
+              )}
 
               <div className={styles.tip}>
                 <div className={styles.tipRole}>{exp.role[locale]}</div>
