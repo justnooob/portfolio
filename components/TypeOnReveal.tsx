@@ -6,7 +6,8 @@ interface Props {
   text: string;
   speed?: number; // мс на символ
   delay?: number; // задержка перед стартом, мс
-  as?: keyof JSX.IntrinsicElements;
+  /** 'div' | 'span' — простой выбор тега */
+  as?: 'div' | 'span';
   className?: string;
   /** Если true — после печати показать курсор-каретку */
   showCursor?: boolean;
@@ -22,12 +23,12 @@ export default function TypeOnReveal({
   text,
   speed = 22,
   delay = 0,
-  as: Tag = 'span',
+  as = 'span',
   className,
   showCursor = false,
   startImmediately = false,
 }: Props) {
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [display, setDisplay] = useState('');
   const [done, setDone] = useState(false);
   const [started, setStarted] = useState(startImmediately);
@@ -91,16 +92,35 @@ export default function TypeOnReveal({
     };
   }, [started, text, speed, delay]);
 
-  // SSR / no-JS — показываем сразу полный текст
+  const content = (
+    <>
+      {started ? display : text}
+      {showCursor && started && !done && <span className="type-caret">│</span>}
+    </>
+  );
+
+  // Используем простую условную отрисовку — без сложных полиморфных типов
+  if (as === 'div') {
+    return (
+      <div
+        ref={ref}
+        className={className}
+        data-typed={started ? 'true' : undefined}
+        data-done={done ? 'true' : undefined}
+      >
+        {content}
+      </div>
+    );
+  }
+
   return (
-    <Tag
-      ref={ref as any}
+    <span
+      ref={ref as React.RefObject<HTMLSpanElement>}
       className={className}
       data-typed={started ? 'true' : undefined}
       data-done={done ? 'true' : undefined}
     >
-      {started ? display : text}
-      {showCursor && started && !done && <span className="type-caret">│</span>}
-    </Tag>
+      {content}
+    </span>
   );
 }
