@@ -57,12 +57,10 @@ export default function TypeOnReveal({
     );
 
     const raf = requestAnimationFrame(() => observer.observe(el));
-    const fallback = setTimeout(() => setStarted(true), 5000);
 
     return () => {
       cancelAnimationFrame(raf);
       observer.disconnect();
-      clearTimeout(fallback);
     };
   }, [started]);
 

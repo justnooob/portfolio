@@ -547,7 +547,8 @@ export interface Experience {
   id: string;
   logo: string;
   logoColor: string;
-  logoSrc?: string; // путь к SVG логотипу, например '/logos/uk-medicina.svg'
+  logoSrc?: string; // путь к SVG логотипу (тёмная тема), например '/logos/uk-medicina.svg'
+  logoSrcLight?: string; // путь к SVG логотипу для светлой темы (опционально)
   company: { ru: string; en: string };
   website?: string;
   location: { ru: string; en: string };
@@ -637,6 +638,7 @@ export const experiences: Experience[] = [
     logo: 'С',
     logoColor: '#fbbf24',
     logoSrc: '/logos/smetter.svg',
+    logoSrcLight: '/logos/smetter-light.svg',
     company: { ru: 'Сметтер · BuildIT', en: 'Smetter · BuildIT' },
     website: 'smetter.ru',
     location: { ru: 'СПб', en: 'SPb' },
@@ -703,6 +705,7 @@ export const experiences: Experience[] = [
     logo: 'А',
     logoColor: '#f87171',
     logoSrc: '/logos/atlant.svg',
+    logoSrcLight: '/logos/atlant-light.svg',
     company: { ru: 'Атлант', en: 'Atlant' },
     website: 'sk-atlant.ru',
     location: { ru: 'СПб', en: 'SPb' },

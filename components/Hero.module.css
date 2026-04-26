@@ -130,15 +130,16 @@
 }
 
 /* === ИЗОГНУТАЯ СТРЕЛКА "Это я" ===
-   Небольшая дуга над правой частью hero, указывает на фото.
-   НЕ пересекает текст слева, не мешает кликам. */
+   Выходит слева от фото, идёт дугой и указывает наконечником на верх фото.
+   Расположена absolute внутри .heroRight (рядом с .photoWrap). */
 .arrowWrap {
   position: absolute;
-  /* Расположение: над фото справа, выходит из области рядом с типвайтером */
-  top: 80px;
-  right: 60px;
-  width: 360px;
-  height: 200px;
+  /* Над фото слева — выходит на 220px влево от фото */
+  top: -40px;
+  right: 100%;
+  margin-right: -40px; /* немного перекрывает фото справа */
+  width: 240px;
+  height: 160px;
   pointer-events: none;
   z-index: 5;
 }
@@ -148,9 +149,8 @@
   overflow: visible;
 }
 .arrowPath {
-  /* Длина пути — 600 для нашей кривой Безье */
-  stroke-dasharray: 600;
-  stroke-dashoffset: 600;
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
   animation: drawErase 7s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 .arrowHead {
@@ -160,8 +160,8 @@
 }
 .arrowLabel {
   position: absolute;
-  /* Над верхушкой дуги */
-  top: 18px;
+  /* Над верхней точкой дуги */
+  top: 5px;
   left: 50%;
   transform: translateX(-50%) scale(0.8);
   background: var(--bg-elev-2);
@@ -178,11 +178,11 @@
 }
 
 @keyframes drawErase {
-  0%   { stroke-dashoffset: 600; }
+  0%   { stroke-dashoffset: 320; }
   30%  { stroke-dashoffset: 0; }
   60%  { stroke-dashoffset: 0; }
-  80%  { stroke-dashoffset: -600; }
-  100% { stroke-dashoffset: -600; }
+  80%  { stroke-dashoffset: -320; }
+  100% { stroke-dashoffset: -320; }
 }
 
 @keyframes drawEraseHead {
@@ -300,9 +300,10 @@
     height: 320px;
   }
   .arrowWrap {
-    width: 220px;
-    height: 100px;
-    top: -20px;
+    width: 200px;
+    height: 130px;
+    top: -30px;
+    margin-right: -30px;
   }
 }
 

@@ -47,42 +47,6 @@ export default function Hero() {
     <div className={styles.hero} id="about">
       <div className={styles.heroBg}></div>
 
-      {/* Изогнутая стрелка "Это я" — небольшая дуга над правой частью hero,
-          выходит сбоку от имени и указывает на фото справа.
-          Расположена absolute, не мешает кликам. */}
-      <div className={styles.arrowWrap} aria-hidden="true">
-        <svg
-          className={styles.arrowSvg}
-          viewBox="0 0 360 200"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Дуга — выходит из левого нижнего угла, идёт вверх-вправо,
-              опускается к правому нижнему углу (к фото) */}
-          <path
-            className={styles.arrowPath}
-            d="M 20 160 C 80 30, 240 30, 320 130"
-            stroke="var(--accent)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            fill="none"
-          />
-          {/* Наконечник — указывает вниз-вправо к фото */}
-          <path
-            className={styles.arrowHead}
-            d="M 305 115 L 322 132 L 302 138"
-            stroke="var(--accent)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-        </svg>
-        <span className={styles.arrowLabel}>
-          {locale === 'ru' ? 'Это я' : 'This is me'}
-        </span>
-      </div>
-
       <div className={styles.heroGrid}>
         <div className={styles.heroLeft}>
           <div className={styles.badge}>
@@ -99,15 +63,8 @@ export default function Hero() {
             <span className={styles.twText}>{display}</span>
             <span className={styles.cursor}></span>
           </div>
-          {/* Описание печатается после имени */}
-          <p className={styles.desc}>
-            <TypeOnReveal
-              text={t.hero.description}
-              speed={10}
-              delay={300 + (t.hero.name1.length + t.hero.name2.length) * 70 + 400}
-              startImmediately
-            />
-          </p>
+          {/* Описание — обычный статичный текст без печати */}
+          <p className={styles.desc}>{t.hero.description}</p>
           <div className={styles.btns}>
             <a href="https://t.me/sfokin1337" target="_blank" rel="noopener noreferrer" className="btn-cta">
               {t.hero.ctaPrimary}
@@ -124,6 +81,42 @@ export default function Hero() {
         </div>
 
         <div className={styles.heroRight}>
+          {/* Изогнутая стрелка "Это я" — выходит слева от фото, идёт дугой
+              вверх-вправо и наконечник указывает вниз на верхнюю часть фото.
+              Расположена абсолютно слева от photoWrap, не мешает кликам. */}
+          <div className={styles.arrowWrap} aria-hidden="true">
+            <svg
+              className={styles.arrowSvg}
+              viewBox="0 0 240 160"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Дуга — выходит снизу-слева, поднимается дугой,
+                  опускается на правую часть к верху фото */}
+              <path
+                className={styles.arrowPath}
+                d="M 20 130 C 60 20, 160 20, 215 100"
+                stroke="var(--accent)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                fill="none"
+              />
+              {/* Наконечник — указывает вниз-вправо */}
+              <path
+                className={styles.arrowHead}
+                d="M 200 88 L 218 102 L 198 110"
+                stroke="var(--accent)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </svg>
+            <span className={styles.arrowLabel}>
+              {locale === 'ru' ? 'Это я' : 'This is me'}
+            </span>
+          </div>
+
           <div className={styles.photoWrap}>
             {/* Метка "Frame 1337" — стилизована под название фрейма из Figma */}
             <span className={styles.frameLabel}>Frame 1337</span>

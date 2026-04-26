@@ -10,15 +10,12 @@ import { useEffect, useRef, useState } from 'react';
  * 2) Запускает IntersectionObserver
  * 3) Когда элемент попадает в viewport — добавляет .visible → анимация
  *
- * Защита от бага "всё появилось при загрузке":
- * - Используем СТРОГУЮ проверку начальной видимости (только если элемент
- *   реально в viewport на момент монтирования, не выше и не ниже)
- * - Используем requestAnimationFrame чтобы дать браузеру layout
+ * НЕ используем fallback-таймер: он срабатывал у всех хуков сразу через
+ * N секунд независимо от позиции, и анимации теряли смысл.
+ * IntersectionObserver работает в 99.9% браузеров — можно полагаться.
  *
- * Защита от пустого экрана:
- * - Без хука data-reveal не ставится → CSS не скрывает контент
- * - Если IntersectionObserver не работает — сразу показываем
- * - Fallback таймер 4с (если observer завис)
+ * Если IntersectionObserver вообще не поддерживается (старый браузер) —
+ * сразу показываем без анимации.
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
@@ -47,18 +44,13 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
       { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
     );
 
-    // Даём layout успеть установиться, прежде чем подключаем observer
     const rafId = requestAnimationFrame(() => {
       observer.observe(el);
     });
 
-    // Страховка: если за 4 секунды observer не сработал — показать насильно
-    const fallback = setTimeout(() => setVisible(true), 4000);
-
     return () => {
       cancelAnimationFrame(rafId);
       observer.disconnect();
-      clearTimeout(fallback);
     };
   }, []);
 
@@ -105,12 +97,9 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
       observer.observe(el);
     });
 
-    const fallback = setTimeout(() => setVisible(true), 4000);
-
     return () => {
       cancelAnimationFrame(rafId);
       observer.disconnect();
-      clearTimeout(fallback);
     };
   }, [staggerMs]);
 

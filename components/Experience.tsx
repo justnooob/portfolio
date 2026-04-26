@@ -7,7 +7,7 @@ import { translations, experiences } from '@/lib/data';
 import styles from './Experience.module.css';
 
 export default function Experience() {
-  const { locale } = useApp();
+  const { locale, theme } = useApp();
   const t = translations[locale];
   const [openIdx, setOpenIdx] = useState<number>(0);
   const { ref: headRef, visible: headVisible } = useReveal<HTMLDivElement>();
@@ -23,17 +23,22 @@ export default function Experience() {
       </div>
 
       <div ref={listRef} className={`${styles.list} reveal-stagger ${listVisible ? 'visible' : ''}`}>
-        {experiences.map((exp, i) => (
+        {experiences.map((exp, i) => {
+          // Выбираем логотип по теме: для светлой используем logoSrcLight если есть
+          const logoForTheme =
+            theme === 'light' && exp.logoSrcLight ? exp.logoSrcLight : exp.logoSrc;
+
+          return (
           <div key={exp.id} className={`${styles.card} ${openIdx === i ? styles.open : ''}`}>
             <div className={styles.cardHead} onClick={() => toggle(i)}>
               {/*
-                Логотип компании — берём SVG из public/logos/.
-                Чтобы заменить — просто положи файл с тем же именем
-                (например, public/logos/uk-medicina.svg).
+                Логотип компании — берётся из public/logos/.
+                Для светлой темы можно подложить инвертированный вариант
+                через поле logoSrcLight в data.ts (см. smetter, atlant).
               */}
-              {exp.logoSrc ? (
+              {logoForTheme ? (
                 <img
-                  src={exp.logoSrc}
+                  src={logoForTheme}
                   alt={exp.company[locale]}
                   className={styles.logoImg}
                 />
@@ -95,7 +100,8 @@ export default function Experience() {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
