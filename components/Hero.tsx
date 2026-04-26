@@ -45,6 +45,42 @@ export default function Hero() {
   return (
     <div className={styles.hero} id="about">
       <div className={styles.heroBg}></div>
+
+      {/* Изогнутая стрелка "Это я" — большая дуга от заголовка к фото.
+          Расположена absolute поверх heroGrid, рисуется и стирается циклично. */}
+      <div className={styles.arrowWrap} aria-hidden="true">
+        <svg
+          className={styles.arrowSvg}
+          viewBox="0 0 800 280"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          {/* Большая изогнутая линия — выходит сверху от имени, идёт дугой вправо к фото */}
+          <path
+            className={styles.arrowPath}
+            d="M 60 220 Q 200 30, 500 80 T 760 230"
+            stroke="var(--accent)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            fill="none"
+          />
+          {/* Наконечник стрелки — указывает вниз-вправо к фото */}
+          <path
+            className={styles.arrowHead}
+            d="M 745 215 L 762 232 L 740 240"
+            stroke="var(--accent)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+        </svg>
+        <span className={styles.arrowLabel}>
+          {locale === 'ru' ? 'Это я' : 'This is me'}
+        </span>
+      </div>
+
       <div className={styles.heroGrid}>
         <div className={styles.heroLeft}>
           <div className={styles.badge}>
@@ -77,39 +113,6 @@ export default function Hero() {
         </div>
 
         <div className={styles.heroRight}>
-          {/* Изогнутая стрелка с подписью "Это я" — анимируется бесконечно */}
-          <div className={styles.arrowWrap} aria-hidden="true">
-            <svg
-              className={styles.arrowSvg}
-              viewBox="0 0 280 130"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Изогнутая линия — рисуется и стирается */}
-              <path
-                className={styles.arrowPath}
-                d="M 20 30 Q 100 0, 180 50 T 250 110"
-                stroke="var(--accent)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                fill="none"
-              />
-              {/* Наконечник стрелки */}
-              <path
-                className={styles.arrowHead}
-                d="M 240 100 L 252 112 L 238 118"
-                stroke="var(--accent)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-              />
-            </svg>
-            <span className={styles.arrowLabel}>
-              {locale === 'ru' ? 'Это я' : 'This is me'}
-            </span>
-          </div>
-
           <div className={styles.photoWrap}>
             {/*
               ⭐ ФОТО

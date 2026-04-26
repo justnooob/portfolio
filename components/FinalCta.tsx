@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useApp } from './AppProvider';
+import { useReveal } from '@/lib/useReveal';
 import { translations } from '@/lib/data';
 import styles from './FinalCta.module.css';
 
 export default function FinalCta() {
   const { locale } = useApp();
   const t = translations[locale];
+  const { ref, visible } = useReveal<HTMLDivElement>();
 
   /*
    * ⭐ ВАРИАНТЫ TYPEWRITER (выбери 5+ из списка и положи в массив ниже).
@@ -67,7 +69,7 @@ export default function FinalCta() {
   return (
     <div className={styles.section}>
       <div className={styles.glow}></div>
-      <div className={`${styles.inner} reveal-pop`}>
+      <div ref={ref} className={`${styles.inner} reveal-pop ${visible ? 'visible' : ''}`}>
         <div className={styles.label}>
           <div className={styles.dot}></div>
           {t.finalCta.badge}

@@ -1,3 +1,88 @@
+/* === ИГРОВАЯ АНИМАЦИЯ КАРТОЧЕК ПРОЕКТОВ — стиль Figma frame ===
+   Карточка появляется как будто её рисуют инструментом frame в Figma:
+   - сначала появляется чёрный курсор-крестик с белой обводкой
+   - потом из этой точки разворачивается рамка карточки (clip-path)
+   - после раскрытия — содержимое фейдится */
+
+.cardFigma {
+  position: relative;
+}
+
+.figmaCursor {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 18px;
+  height: 18px;
+  background: #0c0c0e;
+  border: 1.5px solid #ffffff;
+  border-radius: 3px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+.figmaCursor svg {
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+/* Когда JS подключён и useReveal проставил data-reveal — ждём триггера */
+.cardFigma[data-reveal] {
+  clip-path: inset(0 100% 100% 0);
+}
+.cardFigma[data-reveal] > div {
+  /* Скрываем preview и body пока рамка не нарисована */
+  opacity: 0;
+}
+.cardFigma[data-reveal] .figmaCursor {
+  opacity: 1;
+}
+
+/* Запуск анимации */
+.cardFigma[data-reveal].cardFigmaIn {
+  animation: figmaDraw 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.cardFigma[data-reveal].cardFigmaIn > div {
+  animation: figmaFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
+}
+.cardFigma[data-reveal].cardFigmaIn .figmaCursor {
+  animation: figmaCursorMove 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes figmaDraw {
+  0%   { clip-path: inset(0 100% 100% 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+@keyframes figmaFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes figmaCursorMove {
+  0%   { opacity: 1; top: -8px; left: -8px; }
+  90%  { opacity: 1; top: calc(100% - 10px); left: calc(100% - 10px); }
+  100% { opacity: 0; top: calc(100% - 10px); left: calc(100% - 10px); }
+}
+
+/* Reduced motion — без анимации */
+@media (prefers-reduced-motion: reduce) {
+  .cardFigma[data-reveal],
+  .cardFigma[data-reveal].cardFigmaIn {
+    clip-path: none;
+    animation: none;
+  }
+  .cardFigma[data-reveal] > div {
+    opacity: 1;
+    animation: none;
+  }
+  .figmaCursor {
+    display: none;
+  }
+}
+
 .section {
   padding: 36px 32px 48px;
 }

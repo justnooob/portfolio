@@ -170,132 +170,12 @@ img {
 }
 
 /* === АНИМАЦИИ ПРИ СКРОЛЛЕ — Awwwards-style ===
-   Работают на всех браузерах через JS (IntersectionObserver).
-   Каждый класс по умолчанию скрыт, при добавлении .visible — анимируется. */
+   ВАЖНО: дефолтное состояние = ВИДИМО. Контент никогда не пропадает.
+   Анимация запускается только если на элементе ЕСТЬ ref-хук
+   (useReveal/useStaggerReveal), который добавит класс .visible.
+   Без хука — контент сразу показывается, без анимации (но и без бага). */
 
-/* Базовый transition для всех reveal-классов */
-.reveal,
-.reveal-scale,
-.reveal-slide-left,
-.reveal-slide-right,
-.reveal-pop,
-.reveal-stagger > *,
-.reveal-mask {
-  will-change: opacity, transform, filter, clip-path;
-}
-
-/* === БАЗОВЫЕ СОСТОЯНИЯ (когда JS готов) === */
-
-/* Reveal — мягкий fade + blur снизу */
-.js-ready .reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  filter: blur(8px);
-  transition:
-    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.js-ready .reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
-
-/* Scale — выезжает из глубины */
-.js-ready .reveal-scale {
-  opacity: 0;
-  transform: scale(0.92) translateY(30px);
-  filter: blur(10px);
-  transition:
-    opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.js-ready .reveal-scale.visible {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-  filter: blur(0);
-}
-
-/* Slide-left — выезжает слева, как заголовки в дизайне Awwwards */
-.js-ready .reveal-slide-left {
-  opacity: 0;
-  transform: translateX(-60px);
-  filter: blur(6px);
-  transition:
-    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.js-ready .reveal-slide-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-  filter: blur(0);
-}
-
-/* Slide-right — выезжает справа */
-.js-ready .reveal-slide-right {
-  opacity: 0;
-  transform: translateX(60px);
-  filter: blur(6px);
-  transition:
-    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.js-ready .reveal-slide-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-  filter: blur(0);
-}
-
-/* Pop — упругое подскочение */
-.js-ready .reveal-pop {
-  opacity: 0;
-  transform: scale(0.85) translateY(40px);
-  transition:
-    opacity 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
-    transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.js-ready .reveal-pop.visible {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
-
-/* Mask — раскрытие через clip-path как в крутых awwwards-сайтах */
-.js-ready .reveal-mask {
-  opacity: 0;
-  clip-path: inset(0 100% 0 0);
-  transform: translateY(20px);
-  transition:
-    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-    clip-path 1.2s cubic-bezier(0.76, 0, 0.24, 1),
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.js-ready .reveal-mask.visible {
-  opacity: 1;
-  clip-path: inset(0 0 0 0);
-  transform: translateY(0);
-}
-
-/* Stagger-контейнер — каждый ребёнок появляется с задержкой через JS (transitionDelay) */
-.js-ready .reveal-stagger > * {
-  opacity: 0;
-  transform: translateY(35px);
-  filter: blur(6px);
-  transition:
-    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.js-ready .reveal-stagger.visible > * {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
-
-/* Если JS не загружен — контент сразу видно (страховка) */
+/* === БАЗА: всё видно по умолчанию === */
 .reveal,
 .reveal-scale,
 .reveal-slide-left,
@@ -307,6 +187,101 @@ img {
   transform: none;
   filter: none;
   clip-path: none;
+}
+
+/* === АНИМАЦИИ — включаются только если на родителе есть data-reveal="true" ===
+   Этот атрибут проставляет JS (useReveal). Если JS не успел — контент остаётся
+   просто видимым, без скрытия. */
+
+[data-reveal] {
+  /* Невидимое начальное состояние применяется только когда атрибут есть */
+}
+
+[data-reveal].reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  filter: blur(8px);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal].reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+[data-reveal].reveal-scale {
+  opacity: 0;
+  transform: scale(0.92) translateY(30px);
+  filter: blur(10px);
+  transition:
+    opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal].reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+}
+
+[data-reveal].reveal-slide-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  filter: blur(6px);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal].reveal-slide-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+}
+
+[data-reveal].reveal-slide-right {
+  opacity: 0;
+  transform: translateX(60px);
+  filter: blur(6px);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal].reveal-slide-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+}
+
+[data-reveal].reveal-pop {
+  opacity: 0;
+  transform: scale(0.85) translateY(40px);
+  transition:
+    opacity 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-reveal].reveal-pop.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+[data-reveal].reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(35px);
+  filter: blur(6px);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal].reveal-stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
 }
 
 /* Появление страницы — короткая анимация */

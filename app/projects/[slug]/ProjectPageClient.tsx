@@ -116,22 +116,22 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       </div>
 
       <div className={styles.content}>
-        <section className={`${styles.block} reveal-slide-left`}>
+        <section className={`${styles.block}`}>
           <div className={styles.blockLbl}>{t.project.overview}</div>
           <p className={styles.blockText}>{project.overview[locale]}</p>
         </section>
 
-        <section className={`${styles.block} reveal-slide-right`}>
+        <section className={`${styles.block}`}>
           <div className={styles.blockLbl}>{t.project.challenge}</div>
           <p className={styles.blockText}>{project.challenge[locale]}</p>
         </section>
 
-        <section className={`${styles.block} reveal-slide-left`}>
+        <section className={`${styles.block}`}>
           <div className={styles.blockLbl}>{t.project.solution}</div>
           <p className={styles.blockText}>{project.solution[locale]}</p>
         </section>
 
-        <section className={`${styles.block} reveal-stagger`}>
+        <section className={`${styles.block}`}>
           <div className={styles.blockLbl}>{t.project.results}</div>
           <div className={`${styles.resultsWrap} ${!resultsExpanded && hasMore ? styles.resultsCollapsed : ''}`}>
             <ul className={styles.resultsList}>
@@ -154,7 +154,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           )}
         </section>
 
-        <section className={`${styles.screensBlock} reveal-scale`}>
+        <section className={`${styles.screensBlock}`}>
           <div className={styles.blockLbl}>{t.project.screens}</div>
           <div className={styles.screensPlaceholder} style={{ background: project.color }}>
             <div className={styles.screensMsg}>
@@ -166,7 +166,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         </section>
 
         {project.behanceUrl && (
-          <div className={`${styles.behance} reveal-pop`}>
+          <div className={`${styles.behance}`}>
             <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
               {t.project.viewBehance}
               <span className="btn-cta-ico-wrap">

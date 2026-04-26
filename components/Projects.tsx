@@ -9,8 +9,8 @@ import styles from './Projects.module.css';
 function ProjectCard({ project }: { project: Project }) {
   const { locale, theme } = useApp();
   const t = translations[locale];
+  const { ref, visible } = useReveal<HTMLAnchorElement>();
 
-  // Выбираем обложку по теме: для светлой используем coverImageLight если есть
   const cover =
     theme === 'light' && project.coverImageLight
       ? project.coverImageLight
@@ -69,7 +69,17 @@ function ProjectCard({ project }: { project: Project }) {
   };
 
   return (
-    <Link href={`/projects/${project.slug}`} className={styles.card}>
+    <Link
+      ref={ref}
+      href={`/projects/${project.slug}`}
+      className={`${styles.card} ${styles.cardFigma} ${visible ? styles.cardFigmaIn : ''}`}
+    >
+      {/* Курсор-крестик (Figma frame tool) — рисуется в углу */}
+      <span className={styles.figmaCursor} aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1V13M1 7H13" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      </span>
       {renderPreview()}
       <div className={styles.body}>
         <div className={styles.head}>
@@ -104,7 +114,6 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
   const t = translations[locale];
   const catInfo = t.categories[category];
   const items = projects.filter((p) => p.category === category && !p.featured);
-  const { ref: staggerRef, visible: staggerVisible } = useStaggerReveal<HTMLDivElement>(100);
   const { ref: headRef, visible: headVisible } = useReveal<HTMLDivElement>();
 
   const gridClass = columns === 3 ? styles.grid3 : styles.grid2;
@@ -118,7 +127,7 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
         </div>
         <div className={styles.sub}>{catInfo.sub}</div>
       </div>
-      <div ref={staggerRef} className={`${gridClass} reveal-stagger ${staggerVisible ? 'visible' : ''}`}>
+      <div className={gridClass}>
         {items.map((p) => (
           <ProjectCard key={p.slug} project={p} />
         ))}
