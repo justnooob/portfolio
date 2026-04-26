@@ -43,14 +43,31 @@
 }
 .cardHead {
   display: grid;
-  grid-template-columns: 48px 1fr auto auto;
+  grid-template-columns: 192px 1fr auto auto;
   gap: 18px;
   align-items: center;
   padding: 22px 24px;
   cursor: pointer;
 }
-.logoSvg {
+.logoImg {
+  width: 192px;
+  height: 40px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+  flex-shrink: 0;
+}
+.logoFallback {
+  width: 192px;
+  height: 40px;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0c0c0e;
+  flex-shrink: 0;
 }
 .info {
   min-width: 0;
@@ -133,7 +150,7 @@
   max-height: 600px;
 }
 .bodyIn {
-  padding: 22px 24px 24px 90px;
+  padding: 22px 24px 24px 234px;
   border-top: 0.5px solid var(--border);
 }
 .product {
@@ -190,9 +207,15 @@
     padding: 40px 16px;
   }
   .cardHead {
-    grid-template-columns: 40px 1fr auto;
+    grid-template-columns: 140px 1fr auto;
     gap: 14px;
     padding: 16px 18px;
+  }
+  .logoImg,
+  .logoFallback {
+    width: 140px;
+    height: 32px;
+    font-size: 12px;
   }
   .chev {
     display: none;

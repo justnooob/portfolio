@@ -31,8 +31,8 @@ export default function FinalCta() {
    *   • a product to be proud of • a startup
    */
   const words: Record<string, string[]> = {
-    ru: ['что-то классное', 'SaaS-систему', 'мобильное приложение', 'сайт', 'дизайн-систему', 'AI-продукт'],
-    en: ['something great', 'a SaaS system', 'a mobile app', 'a website', 'a design system', 'an AI product'],
+    ru: ['что-то классное', 'SaaS-систему', 'мобильное приложение', 'сайт', 'дизайн-систему', 'AI-продукт', 'редизайн', 'продукт мирового уровня'],
+    en: ['something great', 'a SaaS system', 'a mobile app', 'a website', 'a design system', 'an AI product', 'a redesign', 'a world-class product'],
   };
   const list = words[locale];
 

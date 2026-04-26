@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useApp } from './AppProvider';
+import { useReveal, useStaggerReveal } from '@/lib/useReveal';
 import { translations, projects, Project, ProjectCategory } from '@/lib/data';
 import styles from './Projects.module.css';
 
@@ -103,19 +104,21 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
   const t = translations[locale];
   const catInfo = t.categories[category];
   const items = projects.filter((p) => p.category === category && !p.featured);
+  const { ref: staggerRef, visible: staggerVisible } = useStaggerReveal<HTMLDivElement>(100);
+  const { ref: headRef, visible: headVisible } = useReveal<HTMLDivElement>();
 
   const gridClass = columns === 3 ? styles.grid3 : styles.grid2;
   const count = items.length.toString().padStart(2, '0');
 
   return (
     <div className={styles.section}>
-      <div className={styles.head}>
+      <div ref={headRef} className={`${styles.head} reveal-slide-left ${headVisible ? 'visible' : ''}`}>
         <div className={styles.title}>
           {catInfo.title} <span className={styles.count}>{count}</span>
         </div>
         <div className={styles.sub}>{catInfo.sub}</div>
       </div>
-      <div className={`${gridClass} reveal-stagger`}>
+      <div ref={staggerRef} className={`${gridClass} reveal-stagger ${staggerVisible ? 'visible' : ''}`}>
         {items.map((p) => (
           <ProjectCard key={p.slug} project={p} />
         ))}

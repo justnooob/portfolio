@@ -77,6 +77,39 @@ export default function Hero() {
         </div>
 
         <div className={styles.heroRight}>
+          {/* Изогнутая стрелка с подписью "Это я" — анимируется бесконечно */}
+          <div className={styles.arrowWrap} aria-hidden="true">
+            <svg
+              className={styles.arrowSvg}
+              viewBox="0 0 280 130"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Изогнутая линия — рисуется и стирается */}
+              <path
+                className={styles.arrowPath}
+                d="M 20 30 Q 100 0, 180 50 T 250 110"
+                stroke="var(--accent)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                fill="none"
+              />
+              {/* Наконечник стрелки */}
+              <path
+                className={styles.arrowHead}
+                d="M 240 100 L 252 112 L 238 118"
+                stroke="var(--accent)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </svg>
+            <span className={styles.arrowLabel}>
+              {locale === 'ru' ? 'Это я' : 'This is me'}
+            </span>
+          </div>
+
           <div className={styles.photoWrap}>
             {/*
               ⭐ ФОТО

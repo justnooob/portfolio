@@ -174,7 +174,7 @@ export const projects: Project[] = [
     category: 'saas',
     featured: true,
     color: 'linear-gradient(135deg, #1a2b4a 0%, #2a1f3f 50%, #0a1a2a 100%)',
-    coverImage: '/projects/iywi.jpg',
+    coverImage: '/projects/iywi.png',
     logo: 'IY',
     logoColor: '#4fa3ff',
     behanceUrl: 'https://www.behance.net/gallery/247519813/IYWI-B2B-Medical-SaaS-UXUI-Design',

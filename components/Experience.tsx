@@ -2,44 +2,46 @@
 
 import { useState } from 'react';
 import { useApp } from './AppProvider';
+import { useReveal, useStaggerReveal } from '@/lib/useReveal';
 import { translations, experiences } from '@/lib/data';
 import styles from './Experience.module.css';
-
-/**
- * ⭐ ЛОГОТИП КОМПАНИИ В БЛОКЕ ОПЫТА
- * Чтобы заменить заглушку на реальный SVG:
- * Используй <img src="/logos/название.svg" alt="..." className={styles.logoSvg} />
- */
-function CompanyLogoBig({ initials, color }: { initials: string; color: string }) {
-  return (
-    <svg viewBox="0 0 48 48" width="40" height="40" xmlns="http://www.w3.org/2000/svg" className={styles.logoSvg}>
-      <rect width="48" height="48" rx="10" fill={color} />
-      <text x="24" y="31" fontFamily="-apple-system, sans-serif" fontWeight="600" fontSize="16" fill="#0c0c0e" textAnchor="middle">
-        {initials}
-      </text>
-    </svg>
-  );
-}
 
 export default function Experience() {
   const { locale } = useApp();
   const t = translations[locale];
   const [openIdx, setOpenIdx] = useState<number>(0);
+  const { ref: headRef, visible: headVisible } = useReveal<HTMLDivElement>();
+  const { ref: listRef, visible: listVisible } = useStaggerReveal<HTMLDivElement>(110);
 
   const toggle = (i: number) => setOpenIdx(openIdx === i ? -1 : i);
 
   return (
     <div className={styles.section} id="experience">
-      <div className={styles.head}>
+      <div ref={headRef} className={`${styles.head} reveal-slide-left ${headVisible ? 'visible' : ''}`}>
         <div className={styles.title}>{t.experience.title}</div>
         <div className={styles.sub}>{t.experience.sub}</div>
       </div>
 
-      <div className={`${styles.list} reveal-stagger`}>
+      <div ref={listRef} className={`${styles.list} reveal-stagger ${listVisible ? 'visible' : ''}`}>
         {experiences.map((exp, i) => (
           <div key={exp.id} className={`${styles.card} ${openIdx === i ? styles.open : ''}`}>
             <div className={styles.cardHead} onClick={() => toggle(i)}>
-              <CompanyLogoBig initials={exp.logo} color={exp.logoColor} />
+              {/*
+                Логотип компании — берём SVG из public/logos/.
+                Чтобы заменить — просто положи файл с тем же именем
+                (например, public/logos/uk-medicina.svg).
+              */}
+              {exp.logoSrc ? (
+                <img
+                  src={exp.logoSrc}
+                  alt={exp.company[locale]}
+                  className={styles.logoImg}
+                />
+              ) : (
+                <div className={styles.logoFallback} style={{ background: exp.logoColor }}>
+                  {exp.logo}
+                </div>
+              )}
               <div className={styles.info}>
                 <div className={styles.companyRow}>
                   <span className={styles.company}>{exp.company[locale]}</span>

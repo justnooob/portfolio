@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useApp } from './AppProvider';
+import { useReveal } from '@/lib/useReveal';
 import { translations, projects } from '@/lib/data';
 import styles from './Featured.module.css';
 
@@ -9,6 +10,7 @@ export default function Featured() {
   const { locale, theme } = useApp();
   const t = translations[locale];
   const featured = projects.find((p) => p.featured);
+  const { ref, visible } = useReveal<HTMLDivElement>();
   if (!featured) return null;
 
   const cover =
@@ -21,7 +23,7 @@ export default function Featured() {
       <div className={styles.label}>
         <span className={styles.labelDot}>●</span> {t.featured.label}
       </div>
-      <div className="reveal-scale">
+      <div ref={ref} className={`reveal-scale ${visible ? 'visible' : ''}`}>
       <Link
         href={`/projects/${featured.slug}`}
         className={styles.card}

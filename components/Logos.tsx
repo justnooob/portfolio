@@ -1,18 +1,20 @@
 'use client';
 
 import { useApp } from './AppProvider';
+import { useStaggerReveal } from '@/lib/useReveal';
 import { translations, experiences } from '@/lib/data';
 import styles from './Logos.module.css';
 
 export default function Logos() {
   const { locale } = useApp();
   const t = translations[locale];
+  const { ref, visible } = useStaggerReveal<HTMLDivElement>(70);
 
   return (
     <div className={styles.section}>
       <div className={styles.inner}>
         <div className={styles.label}>{t.logos.label}</div>
-        <div className={`${styles.row} reveal-stagger`}>
+        <div ref={ref} className={`${styles.row} reveal-stagger ${visible ? 'visible' : ''}`}>
           {experiences.map((exp) => (
             <div key={exp.id} className={styles.item}>
               {/*
