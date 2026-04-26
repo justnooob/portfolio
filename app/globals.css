@@ -359,6 +359,20 @@ img {
   }
 }
 
+/* === TypeOnReveal — каретка для печатающегося текста === */
+.type-caret {
+  display: inline-block;
+  width: 2px;
+  margin-left: 2px;
+  animation: typeBlink 0.8s steps(2, start) infinite;
+  color: var(--accent);
+  font-weight: 300;
+}
+@keyframes typeBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* Уважаем reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

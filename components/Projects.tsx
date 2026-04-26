@@ -3,10 +3,19 @@
 import Link from 'next/link';
 import { useApp } from './AppProvider';
 import { useReveal, useStaggerReveal } from '@/lib/useReveal';
+import TypeOnReveal from './TypeOnReveal';
 import { translations, projects, Project, ProjectCategory } from '@/lib/data';
 import styles from './Projects.module.css';
 
-function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project;
+  /** Индекс в гриде, начиная с 0 */
+  index?: number;
+  /** Кол-во колонок в гриде (2 или 3) */
+  columns?: 2 | 3;
+}
+
+function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
   const { locale, theme } = useApp();
   const t = translations[locale];
   const { ref, visible } = useReveal<HTMLAnchorElement>();
@@ -15,6 +24,21 @@ function ProjectCard({ project }: { project: Project }) {
     theme === 'light' && project.coverImageLight
       ? project.coverImageLight
       : project.coverImage;
+
+  /**
+   * Определяем с какой стороны выезжает картинка после раскрытия фрейма:
+   * - грид 2 колонки: левая (col=0) → справа налево; правая (col=1) → слева направо
+   * - грид 3 колонки: левая → справа; центр → сверху; правая → слева
+   */
+  const col = index % columns;
+  let coverFromClass = '';
+  if (columns === 2) {
+    coverFromClass = col === 0 ? styles.coverFromRight : styles.coverFromLeft;
+  } else {
+    if (col === 0) coverFromClass = styles.coverFromRight;
+    else if (col === 1) coverFromClass = styles.coverFromTop;
+    else coverFromClass = styles.coverFromLeft;
+  }
 
   const renderPreview = () => {
     // Если есть обложка — используем её, даже для "this site" проекта
@@ -72,7 +96,7 @@ function ProjectCard({ project }: { project: Project }) {
     <Link
       ref={ref}
       href={`/projects/${project.slug}`}
-      className={`${styles.card} ${styles.cardFigma} ${visible ? styles.cardFigmaIn : ''}`}
+      className={`${styles.card} ${styles.cardFigma} ${coverFromClass} ${visible ? styles.cardFigmaIn : ''}`}
     >
       {/* Курсор-крестик (Figma frame tool) — рисуется в углу */}
       <span className={styles.figmaCursor} aria-hidden="true">
@@ -80,13 +104,47 @@ function ProjectCard({ project }: { project: Project }) {
           <path d="M7 1V13M1 7H13" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
       </span>
-      {renderPreview()}
+
+      {/* Обёртка над preview — с её помощью картинка выезжает с нужной стороны */}
+      <div className={styles.coverSlide}>
+        {renderPreview()}
+      </div>
+
       <div className={styles.body}>
         <div className={styles.head}>
-          <div className={styles.name}>{project.name[locale]}</div>
-          <div className={styles.arrow}>↗</div>
+          {/* Название печатается после появления фрейма — но только когда карточка
+              видна, иначе TypeOnReveal сразу запустит свой observer */}
+          {visible ? (
+            <TypeOnReveal
+              text={project.name[locale]}
+              speed={28}
+              delay={1100}
+              startImmediately
+              as="div"
+              className={styles.name}
+            />
+          ) : (
+            <div className={styles.name} style={{ opacity: 0 }}>
+              {project.name[locale]}
+            </div>
+          )}
+          {/* Стрелка появляется в конце */}
+          <div className={`${styles.arrow} ${visible ? styles.arrowIn : ''}`}>↗</div>
         </div>
-        <div className={styles.desc}>{project.shortDesc[locale]}</div>
+        {visible ? (
+          <TypeOnReveal
+            text={project.shortDesc[locale]}
+            speed={14}
+            delay={1100 + project.name[locale].length * 28 + 150}
+            startImmediately
+            as="div"
+            className={styles.desc}
+          />
+        ) : (
+          <div className={styles.desc} style={{ opacity: 0 }}>
+            {project.shortDesc[locale]}
+          </div>
+        )}
         <div className={styles.meta}>
           <span>{project.year}</span>
           {project.company && (
@@ -128,8 +186,8 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
         <div className={styles.sub}>{catInfo.sub}</div>
       </div>
       <div className={gridClass}>
-        {items.map((p) => (
-          <ProjectCard key={p.slug} project={p} />
+        {items.map((p, i) => (
+          <ProjectCard key={p.slug} project={p} index={i} columns={columns} />
         ))}
       </div>
     </div>

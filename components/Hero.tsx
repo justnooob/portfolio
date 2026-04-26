@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useApp } from './AppProvider';
+import TypeOnReveal from './TypeOnReveal';
 import { translations } from '@/lib/data';
 import styles from './Hero.module.css';
 
@@ -46,29 +47,30 @@ export default function Hero() {
     <div className={styles.hero} id="about">
       <div className={styles.heroBg}></div>
 
-      {/* Изогнутая стрелка "Это я" — большая дуга от заголовка к фото.
-          Расположена absolute поверх heroGrid, рисуется и стирается циклично. */}
+      {/* Изогнутая стрелка "Это я" — небольшая дуга над правой частью hero,
+          выходит сбоку от имени и указывает на фото справа.
+          Расположена absolute, не мешает кликам. */}
       <div className={styles.arrowWrap} aria-hidden="true">
         <svg
           className={styles.arrowSvg}
-          viewBox="0 0 800 280"
+          viewBox="0 0 360 200"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
         >
-          {/* Большая изогнутая линия — выходит сверху от имени, идёт дугой вправо к фото */}
+          {/* Дуга — выходит из левого нижнего угла, идёт вверх-вправо,
+              опускается к правому нижнему углу (к фото) */}
           <path
             className={styles.arrowPath}
-            d="M 60 220 Q 200 30, 500 80 T 760 230"
+            d="M 20 160 C 80 30, 240 30, 320 130"
             stroke="var(--accent)"
             strokeWidth="2"
             strokeLinecap="round"
             fill="none"
           />
-          {/* Наконечник стрелки — указывает вниз-вправо к фото */}
+          {/* Наконечник — указывает вниз-вправо к фото */}
           <path
             className={styles.arrowHead}
-            d="M 745 215 L 762 232 L 740 240"
+            d="M 305 115 L 322 132 L 302 138"
             stroke="var(--accent)"
             strokeWidth="2"
             strokeLinecap="round"
@@ -87,16 +89,25 @@ export default function Hero() {
             <div className={styles.dot}></div>
             {t.hero.badge}
           </div>
+          {/* Имя печатается сразу при загрузке */}
           <h1 className={styles.name}>
-            {t.hero.name1}
+            <TypeOnReveal text={t.hero.name1} speed={70} delay={300} startImmediately />
             <br />
-            {t.hero.name2}
+            <TypeOnReveal text={t.hero.name2} speed={70} delay={300 + t.hero.name1.length * 70 + 100} startImmediately />
           </h1>
           <div className={styles.type}>
             <span className={styles.twText}>{display}</span>
             <span className={styles.cursor}></span>
           </div>
-          <p className={styles.desc}>{t.hero.description}</p>
+          {/* Описание печатается после имени */}
+          <p className={styles.desc}>
+            <TypeOnReveal
+              text={t.hero.description}
+              speed={10}
+              delay={300 + (t.hero.name1.length + t.hero.name2.length) * 70 + 400}
+              startImmediately
+            />
+          </p>
           <div className={styles.btns}>
             <a href="https://t.me/sfokin1337" target="_blank" rel="noopener noreferrer" className="btn-cta">
               {t.hero.ctaPrimary}
@@ -114,6 +125,8 @@ export default function Hero() {
 
         <div className={styles.heroRight}>
           <div className={styles.photoWrap}>
+            {/* Метка "Frame 1337" — стилизована под название фрейма из Figma */}
+            <span className={styles.frameLabel}>Frame 1337</span>
             {/*
               ⭐ ФОТО
               Положи своё фото в public/me.jpg (или .png) и замени блок ниже на:

@@ -3,20 +3,22 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Хук для появления блока при скролле.
+ * Хук для появления блока при скролле через IntersectionObserver.
  *
- * Как работает:
- * 1) Сразу проставляет на элемент data-reveal="true" — это запускает
- *    скрытие через CSS [data-reveal].reveal { opacity: 0 ... }
- * 2) Через IntersectionObserver следит за видимостью
- * 3) Когда элемент в зоне видимости — добавляет класс .visible → анимация
+ * Логика:
+ * 1) Сразу проставляет data-reveal="true" — CSS скрывает элемент
+ * 2) Запускает IntersectionObserver
+ * 3) Когда элемент попадает в viewport — добавляет .visible → анимация
  *
- * Защиты от пустого экрана:
- * - Если JS не сработает или хук не подключён — на элементе нет
- *   data-reveal, и CSS-правила со скрытием НЕ применяются → контент виден.
- * - Если IntersectionObserver не поддерживается — сразу .visible
- * - Если элемент уже виден на момент монтирования — сразу .visible
- * - Fallback таймер 250мс на случай зависания observer-а
+ * Защита от бага "всё появилось при загрузке":
+ * - Используем СТРОГУЮ проверку начальной видимости (только если элемент
+ *   реально в viewport на момент монтирования, не выше и не ниже)
+ * - Используем requestAnimationFrame чтобы дать браузеру layout
+ *
+ * Защита от пустого экрана:
+ * - Без хука data-reveal не ставится → CSS не скрывает контент
+ * - Если IntersectionObserver не работает — сразу показываем
+ * - Fallback таймер 4с (если observer завис)
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
@@ -26,19 +28,10 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
     const el = ref.current;
     if (!el) return;
 
-    // Включаем "скрытое" состояние через data-атрибут — CSS подхватит
     el.setAttribute('data-reveal', 'true');
 
     if (typeof IntersectionObserver === 'undefined') {
       setVisible(true);
-      return;
-    }
-
-    const rect = el.getBoundingClientRect();
-    const winH = window.innerHeight || document.documentElement.clientHeight;
-    if (rect.top < winH && rect.bottom > 0) {
-      // Элемент уже виден — даём чуть времени на CSS, потом анимируем
-      requestAnimationFrame(() => setVisible(true));
       return;
     }
 
@@ -51,15 +44,19 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -80px 0px' }
+      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
     );
 
-    observer.observe(el);
+    // Даём layout успеть установиться, прежде чем подключаем observer
+    const rafId = requestAnimationFrame(() => {
+      observer.observe(el);
+    });
 
-    // Страховка — через 250мс точно показать
-    const fallback = setTimeout(() => setVisible(true), 250);
+    // Страховка: если за 4 секунды observer не сработал — показать насильно
+    const fallback = setTimeout(() => setVisible(true), 4000);
 
     return () => {
+      cancelAnimationFrame(rafId);
       observer.disconnect();
       clearTimeout(fallback);
     };
@@ -69,7 +66,7 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
 }
 
 /**
- * Stagger-версия — каждый ребёнок получает свой transition-delay
+ * Stagger-версия — children получают transitionDelay по индексу.
  */
 export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
   staggerMs: number = 80
@@ -92,13 +89,6 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
       return;
     }
 
-    const rect = el.getBoundingClientRect();
-    const winH = window.innerHeight || document.documentElement.clientHeight;
-    if (rect.top < winH && rect.bottom > 0) {
-      requestAnimationFrame(() => setVisible(true));
-      return;
-    }
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -108,14 +98,17 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
     );
 
-    observer.observe(el);
+    const rafId = requestAnimationFrame(() => {
+      observer.observe(el);
+    });
 
-    const fallback = setTimeout(() => setVisible(true), 300);
+    const fallback = setTimeout(() => setVisible(true), 4000);
 
     return () => {
+      cancelAnimationFrame(rafId);
       observer.disconnect();
       clearTimeout(fallback);
     };

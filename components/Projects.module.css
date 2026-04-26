@@ -1,11 +1,16 @@
 /* === ИГРОВАЯ АНИМАЦИЯ КАРТОЧЕК ПРОЕКТОВ — стиль Figma frame ===
-   Карточка появляется как будто её рисуют инструментом frame в Figma:
-   - сначала появляется чёрный курсор-крестик с белой обводкой
-   - потом из этой точки разворачивается рамка карточки (clip-path)
-   - после раскрытия — содержимое фейдится */
+   Этапы:
+   1) Курсор-крестик появляется в углу
+   2) Курсор едет по диагонали → одновременно раскрывается рамка карточки (clip-path)
+   3) Картинка выезжает с одной из сторон (зависит от позиции в гриде)
+   4) Название печатается с typewriter
+   5) Описание печатается следом
+   6) Стрелка ↗ плавно появляется
+*/
 
 .cardFigma {
   position: relative;
+  overflow: hidden;
 }
 
 .figmaCursor {
@@ -30,36 +35,78 @@
   height: 10px;
 }
 
-/* Когда JS подключён и useReveal проставил data-reveal — ждём триггера */
+/* === Состояние ОЖИДАНИЯ === */
 .cardFigma[data-reveal] {
+  /* Рамка скрыта — clipping от ЛВ к ПН угла */
   clip-path: inset(0 100% 100% 0);
 }
-.cardFigma[data-reveal] > div {
-  /* Скрываем preview и body пока рамка не нарисована */
+.cardFigma[data-reveal] .coverSlide {
+  /* Картинка скрыта (выезжает потом) */
+  opacity: 0;
+}
+.cardFigma[data-reveal] .body {
   opacity: 0;
 }
 .cardFigma[data-reveal] .figmaCursor {
   opacity: 1;
 }
-
-/* Запуск анимации */
-.cardFigma[data-reveal].cardFigmaIn {
-  animation: figmaDraw 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+.cardFigma[data-reveal] .arrow {
+  opacity: 0;
+  transform: translate(-6px, 6px);
 }
-.cardFigma[data-reveal].cardFigmaIn > div {
-  animation: figmaFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
+
+/* === Запуск анимации === */
+.cardFigma[data-reveal].cardFigmaIn {
+  /* Раскрытие рамки */
+  animation: figmaDraw 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 .cardFigma[data-reveal].cardFigmaIn .figmaCursor {
   animation: figmaCursorMove 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.cardFigma[data-reveal].cardFigmaIn .body {
+  /* body становится видимым контейнером — typewriter работает внутри */
+  animation: bodyFadeIn 0.4s ease-out 0.85s forwards;
+}
+
+/* === Картинка выезжает с разных сторон === */
+.coverSlide {
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.5s, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cardFigma[data-reveal].coverFromRight .coverSlide {
+  transform: translateX(100%);
+}
+.cardFigma[data-reveal].coverFromLeft .coverSlide {
+  transform: translateX(-100%);
+}
+.cardFigma[data-reveal].coverFromTop .coverSlide {
+  transform: translateY(-100%);
+}
+.cardFigma[data-reveal].cardFigmaIn .coverSlide {
+  /* Через 0.7с после старта (когда фрейм нарисовался) — картинка едет на место */
+  opacity: 1;
+  transform: translate(0, 0);
+  transition-delay: 0.7s;
+}
+
+/* === Стрелка ↗ — плавно появляется в конце === */
+.arrow {
+  transition: opacity 0.4s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.arrowIn {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition-delay: 1.6s;
 }
 
 @keyframes figmaDraw {
   0%   { clip-path: inset(0 100% 100% 0); }
   100% { clip-path: inset(0 0 0 0); }
 }
-@keyframes figmaFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes bodyFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 @keyframes figmaCursorMove {
   0%   { opacity: 1; top: -8px; left: -8px; }
@@ -74,8 +121,11 @@
     clip-path: none;
     animation: none;
   }
-  .cardFigma[data-reveal] > div {
+  .cardFigma[data-reveal] .coverSlide,
+  .cardFigma[data-reveal] .body,
+  .cardFigma[data-reveal] .arrow {
     opacity: 1;
+    transform: none;
     animation: none;
   }
   .figmaCursor {
