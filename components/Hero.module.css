@@ -130,16 +130,19 @@
 }
 
 /* === ИЗОГНУТАЯ СТРЕЛКА "Это я" ===
-   Большая дуга через всю верхнюю часть Hero, от заголовка к фото.
-   Находится внутри .heroGrid (max-width 1440px) — поэтому НЕ уезжает
-   за края экрана как было раньше когда стрелка была в .hero (width: 100vw). */
+   Большая дуга через весь Hero — от середины имени к верху фото.
+   Помещена внутри .heroGrid (max-width 1440px), absolute. */
 .arrowWrap {
   position: absolute;
-  top: 100px; /* над заголовком */
+  /* Начинаем от середины Hero, не сверху */
+  top: 50%;
   left: 0;
   right: 0;
   width: 100%;
-  height: 240px;
+  height: 220px;
+  /* Поднимаем стрелку вверх примерно на половину её высоты,
+     чтобы её центр был на середине заголовка */
+  transform: translateY(-65%);
   pointer-events: none;
   z-index: 5;
 }
@@ -149,7 +152,7 @@
   overflow: visible;
 }
 .arrowPath {
-  /* Длина пути для нашей кривой Безье — примерно 1100 */
+  /* Длина пути для нашей кривой Безье */
   stroke-dasharray: 1100;
   stroke-dashoffset: 1100;
   animation: drawErase 7s cubic-bezier(0.65, 0, 0.35, 1) infinite;

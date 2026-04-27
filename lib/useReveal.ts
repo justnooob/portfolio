@@ -3,19 +3,17 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Хук для появления блока при скролле через IntersectionObserver.
+ * Хук для появления блока при скролле.
  *
- * Логика:
- * 1) Сразу проставляет data-reveal="true" — CSS скрывает элемент
- * 2) Запускает IntersectionObserver
- * 3) Когда элемент попадает в viewport — добавляет .visible → анимация
+ * Простая логика без оптимизаций:
+ * - Сразу проставляем data-reveal="true" → CSS скрывает элемент
+ * - Запускаем IntersectionObserver на этот же элемент
+ * - При попадании в viewport → setVisible(true) → CSS показывает
  *
- * НЕ используем fallback-таймер: он срабатывал у всех хуков сразу через
- * N секунд независимо от позиции, и анимации теряли смысл.
- * IntersectionObserver работает в 99.9% браузеров — можно полагаться.
- *
- * Если IntersectionObserver вообще не поддерживается (старый браузер) —
- * сразу показываем без анимации.
+ * НЕТ:
+ * - fallback-таймеров (они срабатывают одновременно у всех хуков)
+ * - requestAnimationFrame (создавал race condition)
+ * - early-return для уже видимых (наоборот — пусть observer сам разбирается)
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
@@ -33,25 +31,18 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
       },
       { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
     );
 
-    const rafId = requestAnimationFrame(() => {
-      observer.observe(el);
-    });
+    observer.observe(el);
 
-    return () => {
-      cancelAnimationFrame(rafId);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   return { ref, visible };
@@ -82,25 +73,18 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
       },
       { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
     );
 
-    const rafId = requestAnimationFrame(() => {
-      observer.observe(el);
-    });
+    observer.observe(el);
 
-    return () => {
-      cancelAnimationFrame(rafId);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [staggerMs]);
 
   return { ref, visible };

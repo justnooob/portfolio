@@ -48,31 +48,31 @@ export default function Hero() {
       <div className={styles.heroBg}></div>
 
       <div className={styles.heroGrid}>
-        {/* Большая изогнутая стрелка "Это я" — выходит из верхней части
-            левого блока, идёт огромной дугой и упирается в фото.
-            Помещена внутри heroGrid (max-width 1440px), absolute positioning. */}
+        {/* Стрелка "Это я" — почти горизонтальная дуга от typewriter (Дизайнер...)
+            к середине фото справа, как на красной линии в макете.
+            Помещена внутри heroGrid (max-width 1440px). */}
         <div className={styles.arrowWrap} aria-hidden="true">
           <svg
             className={styles.arrowSvg}
-            viewBox="0 0 1000 240"
+            viewBox="0 0 1000 220"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
-            {/* Большая дуга — от левой части над заголовком,
-                поднимается, опускается к правой стороне (к фото) */}
+            {/* Большая пологая дуга — от левой части (Y=140) поднимается до Y=70
+                в центре, опускается обратно к правой части (Y=140 у фото) */}
             <path
               className={styles.arrowPath}
-              d="M 60 200 C 200 30, 700 30, 920 180"
+              d="M 50 140 C 280 30, 700 30, 920 140"
               stroke="var(--accent)"
               strokeWidth="2"
               strokeLinecap="round"
               fill="none"
             />
-            {/* Наконечник — указывает вниз-вправо к фото */}
+            {/* Наконечник — указывает вправо в фото */}
             <path
               className={styles.arrowHead}
-              d="M 905 165 L 925 184 L 902 192"
+              d="M 905 122 L 928 142 L 905 158"
               stroke="var(--accent)"
               strokeWidth="2"
               strokeLinecap="round"
