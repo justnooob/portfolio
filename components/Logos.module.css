@@ -86,9 +86,9 @@
   transform: translate(-50%, 6px);
   background: var(--bg-tooltip);
   border: 0.5px solid var(--border);
-  border-radius: 10px;
-  padding: 16px;
-  width: 280px;
+  border-radius: 14px;
+  padding: 20px;
+  width: 340px;
   opacity: 0;
   pointer-events: none;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -143,54 +143,62 @@
 }
 
 .tipRole {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--text-strong);
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 .tipPeriod {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-faint);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .tipLbl {
   font-size: 10px;
   color: var(--text-faint);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .tipProduct {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .tipProduct:last-child {
   margin-bottom: 0;
 }
 .tipProductIco {
-  width: 22px;
-  height: 22px;
-  border-radius: 5px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   flex-shrink: 0;
   margin-top: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 600;
   color: #0c0c0e;
+  overflow: hidden;
+}
+.tipProductIco img,
+.tipProductIco svg {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
 }
 .tipPn {
   color: var(--text-strong);
   font-weight: 500;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.3;
 }
 .tipPd {
   color: var(--text-soft);
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 3px;
   line-height: 1.4;
 }

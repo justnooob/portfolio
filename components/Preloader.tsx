@@ -11,11 +11,13 @@ const TEXTS = [
   'Добро пожаловать!',
 ];
 
-// Каждый текст держится N мс перед расщеплением
-const HOLD_MS = 700;    // время показа текста
-const SCATTER_MS = 400; // время расщепления (разлёт символов)
-const GATHER_MS = 500;  // время сборки нового текста
-const TOTAL_MS = 3200;  // полная длительность до закрытия
+// Каждый текст держится N мс перед расщеплением.
+// 5 текстов × (HOLD + SCATTER + GATHER) = 5 × 1250мс = 6250мс
+const HOLD_MS = 600;    // время показа текста
+const SCATTER_MS = 300; // время расщепления (разлёт символов)
+const GATHER_MS = 350;  // время сборки нового текста
+const CYCLE_MS = HOLD_MS + SCATTER_MS + GATHER_MS; // 1250мс на один текст
+const TOTAL_MS = CYCLE_MS * TEXTS.length; // 6250мс = весь прелоадер
 
 /**
  * Один символ текста. В зависимости от фазы — на месте, летит или собирается.
@@ -107,41 +109,37 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
     return () => cancelAnimationFrame(raf);
   }, [onDone]);
 
-  // Цикл смены текста: visible → scatter → (смена текста) → gather → visible → ...
+  // Цикл смены текста: gather → visible → scatter → следующий текст
   useEffect(() => {
     let cancelled = false;
 
-    const cycle = async () => {
-      // 1. Держим текст
-      await sleep(HOLD_MS);
-      if (cancelled) return;
+    const runCycle = async () => {
+      for (let i = 0; i < TEXTS.length; i++) {
+        if (cancelled) return;
 
-      // 2. Расщепление
-      setPhase('scatter');
-      await sleep(SCATTER_MS);
-      if (cancelled) return;
+        // Сбор нового текста
+        generateOffsets(TEXTS[i].length);
+        setTextIdx(i);
+        setPhase('gather');
+        await sleep(GATHER_MS);
+        if (cancelled) return;
 
-      // 3. Меняем текст и сразу генерим новые смещения (символы появятся из хаоса)
-      setTextIdx((prev) => {
-        const next = (prev + 1) % TEXTS.length;
-        generateOffsets(TEXTS[next].length);
-        return next;
-      });
-      setPhase('gather');
-      await sleep(GATHER_MS);
-      if (cancelled) return;
+        // Текст на месте — читаем
+        setPhase('visible');
+        await sleep(HOLD_MS);
+        if (cancelled) return;
 
-      setPhase('visible');
+        // Последний текст не расщепляем — лоудер закрывается
+        if (i < TEXTS.length - 1) {
+          setPhase('scatter');
+          await sleep(SCATTER_MS);
+          if (cancelled) return;
+        }
+      }
     };
 
-    const interval = setInterval(cycle, HOLD_MS + SCATTER_MS + GATHER_MS);
-    // Первый запуск
-    cycle();
-
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
+    runCycle();
+    return () => { cancelled = true; };
   }, [generateOffsets]);
 
   const text = TEXTS[textIdx];

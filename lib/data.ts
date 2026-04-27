@@ -595,8 +595,8 @@ export const experiences: Experience[] = [
       ],
     },
     products: [
-      { icon: 'IY', iconColor: '#4fa3ff', name: 'IYWI', desc: { ru: 'AI SaaS для стоматологических клиник', en: 'AI SaaS for dental clinics' } },
-      { icon: 'T', iconColor: '#94a3b8', name: '5 лендингов', desc: { ru: 'Tilda Zero Block', en: 'Tilda Zero Block' } },
+      { icon: 'ai', iconColor: '#4fa3ff', name: 'IYWI', desc: { ru: 'AI SaaS для стоматологических клиник', en: 'AI SaaS for dental clinics' } },
+      { icon: 'tilda', iconColor: '#94a3b8', name: '5 лендингов', desc: { ru: 'Tilda Zero Block', en: 'Tilda Zero Block' } },
     ],
   },
   {
@@ -629,8 +629,8 @@ export const experiences: Experience[] = [
       ],
     },
     products: [
-      { icon: 'H', iconColor: '#e879f9', name: 'Hobbist Dating', desc: { ru: 'Telegram MiniApp', en: 'Telegram MiniApp' } },
-      { icon: 'W', iconColor: '#c084fc', name: 'Hobbist Web', desc: { ru: 'Веб-версия приложения', en: 'Web version' } },
+      { icon: 'telegram', iconColor: '#e879f9', name: 'Hobbist Dating', desc: { ru: 'Telegram MiniApp', en: 'Telegram MiniApp' } },
+      { icon: 'web', iconColor: '#c084fc', name: 'Hobbist Web', desc: { ru: 'Веб-версия приложения', en: 'Web version' } },
     ],
   },
   {
@@ -664,7 +664,7 @@ export const experiences: Experience[] = [
       ],
     },
     products: [
-      { icon: 'B', iconColor: '#fbbf24', name: 'BuildIT', desc: { ru: 'SaaS-платформа для строителей', en: 'SaaS platform for builders' } },
+      { icon: 'saas', iconColor: '#fbbf24', name: 'BuildIT', desc: { ru: 'SaaS-платформа для строителей', en: 'SaaS platform for builders' } },
     ],
   },
   {
@@ -698,7 +698,7 @@ export const experiences: Experience[] = [
       ],
     },
     products: [
-      { icon: '📱', iconColor: '#34d399', name: '8 приложений', desc: { ru: 'iOS/Android, iGaming', en: 'iOS/Android, iGaming' } },
+      { icon: 'mobile', iconColor: '#34d399', name: '8 приложений', desc: { ru: 'iOS/Android, iGaming', en: 'iOS/Android, iGaming' } },
     ],
   },
   {
@@ -731,8 +731,8 @@ export const experiences: Experience[] = [
       ],
     },
     products: [
-      { icon: 'М', iconColor: '#f87171', name: 'Система мониторинга', desc: { ru: 'Внутренняя платформа', en: 'Internal platform' } },
-      { icon: 'S', iconColor: '#fca5a5', name: 'Корпоративный сайт', desc: { ru: 'Редизайн', en: 'Redesign' } },
+      { icon: 'monitor', iconColor: '#f87171', name: 'Система мониторинга', desc: { ru: 'Внутренняя платформа', en: 'Internal platform' } },
+      { icon: 'web', iconColor: '#fca5a5', name: 'Корпоративный сайт', desc: { ru: 'Редизайн', en: 'Redesign' } },
     ],
   },
 ];
