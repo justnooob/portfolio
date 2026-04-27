@@ -4,136 +4,129 @@ import { useEffect, useState, useRef } from 'react';
 import styles from './Preloader.module.css';
 
 /**
- * Прелоадер для портфолио Максима Сорокина.
- * Показывается при каждом открытии страницы (не только при первом визите).
- * Длительность: 2.8 секунды. Исчезает — схлопывается в точку.
- *
- * Никаких внешних библиотек — только CSS анимации и SVG.
- * Совместимо с существующим стеком (CSS Modules, Next.js 14).
+ * Прелоадер портфолио Максима Сорокина.
+ * Концепция: большой экран, 3-4 крупные строки которые медленно сменяются.
+ * Каждая строка — факт о дизайнере. Читается с первого взгляда.
+ * В конце — схлопывается. Длительность ~3.5 секунды.
  */
 
-// Фазы прогресса с текстами — как будто загружаются части опыта
-const PHASES = [
-  { pct: 0,   text: 'Инициализация Figma...' },
-  { pct: 12,  text: 'Загрузка опыта: ВОЕНМЕХ' },
-  { pct: 24,  text: 'Компиляция 5 лет практики' },
-  { pct: 36,  text: 'Подключение нейросетей' },
-  { pct: 48,  text: 'Применение ChatGPT / Midjourney' },
-  { pct: 60,  text: 'Рост конверсии: +40%' },
-  { pct: 72,  text: 'Сборка дизайн-системы...' },
-  { pct: 84,  text: 'Увеличение лидов: +80%' },
-  { pct: 92,  text: 'Диплом ИТМО: с отличием' },
-  { pct: 100, text: 'Готово. Добро пожаловать.' },
+// Каждая карточка показывается ~600-800мс, всего 4 карточки до закрытия
+const SLIDES = [
+  {
+    label: 'Опыт',
+    value: '5+ лет',
+    sub: 'UX/UI · Продукт · Системы',
+    accent: false,
+  },
+  {
+    label: 'Метрики',
+    value: '+80%',
+    sub: 'рост лидов у клиентов',
+    accent: true,
+  },
+  {
+    label: 'Стек',
+    value: 'Figma',
+    sub: 'Principle · Tilda · After Effects',
+    accent: false,
+  },
+  {
+    label: 'AI',
+    value: 'ChatGPT',
+    sub: 'Midjourney · Deepseek · нейросети',
+    accent: true,
+  },
+  {
+    label: 'Образование',
+    value: 'ИТМО',
+    sub: 'Магистр с отличием · ВОЕНМЕХ',
+    accent: false,
+  },
 ];
 
+// Прогресс от 0 до 100 за 3200мс
+const TOTAL_MS = 3200;
+
 export default function Preloader({ onDone }: { onDone: () => void }) {
+  const [slideIdx, setSlideIdx] = useState(0);
+  const [slideVisible, setSlideVisible] = useState(true);
   const [pct, setPct] = useState(0);
-  const [phaseText, setPhaseText] = useState(PHASES[0].text);
   const [closing, setClosing] = useState(false);
-  const startTime = useRef(Date.now());
-  const DURATION = 2600; // мс до начала закрытия
+  const startRef = useRef(Date.now());
 
+  // Прогресс-бар
   useEffect(() => {
-    let rafId: number;
-    let lastPhaseIdx = 0;
-
+    let raf: number;
     const tick = () => {
-      const elapsed = Date.now() - startTime.current;
-      const progress = Math.min(elapsed / DURATION, 1);
-      // Ease-in-out для прогресса
-      const eased = progress < 0.5
-        ? 2 * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-      const currentPct = Math.round(eased * 100);
-
-      setPct(currentPct);
-
-      // Обновляем текст фазы по прогрессу
-      for (let i = PHASES.length - 1; i >= 0; i--) {
-        if (currentPct >= PHASES[i].pct && i !== lastPhaseIdx) {
-          lastPhaseIdx = i;
-          setPhaseText(PHASES[i].text);
-          break;
-        }
-      }
-
-      if (progress < 1) {
-        rafId = requestAnimationFrame(tick);
+      const elapsed = Date.now() - startRef.current;
+      const p = Math.min(Math.round((elapsed / TOTAL_MS) * 100), 100);
+      setPct(p);
+      if (p < 100) {
+        raf = requestAnimationFrame(tick);
       } else {
-        // Пауза 300мс на 100%, потом схлопывание
+        // 100% → пауза → схлопывание
         setTimeout(() => {
           setClosing(true);
-          // После CSS-анимации схлопывания (600мс) — сообщаем что готово
-          setTimeout(onDone, 600);
-        }, 300);
+          setTimeout(onDone, 700);
+        }, 400);
       }
     };
-
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [onDone]);
+
+  // Смена слайдов — каждый слайд живёт фиксированное время
+  useEffect(() => {
+    const slideMs = TOTAL_MS / SLIDES.length; // ~640мс на слайд
+    let idx = 0;
+    const next = () => {
+      // Fade out
+      setSlideVisible(false);
+      setTimeout(() => {
+        idx = (idx + 1) % SLIDES.length;
+        setSlideIdx(idx);
+        setSlideVisible(true);
+      }, 200); // 200мс на fade out
+    };
+    const interval = setInterval(next, slideMs);
+    return () => clearInterval(interval);
+  }, []);
+
+  const slide = SLIDES[slideIdx];
 
   return (
     <div className={`${styles.root} ${closing ? styles.closing : ''}`}>
 
-      {/* Бегущие огни по краям — голографический эффект */}
+      {/* Бегущие огни по краям */}
       <span className={`${styles.edge} ${styles.edgeTop}`} />
       <span className={`${styles.edge} ${styles.edgeRight}`} />
       <span className={`${styles.edge} ${styles.edgeBottom}`} />
       <span className={`${styles.edge} ${styles.edgeLeft}`} />
 
-      {/* Пульсирующий SVG-логотип "S" в центре */}
-      <div className={styles.logoWrap}>
-        <svg
-          className={styles.logoS}
-          viewBox="0 0 120 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Внешние кольца — пульсируют */}
-          <circle className={`${styles.ring} ${styles.ring1}`} cx="60" cy="60" r="54" />
-          <circle className={`${styles.ring} ${styles.ring2}`} cx="60" cy="60" r="46" />
-
-          {/* Буква S */}
-          <path
-            className={styles.letterS}
-            d="M72 38c-3-5-8-8-14-8-9 0-16 6-16 14 0 18 30 14 30 32 0 9-7 16-17 16-7 0-13-3-17-8"
-            stroke="var(--accent)"
-            strokeWidth="3.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-        </svg>
-
-        {/* Частицы вокруг логотипа */}
-        {[...Array(8)].map((_, i) => (
-          <span
-            key={i}
-            className={styles.particle}
-            style={{
-              '--i': i,
-              '--total': 8,
-            } as React.CSSProperties}
-          />
-        ))}
+      {/* Основной контент — по центру */}
+      <div className={`${styles.slide} ${slideVisible ? styles.slideIn : styles.slideOut}`}>
+        <div className={styles.slideLabel}>{slide.label}</div>
+        <div className={`${styles.slideValue} ${slide.accent ? styles.slideValueAccent : ''}`}>
+          {slide.value}
+        </div>
+        <div className={styles.slideSub}>{slide.sub}</div>
       </div>
 
-      {/* Прогресс и текст */}
-      <div className={styles.info}>
-        <div className={styles.phaseText}>{phaseText}</div>
+      {/* Прогресс внизу */}
+      <div className={styles.bottom}>
+        {/* Счётчик */}
+        <div className={styles.pct}>{pct}<span className={styles.pctSign}>%</span></div>
 
-        {/* Прогресс-бар */}
-        <div className={styles.barWrap}>
-          <div className={styles.bar} style={{ width: `${pct}%` }} />
+        {/* Бар */}
+        <div className={styles.barTrack}>
+          <div className={styles.barFill} style={{ width: `${pct}%` }}>
+            <div className={styles.barGlow} />
+          </div>
         </div>
 
-        {/* Счётчик процентов */}
-        <div className={styles.counter}>{String(pct).padStart(3, '0')}</div>
+        {/* Имя */}
+        <div className={styles.name}>Maxim Sorokin · UX/UI Designer</div>
       </div>
-
-      {/* Имя в углу */}
-      <div className={styles.nameTag}>Maxim Sorokin · UX/UI Designer</div>
     </div>
   );
 }

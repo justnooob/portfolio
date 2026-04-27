@@ -72,11 +72,6 @@ export default function Hero() {
               strokeLinecap="round"
               fill="none"
             />
-            {/* Наконечник — залитый треугольник.
-                Конец дуги в точке (675, 130), касательная в этой точке смотрит
-                под углом ~45° вниз-вправо.
-                Острие — в точке (685, 138) — продолжение по касательной.
-                База треугольника — две точки перпендикулярно касательной за концом дуги. */}
             <polygon
               className={styles.arrowHead}
               points="685,138 666,140 671,122"
@@ -84,6 +79,7 @@ export default function Hero() {
               stroke="var(--accent)"
               strokeWidth="1"
               strokeLinejoin="round"
+              transform="rotate(5, 676, 131)"
             />
           </svg>
           <span className={styles.arrowLabel}>
