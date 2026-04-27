@@ -1,0 +1,250 @@
+/* === PRELOADER ===
+   Полноэкранный лоудер поверх сайта.
+   При закрытии — схлопывается в точку (clip-path: circle). */
+
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #080810;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  /* Схлопывание в точку — анимируется классом .closing */
+  clip-path: circle(150% at 50% 50%);
+  transition: clip-path 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.closing {
+  clip-path: circle(0% at 50% 50%);
+}
+
+/* === БЕГУЩИЕ ОГНИ ПО КРАЯМ === */
+.edge {
+  position: absolute;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #4fa3ff 50%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  opacity: 0.7;
+}
+.edgeTop {
+  top: 0; left: -100%; width: 40%; height: 1px;
+  animation: slideRight 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.edgeBottom {
+  bottom: 0; right: -100%; width: 40%; height: 1px;
+  animation: slideLeft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite 1s;
+}
+.edgeRight {
+  right: 0; top: -100%; width: 1px; height: 40%;
+  background: linear-gradient(180deg, transparent, #4fa3ff, transparent);
+  animation: slideDown 2s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.5s;
+}
+.edgeLeft {
+  left: 0; bottom: -100%; width: 1px; height: 40%;
+  background: linear-gradient(180deg, transparent, #4fa3ff, transparent);
+  animation: slideUp 2s cubic-bezier(0.4, 0, 0.6, 1) infinite 1.5s;
+}
+
+@keyframes slideRight {
+  0%   { left: -40%; }
+  100% { left: 100%; }
+}
+@keyframes slideLeft {
+  0%   { right: -40%; }
+  100% { right: 100%; }
+}
+@keyframes slideDown {
+  0%   { top: -40%; }
+  100% { top: 100%; }
+}
+@keyframes slideUp {
+  0%   { bottom: -40%; }
+  100% { bottom: 100%; }
+}
+
+/* === ЛОГОТИП "S" С КОЛЬЦАМИ === */
+.logoWrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logoS {
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 0 24px rgba(79, 163, 255, 0.5));
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.ring {
+  fill: none;
+  stroke: #4fa3ff;
+  stroke-width: 0.5;
+}
+.ring1 {
+  opacity: 0.2;
+  animation: ringPulse1 2s ease-in-out infinite;
+}
+.ring2 {
+  opacity: 0.15;
+  animation: ringPulse2 2s ease-in-out infinite 0.4s;
+}
+.letterS {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: drawS 1s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
+}
+
+@keyframes drawS {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes pulseGlow {
+  0%, 100% { filter: drop-shadow(0 0 16px rgba(79, 163, 255, 0.4)); }
+  50%       { filter: drop-shadow(0 0 32px rgba(79, 163, 255, 0.8)); }
+}
+@keyframes ringPulse1 {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(1.08); }
+}
+@keyframes ringPulse2 {
+  0%, 100% { opacity: 0.08; transform: scale(1); }
+  50%       { opacity: 0.2; transform: scale(1.04); }
+}
+
+/* === ЧАСТИЦЫ ВОКРУГ ЛОГОТИПА === */
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #4fa3ff;
+  /* Расставляем 8 частиц равномерно по кругу через CSS custom props */
+  top: calc(50% + sin(calc(var(--i) / var(--total) * 360deg * 1rad)) * 70px - 1.5px);
+  left: calc(50% + cos(calc(var(--i) / var(--total) * 360deg * 1rad)) * 70px - 1.5px);
+  animation: particleOrbit 3s linear infinite;
+  animation-delay: calc(var(--i) * -0.375s);
+  opacity: 0;
+}
+
+@keyframes particleOrbit {
+  0%   { opacity: 0; transform: scale(0); }
+  20%  { opacity: 1; transform: scale(1); }
+  80%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+/* === ПРОГРЕСС И ТЕКСТ === */
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: min(420px, 90vw);
+}
+.phaseText {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: ui-monospace, 'SF Mono', 'Consolas', monospace;
+  min-height: 20px;
+  text-align: center;
+  /* Плавная смена текста через opacity */
+  animation: textPulse 0.3s ease-out;
+}
+
+/* Каждый раз когда текст меняется React ремонтирует — animation срабатывает снова.
+   Для этого ключевой компонент должен обновляться. */
+@keyframes textPulse {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.barWrap {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+}
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #4fa3ff);
+  border-radius: 1px;
+  transition: width 0.08s linear;
+  position: relative;
+  /* Блик на конце бара */
+}
+.bar::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -2px;
+  width: 6px;
+  height: 5px;
+  background: #a8d4ff;
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.counter {
+  font-size: 72px;
+  font-weight: 700;
+  letter-spacing: -4px;
+  color: rgba(255, 255, 255, 0.06);
+  font-family: ui-monospace, 'SF Mono', monospace;
+  line-height: 1;
+  user-select: none;
+  /* Тонкий контур */
+  -webkit-text-stroke: 1px rgba(79, 163, 255, 0.2);
+}
+
+/* === ИМЯ В УГЛУ === */
+.nameTag {
+  position: absolute;
+  bottom: 28px;
+  left: 32px;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: ui-monospace, 'SF Mono', monospace;
+}
+
+/* Мобилка */
+@media (max-width: 768px) {
+  .counter {
+    font-size: 48px;
+    letter-spacing: -2px;
+  }
+  .nameTag {
+    left: 16px;
+    bottom: 20px;
+  }
+}
+
+/* Уважаем reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .edge,
+  .ring1,
+  .ring2,
+  .particle,
+  .logoS {
+    animation: none;
+    opacity: 0.5;
+  }
+  .letterS {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

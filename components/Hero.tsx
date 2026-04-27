@@ -72,15 +72,18 @@ export default function Hero() {
               strokeLinecap="round"
               fill="none"
             />
-            {/* Наконечник — повёрнут по часовой стрелке, указывает сильнее вниз */}
-            <path
+            {/* Наконечник — залитый треугольник.
+                Конец дуги в точке (675, 130), касательная в этой точке смотрит
+                под углом ~45° вниз-вправо.
+                Острие — в точке (685, 138) — продолжение по касательной.
+                База треугольника — две точки перпендикулярно касательной за концом дуги. */}
+            <polygon
               className={styles.arrowHead}
-              d="M 658 122 L 678 138 L 663 152"
+              points="685,138 666,140 671,122"
+              fill="var(--accent)"
               stroke="var(--accent)"
-              strokeWidth="2"
-              strokeLinecap="round"
+              strokeWidth="1"
               strokeLinejoin="round"
-              fill="none"
             />
           </svg>
           <span className={styles.arrowLabel}>
