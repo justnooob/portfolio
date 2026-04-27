@@ -3,17 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Хук для появления блока при скролле.
+ * Хук для появления блока при скролле через IntersectionObserver.
  *
- * Простая логика без оптимизаций:
- * - Сразу проставляем data-reveal="true" → CSS скрывает элемент
- * - Запускаем IntersectionObserver на этот же элемент
- * - При попадании в viewport → setVisible(true) → CSS показывает
+ * ВАЖНО: data-reveal устанавливается ПОСЛЕ того, как observer уже подключён.
+ * Это даёт observer-у шанс зафиксировать начальное состояние пересечения
+ * до того, как clip-path/opacity скроет элемент.
  *
- * НЕТ:
- * - fallback-таймеров (они срабатывают одновременно у всех хуков)
- * - requestAnimationFrame (создавал race condition)
- * - early-return для уже видимых (наоборот — пусть observer сам разбирается)
+ * Также используем threshold: 0 (любая часть видна) вместо 0.15 — это
+ * страхует от случаев когда карточка большая и 15% не помещается во viewport.
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
@@ -23,9 +20,8 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
     const el = ref.current;
     if (!el) return;
 
-    el.setAttribute('data-reveal', 'true');
-
     if (typeof IntersectionObserver === 'undefined') {
+      // Старый браузер — сразу показываем без скрытия
       setVisible(true);
       return;
     }
@@ -37,10 +33,20 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+      {
+        // threshold 0 — любое касание viewport считается видимым.
+        // rootMargin -80px снизу — анимация запускается когда блок реально вошёл в экран.
+        threshold: 0,
+        rootMargin: '0px 0px -80px 0px',
+      }
     );
 
+    // Подключаем observer ПЕРВЫМ — он зарегистрирует initial state
     observer.observe(el);
+
+    // ПОТОМ ставим data-reveal — теперь скрытие применится,
+    // но observer уже знает начальное положение элемента
+    el.setAttribute('data-reveal', 'true');
 
     return () => observer.disconnect();
   }, []);
@@ -61,8 +67,6 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
     const el = ref.current;
     if (!el) return;
 
-    el.setAttribute('data-reveal', 'true');
-
     Array.from(el.children).forEach((child, idx) => {
       (child as HTMLElement).style.transitionDelay = `${idx * staggerMs}ms`;
     });
@@ -79,10 +83,11 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+      { threshold: 0, rootMargin: '0px 0px -80px 0px' }
     );
 
     observer.observe(el);
+    el.setAttribute('data-reveal', 'true');
 
     return () => observer.disconnect();
   }, [staggerMs]);

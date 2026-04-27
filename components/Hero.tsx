@@ -61,11 +61,12 @@ export default function Hero() {
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
-            {/* Дуга от X≈420 (после "Сорокин"+125) до X≈760 (до фото-125).
-                Поднимается от Y=130 до Y=40 в средине, опускается обратно. */}
+            {/* Дуга от X≈420 (после "Сорокин"+125) до X≈675 (за 125px до фото).
+                Поднимается от Y=130 до Y=70 в средине, опускается обратно.
+                Изгиб умеренный — 60 единиц вверх. */}
             <path
               className={styles.arrowPath}
-              d="M 420 130 C 500 30, 680 30, 760 130"
+              d="M 420 130 C 480 70, 620 70, 675 130"
               stroke="var(--accent)"
               strokeWidth="2"
               strokeLinecap="round"
@@ -74,7 +75,7 @@ export default function Hero() {
             {/* Наконечник — указывает вниз-вправо к фото */}
             <path
               className={styles.arrowHead}
-              d="M 745 115 L 765 132 L 743 142"
+              d="M 660 115 L 680 132 L 658 142"
               stroke="var(--accent)"
               strokeWidth="2"
               strokeLinecap="round"
