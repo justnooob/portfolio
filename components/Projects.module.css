@@ -1,4 +1,106 @@
 
+/* === FIGMA FRAME АНИМАЦИЯ КАРТОЧЕК ПРОЕКТОВ ===
+   Карточка появляется как будто её рисуют инструментом frame в Figma:
+   1) Курсор-крестик появляется в левом верхнем углу
+   2) Курсор едет по диагонали к нижнему правому углу
+   3) Параллельно раскрывается рамка через clip-path inset (видимая часть растёт от ЛВ к ПН)
+   4) После раскрытия рамки — картинка внутри выезжает с одной из сторон
+
+   ВАЖНО: clip-path применяется ТОЛЬКО к .cardWrap (обёртке).
+   Содержимое (Link, body, preview) НЕ скрывается отдельно через CSS —
+   их видимость контролируется ТОЛЬКО clip-path родителя. Это надёжно. */
+
+.cardWrap {
+  position: relative;
+  /* По дефолту clip-path none → карточка видна (страховка если JS не сработает) */
+}
+/* Когда useReveal проставил data-reveal="true" — карточка скрыта clip-path */
+.cardWrap[data-reveal] {
+  clip-path: inset(0 100% 100% 0);
+}
+.cardWrap[data-reveal] .figmaCursor {
+  /* Курсор виден в момент ожидания/рисования */
+  opacity: 1;
+}
+/* Когда добавляется .cardFigmaIn — раскрытие рамки */
+.cardWrap[data-reveal].cardFigmaIn {
+  animation: figmaDraw 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.cardWrap[data-reveal].cardFigmaIn .figmaCursor {
+  animation: figmaCursorMove 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* Курсор-крестик в углу (Figma frame tool) */
+.figmaCursor {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 18px;
+  height: 18px;
+  background: #0c0c0e;
+  border: 1.5px solid #ffffff;
+  border-radius: 3px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+.figmaCursor svg {
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+/* === Slide-in для картинки внутри карточки === */
+.coverSlide {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Изначальные положения для разных направлений */
+.cardWrap[data-reveal].coverFromRight .coverSlide {
+  transform: translateX(100%);
+}
+.cardWrap[data-reveal].coverFromLeft .coverSlide {
+  transform: translateX(-100%);
+}
+.cardWrap[data-reveal].coverFromTop .coverSlide {
+  transform: translateY(-100%);
+}
+/* Когда cardFigmaIn — картинка едет на место с задержкой 0.7с (после раскрытия рамки) */
+.cardWrap[data-reveal].cardFigmaIn .coverSlide {
+  transform: translate(0, 0);
+  transition-delay: 0.7s;
+}
+
+@keyframes figmaDraw {
+  0%   { clip-path: inset(0 100% 100% 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+@keyframes figmaCursorMove {
+  0%   { opacity: 1; top: -8px; left: -8px; }
+  90%  { opacity: 1; top: calc(100% - 10px); left: calc(100% - 10px); }
+  100% { opacity: 0; top: calc(100% - 10px); left: calc(100% - 10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardWrap[data-reveal],
+  .cardWrap[data-reveal].cardFigmaIn {
+    clip-path: none;
+    animation: none;
+  }
+  .cardWrap[data-reveal] .coverSlide,
+  .cardWrap[data-reveal].cardFigmaIn .coverSlide {
+    transform: none;
+    transition: none;
+  }
+  .figmaCursor {
+    display: none;
+  }
+}
+
 .section {
   padding: 36px 32px 48px;
 }
