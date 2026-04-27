@@ -79,7 +79,7 @@ export default function Hero() {
               stroke="var(--accent)"
               strokeWidth="1"
               strokeLinejoin="round"
-              transform="rotate(5, 676, 131)"
+              transform="rotate(10, 676, 131)"
             />
           </svg>
           <span className={styles.arrowLabel}>

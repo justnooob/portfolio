@@ -1,5 +1,4 @@
-/* === PRELOADER ===
-   Минимализм с вау-эффектом. Крупный текст, медленная смена, чёткие цвета. */
+/* === PRELOADER с расщеплением текста на символы === */
 
 .root {
   position: fixed;
@@ -10,7 +9,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Схлопывается в центр */
   clip-path: circle(150% at 50% 50%);
   transition: clip-path 0.7s cubic-bezier(0.7, 0, 0.3, 1);
 }
@@ -23,57 +21,34 @@
   position: absolute;
   border-radius: 2px;
   pointer-events: none;
+  opacity: 0.6;
 }
 .edgeTop {
   top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    transparent 20%,
-    #4fa3ff 50%,
-    transparent 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, transparent 30%, #4fa3ff 50%, transparent 70%, transparent 100%);
   background-size: 40% 100%;
-  animation: scanH 2.2s linear infinite;
+  animation: scanH 2.4s linear infinite;
 }
 .edgeBottom {
   bottom: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    transparent 20%,
-    #4fa3ff 50%,
-    transparent 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, transparent 30%, #4fa3ff 50%, transparent 70%, transparent 100%);
   background-size: 40% 100%;
-  animation: scanH 2.2s linear infinite reverse;
-  animation-delay: -1.1s;
+  animation: scanH 2.4s linear infinite reverse;
+  animation-delay: -1.2s;
 }
 .edgeRight {
   top: 0; bottom: 0; right: 0; width: 1px;
-  background: linear-gradient(180deg,
-    transparent 0%,
-    transparent 20%,
-    #4fa3ff 50%,
-    transparent 80%,
-    transparent 100%
-  );
+  background: linear-gradient(180deg, transparent 0%, transparent 30%, #4fa3ff 50%, transparent 70%, transparent 100%);
   background-size: 100% 40%;
-  animation: scanV 2.2s linear infinite;
-  animation-delay: -0.55s;
+  animation: scanV 2.4s linear infinite;
+  animation-delay: -0.6s;
 }
 .edgeLeft {
   top: 0; bottom: 0; left: 0; width: 1px;
-  background: linear-gradient(180deg,
-    transparent 0%,
-    transparent 20%,
-    #4fa3ff 50%,
-    transparent 80%,
-    transparent 100%
-  );
+  background: linear-gradient(180deg, transparent 0%, transparent 30%, #4fa3ff 50%, transparent 70%, transparent 100%);
   background-size: 100% 40%;
-  animation: scanV 2.2s linear infinite reverse;
-  animation-delay: -1.65s;
+  animation: scanV 2.4s linear infinite reverse;
+  animation-delay: -1.8s;
 }
 @keyframes scanH {
   from { background-position: -40% 0; }
@@ -84,102 +59,93 @@
   to   { background-position: 0 140%; }
 }
 
-/* === СЛАЙД — основной контент === */
-.slide {
+/* === ЦЕНТРАЛЬНЫЙ БЛОК === */
+.center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  text-align: center;
-  padding: 0 24px;
-  /* Занимает пространство чтобы не прыгал layout */
-  min-height: 200px;
-  justify-content: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-.slideIn {
-  opacity: 1;
-  transform: translateY(0);
-}
-.slideOut {
-  opacity: 0;
-  transform: translateY(-12px);
+  gap: 32px;
+  padding: 0 32px;
+  width: 100%;
+  max-width: 800px;
 }
 
-.slideLabel {
+.stepLabel {
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(79, 163, 255, 0.7);
-  font-family: ui-monospace, 'SF Mono', 'Consolas', monospace;
-}
-
-.slideValue {
-  font-size: clamp(64px, 12vw, 120px);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: #ffffff;
-  /* Лёгкий текстовый градиент */
-  background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.75) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.slideValueAccent {
-  background: linear-gradient(135deg, #4fa3ff 0%, #a8d4ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.slideSub {
-  font-size: 16px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.35);
-  letter-spacing: 0.02em;
-}
-
-/* === НИЖНЯЯ ЧАСТЬ — прогресс === */
-.bottom {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-  right: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.pct {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(79, 163, 255, 0.5);
   font-family: ui-monospace, 'SF Mono', monospace;
-  letter-spacing: 0.05em;
-  align-self: flex-end;
-}
-.pctSign {
-  font-size: 10px;
-  font-weight: 400;
-  color: rgba(79, 163, 255, 0.7);
-  margin-left: 1px;
+  text-transform: uppercase;
 }
 
+/* === КОНТЕЙНЕР ТЕКСТА С СИМВОЛАМИ === */
+.textWrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  min-height: 80px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+/* Базовый стиль каждого символа */
+.char {
+  display: inline-block;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  will-change: transform, opacity;
+  white-space: pre;
+}
+.space {
+  width: 0.3em;
+}
+
+/* ФАЗА VISIBLE — символ на месте */
+.charVisible {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* ФАЗА SCATTER — символ летит в рандомную сторону (через inline style) */
+.charScatter {
+  opacity: 0;
+  /* transform задаётся через inline style (dx, dy) */
+  transition:
+    opacity 0.35s ease-in,
+    transform 0.4s cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* ФАЗА GATHER — символ прилетает из рандомной позиции обратно к центру */
+.charGather {
+  opacity: 1;
+  transform: translate(0, 0) !important;
+  transition:
+    opacity 0.4s ease-out,
+    transform 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* === ПРОГРЕСС-БАР === */
 .barTrack {
   width: 100%;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 2px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 1px;
   overflow: visible;
   position: relative;
 }
 .barFill {
   height: 100%;
   background: linear-gradient(90deg, #1d4ed8, #4fa3ff);
-  border-radius: 2px;
-  transition: width 0.08s linear;
+  border-radius: 1px;
+  transition: width 0.1s linear;
   position: relative;
   max-width: 100%;
 }
@@ -187,18 +153,37 @@
   position: absolute;
   right: -3px;
   top: -3px;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #93c5fd;
   filter: blur(3px);
   opacity: 0.9;
 }
 
-.name {
+/* === СЧЁТЧИК === */
+.counter {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: ui-monospace, 'SF Mono', monospace;
+  letter-spacing: 0.1em;
+  align-self: flex-end;
+}
+.pctSign {
+  font-size: 10px;
+  color: rgba(79, 163, 255, 0.6);
+  margin-left: 1px;
+}
+
+/* === ИМЯ В УГЛУ === */
+.nameTag {
+  position: absolute;
+  bottom: 28px;
+  left: 32px;
   font-size: 11px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.15);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: ui-monospace, 'SF Mono', monospace;
@@ -206,19 +191,25 @@
 
 /* Мобилка */
 @media (max-width: 768px) {
-  .bottom {
-    bottom: 28px;
-    left: 20px;
-    right: 20px;
+  .char {
+    font-size: clamp(24px, 7vw, 36px);
   }
-  .slideSub {
-    font-size: 14px;
+  .nameTag {
+    left: 16px;
+    bottom: 20px;
+  }
+  .center {
+    gap: 24px;
   }
 }
 
-/* Reduced motion — без анимаций */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .edge { animation: none; }
-  .slide { transition: none; }
+  .edge { animation: none; opacity: 0.3; }
+  .char, .charScatter, .charGather, .charVisible {
+    transition: none;
+    transform: none !important;
+    opacity: 1 !important;
+  }
   .barFill { transition: none; }
 }
