@@ -48,6 +48,43 @@ export default function Hero() {
       <div className={styles.heroBg}></div>
 
       <div className={styles.heroGrid}>
+        {/* Большая изогнутая стрелка "Это я" — выходит из верхней части
+            левого блока, идёт огромной дугой и упирается в фото.
+            Помещена внутри heroGrid (max-width 1440px), absolute positioning. */}
+        <div className={styles.arrowWrap} aria-hidden="true">
+          <svg
+            className={styles.arrowSvg}
+            viewBox="0 0 1000 240"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+          >
+            {/* Большая дуга — от левой части над заголовком,
+                поднимается, опускается к правой стороне (к фото) */}
+            <path
+              className={styles.arrowPath}
+              d="M 60 200 C 200 30, 700 30, 920 180"
+              stroke="var(--accent)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+            />
+            {/* Наконечник — указывает вниз-вправо к фото */}
+            <path
+              className={styles.arrowHead}
+              d="M 905 165 L 925 184 L 902 192"
+              stroke="var(--accent)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+          </svg>
+          <span className={styles.arrowLabel}>
+            {locale === 'ru' ? 'Это я' : 'This is me'}
+          </span>
+        </div>
+
         <div className={styles.heroLeft}>
           <div className={styles.badge}>
             <div className={styles.dot}></div>
@@ -81,42 +118,6 @@ export default function Hero() {
         </div>
 
         <div className={styles.heroRight}>
-          {/* Изогнутая стрелка "Это я" — выходит слева от фото, идёт дугой
-              вверх-вправо и наконечник указывает вниз на верхнюю часть фото.
-              Расположена абсолютно слева от photoWrap, не мешает кликам. */}
-          <div className={styles.arrowWrap} aria-hidden="true">
-            <svg
-              className={styles.arrowSvg}
-              viewBox="0 0 240 160"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Дуга — выходит снизу-слева, поднимается дугой,
-                  опускается на правую часть к верху фото */}
-              <path
-                className={styles.arrowPath}
-                d="M 20 130 C 60 20, 160 20, 215 100"
-                stroke="var(--accent)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                fill="none"
-              />
-              {/* Наконечник — указывает вниз-вправо */}
-              <path
-                className={styles.arrowHead}
-                d="M 200 88 L 218 102 L 198 110"
-                stroke="var(--accent)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-              />
-            </svg>
-            <span className={styles.arrowLabel}>
-              {locale === 'ru' ? 'Это я' : 'This is me'}
-            </span>
-          </div>
-
           <div className={styles.photoWrap}>
             {/* Метка "Frame 1337" — стилизована под название фрейма из Figma */}
             <span className={styles.frameLabel}>Frame 1337</span>

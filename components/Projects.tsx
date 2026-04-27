@@ -18,7 +18,7 @@ interface ProjectCardProps {
 function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
   const { locale, theme } = useApp();
   const t = translations[locale];
-  const { ref, visible } = useReveal<HTMLAnchorElement>();
+  const { ref, visible } = useReveal<HTMLDivElement>();
 
   const cover =
     theme === 'light' && project.coverImageLight
@@ -93,59 +93,54 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
   };
 
   return (
-    <Link
+    <div
       ref={ref}
-      href={`/projects/${project.slug}`}
-      className={`${styles.card} ${styles.cardFigma} ${coverFromClass} ${visible ? styles.cardFigmaIn : ''}`}
+      className={`${styles.cardWrap} ${styles.cardFigma} ${coverFromClass} ${visible ? styles.cardFigmaIn : ''}`}
     >
-      {/* Курсор-крестик (Figma frame tool) — рисуется в углу */}
-      <span className={styles.figmaCursor} aria-hidden="true">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 1V13M1 7H13" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-        </svg>
-      </span>
+      <Link href={`/projects/${project.slug}`} className={styles.card}>
+        {/* Курсор-крестик (Figma frame tool) — рисуется в углу */}
+        <span className={styles.figmaCursor} aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1V13M1 7H13" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </span>
 
-      {/* Обёртка над preview — с её помощью картинка выезжает с нужной стороны */}
-      <div className={styles.coverSlide}>
-        {renderPreview()}
-      </div>
+        {/* Обёртка над preview — с её помощью картинка выезжает с нужной стороны */}
+        <div className={styles.coverSlide}>
+          {renderPreview()}
+        </div>
 
-      <div className={styles.body}>
-        <div className={styles.head}>
-          {/* Название печатается после появления фрейма — но только когда карточка
-              видна, иначе TypeOnReveal сразу запустит свой observer */}
+        <div className={styles.body}>
+          <div className={styles.head}>
+            {/* Название печатается после появления фрейма */}
+            {visible ? (
+              <TypeOnReveal
+                text={project.name[locale]}
+                speed={28}
+                delay={1100}
+                startImmediately
+                as="div"
+                className={styles.name}
+              />
+            ) : (
+              <div className={styles.name}>{project.name[locale]}</div>
+            )}
+            {/* Стрелка появляется в конце */}
+            <div className={`${styles.arrow} ${visible ? styles.arrowIn : ''}`}>↗</div>
+          </div>
           {visible ? (
             <TypeOnReveal
-              text={project.name[locale]}
-              speed={28}
-              delay={1100}
+              text={project.shortDesc[locale]}
+              speed={14}
+              delay={1100 + project.name[locale].length * 28 + 150}
               startImmediately
               as="div"
-              className={styles.name}
+              className={styles.desc}
             />
           ) : (
-            <div className={styles.name} style={{ opacity: 0 }}>
-              {project.name[locale]}
-            </div>
+            <div className={styles.desc}>{project.shortDesc[locale]}</div>
           )}
-          {/* Стрелка появляется в конце */}
-          <div className={`${styles.arrow} ${visible ? styles.arrowIn : ''}`}>↗</div>
-        </div>
-        {visible ? (
-          <TypeOnReveal
-            text={project.shortDesc[locale]}
-            speed={14}
-            delay={1100 + project.name[locale].length * 28 + 150}
-            startImmediately
-            as="div"
-            className={styles.desc}
-          />
-        ) : (
-          <div className={styles.desc} style={{ opacity: 0 }}>
-            {project.shortDesc[locale]}
-          </div>
-        )}
-        <div className={styles.meta}>
+          <div className={styles.meta}>
           <span>{project.year}</span>
           {project.company && (
             <>
@@ -161,9 +156,10 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
               </span>
             </>
           )}
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 
