@@ -186,8 +186,12 @@
   }
   .card {
     padding: 32px 24px;
-    min-height: 420px;
+    min-height: auto;
     border-radius: 18px;
+  }
+  /* Скрываем картинку на мобилке — она перекрывает текст */
+  .coverBg {
+    display: none;
   }
   .metrics {
     gap: 24px;

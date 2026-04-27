@@ -376,4 +376,13 @@
   .title {
     font-size: 24px;
   }
+  /* На мобилке карточки одна под другой по всей ширине.
+     Уменьшаем высоту превью чтобы картинки не обрезались. */
+  .preview {
+    height: 220px;
+  }
+  .coverImg {
+    object-fit: contain;
+    object-position: center;
+  }
 }

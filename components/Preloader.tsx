@@ -12,12 +12,13 @@ const TEXTS = [
 ];
 
 // Каждый текст держится N мс перед расщеплением.
-// 5 текстов × (HOLD + SCATTER + GATHER) = 5 × 1250мс = 6250мс
-const HOLD_MS = 600;    // время показа текста
-const SCATTER_MS = 300; // время расщепления (разлёт символов)
-const GATHER_MS = 350;  // время сборки нового текста
-const CYCLE_MS = HOLD_MS + SCATTER_MS + GATHER_MS; // 1250мс на один текст
-const TOTAL_MS = CYCLE_MS * TEXTS.length; // 6250мс = весь прелоадер
+// 5 текстов × CYCLE_MS = полное время лоудера
+const HOLD_MS = 900;    // время показа текста (юзер читает)
+const SCATTER_MS = 600; // время разлёта символов — дольше чтобы всё успело улететь
+const GAP_MS = 150;     // пауза между scatter и gather — экран пустой
+const GATHER_MS = 700;  // время сборки нового текста
+const CYCLE_MS = HOLD_MS + SCATTER_MS + GAP_MS + GATHER_MS; // ~2350мс на один текст
+const TOTAL_MS = CYCLE_MS * TEXTS.length; // ~11750мс = весь прелоадер
 
 /**
  * Один символ текста. В зависимости от фазы — на месте, летит или собирается.
@@ -134,6 +135,10 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
           setPhase('scatter');
           await sleep(SCATTER_MS);
           if (cancelled) return;
+
+          // Пустой экран — пауза перед появлением следующего текста
+          await sleep(GAP_MS);
+          if (cancelled) return;
         }
       }
     };
@@ -172,8 +177,8 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
               dx={offsets[i]?.dx ?? 0}
               dy={offsets[i]?.dy ?? 0}
               delay={phase === 'scatter'
-                ? i * 18          // разлетаются последовательно слева направо
-                : (chars.length - i) * 20 // собираются с конца
+                ? i * 25              // разлетаются последовательно — 25мс между символами
+                : (chars.length - i) * 30  // собираются с конца — 30мс между символами
               }
             />
           ))}

@@ -119,8 +119,8 @@
   opacity: 0;
   /* transform задаётся через inline style (dx, dy) */
   transition:
-    opacity 0.35s ease-in,
-    transform 0.4s cubic-bezier(0.4, 0, 1, 1);
+    opacity 0.45s ease-in,
+    transform 0.55s cubic-bezier(0.4, 0, 1, 1);
 }
 
 /* ФАЗА GATHER — символ прилетает из рандомной позиции обратно к центру */
@@ -128,8 +128,8 @@
   opacity: 1;
   transform: translate(0, 0) !important;
   transition:
-    opacity 0.4s ease-out,
-    transform 0.5s cubic-bezier(0, 0, 0.2, 1);
+    opacity 0.5s ease-out,
+    transform 0.65s cubic-bezier(0, 0, 0.2, 1);
 }
 
 /* === ПРОГРЕСС-БАР === */
@@ -192,14 +192,30 @@
 /* Мобилка */
 @media (max-width: 768px) {
   .char {
-    font-size: clamp(24px, 7vw, 36px);
+    /* На мобилке значительно меньше чтобы всё умещалось в одну строку */
+    font-size: clamp(20px, 5.5vw, 32px);
+    letter-spacing: -0.01em;
+  }
+  .textWrap {
+    /* Не переносим — всё в одну строку */
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    min-height: 50px;
   }
   .nameTag {
     left: 16px;
     bottom: 20px;
+    font-size: 10px;
   }
   .center {
-    gap: 24px;
+    gap: 20px;
+    padding: 0 20px;
+  }
+  .bottom {
+    bottom: 24px;
+    left: 20px;
+    right: 20px;
   }
 }
 
