@@ -1,33 +1,29 @@
 
 /* === FIGMA FRAME АНИМАЦИЯ КАРТОЧЕК ПРОЕКТОВ ===
-   Карточка появляется как будто её рисуют инструментом frame в Figma:
-   1) Курсор-крестик появляется в левом верхнем углу
-   2) Курсор едет по диагонали к нижнему правому углу
-   3) Параллельно раскрывается рамка через clip-path inset (видимая часть растёт от ЛВ к ПН)
-   4) После раскрытия рамки — картинка внутри выезжает с одной из сторон
-
-   ВАЖНО: clip-path применяется ТОЛЬКО к .cardWrap (обёртке).
-   Содержимое (Link, body, preview) НЕ скрывается отдельно через CSS —
-   их видимость контролируется ТОЛЬКО clip-path родителя. Это надёжно. */
+   Стратегия (важно для observer):
+   - data-reveal="true" → карточка ПРОСТО opacity:0 (НЕ clip-path!)
+     IntersectionObserver видит элемент с нормальными размерами.
+   - .cardFigmaIn (когда observer сработал) → запускает animation которая
+     одновременно делает opacity 1 + раскрывает clip-path от 100% до 0%.
+*/
 
 .cardWrap {
   position: relative;
-  /* По дефолту clip-path none → карточка видна (страховка если JS не сработает) */
 }
-/* Когда useReveal проставил data-reveal="true" — карточка скрыта clip-path */
+/* Состояние ожидания: невидимо но обзёрвируется */
 .cardWrap[data-reveal] {
-  clip-path: inset(0 100% 100% 0);
+  opacity: 0;
 }
 .cardWrap[data-reveal] .figmaCursor {
-  /* Курсор виден в момент ожидания/рисования */
-  opacity: 1;
+  opacity: 0;
 }
-/* Когда добавляется .cardFigmaIn — раскрытие рамки */
+
+/* Когда observer сработал — запускаем композитную анимацию */
 .cardWrap[data-reveal].cardFigmaIn {
-  animation: figmaDraw 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: cardAppear 1.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 .cardWrap[data-reveal].cardFigmaIn .figmaCursor {
-  animation: figmaCursorMove 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: figmaCursorMove 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 /* Курсор-крестик в углу (Figma frame tool) */
@@ -57,9 +53,11 @@
 .coverSlide {
   position: relative;
   overflow: hidden;
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
-/* Изначальные положения для разных направлений */
+.cardWrap[data-reveal] .coverSlide {
+  /* Изначальное положение картинки за пределами карточки */
+}
 .cardWrap[data-reveal].coverFromRight .coverSlide {
   transform: translateX(100%);
 }
@@ -69,15 +67,23 @@
 .cardWrap[data-reveal].coverFromTop .coverSlide {
   transform: translateY(-100%);
 }
-/* Когда cardFigmaIn — картинка едет на место с задержкой 0.7с (после раскрытия рамки) */
 .cardWrap[data-reveal].cardFigmaIn .coverSlide {
   transform: translate(0, 0);
-  transition-delay: 0.7s;
+  transition-delay: 1.4s;
 }
 
-@keyframes figmaDraw {
-  0%   { clip-path: inset(0 100% 100% 0); }
-  100% { clip-path: inset(0 0 0 0); }
+/* Композитная анимация появления карточки.
+   На 0% — невидима с clip-path (Figma frame tool тянем).
+   На 100% — полностью раскрыта. */
+@keyframes cardAppear {
+  0% {
+    opacity: 1;
+    clip-path: inset(0 100% 100% 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
 }
 @keyframes figmaCursorMove {
   0%   { opacity: 1; top: -8px; left: -8px; }
@@ -86,9 +92,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cardWrap[data-reveal],
+  .cardWrap[data-reveal] {
+    opacity: 1;
+  }
   .cardWrap[data-reveal].cardFigmaIn {
-    clip-path: none;
     animation: none;
   }
   .cardWrap[data-reveal] .coverSlide,
@@ -203,7 +210,8 @@
   box-shadow: 9px 0 0 rgba(0, 0, 0, 0.3), 18px 0 0 rgba(0, 0, 0, 0.3);
 }
 .card:hover .preview {
-  transform: scale(1.03);
+  /* Без скейла самой preview — только картинка внутри скейлится через .coverImg.
+     Иначе виден фон-градиент в зазоре между preview и картинкой (мерцание). */
 }
 .mock {
   color: rgba(255, 255, 255, 0.2);

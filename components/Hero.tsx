@@ -72,10 +72,10 @@ export default function Hero() {
               strokeLinecap="round"
               fill="none"
             />
-            {/* Наконечник — указывает вниз-вправо к фото */}
+            {/* Наконечник — повёрнут по часовой стрелке, указывает сильнее вниз */}
             <path
               className={styles.arrowHead}
-              d="M 660 115 L 680 132 L 658 142"
+              d="M 658 122 L 678 138 L 663 152"
               stroke="var(--accent)"
               strokeWidth="2"
               strokeLinecap="round"
@@ -125,20 +125,12 @@ export default function Hero() {
             {/* Метка "Frame 1337" — стилизована под название фрейма из Figma */}
             <span className={styles.frameLabel}>Frame 1337</span>
             {/*
-              ⭐ ФОТО
-              Положи своё фото в public/me.jpg (или .png) и замени блок ниже на:
-              <img src="/me.jpg" alt="Maxim Sorokin" className={styles.photo} />
+              Два фото — basic и hover. Basic — обычное (1.jpg), hover — кривлянье (2.jpg).
+              На hover фото плавно меняются через opacity-transition.
+              Лежат в public/me.jpg и public/me-hover.jpg
             */}
-            <div className={styles.photoPlaceholder}>
-              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="24" r="12" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M10 56c0-12 10-20 22-20s22 8 22 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-              <div className={styles.photoHint}>
-                {locale === 'ru' ? 'Положите фото в ' : 'Place photo at '}
-                <code>public/me.jpg</code>
-              </div>
-            </div>
+            <img src="/me.jpg" alt="Maxim Sorokin" className={styles.photo} />
+            <img src="/me-hover.jpg" alt="" aria-hidden="true" className={`${styles.photo} ${styles.photoHover}`} />
           </div>
         </div>
       </div>

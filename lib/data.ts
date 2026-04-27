@@ -672,6 +672,7 @@ export const experiences: Experience[] = [
     logo: 'A',
     logoColor: '#34d399',
     logoSrc: '/logos/aezakmi.svg',
+    logoSrcLight: '/logos/aezakmi-light.svg',
     company: { ru: 'Aezakmi Group', en: 'Aezakmi Group' },
     website: 'aezakmi.group',
     location: { ru: 'Удалённо', en: 'Remote' },

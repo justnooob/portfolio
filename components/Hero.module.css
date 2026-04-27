@@ -134,15 +134,15 @@
    Помещена внутри .heroGrid (max-width 1440px), absolute. */
 .arrowWrap {
   position: absolute;
-  /* Начинаем от середины Hero, не сверху */
+  /* Поднимаем стрелку на 100px выше — её середина была в центре heroGrid,
+     теперь сместим выше */
   top: 50%;
   left: 0;
   right: 0;
   width: 100%;
   height: 220px;
-  /* Поднимаем стрелку вверх примерно на половину её высоты,
-     чтобы её центр был на середине заголовка */
-  transform: translateY(-65%);
+  /* translateY(-65%) был для центрирования. Минусуем ещё 100px чтобы поднять. */
+  transform: translateY(calc(-65% - 100px));
   pointer-events: none;
   z-index: 5;
 }
@@ -263,10 +263,22 @@
   white-space: nowrap;
 }
 .photo {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 20px;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Hover-фото лежит сверху, изначально скрыто. На hover plявно появляется. */
+.photoHover {
+  opacity: 0;
+}
+.photoWrap:hover .photoHover {
+  opacity: 1;
 }
 .photoPlaceholder {
   width: 100%;
