@@ -1,43 +1,9 @@
 name = "sorokin-portfolio"
-type = "javascript"
-
-[env.production]
-name = "sorokin-portfolio-prod"
-
-[site]
-bucket = "./out"
-include = ["_headers", "_redirects", "_routes.json"]
+pages_build_output_dir = "out"
 
 [build]
 command = "npm run build"
-cwd = "."
 
-[[build.upload.rules]]
-type = "CompiledContentType"
-globs = ["**/*.css"]
-fallthrough = false
-
-[[build.upload.rules]]
-type = "CompiledContentType"
-globs = ["**/*.js"]
-fallthrough = false
-
-[[build.upload.rules]]
-type = "CompiledContentType"
-globs = ["**/*.woff2"]
-fallthrough = false
-
-[[build.upload.rules]]
-type = "CompiledContentType"
-globs = ["**/*.svg"]
-fallthrough = false
-
-[[build.upload.rules]]
-type = "CompiledContentType"
-globs = ["**/*.jpg"]
-fallthrough = false
-
-[[build.upload.rules]]
-type = "CompiledContentType"
-globs = ["**/*.png"]
-fallthrough = false
+[env.production]
+name = "sorokin-portfolio-prod"
+pages_build_output_dir = "out"
