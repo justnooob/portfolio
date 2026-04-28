@@ -54,7 +54,7 @@ export default function Nav() {
         <div className={styles.navInner}>
           <Link href="/" className={styles.logo} onClick={closeMenu}>
             <img
-              src="/soromax.svg"
+              src={theme === 'dark' ? '/soromax-light.svg' : '/soromax-dark.svg'}
               alt="Soromax"
               className={styles.logoImg}
             />

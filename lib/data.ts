@@ -295,32 +295,24 @@ export const projects: Project[] = [
     },
     screens: [
       {
-        title: { ru: 'Onboarding', en: 'Onboarding' },
-        desc: { ru: 'Понимание продукта и первичная настройка', en: 'Product understanding and initial setup' },
-      },
-      {
         title: { ru: 'Dashboard', en: 'Dashboard' },
-        desc: { ru: 'Основной контроль-центр системы', en: 'Main system control center' },
+        image: '/projects/iywi/1.jpg',
       },
       {
-        title: { ru: 'AI Analytics', en: 'AI Analytics' },
-        desc: { ru: 'Ключевая ценность продукта — анализ консультаций', en: 'Key product value — consultation analysis' },
+        title: { ru: 'Analytics', en: 'Analytics' },
+        image: '/projects/iywi/2.jpg',
       },
       {
-        title: { ru: 'Role-Based Views', en: 'Role-Based Views' },
-        desc: { ru: 'Разные интерфейсы для разных пользователей', en: 'Different interfaces for different users' },
+        title: { ru: 'Team Management', en: 'Team Management' },
+        image: '/projects/iywi/3.jpg',
+      },
+      {
+        title: { ru: 'Consultation Details', en: 'Consultation Details' },
+        image: '/projects/iywi/4.jpg',
       },
       {
         title: { ru: 'Mobile App', en: 'Mobile App' },
-        desc: { ru: 'Адаптация для iOS и Android', en: 'iOS and Android adaptation' },
-      },
-      {
-        title: { ru: 'Landing Pages', en: 'Landing Pages' },
-        desc: { ru: '5 продающих лендингов на Tilda', en: '5 sales landings on Tilda' },
-      },
-      {
-        title: { ru: 'Design System', en: 'Design System' },
-        desc: { ru: 'Инфраструктурный слой — 50+ компонентов', en: 'Infrastructure layer — 50+ components' },
+        image: '/projects/iywi/5.jpg',
       },
     ],
     conclusion: {
