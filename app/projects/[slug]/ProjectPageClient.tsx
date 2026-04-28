@@ -1,235 +1,232 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
-import { Project } from '@/lib/data';
-import FinalCta from '@/components/FinalCta';
+import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
+import FinalCta from '@/components/FinalCta';
+import { translations, projects } from '@/lib/data';
 import styles from './project.module.css';
 
-export default function ProjectPageClient({ project }: { project: Project }) {
+export default function ProjectPageClient({ slug }: { slug: string }) {
+  const router = useRouter();
   const { locale } = useApp();
-  const lang = locale as 'ru' | 'en';
+  const t = translations[locale];
+  const [resultsExpanded, setResultsExpanded] = useState(false);
 
-  const translations = {
-    ru: {
-      role: 'Роль',
-      duration: 'Период',
-      tools: 'Инструменты',
-      context: 'Контекст',
-      problem: 'Проблема',
-      goals: 'Цели',
-      process: 'Процесс',
-      keyFeatures: 'Ключевые фичи',
-      uiDirection: 'UI Направление',
-      screens: 'Экраны',
-      results: 'Результаты',
-      conclusion: 'Выводы',
-      viewOnBehance: 'Смотреть на Behance',
-      back: 'Назад',
-    },
-    en: {
-      role: 'Role',
-      duration: 'Duration',
-      tools: 'Tools',
-      context: 'Context',
-      problem: 'Problem',
-      goals: 'Goals',
-      process: 'Process',
-      keyFeatures: 'Key Features',
-      uiDirection: 'UI Direction',
-      screens: 'Screens',
-      results: 'Results',
-      conclusion: 'Conclusion',
-      viewOnBehance: 'View on Behance',
-      back: 'Back',
-    },
-  };
-  const t = translations[lang];
+  const project = projects.find((p) => p.slug === slug);
+
+  // Управляем "режимом" хедера на странице проекта
+  useEffect(() => {
+    if (!project) return;
+    const heroMode = project.lightText ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-hero-mode', heroMode);
+    return () => {
+      document.documentElement.removeAttribute('data-hero-mode');
+    };
+  }, [project]);
+
+  if (!project) {
+    return (
+      <main>
+        <Nav />
+        <div className={styles.notFound}>
+          <h1>404</h1>
+          <p>Project not found</p>
+          <Link href="/" className="btn-cta">
+            {t.project.back}
+            <span className="btn-cta-ico-wrap">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  const allResults = project.results[locale];
+  const hasMore = allResults.length > 3;
+  const displayedResults = resultsExpanded ? allResults : allResults.slice(0, 3);
+
+  const showMoreLabel = locale === 'ru' ? 'Показать все' : 'Show all';
+  const collapseLabel = locale === 'ru' ? 'Свернуть' : 'Collapse';
 
   return (
-    <>
-      {/* HERO — полный блок со всем содержимым */}
-      <section className={styles.projectHero} style={{ background: project.color }}>
-        <div className={styles.projectHeroInner}>
-          {/* Top row: Back + Tags */}
-          <div className={styles.projectHeroTop}>
-            <a href="/projects#projects" className={styles.projectBackLink}>← {t.back}</a>
-            <div className={styles.projectHeroTags}>
-              {project.tags[lang].map((tag, i) => (
-                <span key={i} className={styles.projectHeroTag}>{tag}</span>
+    <main>
+      <Nav />
+
+      {/* === HERO — точная копия старого === */}
+      <div
+        className={`${styles.hero} ${project.lightText ? styles.heroLight : ''}`}
+        style={{ background: project.color }}
+      >
+        <div className={styles.heroOverlay}></div>
+        <div className={styles.heroContent}>
+          <button onClick={() => router.push('/projects')} className={styles.back}>
+            ← {t.project.back}
+          </button>
+          <div className={styles.heroTop}>
+            <div className={styles.tags}>
+              {project.tags[locale].map((tag) => (
+                <span key={tag} className={styles.tag}>
+                  {tag}
+                </span>
               ))}
             </div>
+            <div className={styles.year}>{project.year}</div>
           </div>
-
-          {/* Name */}
-          <h1 className={styles.projectName}>{project.name[lang]}</h1>
-
-          {/* Description */}
-          <p className={styles.projectDesc}>{project.shortDesc[lang]}</p>
-
-          {/* Meta: Role + Duration + Tools */}
-          <div className={styles.projectHeroMeta}>
-            <div className={styles.projectHeroMetaItem}>
-              <span className={styles.projectHeroMetaLabel}>{t.role}</span>
-              <span className={styles.projectHeroMetaValue}>{project.role[lang]}</span>
-            </div>
-            <div className={styles.projectHeroMetaItem}>
-              <span className={styles.projectHeroMetaLabel}>{t.duration}</span>
-              <span className={styles.projectHeroMetaValue}>{project.duration[lang]}</span>
-            </div>
-            <div className={styles.projectHeroMetaItem}>
-              <span className={styles.projectHeroMetaLabel}>{t.tools}</span>
-              <div className={styles.projectHeroMetaTools}>
-                {project.tools.map((tool, i) => (
-                  <span key={i} className={styles.projectHeroMetaTool}>{tool}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Metrics */}
-          {project.metrics && project.metrics.length > 0 && (
-            <div className={styles.projectHeroMetrics}>
+          <h1 className={styles.title}>{project.name[locale]}</h1>
+          <p className={styles.subtitle}>{project.shortDesc[locale]}</p>
+          {project.metrics && (
+            <div className={styles.metrics}>
               {project.metrics.map((m, i) => (
-                <div key={i} className={styles.projectHeroMetric}>
-                  <div className={styles.projectHeroMetricValue}>{m.value}</div>
-                  <div className={styles.projectHeroMetricLabel}>{m.label[lang]}</div>
+                <div key={i} className={styles.metric}>
+                  <div className={styles.metricNum}>{m.value}</div>
+                  <div className={styles.metricLbl}>{m.label[locale]}</div>
                 </div>
               ))}
             </div>
           )}
-
-          {/* Year */}
-          <div className={styles.projectYear}>{project.year}</div>
         </div>
-      </section>
+      </div>
 
-      {/* CONTENT */}
-      <section className={styles.projectContent}>
-        <div className={styles.projectContentInner}>
-          {/* CONTEXT */}
-          {project.context && (
-            <div className={styles.projectSection}>
-              <h2 className={styles.projectSectionTitle}>{t.context}</h2>
-              <p className={styles.projectSectionText}>{project.context[lang]}</p>
-            </div>
-          )}
+      {/* === META === */}
+      <div className={styles.meta}>
+        <div className={styles.metaItem}>
+          <div className={styles.metaLbl}>{t.project.role}</div>
+          <div className={styles.metaVal}>{project.role[locale]}</div>
+        </div>
+        <div className={styles.metaItem}>
+          <div className={styles.metaLbl}>{t.project.duration}</div>
+          <div className={styles.metaVal}>{project.duration[locale]}</div>
+        </div>
+        <div className={styles.metaItem}>
+          <div className={styles.metaLbl}>{t.project.tools}</div>
+          <div className={styles.metaVal}>{project.tools.join(', ')}</div>
+        </div>
+      </div>
 
-          {/* PROBLEM — as list */}
-          {project.problem && (
-            <div className={styles.projectSection}>
-              <h2 className={styles.projectSectionTitle}>{t.problem}</h2>
-              {/* Проблема может быть либо текст, либо список (если она содержит скобки) */}
-              {project.problem[lang].includes('(1)') || project.problem[lang].includes('(2)') ? (
-                <ul className={styles.projectList}>
-                  {project.problem[lang].split(/\(\d+\)\s+/).filter(Boolean).map((item, i) => (
-                    <li key={i}>{item.trim()}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className={styles.projectSectionText}>{project.problem[lang]}</p>
-              )}
-            </div>
-          )}
+      {/* === CONTENT — новые секции === */}
+      <div className={styles.content}>
+        {/* CONTEXT */}
+        {project.context && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Контекст' : 'Context'}</div>
+            <p className={styles.blockText}>{project.context[locale]}</p>
+          </section>
+        )}
 
-          {/* GOALS */}
-          {project.goals && project.goals[lang]?.length > 0 && (
-            <div className={styles.projectSection}>
-              <h2 className={styles.projectSectionTitle}>{t.goals}</h2>
-              <ul className={styles.projectList}>
-                {project.goals[lang].map((goal, i) => (
-                  <li key={i}>{goal}</li>
+        {/* PROBLEM */}
+        {project.problem && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Проблема' : 'Problem'}</div>
+            {project.problem[locale].includes('(1)') || project.problem[locale].includes('(2)') ? (
+              <ul className={styles.resultsList}>
+                {project.problem[locale].split(/\(\d+\)\s+/).filter(Boolean).map((item, i) => (
+                  <li key={i} className={styles.result}>{item.trim()}</li>
                 ))}
               </ul>
-            </div>
-          )}
+            ) : (
+              <p className={styles.blockText}>{project.problem[locale]}</p>
+            )}
+          </section>
+        )}
 
-          {/* PROCESS */}
-          {project.process && (
-            <div className={styles.projectSection}>
-              <h2 className={styles.projectSectionTitle}>{t.process}</h2>
-              <p className={styles.projectSectionText}>{project.process[lang]}</p>
-            </div>
-          )}
-
-          {/* KEY FEATURES */}
-          {project.keyFeatures && project.keyFeatures[lang]?.length > 0 && (
-            <div className={styles.projectSection}>
-              <h2 className={styles.projectSectionTitle}>{t.keyFeatures}</h2>
-              <ul className={styles.projectList}>
-                {project.keyFeatures[lang].map((feature, i) => (
-                  <li key={i}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* UI DIRECTION */}
-          {project.uiDirection && (
-            <div className={styles.projectSection}>
-              <h2 className={styles.projectSectionTitle}>{t.uiDirection}</h2>
-              <p className={styles.projectSectionText}>{project.uiDirection[lang]}</p>
-            </div>
-          )}
-
-          {/* SCREENS */}
-          {project.screens && project.screens.length > 0 && (
-            <div className={styles.projectSection}>
-              <h2 className={styles.projectSectionTitle}>{t.screens}</h2>
-              <div className={styles.projectScreensGrid}>
-                {/* 1-й экран на всю ширину */}
-                {project.screens[0] && (
-                  <div className={styles.projectScreenWide}>
-                    <div className={styles.projectScreenPlaceholder}>
-                      {project.screens[0].image && (
-                        <img src={project.screens[0].image} alt={project.screens[0].title[lang]} />
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* 2-5 экраны в grid 2x2 */}
-                <div className={styles.projectScreenGrid2x2}>
-                  {project.screens.slice(1, 5).map((screen, i) => (
-                    <div key={i + 1} className={styles.projectScreenCard}>
-                      <div className={styles.projectScreenPlaceholder}>
-                        {screen.image && (
-                          <img src={screen.image} alt={screen.title[lang]} />
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* RESULTS */}
-          <div className={styles.projectSection}>
-            <h2 className={styles.projectSectionTitle}>{t.results}</h2>
-            <ul className={styles.projectList}>
-              {project.results[lang].map((result, i) => (
-                <li key={i}>{result}</li>
+        {/* GOALS */}
+        {project.goals && project.goals[locale]?.length > 0 && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Цели' : 'Goals'}</div>
+            <ul className={styles.resultsList}>
+              {project.goals[locale].map((goal, i) => (
+                <li key={i} className={styles.result}>{goal}</li>
               ))}
             </ul>
-          </div>
+          </section>
+        )}
 
-          {/* CONCLUSION */}
-          {project.conclusion && (
-            <div className={styles.projectSection}>
-              <h2 className={styles.projectSectionTitle}>{t.conclusion}</h2>
-              <p className={styles.projectSectionText}>{project.conclusion[lang]}</p>
+        {/* PROCESS */}
+        {project.process && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Процесс' : 'Process'}</div>
+            <p className={styles.blockText}>{project.process[locale]}</p>
+          </section>
+        )}
+
+        {/* KEY FEATURES */}
+        {project.keyFeatures && project.keyFeatures[locale]?.length > 0 && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Ключевые фичи' : 'Key Features'}</div>
+            <ul className={styles.resultsList}>
+              {project.keyFeatures[locale].map((feature, i) => (
+                <li key={i} className={styles.result}>{feature}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* UI DIRECTION */}
+        {project.uiDirection && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'UI Направление' : 'UI Direction'}</div>
+            <p className={styles.blockText}>{project.uiDirection[locale]}</p>
+          </section>
+        )}
+
+        {/* SCREENS */}
+        {project.screens && project.screens.length > 0 && (
+          <section className={styles.screensBlock}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
+            <div className={styles.screensPlaceholder} style={{ background: project.color }}>
+              <div className={styles.screensMsg}>
+                {locale === 'ru'
+                  ? 'Добавьте скриншоты проекта в папку public/projects/' + project.slug + '/'
+                  : 'Add project screenshots to public/projects/' + project.slug + '/'}
+              </div>
             </div>
-          )}
-        </div>
-      </section>
+          </section>
+        )}
 
-      {/* BEHANCE — как CTA кнопка */}
-      {project.behanceUrl && (
-        <section className={styles.projectBehance}>
-          <div className={styles.projectBehanceInner}>
+        {/* RESULTS */}
+        <section className={styles.block}>
+          <div className={styles.blockLbl}>{t.project.results}</div>
+          <div className={`${styles.resultsWrap} ${!resultsExpanded && hasMore ? styles.resultsCollapsed : ''}`}>
+            <ul className={styles.resultsList}>
+              {displayedResults.map((r, i) => (
+                <li key={i} className={styles.result}>
+                  {r}
+                </li>
+              ))}
+            </ul>
+            {!resultsExpanded && hasMore && <div className={styles.fadeOverlay}></div>}
+          </div>
+          {hasMore && (
+            <button
+              className={styles.expandBtn}
+              onClick={() => setResultsExpanded(!resultsExpanded)}
+            >
+              {resultsExpanded ? collapseLabel : showMoreLabel}
+              <span className={`${styles.expandChev} ${resultsExpanded ? styles.expandChevRotated : ''}`}>⌄</span>
+            </button>
+          )}
+        </section>
+
+        {/* CONCLUSION */}
+        {project.conclusion && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Выводы' : 'Conclusion'}</div>
+            <p className={styles.blockText}>{project.conclusion[locale]}</p>
+          </section>
+        )}
+
+        {/* BEHANCE */}
+        {project.behanceUrl && (
+          <div className={styles.behance}>
             <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
-              {t.viewOnBehance}
+              {t.project.viewBehance}
               <span className="btn-cta-ico-wrap">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -237,12 +234,11 @@ export default function ProjectPageClient({ project }: { project: Project }) {
               </span>
             </a>
           </div>
-        </section>
-      )}
+        )}
+      </div>
 
-      {/* CTA + FOOTER */}
       <FinalCta />
       <Footer />
-    </>
+    </main>
   );
 }
