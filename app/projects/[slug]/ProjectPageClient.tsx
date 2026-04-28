@@ -201,7 +201,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
               {project.screens?.[0] && (
                 <div 
                   className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}
-                  onClick={() => project.screens?.[0]?.image && setExpandedScreenIndex(0)}
+                  onClick={() => setExpandedScreenIndex(0)}
                   style={{ cursor: project.screens?.[0]?.image ? 'pointer' : 'default' }}
                 >
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
@@ -221,7 +221,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                 <div 
                   key={i + 1} 
                   className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}
-                  onClick={() => screen.image && setExpandedScreenIndex(i + 1)}
+                  onClick={() => setExpandedScreenIndex(i + 1)}
                   style={{ cursor: screen.image ? 'pointer' : 'default' }}
                 >
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
@@ -241,7 +241,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                 <div 
                   key={i + 3} 
                   className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}
-                  onClick={() => screen.image && setExpandedScreenIndex(i + 3)}
+                  onClick={() => setExpandedScreenIndex(i + 3)}
                   style={{ cursor: screen.image ? 'pointer' : 'default' }}
                 >
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
