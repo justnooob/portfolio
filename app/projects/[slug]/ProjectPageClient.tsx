@@ -209,7 +209,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 				<div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
 				  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
 					<img 
-					  src={project.screens[0].image} 
+					  src={project.screens[0].image}
 					  alt={project.screens[0].title[locale]}
 					  onClick={() => openModal(project.screens[0].image!)}
 					  className={styles.clickableImg}
@@ -224,7 +224,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 				  <div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
 					<div className={styles.screenPlaceholder} style={{ background: project.color }}>
 					  <img 
-						src={screen.image} 
+						src={screen.image}
 						alt={screen.title[locale]}
 						onClick={() => openModal(screen.image!)}
 						className={styles.clickableImg}
@@ -240,7 +240,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 				  <div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
 					<div className={styles.screenPlaceholder} style={{ background: project.color }}>
 					  <img 
-						src={screen.image} 
+						src={screen.image}
 						alt={screen.title[locale]}
 						onClick={() => openModal(screen.image!)}
 						className={styles.clickableImg}
