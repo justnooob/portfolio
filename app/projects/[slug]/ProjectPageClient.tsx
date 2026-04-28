@@ -91,7 +91,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       >
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <button onClick={() => router.push('/projects')} className={styles.back}>
+          <button onClick={() => router.push('/#projects')} className={styles.back}>
             ← {t.project.back}
           </button>
           <div className={styles.heroTop}>
@@ -157,7 +157,13 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
               {firstScreen && firstScreen.image && (
                 <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    <img src={firstScreen.image} alt={firstScreen.title[locale]} onClick={() => openModal(firstScreen.image!)} className={styles.clickableImg} />
+                    <img
+					  src={firstScreen.image}
+					  alt={firstScreen.title[locale]}
+					  onClick={() => openModal(firstScreen.image!)}
+					  onContextMenu={(e) => e.preventDefault()}
+					  className={styles.clickableImg}
+					/>
                   </div>
                 </div>
               )}
@@ -166,7 +172,13 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                 return (
                   <div key={idx} className={`${styles.screenItem} ${styles[`screenItem${idx + 2}`]}`}>
                     <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                      <img src={screen.image} alt={screen.title[locale]} onClick={() => openModal(screen.image!)} className={styles.clickableImg} />
+                      <img
+						  src={screen.image}
+						  alt={screen.title[locale]}
+						  onClick={() => openModal(screen.image!)}
+						  onContextMenu={(e) => e.preventDefault()}
+						  className={styles.clickableImg}
+						/>
                     </div>
                   </div>
                 );
@@ -200,12 +212,13 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         >
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.modalClose} onClick={closeModal}>✕</button>
-            <img
-              src={activeImage}
-              alt="Полноразмерное изображение"
-              className={styles.modalImage}
-              onClick={closeModal}
-            />
+				<img
+				  src={activeImage}
+				  alt="Полноразмерное изображение"
+				  onContextMenu={(e) => e.preventDefault()}
+				  className={styles.modalImage}
+				  onClick={closeModal}
+				/>
           </div>
         </div>
       )}
