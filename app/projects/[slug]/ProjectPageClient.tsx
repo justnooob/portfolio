@@ -21,7 +21,17 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
   const project = projects.find((p) => p.slug === slug);
 
-  // Управляем "режимом" хедера на странице проекта
+  // Блокируем скролл при открытой модалке
+  useEffect(() => {
+    if (expandedScreenIndex !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [expandedScreenIndex]);
   useEffect(() => {
     if (!project) return;
     const heroMode = project.lightText ? 'light' : 'dark';
