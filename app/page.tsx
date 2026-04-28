@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
@@ -14,11 +14,21 @@ import Footer from '@/components/Footer';
 const Preloader = dynamic(() => import('@/components/Preloader'), { ssr: false });
 
 export default function Home() {
-  const [preloaderDone, setPreloaderDone] = useState(false);
+  const [preloaderDone, setPreloaderDone] = useState(true); // по умолчанию скрыт
+  const [shouldShowPreloader, setShouldShowPreloader] = useState(false);
+
+  // На клиенте — проверяем sessionStorage и показываем лоудер только первый раз
+  useEffect(() => {
+    const alreadyShown = sessionStorage.getItem('preloader_shown');
+    if (!alreadyShown) {
+      setShouldShowPreloader(true);
+      setPreloaderDone(false);
+    }
+  }, []);
 
   return (
     <>
-      {!preloaderDone && (
+      {shouldShowPreloader && !preloaderDone && (
         <Preloader onDone={() => setPreloaderDone(true)} />
       )}
       <main style={{

@@ -13,5 +13,7 @@ export function generateStaticParams() {
 }
 
 export default function Page({ params }: { params: { slug: string } }) {
-  return <ProjectPageClient slug={params.slug} />;
+  const project = projects.find((p) => p.slug === params.slug);
+  if (!project) return <div>Project not found</div>;
+  return <ProjectPageClient project={project} />;
 }

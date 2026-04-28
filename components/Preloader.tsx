@@ -12,13 +12,13 @@ const TEXTS = [
 ];
 
 // Каждый текст держится N мс перед расщеплением.
-// 5 текстов × CYCLE_MS = полное время лоудера
-const HOLD_MS = 900;    // время показа текста (юзер читает)
-const SCATTER_MS = 600; // время разлёта символов — дольше чтобы всё успело улететь
-const GAP_MS = 150;     // пауза между scatter и gather — экран пустой
-const GATHER_MS = 700;  // время сборки нового текста
-const CYCLE_MS = HOLD_MS + SCATTER_MS + GAP_MS + GATHER_MS; // ~2350мс на один текст
-const TOTAL_MS = CYCLE_MS * TEXTS.length; // ~11750мс = весь прелоадер
+// 5 текстов × CYCLE_MS = полное время лоудера — всё за 4.5 секунды
+const HOLD_MS = 500;    // время показа текста
+const SCATTER_MS = 250; // время разлёта символов
+const GAP_MS = 80;      // пауза между scatter и gather
+const GATHER_MS = 300;  // время сборки нового текста
+const CYCLE_MS = HOLD_MS + SCATTER_MS + GAP_MS + GATHER_MS; // 1130мс на один текст
+const TOTAL_MS = CYCLE_MS * TEXTS.length; // ~5650мс = весь прелоадер
 
 /**
  * Один символ текста. В зависимости от фазы — на месте, летит или собирается.
@@ -102,7 +102,12 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
       } else {
         setTimeout(() => {
           setClosing(true);
-          setTimeout(onDone, 700);
+          setTimeout(() => {
+            if (typeof window !== 'undefined') {
+              sessionStorage.setItem('preloader_shown', 'true');
+            }
+            onDone();
+          }, 700);
         }, 400);
       }
     };
