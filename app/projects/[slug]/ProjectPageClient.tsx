@@ -21,6 +21,10 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const project = projects.find((p) => p.slug === slug);
+  const currentIndex = projects.findIndex((p) => p.slug === slug);
+  const nextProject = currentIndex !== -1 && currentIndex + 1 < projects.length
+    ? projects[currentIndex + 1]
+    : null;
 
   useEffect(() => {
     if (!project) return;
@@ -261,8 +265,9 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {project.behanceUrl && (
-          <div className={styles.behance}>
+        {/* BUTTONS: Behance + Next project */}
+        <div className={styles.projectFooter}>
+          {project.behanceUrl && (
             <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
               {t.project.viewBehance}
               <span className="btn-cta-ico-wrap">
@@ -271,8 +276,18 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                 </svg>
               </span>
             </a>
-          </div>
-        )}
+          )}
+          {nextProject && (
+            <Link href={`/projects/${nextProject.slug}`} className="btn-secondary">
+              {locale === 'ru' ? 'Следующий проект' : 'Next project'}
+              <span className="btn-cta-ico-wrap">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </Link>
+          )}
+        </div>
       </div>
 
       <FinalCta />
