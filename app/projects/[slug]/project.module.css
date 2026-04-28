@@ -30,7 +30,6 @@
   color: #fff;
   /* Растягиваем фон на всю ширину экрана — без обрезки на 1440px */
   width: 100vw;
-  margin-left: calc(-50vw + 50%);
 }
 
 /*
@@ -172,7 +171,6 @@
   background: var(--border);
   border-bottom: 0.5px solid var(--border);
   width: 100vw;
-  margin-left: calc(-50vw + 50%);
 }
 .metaItem {
   background: var(--bg);
