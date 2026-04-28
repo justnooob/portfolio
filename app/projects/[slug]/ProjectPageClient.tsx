@@ -18,9 +18,12 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const [resultsExpanded, setResultsExpanded] = useState(false);
   const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
 
+  // Состояния для модалки
+  const [modalOpen, setModalOpen] = useState(false);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
+
   const project = projects.find((p) => p.slug === slug);
 
-  // Управляем "режимом" хедера на странице проекта
   useEffect(() => {
     if (!project) return;
     const heroMode = project.lightText ? 'light' : 'dark';
@@ -29,6 +32,21 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       document.documentElement.removeAttribute('data-hero-mode');
     };
   }, [project]);
+
+  // Открыть модалку с картинкой
+  const openModal = (imageSrc: string) => {
+    setActiveImage(imageSrc);
+    setModalOpen(true);
+    // Блокируем прокрутку фона
+    document.body.style.overflow = 'hidden';
+  };
+
+  // Закрыть модалку
+  const closeModal = () => {
+    setModalOpen(false);
+    setActiveImage(null);
+    document.body.style.overflow = '';
+  };
 
   if (!project) {
     return (
@@ -61,7 +79,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
     <main>
       <Nav />
 
-      {/* === HERO — точная копия старого === */}
+      {/* HERO */}
       <div
         className={`${styles.hero} ${project.lightText ? styles.heroLight : ''}`}
         style={{ background: project.color }}
@@ -96,7 +114,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         </div>
       </div>
 
-      {/* === META === */}
+      {/* META */}
       <div className={styles.meta}>
         <div className={styles.metaItem}>
           <div className={styles.metaLbl}>{t.project.role}</div>
@@ -112,7 +130,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         </div>
       </div>
 
-      {/* === CONTENT — новые секции === */}
+      {/* CONTENT */}
       <div className={styles.content}>
         {/* CONTEXT */}
         {project.context && (
@@ -187,48 +205,49 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
               className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
             >
               {/* 1-й экран на всю ширину */}
-              {project.screens[0] && (
+              {project.screens[0] && project.screens[0].image && (
                 <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    {project.screens[0].image ? (
-                      <img src={project.screens[0].image} alt={project.screens[0].title[locale]} />
-                    ) : (
-                      <div className={styles.screensMsg}>
-                        {locale === 'ru' ? 'Скриншот 1' : 'Screenshot 1'}
-                      </div>
-                    )}
+                    <img 
+                      src={project.screens[0].image} 
+                      alt={project.screens[0].title[locale]}
+                      onClick={() => openModal(project.screens[0].image!)}
+                      className={styles.clickableImg}
+                    />
                   </div>
                 </div>
               )}
 
               {/* 2-3 экраны (2 в ряд) */}
               {project.screens.slice(1, 3).map((screen, i) => (
-                <div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    {screen.image ? (
-                      <img src={screen.image} alt={screen.title[locale]} />
-                    ) : (
-                      <div className={styles.screensMsg}>
-                        {locale === 'ru' ? `Скриншот ${i + 2}` : `Screenshot ${i + 2}`}
-                      </div>
-                    )}
+                screen.image && (
+                  <div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
+                    <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                      <img 
+                        src={screen.image} 
+                        alt={screen.title[locale]}
+                        onClick={() => openModal(screen.image!)}
+                        className={styles.clickableImg}
+                      />
+                    </div>
                   </div>
-                </div>
+                )
               ))}
 
               {/* 4-5 экраны (2 в ряд) */}
               {project.screens.slice(3, 5).map((screen, i) => (
-                <div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    {screen.image ? (
-                      <img src={screen.image} alt={screen.title[locale]} />
-                    ) : (
-                      <div className={styles.screensMsg}>
-                        {locale === 'ru' ? `Скриншот ${i + 4}` : `Screenshot ${i + 4}`}
-                      </div>
-                    )}
+                screen.image && (
+                  <div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
+                    <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                      <img 
+                        src={screen.image} 
+                        alt={screen.title[locale]}
+                        onClick={() => openModal(screen.image!)}
+                        className={styles.clickableImg}
+                      />
+                    </div>
                   </div>
-                </div>
+                )
               ))}
             </div>
           </section>
@@ -283,6 +302,24 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
       <FinalCta />
       <Footer />
+
+      {/* МОДАЛЬНОЕ ОКНО */}
+      <div 
+        className={`${styles.modalOverlay} ${modalOpen ? styles.modalOverlayOpen : ''}`}
+        onClick={closeModal}
+      >
+        <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+          <button className={styles.modalClose} onClick={closeModal}>✕</button>
+          {activeImage && (
+            <img
+              src={activeImage}
+              alt="Полноразмерное изображение"
+              className={styles.modalImage}
+              onClick={closeModal}
+            />
+          )}
+        </div>
+      </div>
     </main>
   );
 }
