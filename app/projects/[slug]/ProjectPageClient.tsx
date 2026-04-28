@@ -101,29 +101,24 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           >
             {/* 1 экран */}
             {firstScreen && firstScreen.image && (
-              (() => {
-                const imageSrc = firstScreen.image;
-                return (
-                  <div className={styles.screenItem}>
-                    <img
-                      src={imageSrc}
-                      alt={firstScreen.title[locale]}
-                      onClick={() => openModal(imageSrc)}
-                      className={styles.clickableImg}
-                    />
-                  </div>
-                );
-              })()
+              <div className={styles.screenItem}>
+                <img
+                  src={firstScreen.image}
+                  alt={firstScreen.title[locale]}
+                  onClick={() => openModal(firstScreen.image!)}
+                  className={styles.clickableImg}
+                />
+              </div>
             )}
 
-            {/* остальные */}
+            {/* остальные экраны */}
             {project.screens.slice(1).map((screen, i) => (
               <div key={i} className={styles.screenItem}>
                 {screen.image && (
                   <img
                     src={screen.image}
                     alt={screen.title[locale]}
-                    onClick={() => openModal(screen.image)}
+                    onClick={() => openModal(screen.image!)}
                     className={styles.clickableImg}
                   />
                 )}
