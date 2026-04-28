@@ -274,22 +274,20 @@
   transform: rotate(180deg);
 }
 
+/* SCREENS — исправлено: заголовок на месте, сетка на всю ширину */
 .screensBlock {
-  position: relative;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
   margin-bottom: 56px;
-  padding: 0;
 }
 
 .screensGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  max-width: var(--max-width);
-  margin: 0 auto;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   padding: 0 32px;
   margin-top: 24px;
+  position: relative;
 }
 
 .screenItem {
