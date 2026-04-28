@@ -383,7 +383,13 @@
   z-index: 999;
 
   opacity: 0;
-  animation: fadeIn 0.3s forwards;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.modalActive {
+  opacity: 1;
+  visibility: visible;
 }
 
 .modalContent {
@@ -392,7 +398,11 @@
   max-height: 95vh;
 
   transform: scale(0.9);
-  animation: scaleIn 0.3s forwards;
+  transition: transform 0.3s ease;
+}
+
+.modalActive .modalContent {
+  transform: scale(1);
 }
 
 .modalImg {
