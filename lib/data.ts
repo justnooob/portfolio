@@ -142,13 +142,13 @@ export interface Project {
   category: ProjectCategory;
   featured?: boolean;
   isThisSite?: boolean;
-  color: string; // gradient CSS
-  coverImage?: string; // путь к картинке обложки для тёмной темы
-  coverImageLight?: string; // путь к картинке обложки для светлой темы (опционально)
-  lightText?: boolean; // если true — на странице проекта текст будет тёмным (для светлых градиентов)
-  cover?: string; // путь к обложке-картинке (например "/projects/iywi/cover.jpg")
-  screenshots?: string[]; // массив длинных макетов для страницы проекта
-  logo: string; // letters
+  color: string;
+  coverImage?: string;
+  coverImageLight?: string;
+  lightText?: boolean;
+  cover?: string;
+  screenshots?: string[];
+  logo: string;
   logoColor: string;
   behanceUrl?: string;
   year: string;
@@ -157,7 +157,7 @@ export interface Project {
   shortDesc: { ru: string; en: string };
   tags: { ru: string[]; en: string[] };
   metrics?: { value: string; label: { ru: string; en: string } }[];
-  // Для отдельной страницы
+  // Страница проекта
   overview: { ru: string; en: string };
   role: { ru: string; en: string };
   duration: { ru: string; en: string };
@@ -165,6 +165,19 @@ export interface Project {
   challenge: { ru: string; en: string };
   solution: { ru: string; en: string };
   results: { ru: string[]; en: string[] };
+  // Новые поля для storytelling структуры
+  context?: { ru: string; en: string };
+  problem?: { ru: string; en: string };
+  goals?: { ru: string[]; en: string[] };
+  process?: { ru: string; en: string };
+  keyFeatures?: { ru: string[]; en: string[] };
+  uiDirection?: { ru: string; en: string };
+  conclusion?: { ru: string; en: string };
+  screens?: {
+    title: { ru: string; en: string };
+    desc?: { ru: string; en: string };
+    image?: string;
+  }[];
 }
 
 export const projects: Project[] = [
@@ -229,6 +242,90 @@ export const projects: Project[] = [
         'Production bugs reduced by 60%',
         'Deadline compliance in team of 6+ developers — 95%',
       ],
+    },
+    context: {
+      ru: 'IYWI (If You Were In) — это AI-платформа для стоматологических клиник, которая анализирует качество консультаций врачей с пациентами в реальном времени. Это сложный B2B-продукт, требующий интеграции с разными системами и ролями пользователей.',
+      en: 'IYWI (If You Were In) is an AI platform for dental clinics that analyzes consultation quality between doctors and patients in real-time. It\'s a complex B2B product requiring integration with different systems and user roles.',
+    },
+    problem: {
+      ru: 'Проблема была многоуровневая: (1) медицинский B2B AI-продукт требует высокой точности UX, (2) система должна работать для 4+ ролей пользователей одновременно, (3) нужно обеспечить масштабирование для 6+ разработчиков, (4) время на выход на рынок критично — нужны быстрые лидогенерирующие лендинги.',
+      en: 'The challenge was multi-layered: (1) a medical B2B AI product demands high UX precision, (2) the system must serve 4+ user roles simultaneously, (3) scalability needed for 6+ developers, (4) market time is critical — fast lead-generating landings were needed.',
+    },
+    goals: {
+      ru: [
+        'Создать полный продуктовый дизайн сложного AI-SaaS с нуля',
+        'Разработать дизайн-систему для масштабирования команды',
+        'Упростить UX для разных ролей пользователей (врачи, админы, менеджеры)',
+        'Создать 5+ лендингов для роста лидов',
+        'Адаптировать платформу под веб, iOS и Android',
+      ],
+      en: [
+        'Create full product design for complex AI-SaaS from scratch',
+        'Develop design system for team scalability',
+        'Simplify UX for different user roles (doctors, admins, managers)',
+        'Build 5+ landing pages for lead growth',
+        'Adapt platform for web, iOS, and Android',
+      ],
+    },
+    process: {
+      ru: 'Начал с погружения в медицинский контекст и интервью с врачами. Построил карту сложных user flows для каждой роли. Создал дизайн-систему с компонентами для быстрого масштабирования. Провёл 8 A/B-тестов интерфейса на основе пользовательского поведения. Спроектировал 5 лендингов на Tilda с AI-генерированным контентом. Адаптировал веб-версию под мобильные платформы.',
+      en: 'Started by diving into medical context and interviewing doctors. Built complex user flow maps for each role. Created design system with components for rapid scaling. Conducted 8 UI A/B tests based on user behavior. Designed 5 landing pages on Tilda with AI-generated content. Adapted web version for mobile platforms.',
+    },
+    keyFeatures: {
+      ru: [
+        'AI-анализ качества консультаций',
+        'Мультиролевая система (врачи, админы, менеджеры)',
+        'Веб + iOS + Android',
+        'Единая дизайн-система из 50+ компонентов',
+        '5 продающих лендингов',
+        'A/B тестирование интерфейсов',
+      ],
+      en: [
+        'AI consultation quality analysis',
+        'Multi-role system (doctors, admins, managers)',
+        'Web + iOS + Android',
+        'Unified design system with 50+ components',
+        '5 sales landing pages',
+        'Interface A/B testing',
+      ],
+    },
+    uiDirection: {
+      ru: 'B2B SaaS с высокой плотностью информации, строгой иерархией и системным подходом к масштабируемости. UI фокусируется на скорости восприятия данных и надёжности на фоне сложного медицинского контекста.',
+      en: 'B2B SaaS with high information density, strict hierarchy, and systematic approach to scalability. UI focuses on data perception speed and reliability against complex medical context.',
+    },
+    screens: [
+      {
+        title: { ru: 'Onboarding', en: 'Onboarding' },
+        desc: { ru: 'Понимание продукта и первичная настройка', en: 'Product understanding and initial setup' },
+      },
+      {
+        title: { ru: 'Dashboard', en: 'Dashboard' },
+        desc: { ru: 'Основной контроль-центр системы', en: 'Main system control center' },
+      },
+      {
+        title: { ru: 'AI Analytics', en: 'AI Analytics' },
+        desc: { ru: 'Ключевая ценность продукта — анализ консультаций', en: 'Key product value — consultation analysis' },
+      },
+      {
+        title: { ru: 'Role-Based Views', en: 'Role-Based Views' },
+        desc: { ru: 'Разные интерфейсы для разных пользователей', en: 'Different interfaces for different users' },
+      },
+      {
+        title: { ru: 'Mobile App', en: 'Mobile App' },
+        desc: { ru: 'Адаптация для iOS и Android', en: 'iOS and Android adaptation' },
+      },
+      {
+        title: { ru: 'Landing Pages', en: 'Landing Pages' },
+        desc: { ru: '5 продающих лендингов на Tilda', en: '5 sales landings on Tilda' },
+      },
+      {
+        title: { ru: 'Design System', en: 'Design System' },
+        desc: { ru: 'Инфраструктурный слой — 50+ компонентов', en: 'Infrastructure layer — 50+ components' },
+      },
+    ],
+    conclusion: {
+      ru: 'Главный инсайт проекта: дизайн-система важнее отдельных экранов. Когда команда работает быстро и в срок, это не потому что хороший дизайн, а потому что система позволяет строить быстро и предсказуемо. Рост лидов на 80% пришёл не из красивых интерфейсов, а из правильно выстроенного юзер-флоу и скоростных лендингов. Этот проект доказывает, что продуктовый дизайнер — это не дизайнер интерфейсов, а архитектор решений.',
+      en: 'Key insight: design systems matter more than individual screens. When teams work fast and meet deadlines, it\'s not because of beautiful design, but because the system allows rapid and predictable building. 80% lead growth came from well-structured user flows and fast landing pages, not from gorgeous interfaces. This project proves that product designers aren\'t UI designers — they\'re solution architects.',
     },
   },
 
