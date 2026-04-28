@@ -44,7 +44,7 @@ export default function Footer() {
             <a href="https://www.behance.net/maksimsorokin" target="_blank" rel="noopener noreferrer" className={styles.link}>
               Behance
             </a>
-            <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className={styles.link}>
+            <a href="Public/Sorokin_Maxim_CV.pdf" target="_blank" rel="noopener noreferrer" className={styles.link}>
               {t.footer.downloadCv}
             </a>
           </div>
