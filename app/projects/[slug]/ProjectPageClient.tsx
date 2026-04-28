@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
+import { useReveal, useStaggerReveal } from '@/lib/useReveal';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import FinalCta from '@/components/FinalCta';
@@ -15,6 +16,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const { locale } = useApp();
   const t = translations[locale];
   const [resultsExpanded, setResultsExpanded] = useState(false);
+  const { ref: screensRef, visible: screensVisible } = useStaggerReveal<HTMLDivElement>(100);
 
   const project = projects.find((p) => p.slug === slug);
 
@@ -180,12 +182,54 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         {project.screens && project.screens.length > 0 && (
           <section className={styles.screensBlock}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
-            <div className={styles.screensPlaceholder} style={{ background: project.color }}>
-              <div className={styles.screensMsg}>
-                {locale === 'ru'
-                  ? 'Добавьте скриншоты проекта в папку public/projects/' + project.slug + '/'
-                  : 'Add project screenshots to public/projects/' + project.slug + '/'}
-              </div>
+            <div 
+              ref={screensRef}
+              className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
+            >
+              {/* 1-й экран на всю ширину */}
+              {project.screens[0] && (
+                <div className={`${styles.screenItem} ${styles.screenWide}`}>
+                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                    {project.screens[0].image ? (
+                      <img src={project.screens[0].image} alt={project.screens[0].title[locale]} />
+                    ) : (
+                      <div className={styles.screensMsg}>
+                        {locale === 'ru' ? 'Скриншот 1' : 'Screenshot 1'}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* 2-3 экраны (2 в ряд) */}
+              {project.screens.slice(1, 3).map((screen, i) => (
+                <div key={i + 1} className={`${styles.screenItem}`}>
+                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                    {screen.image ? (
+                      <img src={screen.image} alt={screen.title[locale]} />
+                    ) : (
+                      <div className={styles.screensMsg}>
+                        {locale === 'ru' ? `Скриншот ${i + 2}` : `Screenshot ${i + 2}`}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {/* 4-5 экраны (2 в ряд) */}
+              {project.screens.slice(3, 5).map((screen, i) => (
+                <div key={i + 3} className={`${styles.screenItem}`}>
+                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                    {screen.image ? (
+                      <img src={screen.image} alt={screen.title[locale]} />
+                    ) : (
+                      <div className={styles.screensMsg}>
+                        {locale === 'ru' ? `Скриншот ${i + 4}` : `Screenshot ${i + 4}`}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
         )}

@@ -329,3 +329,87 @@
     font-size: 15px;
   }
 }
+
+/* === SCREENS GRID === */
+.screensGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.screenItem {
+  opacity: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.screensGrid[data-reveal] .screenItem {
+  opacity: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+}
+
+.screensGridVisible .screenItem {
+  opacity: 1;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.screenWide {
+  grid-column: 1 / -1;
+}
+
+.screenPlaceholder {
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 340px;
+}
+
+.screenWide .screenPlaceholder {
+  min-height: 400px;
+}
+
+.screenItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.screenItem:nth-child(2) {
+  transition-delay: 100ms;
+}
+
+.screenItem:nth-child(3) {
+  transition-delay: 200ms;
+}
+
+.screenItem:nth-child(4) {
+  transition-delay: 300ms;
+}
+
+.screenItem:nth-child(5) {
+  transition-delay: 400ms;
+}
+
+.screenItem:nth-child(6) {
+  transition-delay: 500ms;
+}
+
+@media (max-width: 768px) {
+  .screensGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .screenPlaceholder {
+    min-height: 280px;
+  }
+
+  .screenWide .screenPlaceholder {
+    min-height: 300px;
+  }
+}
