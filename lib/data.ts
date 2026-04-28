@@ -395,10 +395,11 @@ export const projects: Project[] = [
       en: 'Enterprise SaaS with strong data structure, high information density, and unified design system.',
     },
     screens: [
-      { title: { ru: 'Dashboard', en: 'Dashboard' }, image: '/projects/buildit/1.jpg' },
-      { title: { ru: 'Tasks', en: 'Tasks' }, image: '/projects/buildit/2.jpg' },
+      { title: { ru: 'Review', en: 'Review' }, image: '/projects/buildit/1.jpg' },
+      { title: { ru: 'Dashboard', en: 'Dashboard' }, image: '/projects/buildit/2.jpg' },
       { title: { ru: 'Procurement', en: 'Procurement' }, image: '/projects/buildit/3.jpg' },
       { title: { ru: 'Finance', en: 'Finance' }, image: '/projects/buildit/4.jpg' },
+	  { title: { ru: 'Mobile', en: 'Mobile' }, image: '/projects/buildit/5.jpg' },
     ],
     conclusion: {
       ru: 'Проект показал, что системный подход на основе данных и клиентоцентричности даёт высокие результаты. Комбинация количественного анализа и глубинных интервью помогла выявить реальные потребности.',
@@ -496,11 +497,11 @@ export const projects: Project[] = [
       en: 'Fast, minimalist UX for Telegram format, emphasis on simplicity and speed of actions.',
     },
     screens: [
-      { title: { ru: 'Onboarding', en: 'Onboarding' }, image: '/projects/hobbist/1.jpg' },
+      { title: { ru: 'Dating', en: 'Dating' }, image: '/projects/hobbist/1.jpg' },
       { title: { ru: 'Profile', en: 'Profile' }, image: '/projects/hobbist/2.jpg' },
-      { title: { ru: 'Match', en: 'Match' }, image: '/projects/hobbist/3.jpg' },
-      { title: { ru: 'Chat', en: 'Chat' }, image: '/projects/hobbist/4.jpg' },
-      { title: { ru: 'UI Kit', en: 'UI Kit' }, image: '/projects/hobbist/5.jpg' },
+      { title: { ru: 'Library', en: 'Library' }, image: '/projects/hobbist/3.jpg' },
+      { title: { ru: 'Reviews', en: 'Reviews' }, image: '/projects/hobbist/4.jpg' },
+      { title: { ru: 'Match and Chat', en: 'Match and Chat' }, image: '/projects/hobbist/5.jpg' },
     ],
     conclusion: {
       ru: 'HOBBIST показал, что Telegram это перспективная платформа для социальных продуктов. Компонентный UI Kit позволил быстро итерировать и запустить MVP в сжатые сроки.',
@@ -558,9 +559,9 @@ export const projects: Project[] = [
       en: 'Immersive visual experience where design creates the mood and enhances the narrative.',
     },
     screens: [
-      { title: { ru: 'Map', en: 'Map' }, image: '/projects/volcanoes/1.jpg' },
-      { title: { ru: 'Volcano Pages', en: 'Volcano Pages' }, image: '/projects/volcanoes/2.jpg' },
-      { title: { ru: 'Storytelling', en: 'Storytelling' }, image: '/projects/volcanoes/3.jpg' },
+      { title: { ru: 'Info', en: 'Info' }, image: '/projects/volcanoes/1.jpg' },
+      { title: { ru: 'Map and Quiz', en: 'Map and Quiz' }, image: '/projects/volcanoes/2.jpg' },
+      { title: { ru: 'Trip Planner', en: 'Trip Planner' }, image: '/projects/volcanoes/3.jpg' },
     ],
     conclusion: {
       ru: 'Volcanoes Explorer это пример превращения сложного образовательного контента в захватывающее приключение. Атмосферный дизайн, сторителлинг и геймификация создают уникальный опыт.',
@@ -621,6 +622,8 @@ export const projects: Project[] = [
       { title: { ru: 'Home', en: 'Home' }, image: '/projects/plant-pal/1.jpg' },
       { title: { ru: 'Plant', en: 'Plant' }, image: '/projects/plant-pal/2.jpg' },
       { title: { ru: 'Reminders', en: 'Reminders' }, image: '/projects/plant-pal/3.jpg' },
+	  { title: { ru: 'Add', en: 'Add' }, image: '/projects/plant-pal/4.jpg' },
+	  { title: { ru: 'WEB', en: 'WEB' }, image: '/projects/plant-pal/5.jpg' },
     ],
     conclusion: {
       ru: 'Plant Pal это пример успешного сочетания функциональности и эстетики. Минималистичный дизайн и дружелюбные иллюстрации создают позитивный опыт.',
@@ -748,9 +751,9 @@ export const projects: Project[] = [
     screens: [
       { title: { ru: 'Главная', en: 'Home' }, image: '/projects/portfolio/1.jpg' },
       { title: { ru: 'Проекты', en: 'Projects' }, image: '/projects/portfolio/2.jpg' },
-      { title: { ru: 'Страница кейса', en: 'Case study' }, image: '/projects/portfolio/3.jpg' },
-      { title: { ru: 'Переключение темы', en: 'Theme switch' }, image: '/projects/portfolio/4.jpg' },
-      { title: { ru: 'Переключение языка', en: 'Language switch' }, image: '/projects/portfolio/5.jpg' },
+      { title: { ru: 'Опыт', en: 'Work' }, image: '/projects/portfolio/3.jpg' },
+      { title: { ru: 'Страница проекта', en: 'Project Page' }, image: '/projects/portfolio/4.jpg' },
+      { title: { ru: 'Скрины проекта', en: 'Project Screens' }, image: '/projects/portfolio/5.jpg' },
     ],
     conclusion: {
       ru: 'Этот сайт это не только портфолио, но и демонстрация моих технических навыков как продуктового дизайнера, способного реализовать полноценный продукт от идеи до деплоя.',
@@ -802,8 +805,9 @@ export const projects: Project[] = [
       en: 'Minimalism + visual focus. Design entirely subservient to showcasing work.',
     },
     screens: [
-      { title: { ru: 'Gallery', en: 'Gallery' }, image: '/projects/architecture-studio/1.jpg' },
-      { title: { ru: 'Project View', en: 'Project View' }, image: '/projects/architecture-studio/2.jpg' },
+      { title: { ru: 'Главная', en: 'Main' }, image: '/projects/architecture-studio/1.jpg' },
+      { title: { ru: 'Услуги', en: 'Skills' }, image: '/projects/architecture-studio/2.jpg' },
+	  { title: { ru: 'Проекты', en: 'Project View' }, image: '/projects/architecture-studio/3.jpg' },
     ],
     conclusion: {
       ru: 'Нестандартное UI-решение с горизонтальным скроллом создаёт кинематографический эффект, позволяя работам говорить самим за себя.',
@@ -855,8 +859,9 @@ export const projects: Project[] = [
       en: 'Strict corporate style with emphasis on structure, clear hierarchy, and strong CTAs.',
     },
     screens: [
-      { title: { ru: 'Homepage', en: 'Homepage' }, image: '/projects/pioner/1.jpg' },
-      { title: { ru: 'Layout System', en: 'Layout System' }, image: '/projects/pioner/2.jpg' },
+      { title: { ru: 'Главная', en: 'Homepage' }, image: '/projects/pioner/1.jpg' },
+      { title: { ru: 'Каталог', en: 'Cataloge' }, image: '/projects/pioner/2.jpg' },
+	  { title: { ru: 'Контакты', en: 'Contacts' }, image: '/projects/pioner/3.jpg' },
     ],
     conclusion: {
       ru: 'Проект PIONER это пример успешного редизайна корпоративного сайта от устаревшего к современному, повысившего бизнес-показатели.',
@@ -910,7 +915,6 @@ export const projects: Project[] = [
     },
     screens: [
       { title: { ru: 'Hero', en: 'Hero' }, image: '/projects/aveji/1.jpg' },
-      { title: { ru: 'Sections', en: 'Sections' }, image: '/projects/aveji/2.jpg' },
     ],
     conclusion: {
       ru: 'AVEJI это пример эффективного конверсионного лендинга, где минималистичный дизайн и чёткая структура работают на результат.',
@@ -963,7 +967,6 @@ export const projects: Project[] = [
     },
     screens: [
       { title: { ru: 'Hero Screen', en: 'Hero Screen' }, image: '/projects/webinar/1.jpg' },
-      { title: { ru: 'CTA', en: 'CTA' }, image: '/projects/webinar/2.jpg' },
     ],
     conclusion: {
       ru: 'Супер-минималистичный дизайн может быть максимально эффективным: убрав всё лишнее, оставив только одно действие, удалось создать страницу с высокой конверсией.',
