@@ -272,12 +272,20 @@
   background: var(--bg-elev-2);
 }
 .expandChev {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 14px;
-	line-height: 1;              /* убираем лишнюю высоту */
-	transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.expandChev svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.expandChevRotated {
+  transform: rotate(180deg);
 }
 .expandChevRotated {
   transform: rotate(180deg);
