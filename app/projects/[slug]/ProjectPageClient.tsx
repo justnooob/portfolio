@@ -99,19 +99,24 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
               screensVisible ? styles.screensGridVisible : ''
             }`}
           >
-            {/* 1 экран — ТОЛЬКО если есть изображение */}
+            {/* 1 экран */}
             {firstScreen && firstScreen.image && (
-              <div className={styles.screenItem}>
-                <img
-                  src={firstScreen.image}
-                  alt={firstScreen.title[locale]}
-                  onClick={() => openModal(firstScreen.image)} // теперь firstScreen.image точно строка
-                  className={styles.clickableImg}
-                />
-              </div>
+              (() => {
+                const imageSrc = firstScreen.image;
+                return (
+                  <div className={styles.screenItem}>
+                    <img
+                      src={imageSrc}
+                      alt={firstScreen.title[locale]}
+                      onClick={() => openModal(imageSrc)}
+                      className={styles.clickableImg}
+                    />
+                  </div>
+                );
+              })()
             )}
 
-            {/* остальные экраны */}
+            {/* остальные */}
             {project.screens.slice(1).map((screen, i) => (
               <div key={i} className={styles.screenItem}>
                 {screen.image && (
