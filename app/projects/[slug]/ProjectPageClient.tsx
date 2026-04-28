@@ -189,52 +189,61 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         )}
 
         {/* SCREENS */}
-        {project.screens && project.screens.length > 0 && (
-          <section className={styles.screensBlock}>
-            <div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
-            <div
-              ref={screensRef}
-              className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
-            >
-              {project.screens[0] && project.screens[0].image && (
-                <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    <img
-                      src={project.screens[0].image}
-                      alt={project.screens[0].title[locale]}
-                      onClick={() => openModal(project.screens[0].image!)}
-                      className={styles.clickableImg}
-                    />
-                  </div>
-                </div>
-              )}
-              {project.screens.slice(1, 3).map((screen, i) => screen && screen.image && (
-                <div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    <img
-                      src={screen.image}
-                      alt={screen.title[locale]}
-                      onClick={() => openModal(screen.image!)}
-                      className={styles.clickableImg}
-                    />
-                  </div>
-                </div>
-              ))}
-              {project.screens.slice(3, 5).map((screen, i) => screen && screen.image && (
-                <div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    <img
-                      src={screen.image}
-                      alt={screen.title[locale]}
-                      onClick={() => openModal(screen.image!)}
-                      className={styles.clickableImg}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+		{project.screens && project.screens.length > 0 && (
+		  <section className={styles.screensBlock}>
+			<div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
+			<div 
+			  ref={screensRef}
+			  className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
+			>
+			  {/* 1-й экран на всю ширину */}
+			  {project.screens[0] && project.screens[0].image && (
+				<div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
+				  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+					<img 
+					  src={project.screens[0].image}
+					  alt={project.screens[0].title[locale]}
+					  onClick={() => openModal(project.screens[0].image!)}
+					  className={styles.clickableImg}
+					/>
+				  </div>
+				</div>
+			  )}
+
+			  {/* 2-3 экраны (2 в ряд) */}
+			  {project.screens.slice(1, 3).map((screen, i) => (
+				screen && screen.image && (
+				  <div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
+					<div className={styles.screenPlaceholder} style={{ background: project.color }}>
+					  <img 
+						src={screen.image}
+						alt={screen.title[locale]}
+						onClick={() => openModal(screen.image!)}
+						className={styles.clickableImg}
+					  />
+					</div>
+				  </div>
+				)
+			  ))}
+
+			  {/* 4-5 экраны (2 в ряд) */}
+			  {project.screens.slice(3, 5).map((screen, i) => (
+				screen && screen.image && (
+				  <div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
+					<div className={styles.screenPlaceholder} style={{ background: project.color }}>
+					  <img 
+						src={screen.image}
+						alt={screen.title[locale]}
+						onClick={() => openModal(screen.image!)}
+						className={styles.clickableImg}
+					  />
+					</div>
+				  </div>
+				)
+			  ))}
+			</div>
+		  </section>
+		)}
 
         {/* RESULTS */}
         <section className={styles.block}>
