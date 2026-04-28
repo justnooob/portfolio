@@ -100,7 +100,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
             }`}
           >
             {/* 1 экран */}
-            {firstScreen && (
+            {firstScreen && firstScreen.image && (
               <div className={styles.screenItem}>
                 <img
                   src={firstScreen.image}
