@@ -1,0 +1,59 @@
+name = "sorokin-portfolio"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+build = { command = "npm run build" }
+env = {}
+
+[env.production]
+name = "sorokin-portfolio"
+
+[[routes]]
+pattern = "*.css"
+zone_id = ""
+custom_domain = false
+
+[build]
+cwd = ""
+command = "npm run build"
+watch_paths = ["src/**/*.ts"]
+
+[triggers]
+crons = []
+
+[site]
+bucket = "./out"
+
+[[build.upload.rules]]
+type = "CompiledContentType"
+globs = ["**/*.js"]
+fallthrough = true
+
+[[build.upload.rules]]
+type = "CompiledContentType"
+globs = ["**/*.css"]
+fallthrough = true
+
+[[build.upload.rules]]
+type = "CompiledContentType"
+globs = ["**/*.woff2"]
+fallthrough = true
+
+[env.production.build.upload]
+
+[[env.production.build.upload.rules]]
+type = "CompiledContentType"
+globs = ["**/*.js"]
+fallthrough = true
+
+[[env.production.build.upload.rules]]
+type = "CompiledContentType"
+globs = ["**/*.css"]
+fallthrough = true
+
+[[env.production.build.upload.rules]]
+type = "CompiledContentType"
+globs = ["**/*.woff2"]
+fallthrough = true
