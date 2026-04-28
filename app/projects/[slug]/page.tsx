@@ -1,11 +1,7 @@
 import { projects } from '@/lib/data';
+import Nav from '@/components/Nav';
 import ProjectPageClient from './ProjectPageClient';
 
-/**
- * Серверный компонент.
- * generateStaticParams говорит Next.js на сборке:
- * "сгенерируй HTML-страницу для каждого slug из этого списка".
- */
 export function generateStaticParams() {
   return projects.map((project) => ({
     slug: project.slug,
@@ -15,5 +11,10 @@ export function generateStaticParams() {
 export default function Page({ params }: { params: { slug: string } }) {
   const project = projects.find((p) => p.slug === params.slug);
   if (!project) return <div>Project not found</div>;
-  return <ProjectPageClient project={project} />;
+  return (
+    <>
+      <Nav />
+      <ProjectPageClient project={project} />
+    </>
+  );
 }

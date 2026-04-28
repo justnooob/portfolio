@@ -1,150 +1,113 @@
 /* === PROJECT PAGE === */
 
-/* === HERO — фиолетовый фон === */
-.hero {
-  padding: 60px 32px 80px;
+/* === PROJECT HERO === */
+.projectHero {
+  padding: 100px 32px 80px;
   color: #ffffff;
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
-  min-height: 50vh;
+  min-height: 400px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
-.heroInner {
+.projectHeroInner {
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
 }
-
-.heroTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
+.projectHeroContent {
+  max-width: 700px;
 }
-.backLink {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.backLink:hover {
-  color: #ffffff;
-}
-
-.tags {
-  display: flex;
-  gap: 8px;
-}
-.tag {
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.heroTitle {
-  font-size: 56px;
+.projectName {
+  font-size: 64px;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.03em;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
-.heroDesc {
+.projectOverview {
   font-size: 18px;
   line-height: 1.6;
   opacity: 0.85;
-  max-width: 700px;
-  margin-bottom: 48px;
 }
 
-/* META LINES */
-.heroMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 48px;
-  padding-bottom: 48px;
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
-  max-width: 800px;
+/* === PROJECT META === */
+.projectMeta {
+  padding: 60px 32px;
+  background: var(--bg-surface);
+  border-bottom: 0.5px solid var(--border);
 }
-.metaLine {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-.metaLabel {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  opacity: 0.6;
-  min-width: 100px;
-  font-weight: 500;
-}
-.metaValue {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-/* METRICS ROW */
-.metricsRow {
+.projectMetaInner {
+  max-width: 1440px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 32px;
-  max-width: 800px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
 }
-.metricItem {
+.projectMetaItem {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.metricNum {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1;
+.projectMetaLabel {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
-.metricLabel {
+.projectMetaValue {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-strong);
+}
+.projectMetaTools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.projectTool {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--bg-hover);
+  border: 0.5px solid var(--border);
+  border-radius: 6px;
   font-size: 13px;
-  opacity: 0.7;
+  color: var(--text-strong);
 }
 
-/* === CONTENT — белый фон === */
-.content {
+/* === PROJECT CONTENT === */
+.projectContent {
   padding: 80px 32px;
   background: var(--bg-surface);
   color: var(--text-strong);
 }
-
-.contentInner {
+.projectContentInner {
   max-width: 900px;
   margin: 0 auto;
 }
 
-.section {
+.projectSection {
   margin-bottom: 80px;
 }
-.section:last-of-type {
+.projectSection:last-child {
   margin-bottom: 0;
 }
 
-.sectionTitle {
+.projectSectionTitle {
   font-size: 28px;
   font-weight: 600;
-  margin-bottom: 24px;
   letter-spacing: -0.02em;
+  margin-bottom: 24px;
   color: var(--text-strong);
 }
 
-.sectionText {
+.projectSectionText {
   font-size: 16px;
   line-height: 1.8;
   color: var(--text-soft);
 }
 
-/* LIST — с маркерами */
-.list {
+/* LIST */
+.projectList {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -152,170 +115,146 @@
   flex-direction: column;
   gap: 16px;
 }
-.list li {
+.projectList li {
   font-size: 16px;
   line-height: 1.7;
   color: var(--text-soft);
   padding-left: 24px;
   position: relative;
 }
-.list li::before {
+.projectList li::before {
   content: '•';
   position: absolute;
   left: 0;
   color: var(--accent);
   font-weight: 700;
   font-size: 20px;
-  line-height: 1;
 }
 
 /* === SCREENS GRID === */
-.screensGrid {
+.projectScreensGrid {
   display: grid;
   gap: 24px;
 }
 
-/* 1-й экран на всю ширину */
-.screenWide {
+.projectScreenWide {
   grid-column: 1 / -1;
   margin-bottom: 24px;
 }
-.screenWide .screenPlaceholder {
+.projectScreenWide .projectScreenPlaceholder {
   aspect-ratio: 16 / 9;
   background: var(--bg-hover);
   border: 0.5px solid var(--border);
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  margin-bottom: 12px;
 }
-.screenWide .screenPlaceholder img {
+.projectScreenWide .projectScreenPlaceholder img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-/* 2x2 grid для остальных */
-.screenGrid2x2 {
+.projectScreenGrid2x2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
 
-.screenCard {
-  display: block;
-}
-.screenCard .screenPlaceholder {
+.projectScreenCard .projectScreenPlaceholder {
   aspect-ratio: 1;
   background: var(--bg-hover);
   border: 0.5px solid var(--border);
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  margin-bottom: 12px;
 }
-.screenCard .screenPlaceholder img {
+.projectScreenCard .projectScreenPlaceholder img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-.screenLabel {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-strong);
-}
-
-/* === BEHANCE SECTION === */
-.behanceSection {
+/* === PROJECT BEHANCE === */
+.projectBehance {
   padding: 80px 32px;
   background: var(--bg-surface);
   border-top: 0.5px solid var(--border);
   text-align: center;
 }
-
-.behanceSectionInner {
+.projectBehanceInner {
   max-width: 900px;
   margin: 0 auto;
 }
-
-.behanceButton {
+.projectBehanceButton {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 32px;
   background: var(--accent);
-  color: #fff;
+  color: #ffffff;
   text-decoration: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
-.behanceButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(79, 163, 255, 0.3);
+.projectBehanceButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(79, 163, 255, 0.35);
 }
-.behanceArrow {
+.projectBehanceIcon {
   font-size: 18px;
   transition: transform 0.3s;
 }
-.behanceButton:hover .behanceArrow {
+.projectBehanceButton:hover .projectBehanceIcon {
   transform: translateX(4px);
 }
 
 /* === МОБИЛКА === */
 @media (max-width: 768px) {
-  .hero {
-    padding: 40px 20px 60px;
+  .projectHero {
+    padding: 60px 20px 60px;
     min-height: auto;
   }
-  .heroTitle {
+  .projectName {
     font-size: 36px;
+    margin-bottom: 16px;
   }
-  .heroDesc {
+  .projectOverview {
     font-size: 16px;
-    margin-bottom: 32px;
-  }
-  .heroMeta {
-    gap: 12px;
-    margin-bottom: 32px;
-    padding-bottom: 32px;
-  }
-  .metaLine {
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-start;
   }
 
-  .content {
+  .projectMeta {
+    padding: 40px 20px;
+  }
+  .projectMetaInner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .projectContent {
     padding: 60px 20px;
   }
-  .section {
+  .projectSection {
     margin-bottom: 60px;
   }
-  .sectionTitle {
+  .projectSectionTitle {
     font-size: 22px;
   }
 
-  .metricsRow {
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  .metricNum {
-    font-size: 28px;
-  }
-
-  .screenGrid2x2 {
+  .projectScreenGrid2x2 {
     grid-template-columns: 1fr;
   }
 
-  .behanceSection {
+  .projectBehance {
     padding: 60px 20px;
+  }
+  .projectBehanceButton {
+    padding: 12px 24px;
+    font-size: 15px;
+    width: 100%;
   }
 }
