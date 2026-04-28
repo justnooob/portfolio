@@ -188,9 +188,14 @@
     padding: 32px 24px;
     min-height: auto;
     border-radius: 18px;
+    /* Монохромный фон на мобилке вместо цветного проекта */
+    background: #131313 !important;
   }
-  /* Скрываем картинку на мобилке — она перекрывает текст */
+  /* Скрываем картинку и glow — они ломают вёрстку на мобилке */
   .coverBg {
+    display: none;
+  }
+  .glow {
     display: none;
   }
   .metrics {
@@ -205,5 +210,13 @@
   .tag {
     font-size: 11px;
     padding: 4px 10px;
+  }
+}
+/* Светлая тема мобилка */
+@media (max-width: 768px) {
+  :global([data-theme='light']) .card {
+    background: #edeff7 !important;
+    color: #0c0c0e;
+    border-color: rgba(0, 0, 0, 0.08);
   }
 }

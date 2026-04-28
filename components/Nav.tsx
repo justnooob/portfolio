@@ -53,14 +53,11 @@ export default function Nav() {
       <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`} data-hero={heroMode || undefined}>
         <div className={styles.navInner}>
           <Link href="/" className={styles.logo} onClick={closeMenu}>
-            {/* ⭐ Сюда вставь свой SVG-логотип. Положи файл в public/logo.svg */}
-            <span className={styles.logoMark}>
-              <svg viewBox="0 0 32 32" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
-                <rect width="32" height="32" rx="8" fill="currentColor" opacity="0.1" />
-                <text x="16" y="21" fontFamily="inherit" fontWeight="600" fontSize="13" fill="currentColor" textAnchor="middle">MS</text>
-              </svg>
-            </span>
-            <span className={styles.logoText}>Maxim Sorokin</span>
+            <img
+              src="/soromax.svg"
+              alt="Soromax"
+              className={styles.logoImg}
+            />
           </Link>
 
           <div className={styles.links}>

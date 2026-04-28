@@ -23,9 +23,7 @@
    Когда у самого <nav> стоит data-hero='dark' (под ним тёмный hero) —
    все элементы становятся БЕЛЫМИ. После скролла .navScrolled возвращает
    обычные цвета темы. */
-.nav[data-hero='dark']:not(.navScrolled) .logo,
-.nav[data-hero='dark']:not(.navScrolled) .logoMark,
-.nav[data-hero='dark']:not(.navScrolled) .logoText {
+.nav[data-hero='dark']:not(.navScrolled) .logo {
   color: #ffffff;
 }
 .nav[data-hero='dark']:not(.navScrolled) .link {
@@ -52,9 +50,7 @@
 }
 
 /* Светлый hero (lightText:true) — хедер тёмный */
-.nav[data-hero='light']:not(.navScrolled) .logo,
-.nav[data-hero='light']:not(.navScrolled) .logoMark,
-.nav[data-hero='light']:not(.navScrolled) .logoText {
+.nav[data-hero='light']:not(.navScrolled) .logo {
   color: #0c0c0e;
 }
 .nav[data-hero='light']:not(.navScrolled) .link {
@@ -96,21 +92,15 @@
   color: var(--text-strong);
   text-decoration: none;
   justify-self: start;
+  transition: opacity 0.2s;
 }
-.logoMark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-strong);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.logo:hover {
+  opacity: 0.75;
 }
-.logo:hover .logoMark {
-  transform: rotate(-8deg) scale(1.05);
-}
-.logoText {
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: -0.2px;
+.logoImg {
+  height: 18px;
+  width: auto;
+  display: block;
 }
 
 .links {
@@ -356,8 +346,5 @@
   }
   .burger {
     display: inline-flex;
-  }
-  .logoText {
-    font-size: 14px;
   }
 }

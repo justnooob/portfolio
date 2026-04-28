@@ -380,9 +380,15 @@
      Уменьшаем высоту превью чтобы картинки не обрезались. */
   .preview {
     height: 220px;
+    /* Монохромный фон вместо цветных градиентов */
+    background: #131313 !important;
   }
   .coverImg {
     object-fit: contain;
     object-position: center;
+  }
+  /* Светлая тема */
+  :global([data-theme='light']) .preview {
+    background: #edeff7 !important;
   }
 }
