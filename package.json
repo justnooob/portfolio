@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && cp _headers out/_headers",
+    "build": "next build && cp _routes.json out/_routes.json && cp _headers out/_headers",
     "start": "next start",
     "lint": "next lint"
   },

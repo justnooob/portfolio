@@ -1,0 +1,5 @@
+# Redirect trailing slashes
+/projects /projects/ 301
+
+# Not necessary - just for clarity
+/*  /index.html  200

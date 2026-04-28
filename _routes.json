@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "description": "Routes for sorokin-portfolio",
+  "include": ["/*"],
+  "exclude": [],
+  "rules": [
+    {
+      "type": "CompiledContentType",
+      "globs": ["**/*.css"],
+      "fallthrough": true
+    },
+    {
+      "type": "CompiledContentType", 
+      "globs": ["**/*.js"],
+      "fallthrough": true
+    },
+    {
+      "type": "CompiledContentType",
+      "globs": ["**/*.woff2"],
+      "fallthrough": true
+    },
+    {
+      "type": "CompiledContentType",
+      "globs": ["**/*.svg"],
+      "fallthrough": true
+    },
+    {
+      "type": "CompiledContentType",
+      "globs": ["**/*.jpg"],
+      "fallthrough": true
+    },
+    {
+      "type": "CompiledContentType",
+      "globs": ["**/*.png"],
+      "fallthrough": true
+    }
+  ]
+}

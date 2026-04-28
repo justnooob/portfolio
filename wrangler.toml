@@ -1,59 +1,43 @@
 name = "sorokin-portfolio"
 type = "javascript"
-account_id = ""
-workers_dev = true
-route = ""
-zone_id = ""
-build = { command = "npm run build" }
-env = {}
 
 [env.production]
-name = "sorokin-portfolio"
-
-[[routes]]
-pattern = "*.css"
-zone_id = ""
-custom_domain = false
-
-[build]
-cwd = ""
-command = "npm run build"
-watch_paths = ["src/**/*.ts"]
-
-[triggers]
-crons = []
+name = "sorokin-portfolio-prod"
 
 [site]
 bucket = "./out"
+include = ["_headers", "_redirects", "_routes.json"]
 
-[[build.upload.rules]]
-type = "CompiledContentType"
-globs = ["**/*.js"]
-fallthrough = true
+[build]
+command = "npm run build"
+cwd = "."
 
 [[build.upload.rules]]
 type = "CompiledContentType"
 globs = ["**/*.css"]
-fallthrough = true
+fallthrough = false
+
+[[build.upload.rules]]
+type = "CompiledContentType"
+globs = ["**/*.js"]
+fallthrough = false
 
 [[build.upload.rules]]
 type = "CompiledContentType"
 globs = ["**/*.woff2"]
-fallthrough = true
+fallthrough = false
 
-[env.production.build.upload]
-
-[[env.production.build.upload.rules]]
+[[build.upload.rules]]
 type = "CompiledContentType"
-globs = ["**/*.js"]
-fallthrough = true
+globs = ["**/*.svg"]
+fallthrough = false
 
-[[env.production.build.upload.rules]]
+[[build.upload.rules]]
 type = "CompiledContentType"
-globs = ["**/*.css"]
-fallthrough = true
+globs = ["**/*.jpg"]
+fallthrough = false
 
-[[env.production.build.upload.rules]]
+[[build.upload.rules]]
 type = "CompiledContentType"
-globs = ["**/*.woff2"]
-fallthrough = true
+globs = ["**/*.png"]
+fallthrough = false
