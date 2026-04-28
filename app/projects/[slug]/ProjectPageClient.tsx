@@ -12,26 +12,28 @@ import { translations, projects } from '@/lib/data';
 import styles from './project.module.css';
 
 export default function ProjectPageClient({ slug }: { slug: string }) {
+	
+	const [modalOpen, setModalOpen] = useState(false);
+	const [activeImage, setActiveImage] = useState<string | null>(null);
+
+	const openModal = (src: string) => {
+		setActiveImage(src);
+		setModalOpen(true);
+	};
+
+	const closeModal = () => {
+		setModalOpen(false);
+		setActiveImage(null);
+		
   const router = useRouter();
   const { locale } = useApp();
   const t = translations[locale];
   const [resultsExpanded, setResultsExpanded] = useState(false);
-  const [expandedScreenIndex, setExpandedScreenIndex] = useState<number | null>(null);
   const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
 
   const project = projects.find((p) => p.slug === slug);
 
-  // Блокируем скролл при открытой модалке
-  useEffect(() => {
-    if (expandedScreenIndex !== null) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [expandedScreenIndex]);
+  // Управляем "режимом" хедера на странице проекта
   useEffect(() => {
     if (!project) return;
     const heroMode = project.lightText ? 'light' : 'dark';
@@ -67,6 +69,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
   const showMoreLabel = locale === 'ru' ? 'Показать все' : 'Show all';
   const collapseLabel = locale === 'ru' ? 'Свернуть' : 'Collapse';
+  };
 
   return (
     <main>
@@ -79,7 +82,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       >
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <button onClick={() => router.push('/#projects')} className={styles.back}>
+          <button onClick={() => router.push('/projects')} className={styles.back}>
             ← {t.project.back}
           </button>
           <div className={styles.heroTop}>
@@ -189,103 +192,81 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {/* SCREENS */}
-        {project.screens && project.screens.length > 0 && (
-          <section className={styles.screensBlock}>
-            <div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
-            <div 
-              ref={screensRef}
-              className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
-            >
-              {/* 1-й экран на всю ширину */}
-              {project.screens?.[0] && (
-                <div 
-                  className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}
-                  onClick={() => setExpandedScreenIndex(0)}
-                  style={{ cursor: project.screens?.[0]?.image ? 'pointer' : 'default' }}
-                >
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    {project.screens[0].image ? (
-                      <img src={project.screens[0].image} alt={project.screens[0].title[locale]} />
-                    ) : (
-                      <div className={styles.screensMsg}>
-                        {locale === 'ru' ? 'Скриншот 1' : 'Screenshot 1'}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+		{/* SCREENS */}
+		{project.screens && project.screens.length > 0 && (
+		  <section className={styles.screensBlock}>
+			<div className={styles.blockLbl}>
+			  {locale === 'ru' ? 'Экраны' : 'Screens'}
+			</div>
 
-              {/* 2-3 экраны (2 в ряд) */}
-              {project.screens.slice(1, 3).map((screen, i) => (
-                <div 
-                  key={i + 1} 
-                  className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}
-                  onClick={() => setExpandedScreenIndex(i + 1)}
-                  style={{ cursor: screen.image ? 'pointer' : 'default' }}
-                >
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    {screen.image ? (
-                      <img src={screen.image} alt={screen.title[locale]} />
-                    ) : (
-                      <div className={styles.screensMsg}>
-                        {locale === 'ru' ? `Скриншот ${i + 2}` : `Screenshot ${i + 2}`}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+			<div 
+			  ref={screensRef}
+			  className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
+			>
 
-              {/* 4-5 экраны (2 в ряд) */}
-              {project.screens.slice(3, 5).map((screen, i) => (
-                <div 
-                  key={i + 3} 
-                  className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}
-                  onClick={() => setExpandedScreenIndex(i + 3)}
-                  style={{ cursor: screen.image ? 'pointer' : 'default' }}
-                >
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    {screen.image ? (
-                      <img src={screen.image} alt={screen.title[locale]} />
-                    ) : (
-                      <div className={styles.screensMsg}>
-                        {locale === 'ru' ? `Скриншот ${i + 4}` : `Screenshot ${i + 4}`}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+			  {/* 1-й экран */}
+			  {project.screens[0] && (
+				<div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
+				  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+					{project.screens[0].image ? (
+					  <img
+						src={project.screens[0].image}
+						alt={project.screens[0].title[locale]}
+						onClick={() => openModal(project.screens[0].image)}
+						className={styles.clickableImg}
+					  />
+					) : (
+					  <div className={styles.screensMsg}>
+						{locale === 'ru' ? 'Скриншот 1' : 'Screenshot 1'}
+					  </div>
+					)}
+				  </div>
+				</div>
+			  )}
 
-        {/* MODAL СКРИНА */}
-        {expandedScreenIndex !== null && project.screens?.[expandedScreenIndex]?.image && (
-          <div 
-            className={styles.screenModal}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                setExpandedScreenIndex(null);
-              }
-            }}
-          >
-            <div className={styles.screenModalContent}>
-              <button 
-                className={styles.screenModalClose}
-                onClick={() => setExpandedScreenIndex(null)}
-                aria-label="Close"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-              <img 
-                src={project.screens[expandedScreenIndex].image} 
-                alt={project.screens[expandedScreenIndex].title[locale]}
-              />
-            </div>
-          </div>
-        )}
+			  {/* 2-3 экраны */}
+			  {project.screens.slice(1, 3).map((screen, i) => (
+				<div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
+				  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+					{screen.image ? (
+					  <img
+						src={screen.image}
+						alt={screen.title[locale]}
+						onClick={() => openModal(screen.image)}
+						className={styles.clickableImg}
+					  />
+					) : (
+					  <div className={styles.screensMsg}>
+						{locale === 'ru' ? `Скриншот ${i + 2}` : `Screenshot ${i + 2}`}
+					  </div>
+					)}
+				  </div>
+				</div>
+			  ))}
+
+			  {/* 4-5 экраны */}
+			  {project.screens.slice(3, 5).map((screen, i) => (
+				<div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
+				  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+					{screen.image ? (
+					  <img
+						src={screen.image}
+						alt={screen.title[locale]}
+						onClick={() => openModal(screen.image)}
+						className={styles.clickableImg}
+					  />
+					) : (
+					  <div className={styles.screensMsg}>
+						{locale === 'ru' ? `Скриншот ${i + 4}` : `Screenshot ${i + 4}`}
+					  </div>
+					)}
+				  </div>
+				</div>
+			  ))}
+
+			</div>
+		  </section>
+		)}
 
         {/* RESULTS */}
         <section className={styles.block}>

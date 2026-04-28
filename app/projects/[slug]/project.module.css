@@ -269,7 +269,6 @@
   cursor: pointer;
   transition: all 0.2s;
   font-weight: 500;
-  height: 36px;
 }
 .expandBtn:hover {
   border-color: var(--border-hover);
@@ -278,10 +277,7 @@
 .expandChev {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+  display: inline-block;
 }
 .expandChevRotated {
   transform: rotate(180deg);
@@ -371,6 +367,69 @@
   min-height: 400px;
 }
 
+/* курсор */
+.clickableImg {
+  cursor: zoom-in;
+}
+
+/* === MODAL === */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+.modalContent {
+  position: relative;
+  max-width: 95vw;
+  max-height: 95vh;
+
+  transform: scale(0.9);
+  animation: scaleIn 0.3s forwards;
+}
+
+.modalImg {
+  max-width: 100%;
+  max-height: 95vh;
+  width: auto;
+  height: auto;
+  display: block;
+
+  cursor: zoom-out;
+}
+
+/* крестик */
+.modalClose {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  font-size: 32px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* анимации */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  to {
+    transform: scale(1);
+  }
+}
+
 .screenItem img {
   width: 100%;
   height: 100%;
@@ -412,107 +471,4 @@
   .screenWide .screenPlaceholder {
     min-height: 300px;
   }
-}
-
-/* === MODAL SCREEN === */
-.screenModal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 40px;
-  animation: modalFadeIn 0.3s ease-out;
-  backdrop-filter: blur(4px);
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-  }
-  to {
-    opacity: 1;
-    backdrop-filter: blur(4px);
-  }
-}
-
-.screenModalContent {
-  position: relative;
-  width: 100%;
-  max-width: none;
-  max-height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: modalImageIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes modalImageIn {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.screenModalContent img {
-  width: 100%;
-  height: 100%;
-  max-height: calc(100vh - 80px);
-  object-fit: contain;
-  display: block;
-  border-radius: 12px;
-}
-
-.screenModalClose {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  z-index: 10001;
-}
-
-.screenModalClose:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.screenModalClose:active {
-  transform: scale(0.95);
-}
-
-.screenItem {
-  position: relative;
-}
-
-.screenItem img {
-  transition: transform 0.2s;
-}
-
-.screenItem:hover img {
-  transform: scale(1.02);
 }

@@ -18,21 +18,6 @@ const nextConfig = {
   reactStrictMode: false,
   compress: true,
   swcMinify: true,
-
-  // Копируем _headers в out директорию для Cloudflare Pages
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'text/css; charset=utf-8'
-          }
-        ]
-      }
-    ];
-  },
 };
 
 module.exports = nextConfig;
