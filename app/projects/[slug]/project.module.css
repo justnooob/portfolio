@@ -1,3 +1,9 @@
+/* ===== Глобальные настройки для страницы проекта ===== */
+/* Убираем горизонтальный скролл на всей странице */
+html, body {
+  overflow-x: hidden;
+}
+
 .notFound {
   min-height: 70vh;
   display: flex;
@@ -19,6 +25,7 @@
   font-size: 16px;
 }
 
+/* HERO — на всю ширину */
 .hero {
   position: relative;
   padding: 140px 32px 70px;
@@ -28,7 +35,8 @@
   justify-content: flex-end;
   overflow: hidden;
   color: #fff;
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
 .heroLight {
@@ -158,13 +166,15 @@
   margin-top: 6px;
 }
 
+/* META — на всю ширину */
 .meta {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: var(--border);
   border-bottom: 0.5px solid var(--border);
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 .metaItem {
   background: var(--bg);
@@ -274,11 +284,10 @@
   transform: rotate(180deg);
 }
 
-/* SCREENS — исправлено: заголовок на месте, сетка на всю ширину */
+/* SCREENS — заголовок на месте, сетка на всю ширину */
 .screensBlock {
   margin-bottom: 56px;
 }
-
 .screensGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
