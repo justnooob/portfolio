@@ -15,7 +15,6 @@ export default function ProjectPageClient({ project }: { project: Project }) {
       role: 'Роль',
       duration: 'Период',
       tools: 'Инструменты',
-      overview: 'Обзор',
       context: 'Контекст',
       problem: 'Проблема',
       goals: 'Цели',
@@ -26,12 +25,12 @@ export default function ProjectPageClient({ project }: { project: Project }) {
       results: 'Результаты',
       conclusion: 'Выводы',
       viewOnBehance: 'Смотреть на Behance',
+      back: 'Назад',
     },
     en: {
       role: 'Role',
       duration: 'Duration',
       tools: 'Tools',
-      overview: 'Overview',
       context: 'Context',
       problem: 'Problem',
       goals: 'Goals',
@@ -42,45 +41,70 @@ export default function ProjectPageClient({ project }: { project: Project }) {
       results: 'Results',
       conclusion: 'Conclusion',
       viewOnBehance: 'View on Behance',
+      back: 'Back',
     },
   };
   const t = translations[lang];
 
   return (
     <>
-      {/* HERO — старый вид */}
+      {/* HERO — полный блок со всем содержимым */}
       <section className={styles.projectHero} style={{ background: project.color }}>
         <div className={styles.projectHeroInner}>
-          <div className={styles.projectHeroContent}>
-            <h1 className={styles.projectName}>{project.name[lang]}</h1>
-            <p className={styles.projectOverview}>{project.overview[lang]}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* META — Роль, Период, Инструменты */}
-      <section className={styles.projectMeta}>
-        <div className={styles.projectMetaInner}>
-          <div className={styles.projectMetaItem}>
-            <div className={styles.projectMetaLabel}>{t.role}</div>
-            <div className={styles.projectMetaValue}>{project.role[lang]}</div>
-          </div>
-          <div className={styles.projectMetaItem}>
-            <div className={styles.projectMetaLabel}>{t.duration}</div>
-            <div className={styles.projectMetaValue}>{project.duration[lang]}</div>
-          </div>
-          <div className={styles.projectMetaItem}>
-            <div className={styles.projectMetaLabel}>{t.tools}</div>
-            <div className={styles.projectMetaTools}>
-              {project.tools.map((tool, i) => (
-                <span key={i} className={styles.projectTool}>{tool}</span>
+          {/* Top row: Back + Tags */}
+          <div className={styles.projectHeroTop}>
+            <a href="/projects#projects" className={styles.projectBackLink}>← {t.back}</a>
+            <div className={styles.projectHeroTags}>
+              {project.tags[lang].map((tag, i) => (
+                <span key={i} className={styles.projectHeroTag}>{tag}</span>
               ))}
             </div>
           </div>
+
+          {/* Name */}
+          <h1 className={styles.projectName}>{project.name[lang]}</h1>
+
+          {/* Description */}
+          <p className={styles.projectDesc}>{project.shortDesc[lang]}</p>
+
+          {/* Meta: Role + Duration + Tools */}
+          <div className={styles.projectHeroMeta}>
+            <div className={styles.projectHeroMetaItem}>
+              <span className={styles.projectHeroMetaLabel}>{t.role}</span>
+              <span className={styles.projectHeroMetaValue}>{project.role[lang]}</span>
+            </div>
+            <div className={styles.projectHeroMetaItem}>
+              <span className={styles.projectHeroMetaLabel}>{t.duration}</span>
+              <span className={styles.projectHeroMetaValue}>{project.duration[lang]}</span>
+            </div>
+            <div className={styles.projectHeroMetaItem}>
+              <span className={styles.projectHeroMetaLabel}>{t.tools}</span>
+              <div className={styles.projectHeroMetaTools}>
+                {project.tools.map((tool, i) => (
+                  <span key={i} className={styles.projectHeroMetaTool}>{tool}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Metrics */}
+          {project.metrics && project.metrics.length > 0 && (
+            <div className={styles.projectHeroMetrics}>
+              {project.metrics.map((m, i) => (
+                <div key={i} className={styles.projectHeroMetric}>
+                  <div className={styles.projectHeroMetricValue}>{m.value}</div>
+                  <div className={styles.projectHeroMetricLabel}>{m.label[lang]}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Year */}
+          <div className={styles.projectYear}>{project.year}</div>
         </div>
       </section>
 
-      {/* КОНТЕНТ */}
+      {/* CONTENT */}
       <section className={styles.projectContent}>
         <div className={styles.projectContentInner}>
           {/* CONTEXT */}
@@ -91,11 +115,20 @@ export default function ProjectPageClient({ project }: { project: Project }) {
             </div>
           )}
 
-          {/* PROBLEM */}
+          {/* PROBLEM — as list */}
           {project.problem && (
             <div className={styles.projectSection}>
               <h2 className={styles.projectSectionTitle}>{t.problem}</h2>
-              <p className={styles.projectSectionText}>{project.problem[lang]}</p>
+              {/* Проблема может быть либо текст, либо список (если она содержит скобки) */}
+              {project.problem[lang].includes('(1)') || project.problem[lang].includes('(2)') ? (
+                <ul className={styles.projectList}>
+                  {project.problem[lang].split(/\(\d+\)\s+/).filter(Boolean).map((item, i) => (
+                    <li key={i}>{item.trim()}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className={styles.projectSectionText}>{project.problem[lang]}</p>
+              )}
             </div>
           )}
 
@@ -191,13 +224,17 @@ export default function ProjectPageClient({ project }: { project: Project }) {
         </div>
       </section>
 
-      {/* BEHANCE */}
+      {/* BEHANCE — как CTA кнопка */}
       {project.behanceUrl && (
         <section className={styles.projectBehance}>
           <div className={styles.projectBehanceInner}>
-            <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className={styles.projectBehanceButton}>
+            <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
               {t.viewOnBehance}
-              <span className={styles.projectBehanceIcon}>→</span>
+              <span className="btn-cta-ico-wrap">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
             </a>
           </div>
         </section>

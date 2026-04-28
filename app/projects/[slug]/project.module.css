@@ -1,77 +1,141 @@
 /* === PROJECT PAGE === */
 
-/* === PROJECT HERO === */
+/* === PROJECT HERO — полный блок === */
 .projectHero {
-  padding: 100px 32px 80px;
+  padding: 60px 32px 80px;
   color: #ffffff;
-  min-height: 400px;
+  min-height: 500px;
   display: flex;
   align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 .projectHeroInner {
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
-.projectHeroContent {
-  max-width: 700px;
+
+/* Top row: Back link + Tags */
+.projectHeroTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
 }
+.projectBackLink {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.projectBackLink:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.projectHeroTags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.projectHeroTag {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Name */
 .projectName {
   font-size: 64px;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.03em;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
-.projectOverview {
+
+/* Description */
+.projectDesc {
   font-size: 18px;
   line-height: 1.6;
   opacity: 0.85;
+  max-width: 700px;
+  margin-bottom: 48px;
 }
 
-/* === PROJECT META === */
-.projectMeta {
-  padding: 60px 32px;
-  background: var(--bg-surface);
-  border-bottom: 0.5px solid var(--border);
-}
-.projectMetaInner {
-  max-width: 1440px;
-  margin: 0 auto;
+/* Meta block */
+.projectHeroMeta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
+  gap: 32px;
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
 }
-.projectMetaItem {
+.projectHeroMetaItem {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.projectMetaLabel {
+.projectHeroMetaLabel {
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--text-faint);
+  opacity: 0.6;
 }
-.projectMetaValue {
+.projectHeroMetaValue {
   font-size: 16px;
   font-weight: 500;
-  color: var(--text-strong);
 }
-.projectMetaTools {
+.projectHeroMetaTools {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-.projectTool {
+.projectHeroMetaTool {
   display: inline-block;
-  padding: 4px 12px;
-  background: var(--bg-hover);
-  border: 0.5px solid var(--border);
-  border-radius: 6px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
   font-size: 13px;
-  color: var(--text-strong);
+}
+
+/* Metrics */
+.projectHeroMetrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+.projectHeroMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.projectHeroMetricValue {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+.projectHeroMetricLabel {
+  font-size: 12px;
+  opacity: 0.65;
+}
+
+/* Year */
+.projectYear {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 60px;
+  right: 32px;
 }
 
 /* === PROJECT CONTENT === */
@@ -175,7 +239,7 @@
   display: block;
 }
 
-/* === PROJECT BEHANCE === */
+/* === BEHANCE SECTION === */
 .projectBehance {
   padding: 80px 32px;
   background: var(--bg-surface);
@@ -186,53 +250,47 @@
   max-width: 900px;
   margin: 0 auto;
 }
-.projectBehanceButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 14px 32px;
-  background: var(--accent);
-  color: #ffffff;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  white-space: nowrap;
-}
-.projectBehanceButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 40px rgba(79, 163, 255, 0.35);
-}
-.projectBehanceIcon {
-  font-size: 18px;
-  transition: transform 0.3s;
-}
-.projectBehanceButton:hover .projectBehanceIcon {
-  transform: translateX(4px);
-}
 
 /* === МОБИЛКА === */
 @media (max-width: 768px) {
   .projectHero {
-    padding: 60px 20px 60px;
+    padding: 40px 20px 60px;
     min-height: auto;
+  }
+  .projectHeroTop {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 32px;
+  }
+  .projectHeroTags {
+    width: 100%;
+    justify-content: flex-start;
   }
   .projectName {
     font-size: 36px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
-  .projectOverview {
+  .projectDesc {
     font-size: 16px;
+    margin-bottom: 32px;
   }
-
-  .projectMeta {
-    padding: 40px 20px;
-  }
-  .projectMetaInner {
+  .projectHeroMeta {
     grid-template-columns: 1fr;
     gap: 24px;
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+  }
+  .projectHeroMetrics {
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .projectHeroMetricValue {
+    font-size: 24px;
+  }
+  .projectYear {
+    position: static;
+    margin-top: 24px;
   }
 
   .projectContent {
@@ -251,10 +309,5 @@
 
   .projectBehance {
     padding: 60px 20px;
-  }
-  .projectBehanceButton {
-    padding: 12px 24px;
-    font-size: 15px;
-    width: 100%;
   }
 }
