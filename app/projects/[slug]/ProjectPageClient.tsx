@@ -69,6 +69,11 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const showMoreLabel = locale === 'ru' ? 'Показать все' : 'Show all';
   const collapseLabel = locale === 'ru' ? 'Свернуть' : 'Collapse';
 
+  // ★★★ Ключевое исправление: выносим экраны в переменную с гарантией массива ★★★
+  const screens = project.screens ?? [];
+  const firstScreen = screens[0];
+  const otherScreens = screens.slice(1, 5); // максимум 4 дополнительных экрана
+
   return (
     <main>
       <Nav />
@@ -124,7 +129,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
       {/* CONTENT */}
       <div className={styles.content}>
-        {/* CONTEXT */}
         {project.context && (
           <section className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Контекст' : 'Context'}</div>
@@ -132,7 +136,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {/* PROBLEM */}
         {project.problem && (
           <section className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Проблема' : 'Problem'}</div>
@@ -148,7 +151,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {/* GOALS */}
         {project.goals && project.goals[locale]?.length > 0 && (
           <section className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Цели' : 'Goals'}</div>
@@ -160,7 +162,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {/* PROCESS */}
         {project.process && (
           <section className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Процесс' : 'Process'}</div>
@@ -168,7 +169,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {/* KEY FEATURES */}
         {project.keyFeatures && project.keyFeatures[locale]?.length > 0 && (
           <section className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Ключевые фичи' : 'Key Features'}</div>
@@ -180,7 +180,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {/* UI DIRECTION */}
         {project.uiDirection && (
           <section className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'UI Направление' : 'UI Direction'}</div>
@@ -189,61 +188,47 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         )}
 
         {/* SCREENS */}
-		{project.screens && project.screens.length > 0 && (
-		  <section className={styles.screensBlock}>
-			<div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
-			<div 
-			  ref={screensRef}
-			  className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
-			>
-			  {/* 1-й экран на всю ширину */}
-			  {project.screens[0] && project.screens[0].image && (
-				<div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
-				  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-					<img 
-					  src={project.screens[0].image}
-					  alt={project.screens[0].title[locale]}
-					  onClick={() => openModal(project.screens[0].image!)}
-					  className={styles.clickableImg}
-					/>
-				  </div>
-				</div>
-			  )}
+        {screens.length > 0 && (
+          <section className={styles.screensBlock}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
+            <div
+              ref={screensRef}
+              className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
+            >
+              {firstScreen && firstScreen.image && (
+                <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
+                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                    <img
+                      src={firstScreen.image}
+                      alt={firstScreen.title[locale]}
+                      onClick={() => openModal(firstScreen.image)}
+                      className={styles.clickableImg}
+                    />
+                  </div>
+                </div>
+              )}
 
-			  {/* 2-3 экраны (2 в ряд) */}
-			  {project.screens.slice(1, 3).map((screen, i) => (
-				screen && screen.image && (
-				  <div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
-					<div className={styles.screenPlaceholder} style={{ background: project.color }}>
-					  <img 
-						src={screen.image}
-						alt={screen.title[locale]}
-						onClick={() => openModal(screen.image!)}
-						className={styles.clickableImg}
-					  />
-					</div>
-				  </div>
-				)
-			  ))}
-
-			  {/* 4-5 экраны (2 в ряд) */}
-			  {project.screens.slice(3, 5).map((screen, i) => (
-				screen && screen.image && (
-				  <div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
-					<div className={styles.screenPlaceholder} style={{ background: project.color }}>
-					  <img 
-						src={screen.image}
-						alt={screen.title[locale]}
-						onClick={() => openModal(screen.image!)}
-						className={styles.clickableImg}
-					  />
-					</div>
-				  </div>
-				)
-			  ))}
-			</div>
-		  </section>
-		)}
+              {otherScreens.map((screen, idx) => {
+                if (!screen || !screen.image) return null;
+                return (
+                  <div
+                    key={idx}
+                    className={`${styles.screenItem} ${styles[`screenItem${idx + 2}`]}`}
+                  >
+                    <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                      <img
+                        src={screen.image}
+                        alt={screen.title[locale]}
+                        onClick={() => openModal(screen.image)}
+                        className={styles.clickableImg}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {/* RESULTS */}
         <section className={styles.block}>
@@ -264,7 +249,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           )}
         </section>
 
-        {/* CONCLUSION */}
         {project.conclusion && (
           <section className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Выводы' : 'Conclusion'}</div>
@@ -272,7 +256,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {/* BEHANCE */}
         {project.behanceUrl && (
           <div className={styles.behance}>
             <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
