@@ -284,7 +284,13 @@
 }
 
 .screensBlock {
+  .screensBlock {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   margin-bottom: 56px;
+  padding: 0;
+}
 }
 .screensPlaceholder {
   min-height: 340px;
@@ -430,7 +436,9 @@
 	  display: grid;
 	  grid-template-columns: repeat(2, 1fr);
 	  gap: 24px;
-	  margin-top: 24px;
+	  max-width: var(--max-width);
+	  margin: 0 auto;
+	  padding: 0 32px;
 	}
 
 	.screenItem {
@@ -478,9 +486,13 @@
 
 	@media (max-width: 768px) {
 	  .screensGrid {
-		grid-template-columns: 1fr;
+		padding: 0 20px;
 		gap: 16px;
 	  }
+	  .screensBlock {
+		margin-bottom: 48px;
+	  }
+	}
 	  .screenPlaceholder {
 		min-height: 280px;
 	  }
