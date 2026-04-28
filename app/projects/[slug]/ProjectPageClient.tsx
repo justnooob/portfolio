@@ -21,10 +21,10 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const project = projects.find((p) => p.slug === slug);
-  const currentIndex = projects.findIndex((p) => p.slug === slug);
-  const nextProject = currentIndex !== -1 && currentIndex + 1 < projects.length
-    ? projects[currentIndex + 1]
-    : null;
+	const currentIndex = projects.findIndex((p) => p.slug === slug);
+	const nextProject = currentIndex !== -1
+	  ? projects[(currentIndex + 1) % projects.length]
+	  : null;
 
   useEffect(() => {
     if (!project) return;
