@@ -344,11 +344,6 @@
   transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.screensGrid[data-reveal] .screenItem {
-  opacity: 0;
-  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-}
-
 .screensGridVisible .screenItem {
   opacity: 1;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -379,24 +374,25 @@
   display: block;
 }
 
-.screenItem:nth-child(2) {
+/* Stagger delays для каждого экрана */
+.screenItem1 {
+  transition-delay: 0ms;
+}
+
+.screenItem2 {
   transition-delay: 100ms;
 }
 
-.screenItem:nth-child(3) {
+.screenItem3 {
   transition-delay: 200ms;
 }
 
-.screenItem:nth-child(4) {
+.screenItem4 {
   transition-delay: 300ms;
 }
 
-.screenItem:nth-child(5) {
+.screenItem5 {
   transition-delay: 400ms;
-}
-
-.screenItem:nth-child(6) {
-  transition-delay: 500ms;
 }
 
 @media (max-width: 768px) {

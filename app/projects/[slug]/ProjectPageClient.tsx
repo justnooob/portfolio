@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
-import { useReveal, useStaggerReveal } from '@/lib/useReveal';
+import { useReveal } from '@/lib/useReveal';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import FinalCta from '@/components/FinalCta';
@@ -16,7 +16,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const { locale } = useApp();
   const t = translations[locale];
   const [resultsExpanded, setResultsExpanded] = useState(false);
-  const { ref: screensRef, visible: screensVisible } = useStaggerReveal<HTMLDivElement>(100);
+  const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
 
   const project = projects.find((p) => p.slug === slug);
 
@@ -188,7 +188,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
             >
               {/* 1-й экран на всю ширину */}
               {project.screens[0] && (
-                <div className={`${styles.screenItem} ${styles.screenWide}`}>
+                <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                     {project.screens[0].image ? (
                       <img src={project.screens[0].image} alt={project.screens[0].title[locale]} />
@@ -203,7 +203,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
               {/* 2-3 экраны (2 в ряд) */}
               {project.screens.slice(1, 3).map((screen, i) => (
-                <div key={i + 1} className={`${styles.screenItem}`}>
+                <div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                     {screen.image ? (
                       <img src={screen.image} alt={screen.title[locale]} />
@@ -218,7 +218,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
               {/* 4-5 экраны (2 в ряд) */}
               {project.screens.slice(3, 5).map((screen, i) => (
-                <div key={i + 3} className={`${styles.screenItem}`}>
+                <div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                     {screen.image ? (
                       <img src={screen.image} alt={screen.title[locale]} />
