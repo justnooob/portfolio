@@ -69,10 +69,10 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const showMoreLabel = locale === 'ru' ? 'Показать все' : 'Show all';
   const collapseLabel = locale === 'ru' ? 'Свернуть' : 'Collapse';
 
-  // ★★★ Ключевое исправление: выносим экраны в переменную с гарантией массива ★★★
+  // Гарантируем, что screens — всегда массив
   const screens = project.screens ?? [];
   const firstScreen = screens[0];
-  const otherScreens = screens.slice(1, 5); // максимум 4 дополнительных экрана
+  const otherScreens = screens.slice(1, 5);
 
   return (
     <main>
@@ -201,7 +201,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                     <img
                       src={firstScreen.image}
                       alt={firstScreen.title[locale]}
-                      onClick={() => openModal(firstScreen.image)}
+                      onClick={() => openModal(firstScreen.image!)} /* ← ! гарантирует string */
                       className={styles.clickableImg}
                     />
                   </div>
@@ -219,7 +219,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                       <img
                         src={screen.image}
                         alt={screen.title[locale]}
-                        onClick={() => openModal(screen.image)}
+                        onClick={() => openModal(screen.image!)} /* ← ! гарантирует string */
                         className={styles.clickableImg}
                       />
                     </div>
