@@ -5,48 +5,84 @@ import { Project } from '@/lib/data';
 import styles from './project.module.css';
 
 export default function ProjectPageClient({ project }: { project: Project }) {
-  const { locale, theme } = useApp();
-  const t = {
-    ru: { role: 'Роль', duration: 'Период', tools: 'Инструменты', results: 'Результаты', screens: 'Экраны', features: 'Ключевые фичи', back: '← Назад к проектам' },
-    en: { role: 'Role', duration: 'Duration', tools: 'Tools', results: 'Results', screens: 'Screens', features: 'Key Features', back: '← Back to Projects' },
-  }[locale];
-
+  const { locale } = useApp();
   const lang = locale as 'ru' | 'en';
+
+  const translations = {
+    ru: {
+      role: 'Роль',
+      duration: 'Период',
+      tools: 'Инструменты',
+      context: 'Контекст',
+      problem: 'Проблема',
+      goals: 'Цели',
+      process: 'Процесс',
+      keyFeatures: 'Ключевые фичи',
+      uiDirection: 'UI Направление',
+      screens: 'Экраны',
+      results: 'Результаты',
+      conclusion: 'Выводы',
+      viewOnBehance: 'Смотреть на Behance',
+      back: 'Назад',
+    },
+    en: {
+      role: 'Role',
+      duration: 'Duration',
+      tools: 'Tools',
+      context: 'Context',
+      problem: 'Problem',
+      goals: 'Goals',
+      process: 'Process',
+      keyFeatures: 'Key Features',
+      uiDirection: 'UI Direction',
+      screens: 'Screens',
+      results: 'Results',
+      conclusion: 'Conclusion',
+      viewOnBehance: 'View on Behance',
+      back: 'Back',
+    },
+  };
+  const t = translations[lang];
 
   return (
     <main className={styles.page} style={{ background: project.color }}>
-      {/* HERO */}
-      <section className={styles.hero}>
+      {/* HERO — СТАРАЯ СТРУКТУРА */}
+      <section className={styles.hero} style={{ background: project.color }}>
         <div className={styles.heroInner}>
-          <div className={styles.heroContent}>
-            <h1 className={styles.heroName}>{project.name[lang]}</h1>
-            <p className={styles.heroDesc}>{project.shortDesc[lang]}</p>
-
-            {/* HERO META */}
-            <div className={styles.heroMeta}>
-              <div className={styles.metaItem}>
-                <div className={styles.metaLabel}>{t.role}</div>
-                <div className={styles.metaValue}>{project.role[lang]}</div>
-              </div>
-              <div className={styles.metaItem}>
-                <div className={styles.metaLabel}>{t.duration}</div>
-                <div className={styles.metaValue}>{project.duration[lang]}</div>
-              </div>
-              {project.metrics && project.metrics.length > 0 && (
-                <div className={styles.metaItem}>
-                  <div className={styles.metaLabel}>Key Result</div>
-                  <div className={styles.metaValue}>{project.metrics[0].value}</div>
-                </div>
-              )}
+          <div className={styles.heroTop}>
+            <a href="/projects#projects" className={styles.backLink}>← {t.back}</a>
+            <div className={styles.tags}>
+              {project.tags[lang].map((tag, i) => (
+                <span key={i} className={styles.tag}>{tag}</span>
+              ))}
             </div>
           </div>
 
-          {/* HERO METRICS */}
+          <h1 className={styles.heroTitle}>{project.name[lang]}</h1>
+          <p className={styles.heroDesc}>{project.shortDesc[lang]}</p>
+
+          {/* МЕТАДАННЫЕ СТРОКИ */}
+          <div className={styles.heroMeta}>
+            <div className={styles.metaLine}>
+              <span className={styles.metaLabel}>{t.role}</span>
+              <span className={styles.metaValue}>{project.role[lang]}</span>
+            </div>
+            <div className={styles.metaLine}>
+              <span className={styles.metaLabel}>{t.duration}</span>
+              <span className={styles.metaValue}>{project.duration[lang]}</span>
+            </div>
+            <div className={styles.metaLine}>
+              <span className={styles.metaLabel}>{t.tools}</span>
+              <span className={styles.metaValue}>{project.tools.join(', ')}</span>
+            </div>
+          </div>
+
+          {/* МЕТРИКИ */}
           {project.metrics && project.metrics.length > 0 && (
-            <div className={styles.metricsGrid}>
+            <div className={styles.metricsRow}>
               {project.metrics.map((m, i) => (
-                <div key={i} className={styles.metric}>
-                  <div className={styles.metricValue}>{m.value}</div>
+                <div key={i} className={styles.metricItem}>
+                  <div className={styles.metricNum}>{m.value}</div>
                   <div className={styles.metricLabel}>{m.label[lang]}</div>
                 </div>
               ))}
@@ -55,153 +91,122 @@ export default function ProjectPageClient({ project }: { project: Project }) {
         </div>
       </section>
 
-      {/* CONTEXT */}
-      {project.context && (
-        <section className={styles.section}>
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>Context</h2>
-            </div>
+      {/* КОНТЕНТ СЕКЦИИ */}
+      <section className={styles.content}>
+        {/* CONTEXT */}
+        {project.context && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>{t.context}</h2>
             <p className={styles.sectionText}>{project.context[lang]}</p>
           </div>
-        </section>
-      )}
+        )}
 
-      {/* PROBLEM */}
-      {project.problem && (
-        <section className={styles.section}>
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>Problem</h2>
-            </div>
+        {/* PROBLEM */}
+        {project.problem && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>{t.problem}</h2>
             <p className={styles.sectionText}>{project.problem[lang]}</p>
           </div>
-        </section>
-      )}
+        )}
 
-      {/* GOALS */}
-      {project.goals && project.goals[lang]?.length > 0 && (
-        <section className={styles.section}>
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>Goals</h2>
-            </div>
+        {/* GOALS */}
+        {project.goals && project.goals[lang]?.length > 0 && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>{t.goals}</h2>
             <ul className={styles.list}>
               {project.goals[lang].map((goal, i) => (
                 <li key={i}>{goal}</li>
               ))}
             </ul>
           </div>
-        </section>
-      )}
+        )}
 
-      {/* PROCESS */}
-      {project.process && (
-        <section className={styles.section}>
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>Process</h2>
-            </div>
+        {/* PROCESS */}
+        {project.process && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>{t.process}</h2>
             <p className={styles.sectionText}>{project.process[lang]}</p>
           </div>
-        </section>
-      )}
+        )}
 
-      {/* TOOLS */}
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>{t.tools}</h2>
-          </div>
-          <div className={styles.toolsGrid}>
-            {project.tools.map((tool, i) => (
-              <div key={i} className={styles.toolTag}>{tool}</div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* KEY FEATURES */}
-      {project.keyFeatures && project.keyFeatures[lang]?.length > 0 && (
-        <section className={styles.section}>
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>{t.features}</h2>
-            </div>
+        {/* KEY FEATURES */}
+        {project.keyFeatures && project.keyFeatures[lang]?.length > 0 && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>{t.keyFeatures}</h2>
             <ul className={styles.list}>
               {project.keyFeatures[lang].map((feature, i) => (
                 <li key={i}>{feature}</li>
               ))}
             </ul>
           </div>
-        </section>
-      )}
+        )}
 
-      {/* UI DIRECTION */}
-      {project.uiDirection && (
-        <section className={styles.section}>
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>UI Direction</h2>
-            </div>
+        {/* UI DIRECTION */}
+        {project.uiDirection && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>{t.uiDirection}</h2>
             <p className={styles.sectionText}>{project.uiDirection[lang]}</p>
           </div>
-        </section>
-      )}
+        )}
 
-      {/* SCREENS */}
-      {project.screens && project.screens.length > 0 && (
-        <section className={styles.section}>
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>{t.screens}</h2>
-            </div>
+        {/* SCREENS — GRID: 1 ШИР + 2x2 */}
+        {project.screens && project.screens.length > 0 && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>{t.screens}</h2>
             <div className={styles.screensGrid}>
-              {project.screens.map((screen, i) => (
-                <div key={i} className={styles.screenCard}>
-                  <div className={styles.screenTitle}>{screen.title[lang]}</div>
-                  {screen.desc && <div className={styles.screenDesc}>{screen.desc[lang]}</div>}
+              {/* Первый экран — на всю ширину */}
+              {project.screens[0] && (
+                <div className={styles.screenWide}>
+                  <div className={styles.screenPlaceholder}>
+                    {project.screens[0].image && (
+                      <img src={project.screens[0].image} alt={project.screens[0].title[lang]} />
+                    )}
+                  </div>
+                  <div className={styles.screenLabel}>{project.screens[0].title[lang]}</div>
+                </div>
+              )}
+
+              {/* Остальные 4 экрана — 2 в ряд */}
+              {project.screens.slice(1, 5).map((screen, i) => (
+                <div key={i + 1} className={styles.screenCard}>
+                  <div className={styles.screenPlaceholder}>
+                    {screen.image && <img src={screen.image} alt={screen.title[lang]} />}
+                  </div>
+                  <div className={styles.screenLabel}>{screen.title[lang]}</div>
                 </div>
               ))}
             </div>
           </div>
-        </section>
-      )}
+        )}
 
-      {/* RESULTS */}
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>{t.results}</h2>
-          </div>
+        {/* RESULTS */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>{t.results}</h2>
           <ul className={styles.list}>
             {project.results[lang].map((result, i) => (
               <li key={i}>{result}</li>
             ))}
           </ul>
         </div>
-      </section>
 
-      {/* CONCLUSION */}
-      {project.conclusion && (
-        <section className={styles.section}>
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>Conclusion</h2>
-            </div>
+        {/* CONCLUSION */}
+        {project.conclusion && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>{t.conclusion}</h2>
             <p className={styles.sectionText}>{project.conclusion[lang]}</p>
           </div>
+        )}
+      </section>
+
+      {/* BEHANCE BUTTON */}
+      {project.behanceUrl && (
+        <section className={styles.behanceSection}>
+          <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className={styles.behanceButton}>
+            {t.viewOnBehance}
+            <span className={styles.behanceArrow}>→</span>
+          </a>
         </section>
       )}
-
-      {/* BACK LINK */}
-      <section className={styles.sectionBack}>
-        <div className={styles.sectionInner}>
-          <a href="/projects#projects" className={styles.backLink}>
-            {t.back}
-          </a>
-        </div>
-      </section>
     </main>
   );
 }
