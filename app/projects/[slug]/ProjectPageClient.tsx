@@ -250,7 +250,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         )}
 
         {/* MODAL СКРИНА */}
-        {expandedScreenIndex !== null && project.screens[expandedScreenIndex]?.image && (
+        {expandedScreenIndex !== null && project.screens?.[expandedScreenIndex]?.image && (
           <div 
             className={styles.screenModal}
             onClick={(e) => {
