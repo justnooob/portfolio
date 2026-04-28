@@ -69,7 +69,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       >
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <button onClick={() => router.push('/projects')} className={styles.back}>
+          <button onClick={() => router.push('/#projects')} className={styles.back}>
             ← {t.project.back}
           </button>
           <div className={styles.heroTop}>
@@ -188,11 +188,11 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
               className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
             >
               {/* 1-й экран на всю ширину */}
-              {project.screens[0] && (
+              {project.screens?.[0] && (
                 <div 
                   className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}
-                  onClick={() => project.screens[0].image && setExpandedScreenIndex(0)}
-                  style={{ cursor: project.screens[0].image ? 'pointer' : 'default' }}
+                  onClick={() => project.screens?.[0]?.image && setExpandedScreenIndex(0)}
+                  style={{ cursor: project.screens?.[0]?.image ? 'pointer' : 'default' }}
                 >
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                     {project.screens[0].image ? (
