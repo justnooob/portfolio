@@ -16,6 +16,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const { locale } = useApp();
   const t = translations[locale];
   const [resultsExpanded, setResultsExpanded] = useState(false);
+  const [expandedScreenIndex, setExpandedScreenIndex] = useState<number | null>(null);
   const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
 
   const project = projects.find((p) => p.slug === slug);
@@ -188,7 +189,11 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
             >
               {/* 1-й экран на всю ширину */}
               {project.screens[0] && (
-                <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
+                <div 
+                  className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}
+                  onClick={() => project.screens[0].image && setExpandedScreenIndex(0)}
+                  style={{ cursor: project.screens[0].image ? 'pointer' : 'default' }}
+                >
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                     {project.screens[0].image ? (
                       <img src={project.screens[0].image} alt={project.screens[0].title[locale]} />
@@ -203,7 +208,12 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
               {/* 2-3 экраны (2 в ряд) */}
               {project.screens.slice(1, 3).map((screen, i) => (
-                <div key={i + 1} className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}>
+                <div 
+                  key={i + 1} 
+                  className={`${styles.screenItem} ${styles[`screenItem${i + 2}`]}`}
+                  onClick={() => screen.image && setExpandedScreenIndex(i + 1)}
+                  style={{ cursor: screen.image ? 'pointer' : 'default' }}
+                >
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                     {screen.image ? (
                       <img src={screen.image} alt={screen.title[locale]} />
@@ -218,7 +228,12 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
               {/* 4-5 экраны (2 в ряд) */}
               {project.screens.slice(3, 5).map((screen, i) => (
-                <div key={i + 3} className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}>
+                <div 
+                  key={i + 3} 
+                  className={`${styles.screenItem} ${styles[`screenItem${i + 4}`]}`}
+                  onClick={() => screen.image && setExpandedScreenIndex(i + 3)}
+                  style={{ cursor: screen.image ? 'pointer' : 'default' }}
+                >
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                     {screen.image ? (
                       <img src={screen.image} alt={screen.title[locale]} />
@@ -232,6 +247,34 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
               ))}
             </div>
           </section>
+        )}
+
+        {/* MODAL СКРИНА */}
+        {expandedScreenIndex !== null && project.screens[expandedScreenIndex]?.image && (
+          <div 
+            className={styles.screenModal}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setExpandedScreenIndex(null);
+              }
+            }}
+          >
+            <div className={styles.screenModalContent}>
+              <button 
+                className={styles.screenModalClose}
+                onClick={() => setExpandedScreenIndex(null)}
+                aria-label="Close"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+              <img 
+                src={project.screens[expandedScreenIndex].image} 
+                alt={project.screens[expandedScreenIndex].title[locale]}
+              />
+            </div>
+          </div>
         )}
 
         {/* RESULTS */}
