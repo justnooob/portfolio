@@ -19,7 +19,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
   const [modalOpen, setModalOpen] = useState(false);
   const [activeImage, setActiveImage] = useState<string | null>(null);
-  const [isClosing, setIsClosing] = useState(false); // для анимации закрытия
 
   const project = projects.find((p) => p.slug === slug);
 
@@ -35,19 +34,13 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const openModal = (imageSrc: string) => {
     setActiveImage(imageSrc);
     setModalOpen(true);
-    setIsClosing(false);
     document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
-    setIsClosing(true);
-    // Даём время на анимацию закрытия (300ms), затем убираем модалку
-    setTimeout(() => {
-      setModalOpen(false);
-      setActiveImage(null);
-      setIsClosing(false);
-      document.body.style.overflow = '';
-    }, 300);
+    setModalOpen(false);
+    setActiveImage(null);
+    document.body.style.overflow = '';
   };
 
   if (!project) {
@@ -84,7 +77,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
     <main>
       <Nav />
 
-      {/* HERO (без изменений) */}
+      {/* HERO */}
       <div
         className={`${styles.hero} ${project.lightText ? styles.heroLight : ''}`}
         style={{ background: project.color }}
@@ -133,52 +126,103 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         </div>
       </div>
 
-      {/* CONTENT — все секции те же, кроме SCREENS и MODAL */}
-
+      {/* CONTENT */}
       <div className={styles.content}>
-        {/* CONTEXT */}
-        {project.context && <section className={styles.block}><div className={styles.blockLbl}>{locale === 'ru' ? 'Контекст' : 'Context'}</div><p className={styles.blockText}>{project.context[locale]}</p></section>}
-        {/* PROBLEM */}
-        {project.problem && <section className={styles.block}><div className={styles.blockLbl}>{locale === 'ru' ? 'Проблема' : 'Problem'}</div>{project.problem[locale].includes('(1)') || project.problem[locale].includes('(2)') ? (<ul className={styles.resultsList}>{project.problem[locale].split(/\(\d+\)\s+/).filter(Boolean).map((item, i) => <li key={i} className={styles.result}>{item.trim()}</li>)}</ul>) : (<p className={styles.blockText}>{project.problem[locale]}</p>)}</section>}
-        {/* GOALS */}
-        {project.goals && project.goals[locale]?.length > 0 && <section className={styles.block}><div className={styles.blockLbl}>{locale === 'ru' ? 'Цели' : 'Goals'}</div><ul className={styles.resultsList}>{project.goals[locale].map((goal, i) => <li key={i} className={styles.result}>{goal}</li>)}</ul></section>}
-        {/* PROCESS */}
-        {project.process && <section className={styles.block}><div className={styles.blockLbl}>{locale === 'ru' ? 'Процесс' : 'Process'}</div><p className={styles.blockText}>{project.process[locale]}</p></section>}
-        {/* KEY FEATURES */}
-        {project.keyFeatures && project.keyFeatures[locale]?.length > 0 && <section className={styles.block}><div className={styles.blockLbl}>{locale === 'ru' ? 'Ключевые фичи' : 'Key Features'}</div><ul className={styles.resultsList}>{project.keyFeatures[locale].map((feature, i) => <li key={i} className={styles.result}>{feature}</li>)}</ul></section>}
-        {/* UI DIRECTION */}
-        {project.uiDirection && <section className={styles.block}><div className={styles.blockLbl}>{locale === 'ru' ? 'UI Направление' : 'UI Direction'}</div><p className={styles.blockText}>{project.uiDirection[locale]}</p></section>}
+        {project.context && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Контекст' : 'Context'}</div>
+            <p className={styles.blockText}>{project.context[locale]}</p>
+          </section>
+        )}
+
+        {project.problem && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Проблема' : 'Problem'}</div>
+            {project.problem[locale].includes('(1)') || project.problem[locale].includes('(2)') ? (
+              <ul className={styles.resultsList}>
+                {project.problem[locale].split(/\(\d+\)\s+/).filter(Boolean).map((item, i) => (
+                  <li key={i} className={styles.result}>{item.trim()}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className={styles.blockText}>{project.problem[locale]}</p>
+            )}
+          </section>
+        )}
+
+        {project.goals && project.goals[locale]?.length > 0 && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Цели' : 'Goals'}</div>
+            <ul className={styles.resultsList}>
+              {project.goals[locale].map((goal, i) => (
+                <li key={i} className={styles.result}>{goal}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {project.process && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Процесс' : 'Process'}</div>
+            <p className={styles.blockText}>{project.process[locale]}</p>
+          </section>
+        )}
+
+        {project.keyFeatures && project.keyFeatures[locale]?.length > 0 && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Ключевые фичи' : 'Key Features'}</div>
+            <ul className={styles.resultsList}>
+              {project.keyFeatures[locale].map((feature, i) => (
+                <li key={i} className={styles.result}>{feature}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {project.uiDirection && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'UI Направление' : 'UI Direction'}</div>
+            <p className={styles.blockText}>{project.uiDirection[locale]}</p>
+          </section>
+        )}
 
         {/* SCREENS */}
         {screens.length > 0 && (
           <section className={styles.screensBlock}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
-            <div ref={screensRef} className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}>
+            <div
+              ref={screensRef}
+              className={`${styles.screensGrid} ${screensVisible ? styles.screensGridVisible : ''}`}
+            >
               {firstScreen && firstScreen.image && (
                 <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                     <img
-					  src={firstScreen.image}
-					  alt={firstScreen.title[locale]}
-					  onClick={() => openModal(firstScreen.image!)}
-					  onContextMenu={(e) => e.preventDefault()}
-					  className={styles.clickableImg}
-					/>
+                      src={firstScreen.image}
+                      alt={firstScreen.title[locale]}
+                      onClick={() => openModal(firstScreen.image!)}
+                      onContextMenu={(e) => e.preventDefault()}
+                      className={styles.clickableImg}
+                    />
                   </div>
                 </div>
               )}
+
               {otherScreens.map((screen, idx) => {
                 if (!screen || !screen.image) return null;
                 return (
-                  <div key={idx} className={`${styles.screenItem} ${styles[`screenItem${idx + 2}`]}`}>
+                  <div
+                    key={idx}
+                    className={`${styles.screenItem} ${styles[`screenItem${idx + 2}`]}`}
+                  >
                     <div className={styles.screenPlaceholder} style={{ background: project.color }}>
                       <img
-						  src={screen.image}
-						  alt={screen.title[locale]}
-						  onClick={() => openModal(screen.image!)}
-						  onContextMenu={(e) => e.preventDefault()}
-						  className={styles.clickableImg}
-						/>
+                        src={screen.image}
+                        alt={screen.title[locale]}
+                        onClick={() => openModal(screen.image!)}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className={styles.clickableImg}
+                      />
                     </div>
                   </div>
                 );
@@ -191,44 +235,67 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
         <section className={styles.block}>
           <div className={styles.blockLbl}>{t.project.results}</div>
           <div className={`${styles.resultsWrap} ${!resultsExpanded && hasMore ? styles.resultsCollapsed : ''}`}>
-            <ul className={styles.resultsList}>{displayedResults.map((r, i) => <li key={i} className={styles.result}>{r}</li>)}</ul>
+            <ul className={styles.resultsList}>
+              {displayedResults.map((r, i) => (
+                <li key={i} className={styles.result}>{r}</li>
+              ))}
+            </ul>
             {!resultsExpanded && hasMore && <div className={styles.fadeOverlay}></div>}
           </div>
-          {hasMore && <button className={styles.expandBtn} onClick={() => setResultsExpanded(!resultsExpanded)}>
-			  {resultsExpanded ? collapseLabel : showMoreLabel}
-			  <span className={`${styles.expandChev} ${resultsExpanded ? styles.expandChevRotated : ''}`}>
-				<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-				  <path d="M3.5 5.5L7 9L10.5 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-				</svg>
-			  </span>
-			</button>
+          {hasMore && (
+            <button className={styles.expandBtn} onClick={() => setResultsExpanded(!resultsExpanded)}>
+              {resultsExpanded ? collapseLabel : showMoreLabel}
+              <span className={`${styles.expandChev} ${resultsExpanded ? styles.expandChevRotated : ''}`}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 5.5L7 9L10.5 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          )}
         </section>
 
-        {project.conclusion && <section className={styles.block}><div className={styles.blockLbl}>{locale === 'ru' ? 'Выводы' : 'Conclusion'}</div><p className={styles.blockText}>{project.conclusion[locale]}</p></section>}
-        {project.behanceUrl && <div className={styles.behance}><a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">{t.project.viewBehance}<span className="btn-cta-ico-wrap"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span></a></div>}
+        {project.conclusion && (
+          <section className={styles.block}>
+            <div className={styles.blockLbl}>{locale === 'ru' ? 'Выводы' : 'Conclusion'}</div>
+            <p className={styles.blockText}>{project.conclusion[locale]}</p>
+          </section>
+        )}
+
+        {project.behanceUrl && (
+          <div className={styles.behance}>
+            <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
+              {t.project.viewBehance}
+              <span className="btn-cta-ico-wrap">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </div>
+        )}
       </div>
 
       <FinalCta />
       <Footer />
 
-      {/* MODAL с улучшенной анимацией */}
-      {(modalOpen || isClosing) && activeImage && (
-        <div
-          className={`${styles.modalOverlay} ${modalOpen && !isClosing ? styles.modalOverlayOpen : ''} ${isClosing ? styles.modalOverlayClosing : ''}`}
-          onClick={closeModal}
-        >
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.modalClose} onClick={closeModal}>✕</button>
-				<img
-				  src={activeImage}
-				  alt="Полноразмерное изображение"
-				  onContextMenu={(e) => e.preventDefault()}
-				  className={styles.modalImage}
-				  onClick={closeModal}
-				/>
-          </div>
+      {/* MODAL */}
+      <div
+        className={`${styles.modalOverlay} ${modalOpen ? styles.modalOverlayOpen : ''}`}
+        onClick={closeModal}
+      >
+        <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+          <button className={styles.modalClose} onClick={closeModal}>✕</button>
+          {activeImage && (
+            <img
+              src={activeImage}
+              alt="Полноразмерное изображение"
+              onContextMenu={(e) => e.preventDefault()}
+              className={styles.modalImage}
+              onClick={closeModal}
+            />
+          )}
         </div>
-      )}
+      </div>
     </main>
   );
 }
