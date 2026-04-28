@@ -194,7 +194,14 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
             <ul className={styles.resultsList}>{displayedResults.map((r, i) => <li key={i} className={styles.result}>{r}</li>)}</ul>
             {!resultsExpanded && hasMore && <div className={styles.fadeOverlay}></div>}
           </div>
-          {hasMore && <button className={styles.expandBtn} onClick={() => setResultsExpanded(!resultsExpanded)}>{resultsExpanded ? collapseLabel : showMoreLabel}<span className={`${styles.expandChev} ${resultsExpanded ? styles.expandChevRotated : ''}`}>⌄</span></button>}
+          {hasMore && <button className={styles.expandBtn} onClick={() => setResultsExpanded(!resultsExpanded)}>
+			  {resultsExpanded ? collapseLabel : showMoreLabel}
+			  <span className={`${styles.expandChev} ${resultsExpanded ? styles.expandChevRotated : ''}`}>
+				<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+				  <path d="M3.5 5.5L7 9L10.5 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+				</svg>
+			  </span>
+			</button>
         </section>
 
         {project.conclusion && <section className={styles.block}><div className={styles.blockLbl}>{locale === 'ru' ? 'Выводы' : 'Conclusion'}</div><p className={styles.blockText}>{project.conclusion[locale]}</p></section>}
