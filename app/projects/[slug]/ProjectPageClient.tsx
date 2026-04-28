@@ -24,6 +24,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 	const closeModal = () => {
 		setModalOpen(false);
 		setActiveImage(null);
+		};
 		
   const router = useRouter();
   const { locale } = useApp();
@@ -69,7 +70,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
   const showMoreLabel = locale === 'ru' ? 'Показать все' : 'Show all';
   const collapseLabel = locale === 'ru' ? 'Свернуть' : 'Collapse';
-  };
 
   return (
     <main>
