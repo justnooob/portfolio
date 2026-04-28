@@ -559,9 +559,9 @@ export const projects: Project[] = [
       en: 'Immersive visual experience where design creates the mood and enhances the narrative.',
     },
     screens: [
-      { title: { ru: 'Info', en: 'Info' }, image: '/projects/volcanoes/1.jpg' },
-      { title: { ru: 'Map and Quiz', en: 'Map and Quiz' }, image: '/projects/volcanoes/2.jpg' },
-      { title: { ru: 'Trip Planner', en: 'Trip Planner' }, image: '/projects/volcanoes/3.jpg' },
+      { title: { ru: 'Info', en: 'Info' }, image: '/projects/volcano/1.jpg' },
+      { title: { ru: 'Map and Quiz', en: 'Map and Quiz' }, image: '/projects/volcano/2.jpg' },
+      { title: { ru: 'Trip Planner', en: 'Trip Planner' }, image: '/projects/volcano/3.jpg' },
     ],
     conclusion: {
       ru: 'Volcanoes Explorer это пример превращения сложного образовательного контента в захватывающее приключение. Атмосферный дизайн, сторителлинг и геймификация создают уникальный опыт.',
@@ -914,7 +914,7 @@ export const projects: Project[] = [
       en: 'Minimalism + conversion. Clean typography, clear hierarchy, unobtrusive visual style.',
     },
     screens: [
-      { title: { ru: 'Hero', en: 'Hero' }, image: '/projects/aveji/1.jpg' },
+      { title: { ru: 'Hero', en: 'Hero' }, image: '/projects/avejis/1.jpg' },
     ],
     conclusion: {
       ru: 'AVEJI это пример эффективного конверсионного лендинга, где минималистичный дизайн и чёткая структура работают на результат.',
