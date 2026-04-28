@@ -1,18 +1,19 @@
 /* === PROJECT PAGE === */
 
-.page {
-  min-height: 100vh;
-}
-
-/* === HERO === */
+/* === HERO — фиолетовый фон === */
 .hero {
   padding: 60px 32px 80px;
   color: #ffffff;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .heroInner {
   max-width: 1440px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .heroTop {
@@ -45,7 +46,7 @@
 }
 
 .heroTitle {
-  font-size: 64px;
+  font-size: 56px;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -55,18 +56,19 @@
   font-size: 18px;
   line-height: 1.6;
   opacity: 0.85;
-  max-width: 600px;
-  margin-bottom: 40px;
+  max-width: 700px;
+  margin-bottom: 48px;
 }
 
 /* META LINES */
 .heroMeta {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 40px;
-  padding-bottom: 40px;
+  gap: 16px;
+  margin-bottom: 48px;
+  padding-bottom: 48px;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
 }
 .metaLine {
   display: flex;
@@ -74,11 +76,12 @@
   align-items: center;
 }
 .metaLabel {
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   opacity: 0.6;
   min-width: 100px;
+  font-weight: 500;
 }
 .metaValue {
   font-size: 16px;
@@ -88,8 +91,9 @@
 /* METRICS ROW */
 .metricsRow {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 32px;
+  max-width: 800px;
 }
 .metricItem {
   display: flex;
@@ -99,24 +103,29 @@
 .metricNum {
   font-size: 36px;
   font-weight: 700;
+  line-height: 1;
 }
 .metricLabel {
   font-size: 13px;
   opacity: 0.7;
 }
 
-/* === CONTENT SECTION === */
+/* === CONTENT — белый фон === */
 .content {
   padding: 80px 32px;
   background: var(--bg-surface);
   color: var(--text-strong);
 }
 
-.section {
+.contentInner {
   max-width: 900px;
-  margin: 0 auto 80px;
+  margin: 0 auto;
 }
-.section:last-child {
+
+.section {
+  margin-bottom: 80px;
+}
+.section:last-of-type {
   margin-bottom: 0;
 }
 
@@ -125,6 +134,7 @@
   font-weight: 600;
   margin-bottom: 24px;
   letter-spacing: -0.02em;
+  color: var(--text-strong);
 }
 
 .sectionText {
@@ -133,14 +143,14 @@
   color: var(--text-soft);
 }
 
-/* LIST */
+/* LIST — с маркерами */
 .list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 .list li {
   font-size: 16px;
@@ -155,7 +165,8 @@
   left: 0;
   color: var(--accent);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
+  line-height: 1;
 }
 
 /* === SCREENS GRID === */
@@ -164,8 +175,10 @@
   gap: 24px;
 }
 
+/* 1-й экран на всю ширину */
 .screenWide {
   grid-column: 1 / -1;
+  margin-bottom: 24px;
 }
 .screenWide .screenPlaceholder {
   aspect-ratio: 16 / 9;
@@ -184,24 +197,11 @@
   object-fit: cover;
 }
 
-/* Grid для 2x2 карточек */
-.screensGrid > div:nth-child(n+2) {
-  display: none;
-}
-.screensGrid {
-  grid-template-columns: 1fr;
-}
-.screenWide ~ .screenCard:nth-child(2),
-.screenWide ~ .screenCard:nth-child(3),
-.screenWide ~ .screenCard:nth-child(4),
-.screenWide ~ .screenCard:nth-child(5) {
-  display: block;
-}
-.screensGrid {
+/* 2x2 grid для остальных */
+.screenGrid2x2 {
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
-}
-.screenWide {
-  grid-column: 1 / -1;
+  gap: 24px;
 }
 
 .screenCard {
@@ -238,11 +238,16 @@
   text-align: center;
 }
 
+.behanceSectionInner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .behanceButton {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 24px;
+  padding: 12px 28px;
   background: var(--accent);
   color: #fff;
   text-decoration: none;
@@ -250,29 +255,41 @@
   font-size: 16px;
   font-weight: 500;
   transition: all 0.3s;
+  white-space: nowrap;
 }
 .behanceButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(79, 163, 255, 0.3);
+  box-shadow: 0 12px 32px rgba(79, 163, 255, 0.3);
 }
 .behanceArrow {
   font-size: 18px;
+  transition: transform 0.3s;
+}
+.behanceButton:hover .behanceArrow {
+  transform: translateX(4px);
 }
 
-/* МОБИЛКА */
+/* === МОБИЛКА === */
 @media (max-width: 768px) {
   .hero {
     padding: 40px 20px 60px;
+    min-height: auto;
   }
   .heroTitle {
     font-size: 36px;
   }
   .heroDesc {
     font-size: 16px;
+    margin-bottom: 32px;
+  }
+  .heroMeta {
+    gap: 12px;
+    margin-bottom: 32px;
+    padding-bottom: 32px;
   }
   .metaLine {
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     align-items: flex-start;
   }
 
@@ -286,14 +303,19 @@
     font-size: 22px;
   }
 
-  .screensGrid {
-    grid-template-columns: 1fr;
+  .metricsRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
-  .screenCard {
-    display: block;
+  .metricNum {
+    font-size: 28px;
   }
 
-  .metricsRow {
+  .screenGrid2x2 {
     grid-template-columns: 1fr;
+  }
+
+  .behanceSection {
+    padding: 60px 20px;
   }
 }

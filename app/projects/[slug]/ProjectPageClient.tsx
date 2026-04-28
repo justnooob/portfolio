@@ -2,6 +2,8 @@
 
 import { useApp } from '@/components/AppProvider';
 import { Project } from '@/lib/data';
+import FinalCta from '@/components/FinalCta';
+import Footer from '@/components/Footer';
 import styles from './project.module.css';
 
 export default function ProjectPageClient({ project }: { project: Project }) {
@@ -45,8 +47,8 @@ export default function ProjectPageClient({ project }: { project: Project }) {
   const t = translations[lang];
 
   return (
-    <main className={styles.page} style={{ background: project.color }}>
-      {/* HERO — СТАРАЯ СТРУКТУРА */}
+    <>
+      {/* HERO — старый формат с фиолетовым фоном */}
       <section className={styles.hero} style={{ background: project.color }}>
         <div className={styles.heroInner}>
           <div className={styles.heroTop}>
@@ -91,122 +93,134 @@ export default function ProjectPageClient({ project }: { project: Project }) {
         </div>
       </section>
 
-      {/* КОНТЕНТ СЕКЦИИ */}
+      {/* КОНТЕНТ — белый фон */}
       <section className={styles.content}>
-        {/* CONTEXT */}
-        {project.context && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t.context}</h2>
-            <p className={styles.sectionText}>{project.context[lang]}</p>
-          </div>
-        )}
-
-        {/* PROBLEM */}
-        {project.problem && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t.problem}</h2>
-            <p className={styles.sectionText}>{project.problem[lang]}</p>
-          </div>
-        )}
-
-        {/* GOALS */}
-        {project.goals && project.goals[lang]?.length > 0 && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t.goals}</h2>
-            <ul className={styles.list}>
-              {project.goals[lang].map((goal, i) => (
-                <li key={i}>{goal}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* PROCESS */}
-        {project.process && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t.process}</h2>
-            <p className={styles.sectionText}>{project.process[lang]}</p>
-          </div>
-        )}
-
-        {/* KEY FEATURES */}
-        {project.keyFeatures && project.keyFeatures[lang]?.length > 0 && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t.keyFeatures}</h2>
-            <ul className={styles.list}>
-              {project.keyFeatures[lang].map((feature, i) => (
-                <li key={i}>{feature}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* UI DIRECTION */}
-        {project.uiDirection && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t.uiDirection}</h2>
-            <p className={styles.sectionText}>{project.uiDirection[lang]}</p>
-          </div>
-        )}
-
-        {/* SCREENS — GRID: 1 ШИР + 2x2 */}
-        {project.screens && project.screens.length > 0 && (
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t.screens}</h2>
-            <div className={styles.screensGrid}>
-              {/* Первый экран — на всю ширину */}
-              {project.screens[0] && (
-                <div className={styles.screenWide}>
-                  <div className={styles.screenPlaceholder}>
-                    {project.screens[0].image && (
-                      <img src={project.screens[0].image} alt={project.screens[0].title[lang]} />
-                    )}
-                  </div>
-                  <div className={styles.screenLabel}>{project.screens[0].title[lang]}</div>
-                </div>
-              )}
-
-              {/* Остальные 4 экрана — 2 в ряд */}
-              {project.screens.slice(1, 5).map((screen, i) => (
-                <div key={i + 1} className={styles.screenCard}>
-                  <div className={styles.screenPlaceholder}>
-                    {screen.image && <img src={screen.image} alt={screen.title[lang]} />}
-                  </div>
-                  <div className={styles.screenLabel}>{screen.title[lang]}</div>
-                </div>
-              ))}
+        <div className={styles.contentInner}>
+          {/* CONTEXT */}
+          {project.context && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>{t.context}</h2>
+              <p className={styles.sectionText}>{project.context[lang]}</p>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* RESULTS */}
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>{t.results}</h2>
-          <ul className={styles.list}>
-            {project.results[lang].map((result, i) => (
-              <li key={i}>{result}</li>
-            ))}
-          </ul>
-        </div>
+          {/* PROBLEM */}
+          {project.problem && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>{t.problem}</h2>
+              <p className={styles.sectionText}>{project.problem[lang]}</p>
+            </div>
+          )}
 
-        {/* CONCLUSION */}
-        {project.conclusion && (
+          {/* GOALS */}
+          {project.goals && project.goals[lang]?.length > 0 && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>{t.goals}</h2>
+              <ul className={styles.list}>
+                {project.goals[lang].map((goal, i) => (
+                  <li key={i}>{goal}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* PROCESS */}
+          {project.process && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>{t.process}</h2>
+              <p className={styles.sectionText}>{project.process[lang]}</p>
+            </div>
+          )}
+
+          {/* KEY FEATURES */}
+          {project.keyFeatures && project.keyFeatures[lang]?.length > 0 && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>{t.keyFeatures}</h2>
+              <ul className={styles.list}>
+                {project.keyFeatures[lang].map((feature, i) => (
+                  <li key={i}>{feature}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* UI DIRECTION */}
+          {project.uiDirection && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>{t.uiDirection}</h2>
+              <p className={styles.sectionText}>{project.uiDirection[lang]}</p>
+            </div>
+          )}
+
+          {/* SCREENS GRID */}
+          {project.screens && project.screens.length > 0 && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>{t.screens}</h2>
+              <div className={styles.screensGrid}>
+                {/* 1-й экран на всю ширину */}
+                {project.screens[0] && (
+                  <div className={styles.screenWide}>
+                    <div className={styles.screenPlaceholder}>
+                      {project.screens[0].image && (
+                        <img src={project.screens[0].image} alt={project.screens[0].title[lang]} />
+                      )}
+                    </div>
+                    <div className={styles.screenLabel}>{project.screens[0].title[lang]}</div>
+                  </div>
+                )}
+
+                {/* 2-5 экраны в grid 2x2 */}
+                <div className={styles.screenGrid2x2}>
+                  {project.screens.slice(1, 5).map((screen, i) => (
+                    <div key={i + 1} className={styles.screenCard}>
+                      <div className={styles.screenPlaceholder}>
+                        {screen.image && (
+                          <img src={screen.image} alt={screen.title[lang]} />
+                        )}
+                      </div>
+                      <div className={styles.screenLabel}>{screen.title[lang]}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* RESULTS */}
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t.conclusion}</h2>
-            <p className={styles.sectionText}>{project.conclusion[lang]}</p>
+            <h2 className={styles.sectionTitle}>{t.results}</h2>
+            <ul className={styles.list}>
+              {project.results[lang].map((result, i) => (
+                <li key={i}>{result}</li>
+              ))}
+            </ul>
           </div>
-        )}
+
+          {/* CONCLUSION */}
+          {project.conclusion && (
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>{t.conclusion}</h2>
+              <p className={styles.sectionText}>{project.conclusion[lang]}</p>
+            </div>
+          )}
+        </div>
       </section>
 
       {/* BEHANCE BUTTON */}
       {project.behanceUrl && (
         <section className={styles.behanceSection}>
-          <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className={styles.behanceButton}>
-            {t.viewOnBehance}
-            <span className={styles.behanceArrow}>→</span>
-          </a>
+          <div className={styles.behanceSectionInner}>
+            <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className={styles.behanceButton}>
+              {t.viewOnBehance}
+              <span className={styles.behanceArrow}>→</span>
+            </a>
+          </div>
         </section>
       )}
-    </main>
+
+      {/* CTA + FOOTER */}
+      <FinalCta />
+      <Footer />
+    </>
   );
 }
