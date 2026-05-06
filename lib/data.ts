@@ -976,7 +976,7 @@ export const projects: Project[] = [
     {
     slug: 'importer',
     category: 'web',
-    color: 'linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%)',
+    color: 'linear-gradient(135deg, #7F4ED9 0%, #9460F3 50%, #955CFF 100%)',
     coverImage: '/projects/importer-dark.jpg',
     coverImageLight: '/projects/importer-light.jpg',
     logo: 'I',
@@ -1028,7 +1028,7 @@ export const projects: Project[] = [
     {
     slug: 'okdesk',
     category: 'web',
-    color: 'linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%)',
+    color: 'linear-gradient(135deg, #1e3a1e 0%, #3f7f3f 100%)',
     coverImage: '/projects/okdesk-dark.jpg',
     coverImageLight: '/projects/okdesk-light.jpg',
     logo: 'O',
@@ -1132,7 +1132,7 @@ export const projects: Project[] = [
      {
     slug: 'pravoved',
     category: 'web',
-    color: 'linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%)',
+    color: 'linear-gradient(135deg, #1e3a1e 0%, #3f7f3f 100%)',
     coverImage: '/projects/pravoved-dark.jpg',
     coverImageLight: '/projects/pravoved-light.jpg',
     logo: 'P',
