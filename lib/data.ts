@@ -983,7 +983,7 @@ export const projects: Project[] = [
     logoColor: '#3a3a5a',
     behanceUrl: '',
     year: '2020',
-    name: { ru: 'Importer Page', en: 'Importer Page' },
+    name: { ru: 'ATEX', en: 'ATEX' },
     shortDesc: { ru: 'Редизайн сайта импортера товаров для бизнеса', en: 'Website redesign for a B2B import company' },
     tags: { ru: ['Web', 'B2B', 'Redesign'], en: ['Web', 'B2B', 'Redesign'] },
     overview: { ru: 'Редизайн сайта импортера товаров из Китая, Кореи и Японии.', en: 'Website redesign for an importer of goods from China, Korea, and Japan.' },
