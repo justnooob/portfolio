@@ -1,5 +1,5 @@
 .section {
-  padding: 60px 32px;
+  padding: 100px 32px;
 }
 .head {
   display: flex;
@@ -221,7 +221,7 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 40px 16px;
+    padding: 60px 16px;
   }
   .cardHead {
     grid-template-columns: 140px 1fr auto;

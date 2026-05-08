@@ -38,7 +38,7 @@ export default function BottomDock() {
   }, [mounted]);
 
   const isHome = pathname === '/';
-  const isWork = pathname === '/projects' || pathname.startsWith('/projects/');;
+  const isWork = pathname === '/projects' || pathname.startsWith('/projects/');
 
   const labelHome = locale === 'ru' ? 'Главная' : 'Home';
   const labelWork = locale === 'ru' ? 'Проекты' : 'Work';
