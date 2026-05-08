@@ -5,7 +5,7 @@ import styles from './Preloader.module.css';
 
 const TEXTS = [
   'Загружаем образование',
-  'Получаем 5-летний опыт',
+  'Получаем 7-летний опыт',
   'Изучаем инструменты',
   'Оформляем проекты',
   'Добро пожаловать!',
@@ -13,10 +13,10 @@ const TEXTS = [
 
 // Каждый текст держится N мс перед расщеплением.
 // 5 текстов × CYCLE_MS = полное время лоудера — всё за 4.5 секунды
-const HOLD_MS = 500;    // время показа текста
-const SCATTER_MS = 250; // время разлёта символов
+const HOLD_MS = 200;    // время показа текста
+const SCATTER_MS = 300; // время разлёта символов
 const GAP_MS = 80;      // пауза между scatter и gather
-const GATHER_MS = 300;  // время сборки нового текста
+const GATHER_MS = 150;  // время сборки нового текста
 const CYCLE_MS = HOLD_MS + SCATTER_MS + GAP_MS + GATHER_MS; // 1130мс на один текст
 const TOTAL_MS = CYCLE_MS * TEXTS.length; // ~5650мс = весь прелоадер
 
@@ -77,6 +77,15 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
   // Рандомные смещения для символов каждого текста (генерируем один раз)
   const offsetsRef = useRef<{ dx: number; dy: number }[]>([]);
   const startRef = useRef(Date.now());
+
+  // Переключаем 3D-сцену в "preload" режим, при unmount — в "hero"
+  useEffect(() => {
+    const html = document.documentElement;
+    html.dataset.sceneStage = 'preload';
+    return () => {
+      html.dataset.sceneStage = 'hero';
+    };
+  }, []);
 
   const generateOffsets = useCallback((len: number) => {
     offsetsRef.current = Array.from({ length: len }, () => ({

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useApp } from './AppProvider';
 import { useReveal, useStaggerReveal } from '@/lib/useReveal';
 import { translations, experiences } from '@/lib/data';
+import { useCounter } from './motion-utils';
 import styles from './Experience.module.css';
 
 export default function Experience() {
@@ -16,7 +17,7 @@ export default function Experience() {
   const toggle = (i: number) => setOpenIdx(openIdx === i ? -1 : i);
 
   return (
-    <div className={styles.section} id="experience">
+    <div className={styles.section} id="experience" data-section="experience">
       <div ref={headRef} className={`${styles.head} reveal-slide-left ${headVisible ? 'visible' : ''}`}>
         <div className={styles.title}>{t.experience.title}</div>
         <div className={styles.sub}>{t.experience.sub}</div>
@@ -40,7 +41,7 @@ export default function Experience() {
                 <img
                   src={logoForTheme}
                   alt={exp.company[locale]}
-                  className={styles.logoImg}
+                  className={`${styles.logoImg}${exp.id === 'freelance' ? ` ${styles.logoImgSoromax}` : ''}${exp.id === 'uk-medicina' ? ` ${styles.logoImgOkk}` : ''}`}
                 />
               ) : (
                 <div className={styles.logoFallback} style={{ background: exp.logoColor }}>
@@ -74,7 +75,9 @@ export default function Experience() {
                 </div>
               </div>
               <div className={styles.kpi}>
-                <div className={styles.kpiNum}>{exp.kpi.value}</div>
+                <div className={styles.kpiNum}>
+                  <KpiCount value={exp.kpi.value} trigger={listVisible} />
+                </div>
                 <div className={styles.kpiLbl}>{exp.kpi.label[locale]}</div>
               </div>
               <div className={styles.chev}>⌄</div>
@@ -85,7 +88,9 @@ export default function Experience() {
                 <div className={styles.metrics}>
                   {exp.metrics.map((m, j) => (
                     <div key={j} className={styles.metric}>
-                      <div className={styles.metricNum}>{m.value}</div>
+                      <div className={styles.metricNum}>
+                        <KpiCount value={m.value} trigger={openIdx === i} />
+                      </div>
                       <div className={styles.metricLbl}>{m.label[locale]}</div>
                     </div>
                   ))}
@@ -105,4 +110,9 @@ export default function Experience() {
       </div>
     </div>
   );
+}
+
+function KpiCount({ value, trigger }: { value: string; trigger: boolean }) {
+  const display = useCounter(value, 1300, trigger);
+  return <>{display}</>;
 }

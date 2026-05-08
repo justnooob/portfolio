@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { useApp } from './AppProvider';
 import { useReveal } from '@/lib/useReveal';
 import { translations, projects, Project, ProjectCategory } from '@/lib/data';
+import { useTilt, easeOut } from './motion-utils';
 import styles from './Projects.module.css';
 
 interface ProjectCardProps {
@@ -19,12 +21,16 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
   const t = translations[locale];
   // ref на обёртку — она получает clip-path "Figma frame draw" анимацию
   const { ref, visible } = useReveal<HTMLDivElement>();
+  // 3D-tilt при hover
+  const tilt = useTilt<HTMLDivElement>(3.5);
 
-  // Выбираем обложку по теме
+  // Выбираем обложку по теме. Для листинга /projects предпочитаем listCoverImage*
+  // (если задано) — это позволяет featured-проектам показывать в категорийном
+  // листинге обложку, отличную от обложки на главной.
   const cover =
-    theme === 'light' && project.coverImageLight
-      ? project.coverImageLight
-      : project.coverImage;
+    theme === 'light'
+      ? project.listCoverImageLight ?? project.coverImageLight ?? project.listCoverImage ?? project.coverImage
+      : project.listCoverImage ?? project.coverImage;
 
   /**
    * С какой стороны картинка выезжает после раскрытия рамки:
@@ -110,37 +116,44 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
         </svg>
       </span>
 
-      <Link href={`/projects/${project.slug}`} className={styles.card}>
-        {/* coverSlide — обёртка над картинкой для slide-in анимации */}
-        <div className={styles.coverSlide}>
-          {renderPreview()}
-        </div>
+      <motion.div
+        ref={tilt.ref}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
+        style={{ ...tilt.style, perspective: 1200 }}
+      >
+        <Link href={`/projects/${project.slug}`} className={styles.card}>
+          {/* coverSlide — обёртка над картинкой для slide-in анимации */}
+          <div className={styles.coverSlide}>
+            {renderPreview()}
+          </div>
 
-        <div className={styles.body}>
-          <div className={styles.head}>
-            <div className={styles.name}>{project.name[locale]}</div>
-            <div className={styles.arrow}>↗</div>
+          <div className={styles.body}>
+            <div className={styles.head}>
+              <div className={styles.name}>{project.name[locale]}</div>
+              <div className={styles.arrow}>↗</div>
+            </div>
+            <div className={styles.desc}>{project.shortDesc[locale]}</div>
+            <div className={styles.meta}>
+              <span>{project.year}</span>
+              {project.company && (
+                <>
+                  <div className={styles.mdot}></div>
+                  <span>{project.company[locale]}</span>
+                </>
+              )}
+              {project.metrics && project.metrics[0] && (
+                <>
+                  <div className={styles.mdot}></div>
+                  <span>
+                    {project.metrics[0].value} {project.metrics[0].label[locale]}
+                  </span>
+                </>
+              )}
+            </div>
           </div>
-          <div className={styles.desc}>{project.shortDesc[locale]}</div>
-          <div className={styles.meta}>
-            <span>{project.year}</span>
-            {project.company && (
-              <>
-                <div className={styles.mdot}></div>
-                <span>{project.company[locale]}</span>
-              </>
-            )}
-            {project.metrics && project.metrics[0] && (
-              <>
-                <div className={styles.mdot}></div>
-                <span>
-                  {project.metrics[0].value} {project.metrics[0].label[locale]}
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-      </Link>
+        </Link>
+      </motion.div>
     </div>
   );
 }
@@ -149,7 +162,9 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
   const { locale } = useApp();
   const t = translations[locale];
   const catInfo = t.categories[category];
-  const items = projects.filter((p) => p.category === category && !p.featured);
+  // На /projects показываем все проекты категории, включая featured —
+  // отдельный hero-блок для featured есть только на главной (Featured.tsx).
+  const items = projects.filter((p) => p.category === category);
   const { ref: headRef, visible: headVisible } = useReveal<HTMLDivElement>();
 
   const gridClass = columns === 3 ? styles.grid3 : styles.grid2;
@@ -174,10 +189,10 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
 
 export default function Projects() {
   return (
-    <>
+    <div data-section="projects">
       <CategorySection category="saas" columns={2} />
       <CategorySection category="mobile" columns={2} />
       <CategorySection category="web" columns={3} />
-    </>
+    </div>
   );
 }

@@ -11,10 +11,21 @@ export const translations = {
       badge: 'Открыт к предложениям · СПб | Удалённо',
       name1: 'Максим',
       name2: 'Сорокин',
-      typewriter: ['Продуктовый дизайнер', 'UX/UI дизайнер', 'Дизайнер интерфейсов', 'Более 5 лет опыта'],
-      description: 'UX/UI-дизайнер | Продуктовый дизайнер с опытом более 5 лет и техническим бэкграундом (ИТМО). Проектирую от CJM до дизайн-систем. Работаю с метриками, AI и управляю дизайн-процессом.',
+      typewriter: ['Продуктовый дизайнер', 'UX/UI дизайнер', 'Дизайнер интерфейсов', 'Более 7 лет опыта'],
+      description: 'UX/UI-дизайнер | Продуктовый дизайнер с опытом более 7 лет и техническим бэкграундом (ИТМО). Проектирую от CJM до дизайн-систем. Работаю с метриками, AI и управляю дизайн-процессом.',
       ctaPrimary: 'Связаться со мной',
       ctaSecondary: 'Смотреть проекты',
+    },
+    myself: {
+      label: 'Я',
+      lines: [
+        'Делаю продукты, которые двигают метрики.',
+        'Более 7 лет опыта. Технический бэкграунд.',
+        'От исследования до релиза.',
+        'AI · SaaS · Mobile · TG MiniApps.',
+        'Веду команды и процессы.',
+      ],
+      photoAlt: 'Максим Сорокин',
     },
     logos: {
       label: 'Компании, где я работал',
@@ -31,10 +42,14 @@ export const translations = {
     },
     experience: {
       title: 'Опыт работы',
-      sub: 'Более 5 лет · 5 компаний',
+      sub: 'Более 7 лет · 5 компаний + фриланс',
       role: 'Роль',
       metrics: 'Метрики',
       thisSite: 'Этот сайт',
+    },
+    techStack: {
+      title: 'Современный стек',
+      label: 'Профессионально владею',
     },
     finalCta: {
       badge: 'Открыт к новым проектам',
@@ -46,7 +61,7 @@ export const translations = {
     },
     footer: {
       tagline: 'UX/UI · Продуктовый дизайнер',
-      experience: 'Более 5 лет опыта, СПб',
+      experience: 'Более 7 лет опыта, СПб',
       available: 'Доступен для проектов',
       contact: 'Связь',
       portfolio: 'Портфолио',
@@ -77,10 +92,21 @@ export const translations = {
       badge: 'Open to opportunities · Saint Petersburg | Remote',
       name1: 'Maxim',
       name2: 'Sorokin',
-      typewriter: ['Product Designer', 'UX/UI Designer', 'Interface Designer', 'Over 5 years of experience'],
-      description: 'UX/UI Designer | Product Designer with over 5 years of experience and technical background (ITMO). I design from CJM to design systems. I work with metrics, AI, and manage the design process.',
+      typewriter: ['Product Designer', 'UX/UI Designer', 'Interface Designer', 'Over 7 years of experience'],
+      description: 'UX/UI Designer | Product Designer with over 7 years of experience and technical background (ITMO). I design from CJM to design systems. I work with metrics, AI, and manage the design process.',
       ctaPrimary: 'Get in touch',
       ctaSecondary: 'View projects',
+    },
+    myself: {
+      label: 'ME',
+      lines: [
+        'Building products that move metrics.',
+        'Over 7 years of experience. Technical background.',
+        'From research to release.',
+        'AI · SaaS · Mobile · TG MiniApps.',
+        'I lead teams and processes.',
+      ],
+      photoAlt: 'Maxim Sorokin',
     },
     logos: {
       label: 'Companies I worked with',
@@ -97,10 +123,14 @@ export const translations = {
     },
     experience: {
       title: 'Experience',
-      sub: 'Over 5 years · 5 companies',
+      sub: 'Over 7 years · 5 companies + freelance',
       role: 'Role',
       metrics: 'Metrics',
       thisSite: 'This site',
+    },
+    techStack: {
+      title: 'Modern Tech Stack',
+      label: 'Professional at',
     },
     finalCta: {
       badge: 'Open to new projects',
@@ -112,7 +142,7 @@ export const translations = {
     },
     footer: {
       tagline: 'UX/UI · Product Designer',
-      experience: 'Over 5 years, Saint Petersburg',
+      experience: 'Over 7 years, Saint Petersburg',
       available: 'Available for projects',
       contact: 'Contact',
       portfolio: 'Portfolio',
@@ -145,6 +175,11 @@ export interface Project {
   color: string;
   coverImage?: string;
   coverImageLight?: string;
+  /** Обложка для карточки в листинге /projects (если отличается от main).
+   *  Используется когда featured-проект показывается и на главной (где
+   *  обложка одна), и в категорийном листинге (где нужна другая обложка). */
+  listCoverImage?: string;
+  listCoverImageLight?: string;
   lightText?: boolean;
   cover?: string;
   screenshots?: string[];
@@ -186,6 +221,15 @@ export const projects: Project[] = [
     featured: true,
     color: 'linear-gradient(135deg, #1a2b4a 0%, #2a1f3f 50%, #0a1a2a 100%)',
     coverImage: '/projects/iywi.png',
+    /* На странице /projects карточка использует прикрепленные скрины дашборда
+       iywi. ⚠ Бинарные вложения из чата я сохранить не могу — сейчас оба
+       варианта указывают на существующий iywi.png. Чтобы включить смену
+       темы, сохраните файлы как:
+         /public/projects/iywi-dark.png  (вариант с тёмным window-chrome)
+         /public/projects/iywi-light.png (вариант со светлым window-chrome)
+       и поменяйте пути ниже. */
+    listCoverImage: '/projects/iywi-dark.jpg',
+    listCoverImageLight: '/projects/iywi-light.jpg',
     logo: 'IY',
     logoColor: '#4fa3ff',
     behanceUrl: 'https://www.behance.net/gallery/247519813/IYWI-B2B-Medical-SaaS-UXUI-Design',
@@ -973,6 +1017,214 @@ export const projects: Project[] = [
       en: 'Ultra-minimalist design can be maximally effective: removing everything unnecessary and leaving only one action created a page with high conversion.',
     },
   },
+      {
+    slug: 'importer',
+    category: 'web',
+    color: 'linear-gradient(135deg, #7F4ED9 0%, #9460F3 50%, #955CFF 100%)',
+    coverImage: '/projects/importer-dark.jpg',
+    coverImageLight: '/projects/importer-light.jpg',
+    logo: 'I',
+    logoColor: '#3a3a5a',
+    behanceUrl: '',
+    year: '2020',
+    name: { ru: 'ATEX', en: 'ATEX' },
+    shortDesc: { ru: 'Редизайн сайта импортера товаров для бизнеса', en: 'Website redesign for a B2B import company' },
+    tags: { ru: ['Web', 'B2B', 'Redesign'], en: ['Web', 'B2B', 'Redesign'] },
+    overview: { ru: 'Редизайн сайта импортера товаров из Китая, Кореи и Японии.', en: 'Website redesign for an importer of goods from China, Korea, and Japan.' },
+    role: { ru: 'Web дизайнер', en: 'Web Designer' },
+    duration: { ru: '2020', en: '2020' },
+    tools: ['Figma'],
+    challenge: { ru: 'Освежить визуал, улучшить структуру и увеличить количество заявок.', en: 'Refresh visuals, improve structure, and increase conversions.' },
+    solution: { ru: 'Новая структура, больше CTA, кейсы и отзывы, детальная проработка макетов.', en: 'New structure, more CTAs, cases and testimonials, detailed design.' },
+    results: { ru: ['Редизайн сайта', 'Улучшенная структура', 'Усиление конверсии'], en: ['Website redesign', 'Improved structure', 'Stronger conversion'] },
+    context: {
+      ru: 'Сайт импортера товаров для бизнеса, где важно выстроить доверие и мотивировать пользователя оставить заявку.',
+      en: 'B2B importer website where trust and lead generation are ключевые задачи.',
+    },
+    problem: {
+      ru: '(1) Устаревший визуал, (2) Слабая структура, (3) Недостаточно CTA.',
+      en: '(1) Outdated visuals, (2) Weak structure, (3) Not enough CTAs.',
+    },
+    goals: {
+      ru: ['Обновить визуал', 'Улучшить структуру', 'Добавить точки контакта', 'Повысить конверсию'],
+      en: ['Refresh visuals', 'Improve structure', 'Add touchpoints', 'Increase conversion'],
+    },
+    process: {
+      ru: 'Совместно с клиентом проработал структуру сайта, разработал несколько концептов, выбрал финальный вариант и детально проработал макеты с текстами и микроанимациями.',
+      en: 'Worked with client on structure, created multiple concepts, selected final one, and refined layouts with copy and micro-interactions.',
+    },
+    keyFeatures: {
+      ru: ['CTA элементы', 'Формы', 'Кейсы', 'Отзывы', 'Микроанимации'],
+      en: ['CTA elements', 'Forms', 'Cases', 'Testimonials', 'Microinteractions'],
+    },
+    uiDirection: {
+      ru: 'Современный корпоративный интерфейс с акцентом на доверие и конверсию.',
+      en: 'Modern corporate UI focused on trust and conversion.',
+    },
+    screens: [
+      { title: { ru: 'Hero Screen', en: 'Hero Screen' }, image: '/projects/importer/1.jpg' },
+    ],
+    conclusion: {
+      ru: 'Грамотная структура и усиление точек контакта напрямую влияют на конверсию даже без изменения продукта.',
+      en: 'Well-structured layout and stronger touchpoints can significantly improve conversion without changing the product.',
+    },
+  },
+    {
+    slug: 'okdesk',
+    category: 'web',
+    color: 'linear-gradient(135deg, #1e3a1e 0%, #3f7f3f 100%)',
+    coverImage: '/projects/okdesk-dark.jpg',
+    coverImageLight: '/projects/okdesk-light.jpg',
+    logo: 'O',
+    logoColor: '#3a3a5a',
+    behanceUrl: '',
+    year: '2020',
+    name: { ru: 'OKDESK', en: 'OKDESK' },
+    shortDesc: { ru: 'Редизайн сайта SaaS системы', en: 'SaaS website redesign' },
+    tags: { ru: ['SaaS', 'Web', 'A/B Testing'], en: ['SaaS', 'Web', 'A/B Testing'] },
+    overview: { ru: 'Редизайн сайта SaaS системы в связи с изменением позиционирования.', en: 'Website redesign after product repositioning.' },
+    role: { ru: 'Web дизайнер', en: 'Web Designer' },
+    duration: { ru: '2020', en: '2020' },
+    tools: ['Figma'],
+    challenge: { ru: 'Сайт не отражал новые возможности продукта.', en: 'Website did not reflect updated product capabilities.' },
+    solution: { ru: 'Анализ конкурентов, концепции дизайна, A/B тестирование и итерации.', en: 'Competitor analysis, design concepts, A/B testing and iterations.' },
+    results: { ru: ['Запуск через A/B тест', 'Сбор обратной связи', 'Масштабирование'], en: ['A/B test launch', 'Feedback collection', 'Scaling'] },
+    context: {
+      ru: 'Быстро растущий SaaS продукт требовал обновления сайта под новое позиционирование.',
+      en: 'Fast-growing SaaS product required website update for new positioning',
+    },
+    problem: {
+      ru: '(1) Несоответствие позиционированию, (2) Устаревший UX, (3) Потеря конверсии.',
+      en: '(1) Mismatch with positioning, (2) Outdated UX, (3) Conversion loss.',
+    },
+    goals: {
+      ru: ['Обновить сайт', 'Отразить продукт', 'Повысить конверсию'],
+      en: ['Update website', 'Reflect product', 'Increase conversion'],
+    },
+    process: {
+      ru: 'Провел анализ конкурентов, разработал концепции, протестировал через A/B тест, собрал обратную связь и масштабировал решение.',
+      en: 'Analyzed competitors, created concepts, tested via A/B, collected feedback, scaled solution.',
+    },
+    keyFeatures: {
+      ru: ['A/B тестирование', 'Концепции дизайна', 'UX улучшения'],
+      en: ['A/B testing', 'Design concepts', 'UX improvements'],
+    },
+    uiDirection: {
+      ru: 'SaaS-интерфейс с акцентом на продукт и ценность.',
+      en: 'SaaS UI focused on product clarity and value.',
+    },
+    screens: [
+      { title: { ru: 'Hero Screen', en: 'Hero Screen' }, image: '/projects/okdesk/1.jpg' },
+    ],
+    conclusion: {
+      ru: 'Итеративный подход и A/B тестирование позволяют принимать решения на основе данных.',
+      en: 'Iterative approach and A/B testing enable data-driven decisions.',
+    },
+  },
+    {
+    slug: 'atlon',
+    category: 'web',
+    color: 'linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%)',
+    coverImage: '/projects/atlon-dark.jpg',
+    coverImageLight: '/projects/atlon-light.jpg',
+    logo: 'A',
+    logoColor: '#3a3a5a',
+    behanceUrl: '',
+    year: '2019',
+    name: { ru: 'ATLON', en: 'ATLON' },
+    shortDesc: { ru: 'Сайт агентства по ремонту квартир', en: 'Apartment renovation agency website' },
+    tags: { ru: ['Web', 'Landing', 'Services'], en: ['Web', 'Landing', 'Services'] },
+    overview: { ru: 'Сайт агентства по ремонту квартир под ключ.', en: 'Turnkey apartment renovation agency website.' },
+    role: { ru: 'Web дизайнер', en: 'Web Designer' },
+    duration: { ru: '2019', en: '2019' },
+    tools: ['Figma'],
+    challenge: { ru: 'Разрозненный визуал и слабая иерархия.', en: 'Unified style, structured UX, web + mobile.' },
+    solution: { ru: 'Единый стиль, структурированный UX, web + mobile.', en: 'Unified style, structured UX, web + mobile.' },
+    results: { ru: ['Обновленный сайт', 'Единый стиль'], en: ['Updated website', 'Unified style'] },
+    context: {
+      ru: 'Сайт услуг ремонта, где важно доверие и понятная структура.',
+      en: 'Service website where trust and clarity are critical.',
+    },
+    problem: {
+      ru: '(1) Нет иерархии, (2) Разрозненный дизайн, (3) Слабый бренд.',
+      en: '(1) No hierarchy, (2) Inconsistent design, (3) Weak brand.',
+    },
+    goals: {
+      ru: ['Унифицировать дизайн', 'Повысить лиды', 'Улучшить UX'],
+      en: ['Unify design', 'Increase leads', 'Improve UX'],
+    },
+    process: {
+      ru: 'Провел анализ конкурентов, согласовал структуру, разработал web и mobile версии.',
+      en: 'Analyzed competitors, aligned structure, designed web and mobile.',
+    },
+    keyFeatures: {
+      ru: ['Структура', 'Web + mobile', 'Единый стиль'],
+      en: ['Structure', 'Web + mobile', 'Unified style'],
+    },
+    uiDirection: {
+      ru: 'Чистый и понятный сервисный интерфейс.',
+      en: 'Clean and structured service UI.',
+    },
+    screens: [
+      { title: { ru: 'Hero Screen', en: 'Hero Screen' }, image: '/projects/atlon/1.jpg' },
+    ],
+    conclusion: {
+      ru: 'Консистентность дизайна напрямую влияет на доверие к бренду.',
+      en: 'Design consistency directly impacts brand trust.',
+    },
+  },
+     {
+    slug: 'pravoved',
+    category: 'web',
+    color: 'linear-gradient(135deg, #1e3a1e 0%, #3f7f3f 100%)',
+    coverImage: '/projects/pravoved-dark.jpg',
+    coverImageLight: '/projects/pravoved-light.jpg',
+    logo: 'P',
+    logoColor: '#3a3a5a',
+    behanceUrl: '',
+    year: '2019',
+    name: { ru: 'PRAVOVED', en: 'PRAVOVED' },
+    shortDesc: { ru: 'Редизайн сайта юридической помощи', en: 'Legal service website redesign' },
+    tags: { ru: ['Web', 'UX', 'Navigation'], en: ['Web', 'UX', 'Navigation'] },
+    overview: { ru: 'Сайт юридических услуг для частных лиц и бизнеса.', en: 'Legal services website for individuals and businesses.' },
+    role: { ru: 'Web дизайнер', en: 'Web Designer' },
+    duration: { ru: '2019', en: '2019' },
+    tools: ['Figma'],
+    challenge: { ru: 'Сложная навигация и потеря пользователей.', en: 'Complex navigation and user drop-off.' },
+    solution: { ru: 'UX анализ, интервью, новые концепции, mobile адаптация.', en: 'UX audit, interviews, new concepts, mobile adaptation.' },
+    results: { ru: ['Упрощение навигации', 'Адаптив'], en: ['Simplified navigation', 'Responsive design'] },
+    context: {
+      ru: 'Юридический сервис с большим количеством сценариев и типов пользователей.',
+      en: 'Legal service with complex user scenarios.',
+    },
+    problem: {
+      ru: '(1) Сложная навигация, (2) Потеря клиентов, (3) Перегруженный UX.',
+      en: '(1) Complex navigation, (2) User drop-off, (3) Overloaded UX.',
+    },
+    goals: {
+      ru: ['Упростить UX', 'Снизить отток', 'Улучшить навигацию'],
+      en: ['Simplify UX', 'Reduce drop-off', 'Improve navigation'],
+    },
+    process: {
+      ru: 'Провел аудит сайта, глубинные интервью, предложил новые концепции и адаптировал под мобильные устройства.',
+      en: 'Conducted audit, user interviews, proposed concepts, adapted for mobile.',
+    },
+    keyFeatures: {
+      ru: ['UX аудит', 'Навигация', 'Mobile'],
+      en: ['UX audit', 'Navigation', 'Mobile'],
+    },
+    uiDirection: {
+      ru: 'Функциональный UX с акцентом на доступность информации.',
+      en: 'Functional UX focused on accessibility.',
+    },
+    screens: [
+      { title: { ru: 'Hero Screen', en: 'Hero Screen' }, image: '/projects/pravoved/1.jpg' },
+    ],
+    conclusion: {
+      ru: 'Упрощение навигации напрямую снижает отток пользователей',
+      en: 'Simplifying navigation directly reduces user drop-off.',
+    },
+  },
 ];
 
 export interface Experience {
@@ -1131,6 +1383,46 @@ export const experiences: Experience[] = [
     },
     products: [
       { icon: 'mobile', iconColor: '#34d399', name: '8 приложений', desc: { ru: 'iOS/Android, iGaming', en: 'iOS/Android, iGaming' } },
+    ],
+  },
+  {
+    id: 'freelance',
+    logo: 'Ф',
+    logoColor: '#a78bfa',
+    // Логотип шапки: на тёмной теме светлый, на светлой — тёмный.
+    logoSrc: '/soromax-light.svg',
+    logoSrcLight: '/soromax-dark.svg',
+    company: { ru: 'Фриланс', en: 'Freelance' },
+    location: { ru: 'Удалённо', en: 'Remote' },
+    role: { ru: 'UX/UI дизайнер', en: 'UX/UI Designer' },
+    period: { ru: 'март 2023 — июль 2023 · 5 мес', en: 'Mar 2023 — Jul 2023 · 5 mo' },
+    kpi: { value: '2', label: { ru: 'проекта', en: 'projects' } },
+    product: {
+      ru: 'Сайт архитектурного бюро и сайт службы помощи на дорогах. Полный цикл: исследование, мудборд, макеты, передача в разработку.',
+      en: 'Architecture studio website and roadside assistance service website. Full cycle: research, moodboard, mockups, handoff to development.',
+    },
+    metrics: [
+      { value: '2', label: { ru: 'проекта с нуля', en: 'projects from scratch' } },
+      { value: '5', label: { ru: 'месяцев', en: 'months' } },
+      { value: '100%', label: { ru: 'передача в dev', en: 'handoff' } },
+    ],
+    achievements: {
+      ru: [
+        'Конкурентный анализ, мудборды, варианты разделов',
+        'Согласование макетов с заказчиками, итерации',
+        'Веб + мобильная версия для архитектурного бюро',
+        'Вайрфреймы и фирменный стиль для службы помощи',
+      ],
+      en: [
+        'Competitive analysis, moodboards, section variants',
+        'Mockup approval with clients, iterations',
+        'Web + mobile version for architecture studio',
+        'Wireframes and brand identity for roadside service',
+      ],
+    },
+    products: [
+      { icon: 'web', iconColor: '#a78bfa', name: 'Architecture Studio', desc: { ru: 'Сайт архитектурного бюро', en: 'Architecture studio website' } },
+      { icon: 'web', iconColor: '#c4b5fd', name: 'Tehnichka', desc: { ru: 'Сайт службы помощи на дорогах', en: 'Roadside assistance website' } },
     ],
   },
   {

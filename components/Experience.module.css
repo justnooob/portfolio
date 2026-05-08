@@ -205,6 +205,20 @@
   flex-shrink: 0;
 }
 
+/* ── Per-logo size overrides ─────────────────────────
+   SOROMAX SVG has viewBox padding (height=40, text=17px).
+   height: 37px → width = 37*(152/40) = 140.6px ≈ Hobbist width.
+
+   OKK SVG (uk-medicina) is very wide (254×32).
+   height: 18px → width = 18*(254/32) = 142.9px ≈ Hobbist width.
+   ──────────────────────────────────────────────────── */
+.logoImgSoromax {
+  height: 37px;
+}
+.logoImgOkk {
+  height: 18px;
+}
+
 @media (max-width: 768px) {
   .section {
     padding: 40px 16px;
@@ -219,6 +233,20 @@
     width: 140px;
     height: 32px;
     font-size: 12px;
+  }
+  /* SOROMAX: compensate for viewBox padding on mobile.
+     56px height with -12px margins → layout height stays 32px,
+     text appears at 56*(17/40) ≈ 24px (same as desktop Hobbist). */
+  .logoImgSoromax {
+    height: 56px;
+    margin-top: -12px;
+    margin-bottom: -12px;
+    width: auto;
+  }
+  /* OKK: mobile default (32px height, 140px width) already renders
+     the logo correctly via object-fit: contain — no override needed. */
+  .logoImgOkk {
+    height: 32px;
   }
   .chev {
     display: none;

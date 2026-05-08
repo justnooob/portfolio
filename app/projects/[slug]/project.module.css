@@ -249,8 +249,13 @@
   right: 0;
   bottom: 0;
   height: 90px;
-  background: linear-gradient(to bottom, transparent, var(--bg) 95%);
+  /* Используем rgba(bg, 0) вместо transparent — иначе браузер интерполирует
+     через чёрный цвет и появляется тёмная полоса. */
+  background: linear-gradient(to bottom, rgba(12, 12, 14, 0), #0c0c0e 95%);
   pointer-events: none;
+}
+[data-theme='light'] .fadeOverlay {
+  background: linear-gradient(to bottom, rgba(250, 250, 250, 0), #fafafa 95%);
 }
 .expandBtn {
   margin-top: 16px;
@@ -462,14 +467,27 @@
   .subtitle {
     font-size: 15px;
   }
+  /* Все скриншоты — один под другим */
   .screensGrid {
-    padding: 0 20px;
-    gap: 16px;
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+    gap: 14px;
+  }
+  /* Широкий экран: убираем span на все колонки (их и так 1) */
+  .screenWide {
+    grid-column: 1;
   }
   .screenPlaceholder {
-    min-height: 280px;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
   }
   .screenWide .screenPlaceholder {
-    min-height: 300px;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+  .screenItem img {
+    object-fit: contain;
+    background: var(--bg-elev);
+    border-radius: 12px;
   }
 }

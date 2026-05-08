@@ -91,11 +91,11 @@ export default function Logos() {
   }, []);
 
   return (
-    <div className={styles.section}>
+    <div className={styles.section} data-section="logos">
       <div className={styles.inner}>
         <div className={styles.label}>{t.logos.label}</div>
         <div ref={ref} className={`${styles.row} reveal-stagger ${visible ? 'visible' : ''}`}>
-          {experiences.map((exp) => (
+          {experiences.filter((exp) => exp.id !== 'freelance').map((exp) => (
             <div key={exp.id} className={styles.item}>
               {(isLightTheme && exp.logoSrcLight) ? (
                 <img

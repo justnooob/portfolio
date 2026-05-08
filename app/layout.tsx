@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { AppProvider } from '@/components/AppProvider';
 import CustomCursor from '@/components/CustomCursor';
+import Scene3DMount from '@/components/Scene3DMount';
+import SmoothScroll from '@/components/SmoothScroll';
+import PageTransition from '@/components/PageTransition';
+import ScrollProgress from '@/components/ScrollProgress';
+import BottomDock from '@/components/BottomDock';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -16,8 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ru" data-theme="dark">
       <body>
         <AppProvider>
+          <SmoothScroll />
+          <Scene3DMount />
+          <ScrollProgress />
           <CustomCursor />
-          {children}
+          <PageTransition>{children}</PageTransition>
+          <BottomDock />
         </AppProvider>
       </body>
     </html>

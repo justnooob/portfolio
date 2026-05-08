@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm install *)",
+      "WebFetch(domain:www.itsjay.us)",
+      "Bash(git -C \"/c/Users/maks1/Desktop/portfolio working\" status --short)",
+      "Bash(git -C \"/c/Users/maks1/Desktop/portfolio working\" log --oneline -5)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3333)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s http://localhost:3333/api/health)",
+      "Bash(curl -s -o /dev/null -w \"status:%{http_code}\" http://localhost:3333)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(node -e ' *)",
+      "Bash(curl -s http://localhost:3333)",
+      "Bash(python3 -c \"import sys; d=sys.stdin.read\\(\\); print\\('OK' if '<main' in d else 'EMPTY'\\); import re; m=re.findall\\(r'Error[^<]{0,200}', d\\); print\\('\\\\n'.join\\(m[:5]\\)\\)\")",
+      "Bash(curl -s http://localhost:3333/__nextjs_original-stack-frame)",
+      "Bash(curl -s \"http://localhost:3333/\" -o /tmp/page.html)",
+      "Bash(npx kill-port *)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(npx next *)"
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+.section {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 140px 32px 160px;
+  overflow: hidden;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  position: relative;
+}
+
+.label {
+  font-size: 11px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* Левая колонка: лейбл «я» + текстовые строки. Центрируется вертикально
+   относительно фото справа через align-items: center на родительском grid. */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.line {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  font-size: clamp(20px, 2.4vw, 36px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+  font-family: var(--font-sans);
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.photoWrap {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin-left: auto;
+  aspect-ratio: 4 / 5;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--bg-elev);
+  will-change: transform;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 90px 20px 110px;
+  }
+  .label {
+    margin-bottom: 14px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .photoWrap {
+    max-width: 360px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+  }
+  .text {
+    gap: 18px;
+  }
+  .line {
+    font-size: clamp(22px, 6.5vw, 32px);
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 70px 16px 80px;
+  }
+  .line {
+    flex-wrap: wrap;
+    font-size: clamp(17px, 5vw, 22px);
+    gap: 4px;
+    row-gap: 6px;
+  }
+  .word {
+    white-space: normal;
+  }
+  .photoWrap {
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+}
