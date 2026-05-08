@@ -745,8 +745,8 @@ export const projects: Project[] = [
     year: '2026',
     name: { ru: 'Мой сайт-портфолио', en: 'My portfolio website' },
     shortDesc: {
-      ru: 'Next.js + ClaudeCode, RU/EN, dark/light. Сайт, который вы смотрите.',
-      en: "Next.js + ClaudeCode, RU/EN, dark/light. The site you're viewing.",
+      ru: 'Next.js + ClaudeCode. Сайт, который вы смотрите.',
+      en: "Next.js + ClaudeCode. The site you're viewing.",
     },
     tags: { ru: ['Next.js', 'ClaudeCode', 'TypeScript'], en: ['Next.js', 'ClaudeCode', 'TypeScript'] },
     overview: {
