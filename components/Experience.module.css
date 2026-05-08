@@ -234,14 +234,10 @@
     height: 32px;
     font-size: 12px;
   }
-  /* SOROMAX: compensate for viewBox padding on mobile.
-     56px height with -12px margins → layout height stays 32px,
-     text appears at 56*(17/40) ≈ 24px (same as desktop Hobbist). */
+  /* SOROMAX: slightly larger than default to compensate for viewBox padding.
+     height: 40px → text appears at 40*(17/40) = 17px (vs default 13.6px). */
   .logoImgSoromax {
-    height: 56px;
-    margin-top: -12px;
-    margin-bottom: -12px;
-    width: auto;
+    height: 40px;
   }
   /* OKK: mobile default (32px height, 140px width) already renders
      the logo correctly via object-fit: contain — no override needed. */
