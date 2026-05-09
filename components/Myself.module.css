@@ -58,19 +58,21 @@
   will-change: transform;
 }
 
-/* Внешний обёртка — для reveal-анимации (clip-path/scale).
+/* Внешний обёртка — для reveal-анимации (clip-path).
+   Размер совпадает с фото, чтобы clip-path кропал именно фото, а не пустое пространство.
    Внутренний photoWrap делает свою parallax-анимацию через framer-motion. */
 .photoOuter {
   width: 100%;
-  display: block;
+  max-width: 380px;
+  margin-left: auto;
+  aspect-ratio: 4 / 5;
+  border-radius: 24px;
 }
 
 .photoWrap {
   position: relative;
   width: 100%;
-  max-width: 380px;
-  margin-left: auto;
-  aspect-ratio: 4 / 5;
+  height: 100%;
   border-radius: 24px;
   overflow: hidden;
   background: var(--bg-elev);
@@ -95,7 +97,7 @@
     grid-template-columns: 1fr;
     gap: 48px;
   }
-  .photoWrap {
+  .photoOuter {
     max-width: 360px;
     margin: 0 auto;
     aspect-ratio: 1 / 1;
@@ -121,7 +123,7 @@
   .word {
     white-space: normal;
   }
-  .photoWrap {
+  .photoOuter {
     max-width: 100%;
     aspect-ratio: 4 / 3;
   }

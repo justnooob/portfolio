@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useApp } from './AppProvider';
-import { translations, projects, Project } from '@/lib/data';
-import { easeOut, useTilt } from './motion-utils';
+import { useReveal, useStaggerReveal } from '@/lib/useReveal';
+import { projects, Project } from '@/lib/data';
+import { useTilt } from './motion-utils';
 import styles from './ViewAllWork.module.css';
 
 /**
@@ -18,7 +19,11 @@ import styles from './ViewAllWork.module.css';
 export default function ViewAllWork() {
   const { locale } = useApp();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { amount: 0.1, once: true });
+
+  // Reveal-анимации через CSS (как в других секциях для консистентности)
+  const { ref: headerRef, visible: headerVisible } = useReveal<HTMLDivElement>();
+  const { ref: cardsRef, visible: cardsVisible } = useStaggerReveal<HTMLDivElement>(180);
+  const { ref: seeAllRef, visible: seeAllVisible } = useReveal<HTMLDivElement>();
 
   // Берём 2 «свежих» не-featured проекта для главного блока на странице.
   const pool = projects.filter((p) => !p.featured && !p.isThisSite);
@@ -48,33 +53,26 @@ export default function ViewAllWork() {
   return (
     <section className={styles.section} ref={sectionRef} data-section="projects">
       <div className={styles.inner}>
-        <motion.div
-          className={styles.header}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.85, ease: easeOut }}
+        <div
+          ref={headerRef}
+          className={`${styles.header} reveal-slide-left ${headerVisible ? 'visible' : ''}`}
         >
           <h2 className={styles.title}>{workLabel}</h2>
           <span className={styles.year}>{yearShort}</span>
-        </motion.div>
+        </div>
 
-        <div className={styles.cardsRow}>
-          {featured.map((p, i) => (
-            <BigCard
-              key={p.slug}
-              project={p}
-              delay={0.15 + i * 0.1}
-              inView={inView}
-              cardBg={cardBg}
-            />
+        <div
+          ref={cardsRef}
+          className={`${styles.cardsRow} reveal-stagger-3d ${cardsVisible ? 'visible' : ''}`}
+        >
+          {featured.map((p) => (
+            <BigCard key={p.slug} project={p} cardBg={cardBg} />
           ))}
         </div>
 
-        <motion.div
-          className={styles.seeAllWrap}
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.7, ease: easeOut, delay: 0.6 }}
+        <div
+          ref={seeAllRef}
+          className={`${styles.seeAllWrap} reveal-bounce ${seeAllVisible ? 'visible' : ''}`}
         >
           <Link href="/projects" className="btn-cta">
             {seeAll}
@@ -90,7 +88,7 @@ export default function ViewAllWork() {
               </svg>
             </span>
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -108,13 +106,9 @@ const AVATAR_OVERRIDES: Record<string, { bg: string; fg: string }> = {
 /** Большая широкая карточка с оверлеем */
 function BigCard({
   project,
-  delay,
-  inView,
   cardBg,
 }: {
   project: Project;
-  delay: number;
-  inView: boolean;
   cardBg: string;
 }) {
   const { locale } = useApp();
@@ -138,12 +132,7 @@ function BigCard({
   const marqueeItems = [...project.tags[locale], ...project.tools];
 
   return (
-    <motion.div
-      className={styles.cardWrap}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.9, ease: easeOut, delay }}
-    >
+    <div className={styles.cardWrap}>
       <motion.div
         ref={tilt.ref}
         onMouseMove={tilt.onMouseMove}
@@ -196,6 +185,6 @@ function BigCard({
           </div>
         </Link>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
