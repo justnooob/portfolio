@@ -58,6 +58,13 @@
   will-change: transform;
 }
 
+/* Внешний обёртка — для reveal-анимации (clip-path/scale).
+   Внутренний photoWrap делает свою parallax-анимацию через framer-motion. */
+.photoOuter {
+  width: 100%;
+  display: block;
+}
+
 .photoWrap {
   position: relative;
   width: 100%;

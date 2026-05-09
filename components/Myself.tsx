@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 import { useApp } from './AppProvider';
+import { useReveal, useStaggerReveal } from '@/lib/useReveal';
 import { translations } from '@/lib/data';
 import styles from './Myself.module.css';
 
@@ -36,13 +37,26 @@ export default function Myself() {
   const photoY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
   const photoScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.06, 1, 1.06]);
 
+  // Reveal-анимации для появления при скролле
+  const { ref: labelRef, visible: labelVisible } = useReveal<HTMLDivElement>();
+  const { ref: textRef, visible: textVisible } = useStaggerReveal<HTMLDivElement>(120);
+  const { ref: photoRef, visible: photoVisible } = useReveal<HTMLDivElement>();
+
   return (
     <section ref={sectionRef} className={styles.section} data-section="myself" id="myself">
       <div className={styles.inner}>
         <div className={styles.grid}>
           <div className={styles.leftCol}>
-            <div className={styles.label}>{t.myself.label}</div>
-            <div className={styles.text}>
+            <div
+              ref={labelRef}
+              className={`${styles.label} reveal-bounce ${labelVisible ? 'visible' : ''}`}
+            >
+              {t.myself.label}
+            </div>
+            <div
+              ref={textRef}
+              className={`${styles.text} reveal-lines ${textVisible ? 'visible' : ''}`}
+            >
               {t.myself.lines.map((line, i) => (
                 <Line
                   key={i}
@@ -55,18 +69,23 @@ export default function Myself() {
             </div>
           </div>
 
-          <motion.div
-            className={styles.photoWrap}
-            style={{ y: photoY, scale: photoScale }}
+          <div
+            ref={photoRef}
+            className={`${styles.photoOuter} reveal-photo-zoom ${photoVisible ? 'visible' : ''}`}
           >
-            <img
-              src="/me.jpg"
-              alt={t.myself.photoAlt}
-              className={styles.photo}
-              loading="lazy"
-              decoding="async"
-            />
-          </motion.div>
+            <motion.div
+              className={styles.photoWrap}
+              style={{ y: photoY, scale: photoScale }}
+            >
+              <img
+                src="/me.jpg"
+                alt={t.myself.photoAlt}
+                className={styles.photo}
+                loading="lazy"
+                decoding="async"
+              />
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

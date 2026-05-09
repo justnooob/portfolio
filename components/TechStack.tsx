@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, ReactNode } from 'react';
+import { useRef, useState, useEffect, ReactNode } from 'react';
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 import { useApp } from './AppProvider';
 import { translations } from '@/lib/data';
@@ -73,11 +73,45 @@ export default function TechStack() {
   const { locale } = useApp();
   const t = translations[locale];
   const headingRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [cardsVisible, setCardsVisible] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: headingRef,
     offset: ['start 0.95', 'end 0.45'],
   });
+
+  // Stagger reveal для карточек: каждая получает свой transitionDelay
+  // на основе индекса в общем списке (а не только direct children).
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+
+    const cards = el.querySelectorAll<HTMLElement>('.tech-stack-card');
+    cards.forEach((card, idx) => {
+      card.style.transitionDelay = `${idx * 70}ms`;
+    });
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setCardsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setCardsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0, rootMargin: '0px 0px -80px 0px' }
+    );
+
+    observer.observe(el);
+    el.setAttribute('data-reveal', 'true');
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section className={styles.section} data-section="tech-stack">
@@ -87,7 +121,10 @@ export default function TechStack() {
 
       <div className={styles.label}>{t.techStack.label}</div>
 
-      <div className={styles.gridWrap}>
+      <div
+        ref={gridRef}
+        className={`${styles.gridWrap} reveal-cards-bounce ${cardsVisible ? 'visible' : ''}`}
+      >
         <div className={styles.row3}>
           {TOOLS_ROW1.map((tool) => (
             <ToolCard key={tool.name} tool={tool} />
@@ -109,7 +146,7 @@ function ToolCard({ tool }: { tool: Tool }) {
       href={tool.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={styles.card}
+      className={`${styles.card} tech-stack-card`}
       aria-label={tool.name}
     >
       <div className={styles.logo}>{tool.logo}</div>

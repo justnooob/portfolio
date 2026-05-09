@@ -23,7 +23,7 @@ export default function Experience() {
         <div className={styles.sub}>{t.experience.sub}</div>
       </div>
 
-      <div ref={listRef} className={`${styles.list} reveal-stagger ${listVisible ? 'visible' : ''}`}>
+      <div ref={listRef} className={`${styles.list} reveal-stagger-3d ${listVisible ? 'visible' : ''}`}>
         {experiences.map((exp, i) => {
           // Выбираем логотип по теме: для светлой используем logoSrcLight если есть
           const logoForTheme =

@@ -6,7 +6,7 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useApp } from './AppProvider';
 import { translations, projects } from '@/lib/data';
-import { fadeUp, scaleIn, staggerContainer, easeOut, useTilt, useCounter } from './motion-utils';
+import { fadeUp, dramaticCard, staggerContainer, easeOut, useTilt, useCounter } from './motion-utils';
 import styles from './Featured.module.css';
 
 export default function Featured() {
@@ -39,7 +39,7 @@ export default function Featured() {
         <span className={styles.labelDot}>●</span> {t.featured.label}
       </motion.div>
 
-      <motion.div variants={scaleIn}>
+      <motion.div variants={dramaticCard} style={{ perspective: 1400, transformStyle: 'preserve-3d' }}>
         <motion.div
           ref={tilt.ref as any}
           onMouseMove={tilt.onMouseMove}

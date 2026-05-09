@@ -32,6 +32,25 @@ export const scaleIn = {
   },
 };
 
+/** Драматичное появление карточки: 3D-поворот + scale + blur out */
+export const dramaticCard = {
+  hidden: {
+    opacity: 0,
+    scale: 0.85,
+    rotateX: -18,
+    y: 80,
+    filter: 'blur(14px)',
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotateX: 0,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 1.1, ease: easeOut },
+  },
+};
+
 export const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },

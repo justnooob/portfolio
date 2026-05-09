@@ -71,7 +71,7 @@ export default function FinalCta() {
   return (
     <div className={styles.section} data-section="finalCta">
       <div className={styles.glow}></div>
-      <div ref={ref} className={`${styles.inner} reveal-pop ${visible ? 'visible' : ''}`}>
+      <div ref={ref} className={`${styles.inner} reveal-glow ${visible ? 'visible' : ''}`}>
         <div className={styles.label}>
           <div className={styles.dot}></div>
           {t.finalCta.badge}
