@@ -21,7 +21,9 @@
   font-size: 16px;
 }
 
-/* HERO — на всю ширину */
+/* HERO — на всю ширину.
+   Минималистичный фон: градиент в нейтральных тонах, зависит от темы.
+   Тёмная тема — мокрый асфальт/тёмно-серый. Светлая — светло-серые тона. */
 .hero {
   position: relative;
   padding: 140px 32px 70px;
@@ -30,50 +32,28 @@
   flex-direction: column;
   justify-content: flex-end;
   overflow: hidden;
-  color: #fff;
+  color: var(--text-strong);
   width: 100vw;
   margin-left: calc(-50vw + 50%);
+  /* Тёмная тема (по умолчанию): диагональный градиент мокрого асфальта */
+  background: linear-gradient(135deg, #0c0c0e 0%, #16161a 45%, #232328 100%);
 }
 
-.heroLight {
-  color: #0c0c0e;
+/* Светлая тема: градиент в светлых нейтральных тонах */
+[data-theme='light'] .hero {
+  background: linear-gradient(135deg, #fafafa 0%, #f0f0f3 45%, #e6e6eb 100%);
 }
-.heroLight .back {
-  background: rgba(0, 0, 0, 0.08);
-  border-color: rgba(0, 0, 0, 0.18);
-  color: rgba(0, 0, 0, 0.85);
-}
-.heroLight .back:hover {
-  background: rgba(0, 0, 0, 0.15);
-}
-.heroLight .tag {
-  background: rgba(0, 0, 0, 0.1);
-  border-color: rgba(0, 0, 0, 0.18);
-  color: rgba(0, 0, 0, 0.9);
-}
-.heroLight .year {
-  color: rgba(0, 0, 0, 0.55);
-}
-.heroLight .title {
-  color: #0c0c0e;
-}
-.heroLight .subtitle {
-  color: rgba(0, 0, 0, 0.75);
-}
-.heroLight .metricNum {
-  color: #0c0c0e;
-}
-.heroLight .metricLbl {
-  color: rgba(0, 0, 0, 0.6);
-}
-.heroLight .heroOverlay {
-  background: radial-gradient(ellipse at 30% 100%, rgba(0, 0, 0, 0.08) 0%, transparent 60%);
-}
+
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 30% 100%, rgba(100, 160, 255, 0.2) 0%, transparent 60%);
+  /* Нейтральная радиальная подсветка снизу-слева — добавляет глубины,
+     но не вносит цвет. */
+  background: radial-gradient(ellipse at 30% 100%, rgba(255, 255, 255, 0.06) 0%, transparent 60%);
   pointer-events: none;
+}
+[data-theme='light'] .heroOverlay {
+  background: radial-gradient(ellipse at 30% 100%, rgba(0, 0, 0, 0.04) 0%, transparent 60%);
 }
 .heroContent {
   position: relative;
@@ -96,6 +76,14 @@
 .back:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: translateX(-2px);
+}
+[data-theme='light'] .back {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 0.85);
+}
+[data-theme='light'] .back:hover {
+  background: rgba(0, 0, 0, 0.12);
 }
 .heroTop {
   display: flex;
@@ -120,10 +108,18 @@
   color: rgba(255, 255, 255, 0.95);
   font-weight: 500;
 }
+[data-theme='light'] .tag {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.85);
+}
 .year {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 1px;
+}
+[data-theme='light'] .year {
+  color: rgba(0, 0, 0, 0.55);
 }
 .title {
   font-size: clamp(56px, 9vw, 120px);
@@ -133,12 +129,18 @@
   color: #fff;
   margin-bottom: 22px;
 }
+[data-theme='light'] .title {
+  color: #0c0c0e;
+}
 .subtitle {
   font-size: 17px;
   color: rgba(255, 255, 255, 0.75);
   max-width: 720px;
   line-height: 1.65;
   margin-bottom: 40px;
+}
+[data-theme='light'] .subtitle {
+  color: rgba(0, 0, 0, 0.75);
 }
 .metrics {
   display: flex;
@@ -156,10 +158,16 @@
   letter-spacing: -1px;
   line-height: 1;
 }
+[data-theme='light'] .metricNum {
+  color: #0c0c0e;
+}
 .metricLbl {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.6);
   margin-top: 6px;
+}
+[data-theme='light'] .metricLbl {
+  color: rgba(0, 0, 0, 0.6);
 }
 
 /* META — на всю ширину */
@@ -330,6 +338,11 @@
   justify-content: center;
   overflow: hidden;
   min-height: 340px;
+  /* Тёмная тема — мокрый асфальт; светлая — светло-серый */
+  background: linear-gradient(135deg, #16161a 0%, #1f1f24 100%);
+}
+[data-theme='light'] .screenPlaceholder {
+  background: linear-gradient(135deg, #f0f0f3 0%, #e6e6eb 100%);
 }
 .screenWide .screenPlaceholder {
   min-height: 400px;

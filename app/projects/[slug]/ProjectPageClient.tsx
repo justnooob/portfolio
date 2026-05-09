@@ -37,7 +37,7 @@ function RevealBlock({
 
 export default function ProjectPageClient({ slug }: { slug: string }) {
   const router = useRouter();
-  const { locale } = useApp();
+  const { locale, theme } = useApp();
   const t = translations[locale];
   const [resultsExpanded, setResultsExpanded] = useState(false);
   const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
@@ -55,12 +55,14 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
   useEffect(() => {
     if (!project) return;
-    const heroMode = project.lightText ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-hero-mode', heroMode);
+    // Hero теперь зависит от темы, а не от project.lightText:
+    // dark theme → тёмный hero → нав-текст светлый
+    // light theme → светлый hero → нав-текст тёмный
+    document.documentElement.setAttribute('data-hero-mode', theme);
     return () => {
       document.documentElement.removeAttribute('data-hero-mode');
     };
-  }, [project]);
+  }, [project, theme]);
 
   const openModal = (imageSrc: string) => {
     setActiveImage(imageSrc);
@@ -109,10 +111,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       <Nav />
 
       {/* HERO */}
-      <div
-        className={`${styles.hero} ${project.lightText ? styles.heroLight : ''}`}
-        style={{ background: project.color }}
-      >
+      <div className={styles.hero}>
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
           <button onClick={() => router.push('/#projects')} className={styles.back}>
@@ -230,7 +229,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
             >
               {firstScreen && firstScreen.image && (
                 <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
-                  <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                  <div className={styles.screenPlaceholder}>
                     <img
                       src={firstScreen.image}
                       alt={firstScreen.title[locale]}
@@ -249,7 +248,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                     key={idx}
                     className={`${styles.screenItem} ${styles[`screenItem${idx + 2}`]}`}
                   >
-                    <div className={styles.screenPlaceholder} style={{ background: project.color }}>
+                    <div className={styles.screenPlaceholder}>
                       <img
                         src={screen.image}
                         alt={screen.title[locale]}
