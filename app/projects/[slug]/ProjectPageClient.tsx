@@ -1,15 +1,39 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
-import { useReveal } from '@/lib/useReveal';
+import { useReveal, useStaggerReveal } from '@/lib/useReveal';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import FinalCta from '@/components/FinalCta';
 import { translations, projects } from '@/lib/data';
 import styles from './project.module.css';
+
+/**
+ * Обёртка для появления текстовых блоков при скролле.
+ * Использует CSS reveal-анимации (fade + slide-up + blur).
+ */
+function RevealBlock({
+  children,
+  className,
+  variant = 'reveal',
+}: {
+  children: ReactNode;
+  className?: string;
+  variant?: 'reveal' | 'reveal-slide-left' | 'reveal-mask-up';
+}) {
+  const { ref, visible } = useReveal<HTMLElement>();
+  return (
+    <section
+      ref={ref}
+      className={`${className ?? ''} ${variant} ${visible ? 'visible' : ''}`}
+    >
+      {children}
+    </section>
+  );
+}
 
 export default function ProjectPageClient({ slug }: { slug: string }) {
   const router = useRouter();
@@ -17,6 +41,9 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const t = translations[locale];
   const [resultsExpanded, setResultsExpanded] = useState(false);
   const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
+  // Reveal-анимации для META (3 колонки) и финальных кнопок
+  const { ref: metaRef, visible: metaVisible } = useStaggerReveal<HTMLDivElement>(120);
+  const { ref: footerRef, visible: footerVisible } = useReveal<HTMLDivElement>();
   const [modalOpen, setModalOpen] = useState(false);
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
@@ -115,7 +142,10 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       </div>
 
       {/* META */}
-      <div className={styles.meta}>
+      <div
+        ref={metaRef}
+        className={`${styles.meta} reveal-stagger ${metaVisible ? 'visible' : ''}`}
+      >
         <div className={styles.metaItem}>
           <div className={styles.metaLbl}>{t.project.role}</div>
           <div className={styles.metaVal}>{project.role[locale]}</div>
@@ -133,14 +163,14 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       {/* CONTENT */}
       <div className={styles.content}>
         {project.context && (
-          <section className={styles.block}>
+          <RevealBlock className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Контекст' : 'Context'}</div>
             <p className={styles.blockText}>{project.context[locale]}</p>
-          </section>
+          </RevealBlock>
         )}
 
         {project.problem && (
-          <section className={styles.block}>
+          <RevealBlock className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Проблема' : 'Problem'}</div>
             {project.problem[locale].includes('(1)') || project.problem[locale].includes('(2)') ? (
               <ul className={styles.resultsList}>
@@ -151,48 +181,48 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
             ) : (
               <p className={styles.blockText}>{project.problem[locale]}</p>
             )}
-          </section>
+          </RevealBlock>
         )}
 
         {project.goals && project.goals[locale]?.length > 0 && (
-          <section className={styles.block}>
+          <RevealBlock className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Цели' : 'Goals'}</div>
             <ul className={styles.resultsList}>
               {project.goals[locale].map((goal, i) => (
                 <li key={i} className={styles.result}>{goal}</li>
               ))}
             </ul>
-          </section>
+          </RevealBlock>
         )}
 
         {project.process && (
-          <section className={styles.block}>
+          <RevealBlock className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Процесс' : 'Process'}</div>
             <p className={styles.blockText}>{project.process[locale]}</p>
-          </section>
+          </RevealBlock>
         )}
 
         {project.keyFeatures && project.keyFeatures[locale]?.length > 0 && (
-          <section className={styles.block}>
+          <RevealBlock className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Ключевые фичи' : 'Key Features'}</div>
             <ul className={styles.resultsList}>
               {project.keyFeatures[locale].map((feature, i) => (
                 <li key={i} className={styles.result}>{feature}</li>
               ))}
             </ul>
-          </section>
+          </RevealBlock>
         )}
 
         {project.uiDirection && (
-          <section className={styles.block}>
+          <RevealBlock className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'UI Направление' : 'UI Direction'}</div>
             <p className={styles.blockText}>{project.uiDirection[locale]}</p>
-          </section>
+          </RevealBlock>
         )}
 
         {/* SCREENS */}
         {screens.length > 0 && (
-          <section className={styles.screensBlock}>
+          <RevealBlock className={styles.screensBlock}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Экраны' : 'Screens'}</div>
             <div
               ref={screensRef}
@@ -232,11 +262,11 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                 );
               })}
             </div>
-          </section>
+          </RevealBlock>
         )}
 
         {/* RESULTS */}
-        <section className={styles.block}>
+        <RevealBlock className={styles.block}>
           <div className={styles.blockLbl}>{t.project.results}</div>
           <div className={`${styles.resultsWrap} ${!resultsExpanded && hasMore ? styles.resultsCollapsed : ''}`}>
             <ul className={styles.resultsList}>
@@ -256,17 +286,20 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
               </span>
             </button>
           )}
-        </section>
+        </RevealBlock>
 
         {project.conclusion && (
-          <section className={styles.block}>
+          <RevealBlock className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Выводы' : 'Conclusion'}</div>
             <p className={styles.blockText}>{project.conclusion[locale]}</p>
-          </section>
+          </RevealBlock>
         )}
 
         {/* BUTTONS: Behance + Next project */}
-        <div className={styles.projectFooter}>
+        <div
+          ref={footerRef}
+          className={`${styles.projectFooter} reveal-bounce ${footerVisible ? 'visible' : ''}`}
+        >
           {project.behanceUrl && (
             <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
               {t.project.viewBehance}
