@@ -5,9 +5,9 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  /* Нижний паддинг увеличен, чтобы subtitleBlock и scrollHint не уезжали
-     под плавающий BottomDock (~60px высоты + 24px от низа экрана). */
-  padding: 130px 32px 180px;
+  /* Нижний паддинг — большой, чтобы весь контент (subtitleBlock и scrollHint)
+     был выше плавающего BottomDock (24px от низа + ~60px высота + воздух). */
+  padding: 130px 32px 260px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -158,10 +158,10 @@
 }
 
 /* === ПОДСКАЗКА О СКРОЛЛЕ ===
-   Поднята над плавающим BottomDock (док ~60px высоты + 24px от низа). */
+   Поднята высоко над BottomDock (док 24px+60px от низа), нужно ещё воздуха. */
 .scrollHint {
   position: absolute;
-  bottom: 120px;
+  bottom: 180px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -192,7 +192,7 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding: 110px 20px 140px;
+    padding: 110px 20px 200px;
     min-height: 90vh;
   }
   .titleBlock {
@@ -206,6 +206,6 @@
     font-size: 15px;
   }
   .scrollHint {
-    bottom: 90px;
+    bottom: 140px;
   }
 }
