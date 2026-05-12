@@ -97,8 +97,13 @@ html.lenis body {
   pointer-events: none;
 }
 
-/* Скрываем системный курсор? — НЕ скрываем. Кастомный курсор удалён,
-   чтобы уменьшить размер JS-бандла и ускорить загрузку в России. */
+/* Когда активен кастомный курсор — полностью скрываем системный.
+   Класс cursor-active добавляет CustomCursor.tsx после mount на десктопе. */
+html.cursor-active,
+html.cursor-active body,
+html.cursor-active * {
+  cursor: none !important;
+}
 
 /* Ограничение макс. ширины — до Full HD */
 main {
