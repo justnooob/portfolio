@@ -223,9 +223,22 @@
   .section {
     padding: 60px 16px;
   }
+  /*
+    Мобильная раскладка карточки опыта:
+    ┌─────────────┬─────────────────────┐
+    │             │ Company · website ↗ │
+    │             │ Локация             │
+    │   ЛОГО      │ Роль                │
+    │ (по верху)  │ Период              │
+    │             │ +XX% (KPI)          │
+    │             │ KPI label           │
+    └─────────────┴─────────────────────┘
+    Лого слева, выровнено по верху. Справа — info + kpi в столбик.
+  */
   .cardHead {
-    grid-template-columns: 140px 1fr auto;
-    gap: 14px;
+    grid-template-columns: 140px 1fr;
+    align-items: start;
+    gap: 6px 14px;
     padding: 16px 18px;
   }
   .logoImg,
@@ -233,6 +246,7 @@
     width: 140px;
     height: 32px;
     font-size: 12px;
+    align-self: start; /* лого прижимается к верху */
   }
   /* SOROMAX: slightly larger than default to compensate for viewBox padding.
      height: 40px → text appears at 40*(17/40) = 17px (vs default 13.6px). */
@@ -247,10 +261,24 @@
   .chev {
     display: none;
   }
+  /* KPI едет под info — вторая строка во втором столбце */
+  .kpi {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: left;
+    margin-top: 4px;
+  }
+  /* Meta — каждый пункт в отдельной строке, без точек-разделителей */
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 13px;
+  }
+  .mdot {
+    display: none;
+  }
   .bodyIn {
     padding: 16px 18px 20px 18px;
-  }
-  .meta {
-    font-size: 12px;
   }
 }
