@@ -1,14 +1,17 @@
-import Nav from '@/components/Nav';
+import { redirect } from 'next/navigation';
+import { projects } from '@/lib/data';
 import ProjectPageClient from './ProjectPageClient';
 
 export function generateStaticParams() {
-  // Импортируем динамически чтобы избежать cycles
-  const { projects } = require('@/lib/data');
-  return projects.map((project: any) => ({
-    slug: project.slug,
-  }));
+  return projects
+    .filter((p) => !p.isProduct)
+    .map((project) => ({ slug: project.slug }));
 }
 
 export default function Page({ params }: { params: { slug: string } }) {
+  const project = projects.find((p) => p.slug === params.slug);
+  if (project?.isProduct) {
+    redirect('/#projects');
+  }
   return <ProjectPageClient slug={params.slug} />;
 }

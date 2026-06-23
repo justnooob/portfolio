@@ -1,0 +1,221 @@
+.section {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 140px 32px 160px;
+  overflow: hidden;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  position: relative;
+}
+
+.label {
+  font-size: 11px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* Левая колонка: лейбл «я» + текстовые строки. Центрируется вертикально
+   относительно фото справа через align-items: center на родительском grid. */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Каждая строка-ряд — общий типографический размер. */
+.lineRow {
+  font-size: clamp(21px, 2.5vw, 38px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+  font-family: var(--font-sans);
+}
+
+/* ─────────── Заливаемый текст ─────────── */
+.fillText {
+  display: block;
+}
+/* Слово — единый блок (буквы не разрываются), переносы строк — по пробелам. */
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.letter {
+  /* цвет задаётся inline через framer-motion */
+  will-change: color;
+}
+
+/* ─────────── «метрики» + sparkline вверх ─────────── */
+.metricWordWrap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  white-space: nowrap;
+}
+.spark {
+  display: inline-block;
+  width: clamp(64px, 8vw, 108px);
+  aspect-ratio: 3 / 1;
+  align-self: center;
+  transform: translateY(-0.12em);
+}
+.sparkSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.sparkDot {
+  filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.75));
+}
+
+/* ─────────── Стрелка «исследования → релиза» (растёт из нуля) ─────────── */
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  vertical-align: middle;
+  width: 0;
+}
+.arrowSvg {
+  display: block;
+  flex: none;
+  overflow: visible;
+}
+
+/* ─────────── Стек — ровные чипы ─────────── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--bg-elev);
+  white-space: nowrap;
+  will-change: transform, opacity;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.chip:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-elev-2);
+  transform: translateY(-2px);
+}
+.chipIconWrap {
+  display: inline-flex;
+  flex: none;
+}
+.chipIcon {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: inherit;
+}
+
+/* Внешний обёртка — для reveal-анимации (clip-path).
+   Размер совпадает с фото, чтобы clip-path кропал именно фото, а не пустое пространство.
+   Внутренний photoWrap делает свою parallax-анимацию через framer-motion. */
+.photoOuter {
+  width: 100%;
+  max-width: 380px;
+  margin-left: auto;
+  aspect-ratio: 4 / 5;
+  border-radius: 24px;
+}
+
+.photoWrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--bg-elev);
+  will-change: transform;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 90px 20px 110px;
+  }
+  .label {
+    margin-bottom: 14px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .photoOuter {
+    max-width: 360px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+  }
+  /* На мобилке кропаем низ фото, а не равномерно сверху и снизу */
+  .photo {
+    object-position: center top;
+  }
+  .text {
+    gap: 20px;
+  }
+  .lineRow {
+    font-size: clamp(23px, 6.5vw, 33px);
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 70px 16px 80px;
+  }
+  .lineRow {
+    font-size: clamp(19px, 5.4vw, 24px);
+  }
+  .chip {
+    height: 34px;
+    padding: 0 13px;
+    font-size: 13.5px;
+  }
+  .chipIcon {
+    width: 15px;
+    height: 15px;
+  }
+  .photoOuter {
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+}

@@ -60,19 +60,9 @@ export default function Nav() {
             />
           </Link>
 
-          <div className={styles.links}>
-            <a href="#about" className={`${styles.link} ${styles.active}`}>
-              {t.nav.about}
-            </a>
-            <a href="#projects" className={styles.link}>
-              {t.nav.projects}
-            </a>
-            <a href="#experience" className={styles.link}>
-              {t.nav.experience}
-            </a>
-          </div>
-
-          <div className={styles.toggles}>
+          {/* Десктопные ссылки и переключатели вынесены в нижний док (BottomDock).
+              На мобилке остаётся бургер-меню как backup. */}
+          <div className={`${styles.toggles} ${styles.togglesHidden}`}>
             <div className={styles.langSwitch}>
               <button
                 className={`${styles.langBtn} ${locale === 'ru' ? styles.langActive : ''}`}

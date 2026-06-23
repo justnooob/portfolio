@@ -24,7 +24,7 @@ function supportsViewTransitions(): boolean {
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>('ru');
-  const [theme, setThemeState] = useState<Theme>('dark');
+  const [theme, setThemeState] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -34,6 +34,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (savedTheme === 'dark' || savedTheme === 'light') setThemeState(savedTheme);
     setMounted(true);
     document.documentElement.classList.add('js-ready');
+  }, []);
+
+  /**
+   * Глобально отключаем контекстное меню по правой кнопке мыши на всех картинках.
+   * Это не даёт пользователю «Открыть изображение в новой вкладке» или сохранить
+   * картинку напрямую — защищает обложки проектов, логотипы и фото от утечки.
+   * Применяется к любым <img> (включая динамически добавляемые) через делегирование.
+   */
+  useEffect(() => {
+    const onContextMenu = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target?.tagName === 'IMG') {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('contextmenu', onContextMenu);
+    return () => document.removeEventListener('contextmenu', onContextMenu);
   }, []);
 
   useEffect(() => {

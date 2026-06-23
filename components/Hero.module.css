@@ -1,106 +1,140 @@
 /*
-  HERO — фоновый контейнер на всю ширину (фон не обрезается на 1440px).
-  Внутри .heroGrid ограничен max-width и центрирован.
+  HERO — крупная типографика на всю ширину.
+  3D-сфера за main'ом (Scene3D), здесь её нет.
 */
 .hero {
   position: relative;
-  min-height: 660px;
-  background: var(--hero-grad);
-  padding: 130px 32px 70px;
-  overflow: hidden;
-  /* Растяжение фона за пределы max-width main */
+  min-height: 100vh;
+  /* Нижний паддинг — большой, чтобы весь контент (subtitleBlock и scrollHint)
+     был выше плавающего BottomDock (24px от низа + ~60px высота + воздух). */
+  padding: 130px 32px 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
+  max-width: 100vw;
+  overflow: hidden;
 }
 
-/* Движущиеся градиентные пятна на фоне */
-.heroBg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 80% 30%, rgba(100, 140, 255, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 45%);
-  pointer-events: none;
-  animation: heroGlow 14s ease-in-out infinite;
-}
-@keyframes heroGlow {
-  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.8; }
-  50% { transform: scale(1.15) translate(-3%, 3%); opacity: 1; }
-}
-
-/* Контентная сетка — две колонки, ограничена 1440px */
-.heroGrid {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 60px;
+.titleBlock {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  align-items: center;
   position: relative;
-  z-index: 1;
-}
-
-.heroLeft {
-  min-width: 0;
+  z-index: 2;
+  text-align: center;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  gap: 10px;
+  font-size: 13px;
   color: var(--text-soft);
-  margin-bottom: 28px;
+  margin-bottom: 32px;
   width: fit-content;
-  padding: 6px 14px;
+  padding: 7px 16px;
   background: var(--bg-elev);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 0.5px solid var(--border);
   border-radius: 100px;
+  letter-spacing: 0.2px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
+  box-shadow: 0 0 12px var(--accent);
   animation: pulse 2s ease-in-out infinite;
   flex-shrink: 0;
 }
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 10px var(--accent); transform: scale(1); }
-  50% { box-shadow: 0 0 18px var(--accent); transform: scale(1.15); }
+  0%, 100% { box-shadow: 0 0 12px var(--accent); transform: scale(1); }
+  50% { box-shadow: 0 0 24px var(--accent); transform: scale(1.2); }
 }
 
-.name {
-  font-size: clamp(56px, 8vw, 104px);
-  font-weight: 500;
-  line-height: 0.92;
-  letter-spacing: -4px;
+/* === ОГРОМНЫЙ ЗАГОЛОВОК === */
+.title {
+  font-size: clamp(72px, 14vw, 240px);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.05em;
   color: var(--text-strong);
-  margin-bottom: 28px;
+  margin: 0;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+}
+
+.titleRow {
+  display: block;
+  overflow: hidden;
+  /* Лёгкий смешанный режим, чтобы 3D частично просвечивало через буквы.
+     Снимаем на светлой теме — там не нужен. */
+}
+
+[data-theme='dark'] .titleRow {
+  /* Тёмная тема: не используем mix-blend, оставляем сплошной текст */
+}
+
+/* Каждая буква — обёртка для slide-in анимации */
+.wordWrap {
+  display: inline-block;
+}
+
+.letter {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform;
+}
+
+/* === НИЖНЯЯ ЧАСТЬ — ОПИСАНИЕ + CTA === */
+.subtitleBlock {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 80px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  flex-shrink: 0;
 }
 
 .type {
-  font-size: clamp(20px, 2.4vw, 28px);
+  font-size: clamp(18px, 1.8vw, 22px);
   font-weight: 400;
   color: var(--text-soft);
-  letter-spacing: -0.5px;
-  height: 38px;
+  letter-spacing: -0.3px;
+  height: 32px;
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-bottom: 32px;
+  font-feature-settings: 'tnum';
 }
 .twText {
   color: var(--text-strong);
+  font-weight: 500;
 }
 .cursor {
   display: inline-block;
-  width: 3px;
-  height: 28px;
-  background: var(--text-strong);
+  width: 2px;
+  height: 22px;
+  background: var(--accent);
   animation: blink 1s infinite;
+  margin-left: 2px;
 }
 @keyframes blink {
   0%, 49% { opacity: 1; }
@@ -108,249 +142,100 @@
 }
 
 .desc {
-  font-size: 16px;
+  font-size: clamp(15px, 1.15vw, 17px);
   color: var(--text-soft);
-  max-width: 560px;
-  line-height: 1.7;
-  margin-bottom: 36px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 480px;
+  text-align: left;
+  margin-left: auto;
 }
+
 .btns {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
   flex-wrap: wrap;
 }
 
-/* === ФОТО === */
-.heroRight {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.magnetic {
+  display: inline-block;
 }
 
-/* === ИЗОГНУТАЯ СТРЕЛКА "Это я" ===
-   Большая дуга через весь Hero — от середины имени к верху фото.
-   Помещена внутри .heroGrid (max-width 1440px), absolute. */
-.arrowWrap {
+/* === ПОДСКАЗКА О СКРОЛЛЕ ===
+   Поднята высоко над BottomDock (док 24px+60px от низа), нужно ещё воздуха. */
+.scrollHint {
   position: absolute;
-  /* Поднимаем стрелку на 100px выше — её середина была в центре heroGrid,
-     теперь сместим выше */
-  top: 50%;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 220px;
-  /* translateY(-65%) был для центрирования. Минусуем ещё 100px чтобы поднять. */
-  transform: translateY(calc(-65% - 100px));
-  pointer-events: none;
-  z-index: 5;
-}
-.arrowSvg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.arrowPath {
-  /* Длина пути для нашей короткой умеренной дуги ~280 */
-  stroke-dasharray: 320;
-  stroke-dashoffset: 320;
-  animation: drawErase 7s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-.arrowHead {
-  /* Залитый треугольник — анимируется через opacity (не stroke-dashoffset) */
-  opacity: 0;
-  animation: headFadeInOut 7s ease-in-out infinite;
-}
-.arrowLabel {
-  position: absolute;
-  /* Над верхней точкой дуги: дуга от X=420 до X=675, верх ≈ X=547.
-     viewBox 1000 → 54.7% по ширине. Y=70 в SVG → ~30px от верха arrowWrap. */
-  top: 24px;
-  left: 54.7%;
-  transform: translateX(-50%) scale(0.8);
-  background: var(--bg-elev-2);
-  border: 0.5px solid var(--border);
-  color: var(--text-strong);
-  font-size: 13px;
-  font-weight: 500;
-  padding: 5px 14px;
-  border-radius: 100px;
-  white-space: nowrap;
-  opacity: 0;
-  animation: labelShow 7s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-  backdrop-filter: blur(8px);
-  z-index: 6;
-}
-
-@keyframes drawErase {
-  0%   { stroke-dashoffset: 320; }
-  30%  { stroke-dashoffset: 0; }
-  60%  { stroke-dashoffset: 0; }
-  80%  { stroke-dashoffset: -320; }
-  100% { stroke-dashoffset: -320; }
-}
-
-@keyframes headFadeInOut {
-  0%   { opacity: 0; }
-  25%  { opacity: 0; }
-  30%  { opacity: 1; }
-  60%  { opacity: 1; }
-  75%  { opacity: 1; }
-  80%  { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-@keyframes labelShow {
-  0%   { opacity: 0; transform: translateX(-50%) scale(0.8); }
-  20%  { opacity: 0; transform: translateX(-50%) scale(0.8); }
-  30%  { opacity: 1; transform: translateX(-50%) scale(1); }
-  65%  { opacity: 1; transform: translateX(-50%) scale(1); }
-  75%  { opacity: 0; transform: translateX(-50%) scale(0.85); }
-  100% { opacity: 0; transform: translateX(-50%) scale(0.85); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .arrowPath,
-  .arrowHead {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-    animation: none;
-  }
-  .arrowLabel {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-    animation: none;
-  }
-}
-
-.photoWrap {
-  width: 320px;
-  height: 400px;
-  border-radius: 20px;
-  /* overflow: visible чтобы Frame 1337 над карточкой был виден */
-  overflow: visible;
-  position: relative;
-  background: var(--bg-elev);
-  border: 0.5px solid var(--border);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  transform: rotate(2deg);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.photoWrap > .photoPlaceholder,
-.photoWrap > img {
-  /* Содержимое внутри обрезано закруглением, а сама обёртка — нет */
-  border-radius: 20px;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-.photoWrap:hover {
-  transform: rotate(0deg) translateY(-4px);
-}
-
-/* "Frame 1337" — название фрейма из Figma над карточкой */
-.frameLabel {
-  position: absolute;
-  top: -22px;
-  left: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--accent);
-  letter-spacing: 0.2px;
-  font-family: var(--font-mono, ui-monospace, 'SF Mono', monospace);
-  pointer-events: none;
-  white-space: nowrap;
-}
-.photo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 20px;
-  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-/* Hover-фото лежит сверху, изначально скрыто. На hover plявно появляется. */
-.photoHover {
-  opacity: 0;
-}
-.photoWrap:hover .photoHover {
-  opacity: 1;
-}
-.photoPlaceholder {
-  width: 100%;
-  height: 100%;
+  bottom: 180px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  color: var(--text-faint);
-  text-align: center;
-  padding: 20px;
-}
-.photoPlaceholder svg {
-  width: 80px;
-  height: 80px;
-  color: var(--text-soft);
-}
-.photoHint {
-  font-size: 12px;
-  line-height: 1.6;
-}
-.photoHint code {
-  background: var(--bg-hover);
-  padding: 2px 6px;
-  border-radius: 4px;
+  gap: 12px;
   font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  z-index: 2;
 }
 
-@media (max-width: 1024px) {
-  .heroGrid {
-    grid-template-columns: 1fr 280px;
+.scrollLine {
+  display: block;
+  width: 1px;
+  height: 28px;
+  background: var(--text-faint);
+  transform-origin: top;
+}
+
+@media (max-width: 1100px) {
+  .subtitleBlock {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 40px;
   }
-  .photoWrap {
-    width: 260px;
-    height: 320px;
+  .leftCol {
+    width: 100%;
   }
-  .arrowWrap {
-    width: 200px;
-    height: 130px;
-    top: -30px;
-    margin-right: -30px;
+  .desc {
+    margin-left: 0;
+    max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
   .hero {
-    padding: 110px 20px 60px;
-    min-height: auto;
-  }
-  .heroGrid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .heroRight {
-    order: -1;
+    padding: 110px 20px 200px;
+    min-height: 90vh;
+    /* Пакуем заголовок и нижний контент вместе, без растягивания space-between */
     justify-content: flex-start;
   }
-  /* На мобилке стрелка не нужна — занимает место и плохо смотрится */
-  .arrowWrap {
-    display: none;
+  .titleBlock {
+    padding-top: 20px;
   }
-  .photoWrap {
-    width: 200px;
-    height: 240px;
-    transform: rotate(-2deg);
+  .title {
+    font-size: clamp(56px, 17vw, 100px);
+    letter-spacing: -0.04em;
   }
-  .name {
-    letter-spacing: -2.5px;
+  .subtitleBlock {
+    margin-top: 28px;
+    gap: 28px;
+  }
+  .leftCol {
+    gap: 22px;
+    align-items: center;
+  }
+  .type {
+    justify-content: center;
+  }
+  .btns {
+    justify-content: center;
   }
   .desc {
     font-size: 15px;
+    text-align: center;
+  }
+  .scrollHint {
+    bottom: 140px;
   }
 }

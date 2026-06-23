@@ -1,5 +1,6 @@
 /*
   NAV — sticky, с blur при скролле, на всю ширину экрана.
+  Минимизирован: только логотип, остальное вынесено в BottomDock.
 */
 .nav {
   position: fixed;
@@ -11,6 +12,11 @@
   transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
   background: transparent;
   border-bottom: 0.5px solid transparent;
+}
+
+/* Скрыть переключатели языка/темы из топа — они теперь в нижнем доке */
+.togglesHidden {
+  display: none !important;
 }
 .navScrolled {
   background: color-mix(in srgb, var(--bg) 80%, transparent);
@@ -98,7 +104,11 @@
   opacity: 0.75;
 }
 .logoImg {
-  height: 18px;
+  /* SOROMAX SVG now has viewBox padding (height=40, text=17px).
+     CSS height 42px + negative margins keeps visual text at ≈18px
+     while the layout sees only 18px (42 - 12 - 12 = 18). */
+  height: 42px;
+  margin: -12px 0;
   width: auto;
   display: block;
 }

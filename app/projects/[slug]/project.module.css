@@ -33,41 +33,44 @@
   color: #fff;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
+  background: linear-gradient(135deg, #0c0c0e 0%, #16161a 45%, #232328 100%);
 }
 
-.heroLight {
+/* Светлая тема — светлый градиент + тёмный текст */
+[data-theme='light'] .hero {
+  background: linear-gradient(135deg, #fafafa 0%, #f0f0f3 45%, #e6e6eb 100%);
   color: #0c0c0e;
 }
-.heroLight .back {
+[data-theme='light'] .back {
+  background: rgba(0, 0, 0, 0.07);
+  border-color: rgba(0, 0, 0, 0.14);
+  color: rgba(0, 0, 0, 0.8);
+}
+[data-theme='light'] .back:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+[data-theme='light'] .tag {
   background: rgba(0, 0, 0, 0.08);
-  border-color: rgba(0, 0, 0, 0.18);
+  border-color: rgba(0, 0, 0, 0.14);
   color: rgba(0, 0, 0, 0.85);
 }
-.heroLight .back:hover {
-  background: rgba(0, 0, 0, 0.15);
+[data-theme='light'] .year {
+  color: rgba(0, 0, 0, 0.5);
 }
-.heroLight .tag {
-  background: rgba(0, 0, 0, 0.1);
-  border-color: rgba(0, 0, 0, 0.18);
-  color: rgba(0, 0, 0, 0.9);
+[data-theme='light'] .title {
+  color: #0c0c0e;
 }
-.heroLight .year {
+[data-theme='light'] .subtitle {
+  color: rgba(0, 0, 0, 0.65);
+}
+[data-theme='light'] .metricNum {
+  color: #0c0c0e;
+}
+[data-theme='light'] .metricLbl {
   color: rgba(0, 0, 0, 0.55);
 }
-.heroLight .title {
-  color: #0c0c0e;
-}
-.heroLight .subtitle {
-  color: rgba(0, 0, 0, 0.75);
-}
-.heroLight .metricNum {
-  color: #0c0c0e;
-}
-.heroLight .metricLbl {
-  color: rgba(0, 0, 0, 0.6);
-}
-.heroLight .heroOverlay {
-  background: radial-gradient(ellipse at 30% 100%, rgba(0, 0, 0, 0.08) 0%, transparent 60%);
+[data-theme='light'] .heroOverlay {
+  background: radial-gradient(ellipse at 30% 100%, rgba(0, 0, 0, 0.04) 0%, transparent 60%);
 }
 .heroOverlay {
   position: absolute;
@@ -83,6 +86,11 @@
   margin: 0 auto;
 }
 .back {
+  /* inline-flex, иначе как <a> (inline) margin-bottom не работает и теги
+     прилипают к кнопке */
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
   background: rgba(255, 255, 255, 0.08);
   border: 0.5px solid rgba(255, 255, 255, 0.2);
   border-radius: 100px;
@@ -134,7 +142,7 @@
   margin-bottom: 22px;
 }
 .subtitle {
-  font-size: 17px;
+  font-size: 20px;
   color: rgba(255, 255, 255, 0.75);
   max-width: 720px;
   line-height: 1.65;
@@ -194,6 +202,32 @@
   margin: 0 auto;
   padding: 72px 32px;
 }
+
+/* Плавное появление секций по мере скролла (scroll-driven).
+   Привязано к прогрессу скролла — блоки мягко проявляются «по мере скрола».
+   Где не поддерживается (Safari старый) — контент просто виден, без анимации. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .content > * {
+      animation: caseReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 32%;
+    }
+  }
+}
+
+@keyframes caseReveal {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
 .block {
   margin-bottom: 56px;
 }
@@ -206,7 +240,7 @@
   font-weight: 500;
 }
 .blockText {
-  font-size: 17px;
+  font-size: 20px;
   color: var(--text);
   line-height: 1.75;
   letter-spacing: -0.2px;
@@ -226,7 +260,7 @@
   margin: 0;
 }
 .result {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--text);
   line-height: 1.65;
   padding: 14px 0 14px 24px;
@@ -294,10 +328,10 @@
 }
 .screensGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
+  width: calc(100% + 64px);
+  margin-left: -32px;
   padding: 0 32px;
   margin-top: 24px;
   position: relative;
@@ -319,6 +353,8 @@
 
 .screenPlaceholder {
   aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 100%;
   border-radius: 18px;
   display: flex;
   align-items: center;
@@ -356,6 +392,30 @@
     flex-direction: column;
     align-items: center;
     gap: 16px;
+  }
+
+  .content {
+    padding: 48px 20px;
+  }
+
+  .meta {
+    grid-template-columns: 1fr;
+  }
+
+  .screensGrid {
+    grid-template-columns: minmax(0, 1fr);
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    padding: 0 20px;
+    gap: 16px;
+  }
+
+  .screenPlaceholder {
+    min-height: 200px;
+  }
+
+  .screenWide .screenPlaceholder {
+    min-height: 220px;
   }
 }
 
@@ -444,6 +504,12 @@
     padding: 110px 20px 50px;
     min-height: 420px;
   }
+  /* Единый, более компактный размер заголовка для кейсов и стенделон-проектов */
+  .title {
+    font-size: clamp(30px, 9vw, 40px);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
   .meta {
     grid-template-columns: 1fr;
   }
@@ -463,6 +529,8 @@
     font-size: 15px;
   }
   .screensGrid {
+    width: calc(100% + 40px);
+    margin-left: -20px;
     padding: 0 20px;
     gap: 16px;
   }

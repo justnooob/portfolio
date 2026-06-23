@@ -1,0 +1,764 @@
+.section {
+  padding: 80px 32px 0;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 48px;
+  border-bottom: 0.5px solid var(--border);
+  padding-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text-strong);
+  letter-spacing: -0.5px;
+}
+
+/* ── PRODUCT BLOCK ──────────────────────────────────────── */
+.products {
+  display: flex;
+  flex-direction: column;
+}
+
+.product {
+  padding: 56px 0;
+  border-bottom: 0.5px solid var(--border);
+  /* Якорь возврата с кейса: отступ под фиксированный nav */
+  scroll-margin-top: 70px;
+}
+
+.product:last-child {
+  border-bottom: none;
+}
+
+/* Sticky header + tabs — остаются доступны при скролле внутри проекта,
+   чтобы можно было переключить таб не возвращаясь наверх. */
+.stickyHead {
+  position: sticky;
+  /* Чуть меньше высоты nav (~55px), заголовок подъезжает прямо под него
+     без зазора, через который был виден контент. */
+  top: 52px;
+  z-index: 20;
+  background: var(--bg);
+  padding-top: 16px;
+  /* padding (а не margin) внизу, чтобы фон закрывал щель под прилипшим
+     хедером, иначе сквозь неё видны скролящиеся карточки. */
+  padding-bottom: 20px;
+}
+
+/* FULL-WIDTH HEADER */
+.productHeader {
+  margin-bottom: 24px;
+}
+
+.productTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-strong);
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.productTitleYear {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.productSubtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: var(--text-soft);
+  flex-wrap: wrap;
+}
+
+.subtitleDot {
+  color: var(--text-faint);
+}
+
+/* TABS — full width */
+.tabs {
+  display: flex;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 0;
+}
+
+.tab {
+  padding: 12px 0;
+  margin-right: 32px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-faint);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  margin-bottom: -0.5px;
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.tabActive {
+  color: var(--text-strong);
+  border-bottom-color: var(--accent);
+}
+
+/* Shared description */
+.productDesc {
+  font-size: 18px;
+  color: var(--text-soft);
+  line-height: 1.65;
+  margin: 0 0 28px;
+  max-width: 760px;
+}
+
+/* FULL-WIDTH CONTENT */
+.productContent {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.productContentVisible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── CASE CARDS GRID ────────────────────────────────────── */
+.casesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* Wrapper = grid item; carries Figma-frame "draw" reveal + holds the card */
+.caseCardWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.caseCard {
+  text-decoration: none;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 0.5px solid var(--border);
+  background: var(--bg-elev);
+  transition: border-color 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.caseCard:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.caseCardWide {
+  grid-column: span 2;
+}
+
+/* Card inner layout: text on top, image below — fills full card height */
+.caseCardInner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.caseCardText {
+  padding: 20px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.caseTags {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.caseName {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-strong);
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+}
+
+.caseCardWide .caseName {
+  font-size: 24px;
+}
+
+.caseDesc {
+  font-size: 16px;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.caseCardWide .caseDesc {
+  -webkit-line-clamp: 4;
+}
+
+/* Image area — 16:9 by default, pinned to bottom of card */
+.caseImg {
+  aspect-ratio: 16 / 9;
+  flex-shrink: 0;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-elev);
+}
+
+/* Sidecar: 2nd card in row with wide card — fill remaining height instead of 16:9 */
+.caseCardSidecar {
+  height: 100%;
+}
+.caseCardSidecar .caseImg {
+  aspect-ratio: unset;
+  flex: 1;
+  min-height: 100px;
+}
+
+.caseImgLabel {
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  text-align: center;
+  padding: 8px;
+}
+
+/* <picture> wrapper must fill the image area so the inner <img> height:100%
+   resolves against the container, not the picture's intrinsic ratio. */
+.caseImg picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.caseImgPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Figma-frame "draw" reveal (same as standalone project cards) ── */
+.caseCardWrap[data-reveal] {
+  opacity: 0;
+}
+.caseCardWrap[data-reveal] .figmaCursor {
+  opacity: 0;
+}
+.caseCardWrap[data-reveal].caseFigmaIn {
+  animation: caseAppear 1.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.caseCardWrap[data-reveal].caseFigmaIn .figmaCursor {
+  animation: figmaCursorMove 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* Курсор-крестик в углу (Figma frame tool) */
+.figmaCursor {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 18px;
+  height: 18px;
+  background: #0c0c0e;
+  border: 1.5px solid #ffffff;
+  border-radius: 3px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+.figmaCursor svg {
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+@keyframes caseAppear {
+  0% {
+    opacity: 1;
+    clip-path: inset(0 100% 100% 0 round 16px);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(-50px -50px -50px -50px round 16px);
+  }
+}
+@keyframes figmaCursorMove {
+  0%   { opacity: 1; top: -8px; left: -8px; }
+  90%  { opacity: 1; top: calc(100% - 10px); left: calc(100% - 10px); }
+  100% { opacity: 0; top: calc(100% - 10px); left: calc(100% - 10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caseCardWrap[data-reveal] {
+    opacity: 1;
+  }
+  .caseCardWrap[data-reveal].caseFigmaIn {
+    animation: none;
+  }
+  .figmaCursor {
+    display: none;
+  }
+}
+
+/* ── PROCESS TAB ────────────────────────────────────────── */
+.processLayout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 40px;
+  align-items: start;
+}
+
+.processMain {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.processOverview {
+  font-size: 20px;
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.processSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.processSectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0;
+}
+
+.processSectionText {
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Sidebar */
+.processSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 96px;
+}
+
+.sidebarCard {
+  background: var(--bg-elev);
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sidebarCardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.sidebarList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sidebarList li {
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.5;
+  padding: 10px 0 10px 18px;
+  border-bottom: 0.5px solid var(--border);
+  position: relative;
+}
+
+.sidebarList li:last-child {
+  border-bottom: none;
+}
+
+.sidebarList li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--text-dim);
+}
+
+.sidebarImgBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebarImgWrap {
+  border-radius: 14px;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: opacity 0.15s;
+  background: var(--bg-elev);
+}
+
+.sidebarImgWrap:hover {
+  opacity: 0.9;
+}
+
+.sidebarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sidebarImgExpand {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.85);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.sidebarImgWrap:hover .sidebarImgExpand {
+  opacity: 1;
+}
+
+.sidebarImgLabel {
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+}
+
+/* Стрелки-оверлеи на картинке (листание без фулскрина) */
+.imgArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.sidebarImgWrap:hover .imgArrow {
+  opacity: 1;
+}
+
+.imgArrow:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.imgArrowLeft {
+  left: 10px;
+}
+
+.imgArrowRight {
+  right: 10px;
+}
+
+/* На тач-устройствах стрелки видны всегда (нет hover) */
+@media (hover: none) {
+  .imgArrow {
+    opacity: 1;
+  }
+}
+
+.sidebarImgNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.sidebarNavBtn {
+  background: var(--bg-elev);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sidebarNavBtn:hover {
+  background: var(--bg-elev-2);
+}
+
+.sidebarNavDots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.sidebarNavDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sidebarNavDotActive {
+  background: var(--accent);
+}
+
+/* Lightbox теперь через компонент MediaViewer (components/MediaViewer.module.css) */
+
+/* Враппер для MediaSingle внутри sidebar — занимает всю область без лишних отступов */
+.sidebarImgMediaWrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+/* ── BANNER ─────────────────────────────────────────────── */
+.banner {
+  margin: 0 -32px;
+  background: var(--bg-section);
+  border-top: 0.5px solid var(--border);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+}
+.banner:hover {
+  background: var(--bg-hover);
+}
+
+/* Right-side background image — mask fades left edge, no colour dependency */
+.bannerBg {
+  position: absolute;
+  inset: 0 0 0 30%;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 35%);
+  mask-image: linear-gradient(to right, transparent 0%, black 35%);
+}
+
+.bannerBgImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.35;
+  filter: blur(1px);
+}
+
+.bannerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--max-width);
+  padding: 48px 32px;
+  gap: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.bannerText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bannerTitle {
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--text-strong);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.bannerSub {
+  font-size: 15px;
+  color: var(--text-soft);
+}
+
+.bannerBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 100px;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.bannerBtn:hover {
+  opacity: 0.85;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .productTop {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .casesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .caseCardWide {
+    grid-column: span 2;
+  }
+
+  /* Ниже десктопа спец-раскладка 5 карточек ломается — сайдкар-фото снова 16:9 */
+  .caseCardSidecar {
+    height: auto;
+  }
+  .caseCardSidecar .caseImg {
+    aspect-ratio: 16 / 9;
+    flex: none;
+    min-height: 0;
+  }
+
+  .processLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .processSidebar {
+    position: static;
+  }
+
+  /* Картинка процессов на планшетах/мобилках — во всю ширину контейнера */
+  .sidebarImgWrap {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 20px 0;
+  }
+
+  .sectionHead {
+    margin-bottom: 32px;
+  }
+
+  .product {
+    padding: 40px 0;
+  }
+
+  /* На мобилке nav выше (~69px) — подвинем липкий заголовок под него */
+  .stickyHead {
+    top: 64px;
+  }
+
+  .productName {
+    font-size: 22px;
+  }
+
+  .casesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .caseCardWide {
+    grid-column: span 1;
+  }
+
+  .banner {
+    margin: 0 -20px;
+  }
+
+  .bannerInner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 36px 20px;
+  }
+
+  .bannerTitle {
+    font-size: 28px;
+  }
+}

@@ -1,24 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
 import { useReveal } from '@/lib/useReveal';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import FinalCta from '@/components/FinalCta';
+import { MediaProvider, MediaSingle, type MediaItem } from '@/components/MediaViewer';
 import { translations, projects } from '@/lib/data';
 import styles from './project.module.css';
 
 export default function ProjectPageClient({ slug }: { slug: string }) {
-  const router = useRouter();
   const { locale } = useApp();
   const t = translations[locale];
   const [resultsExpanded, setResultsExpanded] = useState(false);
   const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const project = projects.find((p) => p.slug === slug);
 	const currentIndex = projects.findIndex((p) => p.slug === slug);
@@ -34,18 +31,6 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       document.documentElement.removeAttribute('data-hero-mode');
     };
   }, [project]);
-
-  const openModal = (imageSrc: string) => {
-    setActiveImage(imageSrc);
-    setModalOpen(true);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    setActiveImage(null);
-    document.body.style.overflow = '';
-  };
 
   if (!project) {
     return (
@@ -74,23 +59,31 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
   const collapseLabel = locale === 'ru' ? 'Свернуть' : 'Collapse';
 
   const screens = project.screens ?? [];
+  const screenItems: MediaItem[] = screens
+    .filter((s) => s.image)
+    .map((s) => ({
+      kind: 'single' as const,
+      color: project.color,
+      src: s.image!,
+      label: s.title[locale],
+    }));
   const firstScreen = screens[0];
   const otherScreens = screens.slice(1, 5);
 
   return (
+    <MediaProvider items={screenItems}>
     <main>
       <Nav />
 
       {/* HERO */}
       <div
-        className={`${styles.hero} ${project.lightText ? styles.heroLight : ''}`}
-        style={{ background: project.color }}
+        className={styles.hero}
       >
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <button onClick={() => router.push('/#projects')} className={styles.back}>
-            ← {t.project.back}
-          </button>
+          <Link href={`/projects#${slug}`} scroll={false} className={styles.back}>
+            ← {locale === 'ru' ? 'Назад к проектам' : 'Back to projects'}
+          </Link>
           <div className={styles.heroTop}>
             <div className={styles.tags}>
               {project.tags[locale].map((tag) => (
@@ -201,13 +194,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
               {firstScreen && firstScreen.image && (
                 <div className={`${styles.screenItem} ${styles.screenWide} ${styles.screenItem1}`}>
                   <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                    <img
-                      src={firstScreen.image}
-                      alt={firstScreen.title[locale]}
-                      onClick={() => openModal(firstScreen.image!)}
-                      onContextMenu={(e) => e.preventDefault()}
-                      className={styles.clickableImg}
-                    />
+                    <MediaSingle index={0} />
                   </div>
                 </div>
               )}
@@ -220,13 +207,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
                     className={`${styles.screenItem} ${styles[`screenItem${idx + 2}`]}`}
                   >
                     <div className={styles.screenPlaceholder} style={{ background: project.color }}>
-                      <img
-                        src={screen.image}
-                        alt={screen.title[locale]}
-                        onClick={() => openModal(screen.image!)}
-                        onContextMenu={(e) => e.preventDefault()}
-                        className={styles.clickableImg}
-                      />
+                      <MediaSingle index={idx + 1} />
                     </div>
                   </div>
                 );
@@ -265,10 +246,13 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
           </section>
         )}
 
-        {/* BUTTONS: Behance + Next project */}
+        {/* BUTTONS: Back + Behance + Next project */}
         <div className={styles.projectFooter}>
+          <Link href={`/projects#${slug}`} scroll={false} className="btn-secondary">
+            {locale === 'ru' ? 'Назад к кейсам' : 'Back to cases'}
+          </Link>
           {project.behanceUrl && (
-            <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta">
+            <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta btn-behance">
               {t.project.viewBehance}
               <span className="btn-cta-ico-wrap">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -278,8 +262,13 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
             </a>
           )}
           {nextProject && (
-            <Link href={`/projects/${nextProject.slug}`} className="btn-secondary">
+            <Link href={`/projects/${nextProject.slug}`} className="btn-cta btn-cta-next">
               {locale === 'ru' ? 'Следующий проект' : 'Next project'}
+              <span className="btn-cta-ico-wrap">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 7H10.5M10.5 7L7 3.5M10.5 7L7 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
             </Link>
           )}
         </div>
@@ -287,25 +276,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
       <FinalCta />
       <Footer />
-
-      {/* MODAL */}
-      <div
-        className={`${styles.modalOverlay} ${modalOpen ? styles.modalOverlayOpen : ''}`}
-        onClick={closeModal}
-      >
-        <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-          <button className={styles.modalClose} onClick={closeModal}>✕</button>
-          {activeImage && (
-            <img
-              src={activeImage}
-              alt="Полноразмерное изображение"
-              onContextMenu={(e) => e.preventDefault()}
-              className={styles.modalImage}
-              onClick={closeModal}
-            />
-          )}
-        </div>
-      </div>
     </main>
+    </MediaProvider>
   );
 }

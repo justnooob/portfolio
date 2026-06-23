@@ -1,103 +1,193 @@
-/* Footer — фон на всю ширину экрана (без обрезки 1440px) */
+/* ════════════════════════════════════════════════════
+   Full-screen footer — itsjay.us grid
+
+   Grid layout:
+     col: 1fr 1fr 1fr
+     row: 3fr 1fr 1fr
+     areas:
+       "work  work  cv"
+       "tg    setka hh"
+       "email setka hh"
+   ════════════════════════════════════════════════════ */
+
 .footer {
-  padding: 56px 32px 36px;
-  border-top: 0.5px solid var(--border);
-  background: var(--bg-section);
+  position: relative;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-}
-/* Внутренний контейнер ограничен 1440px */
-.inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-.grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 48px;
-  margin-bottom: 36px;
-}
-.brandCol {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.brand {
-  font-size: 22px;
-  font-weight: 500;
-  color: var(--text-strong);
-  letter-spacing: -0.5px;
-  margin-bottom: 4px;
-}
-.tag {
-  font-size: 14px;
-  color: var(--text-soft);
-  line-height: 1.65;
-  margin-bottom: 10px;
-}
-.status {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 12px;
-  color: var(--text-muted);
-  background: rgba(var(--accent-rgb), 0.08);
-  border: 0.5px solid rgba(var(--accent-rgb), 0.25);
-  padding: 5px 12px;
-  border-radius: 100px;
-  width: fit-content;
-}
-.statusDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 8px var(--accent); }
-  50% { box-shadow: 0 0 14px var(--accent); }
-}
-.colTtl {
-  font-size: 11px;
-  color: var(--text-faint);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 16px;
-  font-weight: 500;
-}
-.link {
-  display: block;
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: color 0.2s;
-  text-decoration: none;
-}
-.link:hover {
-  color: var(--text-strong);
-}
-.bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 28px;
+  min-height: 72svh;
   border-top: 0.5px solid var(--border);
-  font-size: 12px;
-  color: var(--text-faint);
+  background: var(--bg);
+  overflow: hidden;
+  padding-bottom: 20px;
 }
 
+/* ── Фоновый текст (z=0) ─────────────────────────── */
+.bgBrand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+  /* Слегка смещаем вниз чтобы центр попадал в область больших карточек */
+  padding-bottom: 10%;
+}
+
+.bgText {
+  font-size: clamp(64px, 13vw, 200px);
+  font-weight: 700;
+  color: var(--text-strong);
+  letter-spacing: -0.04em;
+  text-align: center;
+  line-height: 0.88;
+  user-select: none;
+}
+
+/* ── CSS Grid (z=1, поверх фонового текста) ─────── */
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 2fr 1fr 1fr;
+  grid-template-areas:
+    "work  work  cv"
+    "tg    setka hh"
+    "email setka hh";
+  min-height: calc(72svh - 20px);
+  /* Разделители — gap показывает border-color */
+  gap: 0.5px;
+  background: var(--border);
+}
+
+/* ── Grid-area assignments ───────────────────────── */
+.cellWork  { grid-area: work; }
+.cellCv    { grid-area: cv; }
+.cellTg    { grid-area: tg; }
+.cellSetka { grid-area: setka; }
+.cellHh    { grid-area: hh; }
+.cellEmail { grid-area: email; }
+
+/* ── Базовая карточка ────────────────────────────── */
+.cell {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;          /* лейбл + стрелка — у нижнего края */
+  justify-content: space-between;
+  padding: 22px 28px;
+  text-decoration: none;
+  color: var(--text-strong);
+  cursor: pointer;
+
+  /* Полупрозрачный фон + блюр → фоновый текст просвечивает размытым */
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+
+  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cell:hover {
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+}
+
+/* ── Лейбл ──────────────────────────────────────── */
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-soft);
+  letter-spacing: 0.1px;
+  line-height: 1;
+  transition: color 0.25s;
+}
+.cell:hover .label {
+  color: var(--text-strong);
+}
+
+/* ── Стрелки ─────────────────────────────────────── */
+.arrow,
+.arrowDown {
+  font-size: 18px;
+  color: var(--text-faint);
+  line-height: 1;
+  transition: color 0.25s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cell:hover .arrow {
+  color: var(--text-strong);
+  transform: translate(2px, -2px);
+}
+.cell:hover .arrowDown {
+  color: var(--text-strong);
+  transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════════════
+   LIGHT THEME
+   ══════════════════════════════════════════════════ */
+[data-theme='light'] .cell {
+  background: color-mix(in srgb, var(--bg) 75%, transparent);
+}
+[data-theme='light'] .cell:hover {
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+}
+
+/* ══════════════════════════════════════════════════
+   MOBILE  ≤ 768px
+   ══════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   .footer {
-    padding: 40px 16px 28px;
+    min-height: auto;
   }
+
+  /* Фоновый текст — меньший размер, смещаем чуть выше центра */
+  .bgBrand {
+    align-items: flex-start;
+    padding-top: 32px;
+    padding-bottom: 0;
+  }
+  .bgText {
+    font-size: clamp(44px, 16vw, 80px);
+  }
+
+  /* На мобилке — все карточки в одну колонку с одинаковой высотой */
   .grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, 80px);
+    grid-template-areas:
+      "work"
+      "cv"
+      "tg"
+      "setka"
+      "email"
+      "hh";
+    min-height: auto;
   }
-  .brandCol {
-    grid-column: 1 / -1;
+
+  .cell {
+    padding: 18px 20px;
+    height: 80px;
+    align-items: center;  /* центрируем по высоте вместо flex-end */
+    justify-content: space-between;
+  }
+  .label {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    white-space: nowrap;  /* предотвращаем перенос текста */
+  }
+  .arrow,
+  .arrowDown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .bgText {
+    font-size: clamp(36px, 18vw, 60px);
   }
 }

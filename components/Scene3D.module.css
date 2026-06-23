@@ -1,0 +1,40 @@
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  /* Blur контролируется JS через CSS-переменную; в content-секциях
+     сфера превращается в мягкое цветовое пятно. */
+  filter: blur(var(--scene-blur, 0px));
+  will-change: filter;
+}
+
+/* Readability-маска поверх 3D, под main.
+   На hero она прозрачная (полный 3D), на content-секциях — мягко затемняется
+   и блюрится, чтобы текст оставался читаемым. */
+.readabilityMask {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Мягкая виньетка по центру — где обычно текст */
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 0%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 0%, #000 30%, transparent 100%);
+}
+
+.scene canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    opacity: 0.4;
+  }
+}

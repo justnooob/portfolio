@@ -1,0 +1,255 @@
+.section {
+  padding: 100px 32px 80px;
+  overflow: hidden;
+}
+
+.headingWrap {
+  margin: 0 auto 90px;
+  max-width: var(--max-width);
+  text-align: center;
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0;
+  font-family: var(--font-sans);
+  /* Размер и начертание выровнены под заголовок «РАБОТЫ» (ViewAllWork). */
+  font-weight: 600;
+  font-size: clamp(56px, 9vw, 112px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text-strong);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.line {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  line-height: 1;
+}
+
+/* Подвижная буква: контейнер строго в высоту 1em с overflow:hidden,
+   внутри две идентичные копии, которые скользят вниз. */
+.letterWrap {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  height: 1em;
+  line-height: 1;
+  vertical-align: top;
+  /* Небольшой паддинг сверху, чтобы умещались надбуквенные знаки (Й, Ё) */
+  padding-top: 0.08em;
+  margin-top: -0.08em;
+}
+
+.letterRoll {
+  display: block;
+  will-change: transform;
+}
+
+.letterCopy {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+
+/* Статичная буква: рендерится без обёртки и без анимации. */
+.letterStatic {
+  display: inline-block;
+  line-height: 1;
+  vertical-align: top;
+  padding-top: 0.08em;
+  margin-top: -0.08em;
+}
+
+.label {
+  max-width: var(--max-width);
+  margin: 0 auto 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+  padding-left: 4px;
+}
+
+.gridWrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+.row3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.row7 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-strong);
+  text-decoration: none;
+  overflow: hidden;
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--text-strong);
+  transform: translateY(101%);
+  transition: transform 0.5s cubic-bezier(0.83, 0, 0.17, 1);
+  z-index: 0;
+}
+
+.card:hover::before {
+  transform: translateY(0);
+}
+
+.card:hover {
+  color: var(--bg);
+}
+
+.logo {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  width: 100%;
+  text-align: center;
+}
+
+/* Универсальный wordmark: иконка слева + название */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: currentColor;
+}
+
+.brandIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.brandIcon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  color: currentColor;
+}
+
+.brandName {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: currentColor;
+  line-height: 1;
+}
+
+.brandNameSerif {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-weight: 500;
+  font-size: 26px;
+  letter-spacing: 0;
+  color: currentColor;
+  line-height: 1;
+}
+
+.adobeBox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 2.5px solid currentColor;
+  border-radius: 10px;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: -0.04em;
+  font-style: italic;
+  line-height: 1;
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 70px 20px 60px;
+  }
+  .headingWrap {
+    margin-bottom: 60px;
+  }
+  .row7 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .row3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .card {
+    height: 160px;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 50px 12px 40px;
+  }
+  .heading {
+    font-size: clamp(40px, 14vw, 72px);
+  }
+  /* Все 10 карточек выравниваются в единую сетку 2 столбика → 5 рядов */
+  .gridWrap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .row3,
+  .row7 {
+    display: contents;
+  }
+  .card {
+    height: 130px;
+  }
+  .adobeBox {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+  .brandName {
+    font-size: 18px;
+  }
+  .brandNameSerif {
+    font-size: 22px;
+  }
+  .brandIcon {
+    width: 22px;
+    height: 22px;
+  }
+}

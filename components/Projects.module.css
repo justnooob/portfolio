@@ -9,6 +9,8 @@
 
 .cardWrap {
   position: relative;
+  /* Якорь возврата с проекта: отступ под фиксированный nav */
+  scroll-margin-top: 80px;
 }
 /* Состояние ожидания: невидимо но обзёрвируется */
 .cardWrap[data-reveal] {
@@ -78,11 +80,11 @@
 @keyframes cardAppear {
   0% {
     opacity: 1;
-    clip-path: inset(0 100% 100% 0);
+    clip-path: inset(0 100% 100% 0 round 16px);
   }
   100% {
     opacity: 1;
-    clip-path: inset(0 0 0 0);
+    clip-path: inset(-50px -50px -50px -50px round 16px);
   }
 }
 @keyframes figmaCursorMove {

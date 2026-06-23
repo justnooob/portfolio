@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { useApp } from './AppProvider';
 import { useReveal } from '@/lib/useReveal';
 import { translations, projects, Project, ProjectCategory } from '@/lib/data';
+import { useTilt, easeOut } from './motion-utils';
 import styles from './Projects.module.css';
 
 interface ProjectCardProps {
@@ -19,12 +21,16 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
   const t = translations[locale];
   // ref на обёртку — она получает clip-path "Figma frame draw" анимацию
   const { ref, visible } = useReveal<HTMLDivElement>();
+  // 3D-tilt при hover
+  const tilt = useTilt<HTMLDivElement>(3.5);
 
-  // Выбираем обложку по теме
+  // Выбираем обложку по теме. Для листинга /projects предпочитаем listCoverImage*
+  // (если задано) — это позволяет featured-проектам показывать в категорийном
+  // листинге обложку, отличную от обложки на главной.
   const cover =
-    theme === 'light' && project.coverImageLight
-      ? project.coverImageLight
-      : project.coverImage;
+    theme === 'light'
+      ? project.listCoverImageLight ?? project.coverImageLight ?? project.listCoverImage ?? project.coverImage
+      : project.listCoverImage ?? project.coverImage;
 
   /**
    * С какой стороны картинка выезжает после раскрытия рамки:
@@ -101,6 +107,7 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
     */
     <div
       ref={ref}
+      id={project.slug}
       className={`${styles.cardWrap} ${coverDirClass} ${visible ? styles.cardFigmaIn : ''}`}
     >
       {/* Курсор-крестик (Figma frame tool) */}
@@ -110,47 +117,60 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
         </svg>
       </span>
 
-      <Link href={`/projects/${project.slug}`} className={styles.card}>
-        {/* coverSlide — обёртка над картинкой для slide-in анимации */}
-        <div className={styles.coverSlide}>
-          {renderPreview()}
-        </div>
+      <motion.div
+        ref={tilt.ref}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
+        style={{ ...tilt.style, perspective: 1200 }}
+      >
+        <Link href={`/projects/${project.slug}`} className={styles.card}>
+          {/* coverSlide — обёртка над картинкой для slide-in анимации */}
+          <div className={styles.coverSlide}>
+            {renderPreview()}
+          </div>
 
-        <div className={styles.body}>
-          <div className={styles.head}>
-            <div className={styles.name}>{project.name[locale]}</div>
-            <div className={styles.arrow}>↗</div>
+          <div className={styles.body}>
+            <div className={styles.head}>
+              <div className={styles.name}>{project.name[locale]}</div>
+              <div className={styles.arrow}>↗</div>
+            </div>
+            <div className={styles.desc}>{project.shortDesc[locale]}</div>
+            <div className={styles.meta}>
+              <span>{project.year}</span>
+              {project.company && (
+                <>
+                  <div className={styles.mdot}></div>
+                  <span>{project.company[locale]}</span>
+                </>
+              )}
+              {project.metrics && project.metrics[0] && (
+                <>
+                  <div className={styles.mdot}></div>
+                  <span>
+                    {project.metrics[0].value} {project.metrics[0].label[locale]}
+                  </span>
+                </>
+              )}
+            </div>
           </div>
-          <div className={styles.desc}>{project.shortDesc[locale]}</div>
-          <div className={styles.meta}>
-            <span>{project.year}</span>
-            {project.company && (
-              <>
-                <div className={styles.mdot}></div>
-                <span>{project.company[locale]}</span>
-              </>
-            )}
-            {project.metrics && project.metrics[0] && (
-              <>
-                <div className={styles.mdot}></div>
-                <span>
-                  {project.metrics[0].value} {project.metrics[0].label[locale]}
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-      </Link>
+        </Link>
+      </motion.div>
     </div>
   );
 }
 
-function CategorySection({ category, columns }: { category: ProjectCategory; columns: 2 | 3 }) {
+function CategorySection({ category, columns, olderOnly }: { category: ProjectCategory; columns: 2 | 3; olderOnly?: boolean }) {
   const { locale } = useApp();
   const t = translations[locale];
   const catInfo = t.categories[category];
-  const items = projects.filter((p) => p.category === category && !p.featured);
+  const items = projects.filter((p) => {
+    if (p.category !== category) return false;
+    if (olderOnly && p.isProduct) return false;
+    return true;
+  });
   const { ref: headRef, visible: headVisible } = useReveal<HTMLDivElement>();
+
+  if (items.length === 0) return null;
 
   const gridClass = columns === 3 ? styles.grid3 : styles.grid2;
   const count = items.length.toString().padStart(2, '0');
@@ -172,12 +192,30 @@ function CategorySection({ category, columns }: { category: ProjectCategory; col
   );
 }
 
-export default function Projects() {
+function OlderProjectsHeader() {
+  const { locale } = useApp();
+  const { ref, visible } = useReveal<HTMLDivElement>();
   return (
-    <>
-      <CategorySection category="saas" columns={2} />
-      <CategorySection category="mobile" columns={2} />
-      <CategorySection category="web" columns={3} />
-    </>
+    <div className={styles.section} style={{ borderTop: '0.5px solid var(--border)', paddingBottom: 0 }}>
+      <div ref={ref} className={`${styles.head} reveal-slide-left ${visible ? 'visible' : ''}`}>
+        <div className={styles.title}>
+          {locale === 'ru' ? 'Другие проекты' : 'Older Projects'}
+        </div>
+        <div className={styles.sub}>
+          {locale === 'ru' ? 'Более ранние кейсы' : 'Earlier case studies'}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Projects({ olderOnly }: { olderOnly?: boolean }) {
+  return (
+    <div data-section="projects">
+      {olderOnly && <OlderProjectsHeader />}
+      <CategorySection category="saas" columns={2} olderOnly={olderOnly} />
+      <CategorySection category="mobile" columns={2} olderOnly={olderOnly} />
+      <CategorySection category="web" columns={3} olderOnly={olderOnly} />
+    </div>
   );
 }

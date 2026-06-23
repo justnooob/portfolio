@@ -2,22 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { motion, AnimatePresence } from 'framer-motion';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
+import Myself from '@/components/Myself';
 import Logos from '@/components/Logos';
-import Featured from '@/components/Featured';
-import Projects from '@/components/Projects';
+import FeaturedProducts from '@/components/FeaturedProducts';
 import Experience from '@/components/Experience';
+import TechStack from '@/components/TechStack';
 import FinalCta from '@/components/FinalCta';
 import Footer from '@/components/Footer';
 
 const Preloader = dynamic(() => import('@/components/Preloader'), { ssr: false });
 
 export default function Home() {
-  const [preloaderDone, setPreloaderDone] = useState(true); // по умолчанию скрыт
+  const [preloaderDone, setPreloaderDone] = useState(true);
   const [shouldShowPreloader, setShouldShowPreloader] = useState(false);
 
-  // На клиенте — проверяем sessionStorage и показываем лоудер только первый раз
   useEffect(() => {
     const alreadyShown = sessionStorage.getItem('preloader_shown');
     if (!alreadyShown) {
@@ -28,22 +29,26 @@ export default function Home() {
 
   return (
     <>
-      {shouldShowPreloader && !preloaderDone && (
-        <Preloader onDone={() => setPreloaderDone(true)} />
-      )}
-      <main style={{
-        opacity: preloaderDone ? 1 : 0,
-        transition: 'opacity 0.4s ease',
-      }}>
+      <AnimatePresence>
+        {shouldShowPreloader && !preloaderDone && (
+          <Preloader onDone={() => setPreloaderDone(true)} />
+        )}
+      </AnimatePresence>
+      <motion.main
+        initial={false}
+        animate={{ opacity: preloaderDone ? 1 : 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      >
         <Nav />
         <Hero />
+        <Myself />
         <Logos />
-        <Featured />
-        <Projects />
+        <FeaturedProducts />
         <Experience />
+        <TechStack />
         <FinalCta />
         <Footer />
-      </main>
+      </motion.main>
     </>
   );
 }

@@ -4,7 +4,11 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #08080f;
+  /* Тёмная виньетка с прозрачным центром — 3D-сцена просвечивает */
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(8, 8, 15, 0.55) 0%, rgba(8, 8, 15, 0.85) 40%, #08080f 75%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -217,6 +221,43 @@
     left: 20px;
     right: 20px;
   }
+}
+
+/* === СВЕТЛАЯ ТЕМА === */
+[data-theme='light'] .root {
+  background: #f5f5fa;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+[data-theme='light'] .char {
+  color: #0c0c0e;
+}
+[data-theme='light'] .stepLabel {
+  color: rgba(37, 99, 235, 0.6);
+}
+[data-theme='light'] .barTrack {
+  background: rgba(0, 0, 0, 0.08);
+}
+[data-theme='light'] .counter {
+  color: rgba(0, 0, 0, 0.35);
+}
+[data-theme='light'] .pctSign {
+  color: rgba(37, 99, 235, 0.6);
+}
+[data-theme='light'] .nameTag {
+  color: rgba(0, 0, 0, 0.2);
+}
+[data-theme='light'] .edgeTop,
+[data-theme='light'] .edgeBottom {
+  background: linear-gradient(90deg, transparent 0%, transparent 30%, #2563eb 50%, transparent 70%, transparent 100%);
+  background-size: 40% 100%;
+  opacity: 0.35;
+}
+[data-theme='light'] .edgeLeft,
+[data-theme='light'] .edgeRight {
+  background: linear-gradient(180deg, transparent 0%, transparent 30%, #2563eb 50%, transparent 70%, transparent 100%);
+  background-size: 100% 40%;
+  opacity: 0.35;
 }
 
 /* Reduced motion */

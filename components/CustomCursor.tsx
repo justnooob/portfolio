@@ -91,7 +91,23 @@ export default function CustomCursor() {
   return (
     <>
       <div ref={glowRef} className={styles.glow} aria-hidden="true" />
-      <div ref={dotRef} className={styles.dot} aria-hidden="true" />
+      <div ref={dotRef} className={styles.dot} aria-hidden="true">
+        {/* Стрелка появляется только при наведении на кликабельный элемент */}
+        <svg
+          className={styles.dotIcon}
+          viewBox="0 0 14 14"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
     </>
   );
 }

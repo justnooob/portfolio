@@ -1,5 +1,5 @@
 .section {
-  padding: 60px 32px;
+  padding: 100px 32px;
 }
 .head {
   display: flex;
@@ -83,7 +83,7 @@
   flex-wrap: wrap;
 }
 .company {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   color: var(--text-strong);
   letter-spacing: -0.2px;
@@ -110,7 +110,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-soft);
   flex-wrap: wrap;
 }
@@ -157,7 +157,7 @@
   border-top: 0.5px solid var(--border);
 }
 .product {
-  font-size: 14px;
+  font-size: 17px;
   color: var(--text-soft);
   margin-bottom: 20px;
   line-height: 1.65;
@@ -193,7 +193,7 @@
   gap: 10px;
 }
 .ach {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-muted);
   line-height: 1.65;
   display: flex;
@@ -205,13 +205,40 @@
   flex-shrink: 0;
 }
 
+/* ── Per-logo size overrides ─────────────────────────
+   SOROMAX SVG has viewBox padding (height=40, text=17px).
+   height: 37px → width = 37*(152/40) = 140.6px ≈ Hobbist width.
+
+   OKK SVG (uk-medicina) is very wide (254×32).
+   height: 18px → width = 18*(254/32) = 142.9px ≈ Hobbist width.
+   ──────────────────────────────────────────────────── */
+.logoImgSoromax {
+  height: 37px;
+}
+.logoImgOkk {
+  height: 18px;
+}
+
 @media (max-width: 768px) {
   .section {
-    padding: 40px 16px;
+    padding: 60px 16px;
   }
+  /*
+    Мобильная раскладка карточки опыта:
+    ┌─────────────┬─────────────────────┐
+    │             │ Company · website ↗ │
+    │             │ Локация             │
+    │   ЛОГО      │ Роль                │
+    │ (по верху)  │ Период              │
+    │             │ +XX% (KPI)          │
+    │             │ KPI label           │
+    └─────────────┴─────────────────────┘
+    Лого слева, выровнено по верху. Справа — info + kpi в столбик.
+  */
   .cardHead {
-    grid-template-columns: 140px 1fr auto;
-    gap: 14px;
+    grid-template-columns: 140px 1fr;
+    align-items: start;
+    gap: 6px 14px;
     padding: 16px 18px;
   }
   .logoImg,
@@ -219,14 +246,39 @@
     width: 140px;
     height: 32px;
     font-size: 12px;
+    align-self: start; /* лого прижимается к верху */
+  }
+  /* SOROMAX: slightly larger than default to compensate for viewBox padding.
+     height: 40px → text appears at 40*(17/40) = 17px (vs default 13.6px). */
+  .logoImgSoromax {
+    height: 40px;
+  }
+  /* OKK: mobile default (32px height, 140px width) already renders
+     the logo correctly via object-fit: contain — no override needed. */
+  .logoImgOkk {
+    height: 32px;
   }
   .chev {
     display: none;
   }
+  /* KPI едет под info — вторая строка во втором столбце */
+  .kpi {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: left;
+    margin-top: 4px;
+  }
+  /* Meta — каждый пункт в отдельной строке, без точек-разделителей */
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 13px;
+  }
+  .mdot {
+    display: none;
+  }
   .bodyIn {
     padding: 16px 18px 20px 18px;
-  }
-  .meta {
-    font-size: 12px;
   }
 }

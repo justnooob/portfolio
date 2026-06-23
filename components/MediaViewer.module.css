@@ -1,0 +1,280 @@
+/* ─────────────────── MEDIA: placeholder labels ─────────────────── */
+.placeholderLabel {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.placeholderLabelSm {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.5px;
+}
+
+/* ─────────────────── MEDIA: single image ─────────────────── */
+.mediaImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mediaSingle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: zoom-in;
+  font: inherit;
+  color: inherit;
+  border-radius: inherit;
+  background: var(--bg-elev);
+}
+
+.mediaSingle:hover .mediaExpand,
+.mediaCompare:hover .mediaExpand {
+  opacity: 1;
+}
+
+.mediaExpand {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-in;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.mediaExpand:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+/* На слайдере сравнения верхние углы заняты лейблами — иконку ставим снизу справа */
+.mediaExpandCompare {
+  top: auto;
+  bottom: 12px;
+}
+
+/* ─────────────────── MEDIA: comparison slider ─────────────────── */
+.mediaCompare {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.compareInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+.compareAfter,
+.compareBefore {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elev);
+}
+
+.compareImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.compareHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  /* Серая полоса-разделитель — заметна поверх любых изображений */
+  background: rgba(140, 140, 140, 0.95);
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.25);
+  transform: translateX(-1.5px);
+  cursor: ew-resize;
+  z-index: 4;
+}
+
+.compareGrip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  cursor: ew-resize;
+}
+
+.compareCorner {
+  position: absolute;
+  top: 12px;
+  z-index: 5;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  padding: 5px 10px;
+  border-radius: 100px;
+  pointer-events: none;
+}
+
+.compareCornerLeft {
+  left: 12px;
+}
+
+.compareCornerRight {
+  right: 12px;
+}
+
+/* ─────────────────── LIGHTBOX ─────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 72px;
+}
+
+.lightboxStage {
+  position: relative;
+  width: 94vw;
+  max-width: 2400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightboxImg {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+.lightboxPlaceholder {
+  width: min(94vw, 160vh, 2400px);
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.lightboxCompare {
+  position: relative;
+  width: min(94vw, 160vh, 2400px);
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.lightboxClose:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lightboxArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.lightboxArrow:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lightboxArrowLeft {
+  left: 24px;
+}
+
+.lightboxArrowRight {
+  right: 24px;
+}
+
+@media (max-width: 768px) {
+  .lightbox {
+    padding: 56px 12px;
+  }
+
+  /* На мобилке стрелки листания не показываем — единая структура для всех кейсов */
+  .lightboxArrow {
+    display: none;
+  }
+
+  .lightboxClose {
+    top: 12px;
+    right: 12px;
+  }
+}

@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useApp } from './AppProvider';
 import { useReveal } from '@/lib/useReveal';
 import { translations } from '@/lib/data';
+import { useMagnetic } from './motion-utils';
 import styles from './FinalCta.module.css';
 
 export default function FinalCta() {
@@ -67,9 +69,9 @@ export default function FinalCta() {
   }, [locale]);
 
   return (
-    <div className={styles.section}>
+    <div className={styles.section} data-section="finalCta">
       <div className={styles.glow}></div>
-      <div ref={ref} className={`${styles.inner} reveal-pop ${visible ? 'visible' : ''}`}>
+      <div ref={ref} className={`${styles.inner} reveal-glow ${visible ? 'visible' : ''}`}>
         <div className={styles.label}>
           <div className={styles.dot}></div>
           {t.finalCta.badge}
@@ -91,19 +93,37 @@ export default function FinalCta() {
 
         <p className={styles.desc}>{t.finalCta.description}</p>
         <div className={styles.btns}>
-          <a href="https://t.me/sfokin1337" target="_blank" rel="noopener noreferrer" className="btn-cta">
-            {t.finalCta.telegram}
-            <span className="btn-cta-ico-wrap">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-          </a>
-          <a href="mailto:m.sorokin.v@mail.ru" className="btn-secondary">
-            m.sorokin.v@mail.ru
-          </a>
+          <MagneticWrap>
+            <a href="https://t.me/sfokin1337" target="_blank" rel="noopener noreferrer" className="btn-cta">
+              {t.finalCta.telegram}
+              <span className="btn-cta-ico-wrap">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </MagneticWrap>
+          <MagneticWrap>
+            <a href="mailto:m.sorokin.v@mail.ru" className="btn-secondary">
+              m.sorokin.v@mail.ru
+            </a>
+          </MagneticWrap>
         </div>
       </div>
     </div>
+  );
+}
+
+function MagneticWrap({ children }: { children: React.ReactNode }) {
+  const m = useMagnetic<HTMLDivElement>(0.28);
+  return (
+    <motion.div
+      ref={m.ref}
+      onMouseMove={m.onMouseMove}
+      onMouseLeave={m.onMouseLeave}
+      style={{ ...m.style, display: 'inline-block' }}
+    >
+      {children}
+    </motion.div>
   );
 }
