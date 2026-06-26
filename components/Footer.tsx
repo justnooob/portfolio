@@ -34,7 +34,7 @@ export default function Footer() {
         </a>
 
         <a
-          href="/Sorokin_CV.pdf"
+          href="/Sorokin_Maxim_CV.pdf"
           download="Sorokin_Maxim_CV.pdf"
           className={`${styles.cell} ${styles.cellCv}`}
         >
