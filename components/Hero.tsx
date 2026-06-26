@@ -129,7 +129,7 @@ export default function Hero() {
             </a>
           </MagneticButton>
           <MagneticButton>
-            <a href="/Sorokin_Maxim_CV.pdf" download className="btn-secondary">
+            <a href="/Sorokin_CV.pdf" download className="btn-secondary">
               {locale === 'ru' ? 'Скачать CV' : 'Download CV'}
             </a>
           </MagneticButton>
