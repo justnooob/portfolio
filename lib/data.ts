@@ -1853,6 +1853,7 @@ export const experiences: Experience[] = [
     logo: 'H',
     logoColor: '#e879f9',
     logoSrc: '/logos/new-hobbist.svg',
+    logoSrcLight: '/logos/new-hobbist-light.svg',
     company: { ru: 'Hobbist', en: 'Hobbist' },
     website: 'hobbist.com',
     location: { ru: 'Удалённо', en: 'Remote' },

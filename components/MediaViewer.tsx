@@ -10,6 +10,7 @@ import {
   ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { gsap, useGSAP, prefersReducedMotion } from '@/lib/gsap';
 import styles from './MediaViewer.module.css';
 
 /* ─────────────────────────── Types ─────────────────────────── */
@@ -32,7 +33,7 @@ export interface MediaItem {
 
 interface MediaCtx {
   items: MediaItem[];
-  open: (index: number) => void;
+  open: (index: number, originRect?: DOMRect) => void;
   getPos: (index: number) => number;
   setPos: (index: number, pos: number) => void;
 }
@@ -176,7 +177,7 @@ export function MediaSingle({ index, className }: { index: number; className?: s
     <button
       type="button"
       className={`${styles.mediaSingle} ${className ?? ''}`}
-      onClick={() => open(index)}
+      onClick={(e) => open(index, (e.currentTarget as HTMLElement).getBoundingClientRect())}
     >
       {item.src && !fail ? (
         <img src={item.src} alt={item.label ?? ''} className={styles.mediaImg} onError={() => setFail(true)} />
@@ -197,14 +198,17 @@ export function MediaSingle({ index, className }: { index: number; className?: s
 export function MediaCompare({ index, className }: { index: number; className?: string }) {
   const { items, open, getPos, setPos } = useMedia();
   const item = items[index];
+  const rootRef = useRef<HTMLDivElement>(null);
+  const openWithRect = () =>
+    open(index, rootRef.current?.getBoundingClientRect());
 
   return (
-    <div className={`${styles.mediaCompare} ${className ?? ''}`}>
+    <div ref={rootRef} className={`${styles.mediaCompare} ${className ?? ''}`}>
       <CompareView
         item={item}
         pos={getPos(index)}
         onPos={(p) => setPos(index, p)}
-        onSurfaceClick={() => open(index)}
+        onSurfaceClick={openWithRect}
       />
 
       {/* Corner labels */}
@@ -212,7 +216,7 @@ export function MediaCompare({ index, className }: { index: number; className?: 
       <span className={`${styles.compareCorner} ${styles.compareCornerRight}`}>{item.afterLabel}</span>
 
       {/* Expand to fullscreen — в нижнем углу, чтобы не конфликтовать с лейблами сверху */}
-      <button type="button" className={`${styles.mediaExpand} ${styles.mediaExpandCompare}`} onClick={() => open(index)} aria-label="Open fullscreen">
+      <button type="button" className={`${styles.mediaExpand} ${styles.mediaExpandCompare}`} onClick={openWithRect} aria-label="Open fullscreen">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M9 1h4v4M5 13H1V9M13 1L8 6M1 13l5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -242,14 +246,63 @@ function LightboxSingle({ item }: { item: MediaItem }) {
 
 /* ─────────────────────────── Lightbox ─────────────────────────── */
 
-function Lightbox({ index, onClose, onPrev, onNext }: {
+function Lightbox({ index, originRect, onClose, onPrev, onNext }: {
   index: number;
+  originRect: DOMRect | null;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
 }) {
   const { items, getPos, setPos } = useMedia();
   const item = items[index];
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const closing = useRef(false);
+
+  // Плавное раскрытие на фулскрин из позиции/размера миниатюры (один раз при открытии)
+  useGSAP(
+    () => {
+      const overlay = overlayRef.current;
+      const stage = stageRef.current;
+      if (!overlay || !stage) return;
+      gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+      if (originRect && !prefersReducedMotion()) {
+        const f = stage.getBoundingClientRect();
+        gsap.from(stage, {
+          x: originRect.left + originRect.width / 2 - (f.left + f.width / 2),
+          y: originRect.top + originRect.height / 2 - (f.top + f.height / 2),
+          scaleX: originRect.width / f.width,
+          scaleY: originRect.height / f.height,
+          opacity: 0.4,
+          duration: 0.5,
+          ease: 'power3.inOut',
+        });
+      } else {
+        gsap.from(stage, { scale: 0.92, opacity: 0, duration: 0.35, ease: 'power2.out' });
+      }
+    },
+    { scope: overlayRef }
+  );
+
+  // Плавное закрытие: схлопывание + затухание, потом реальное размонтирование
+  const animateClose = () => {
+    if (closing.current) return;
+    closing.current = true;
+    const overlay = overlayRef.current;
+    const stage = stageRef.current;
+    if (!overlay || !stage || prefersReducedMotion()) {
+      onClose();
+      return;
+    }
+    gsap.to(overlay, { opacity: 0, duration: 0.28, ease: 'power2.in' });
+    gsap.to(stage, {
+      scale: 0.9,
+      opacity: 0,
+      duration: 0.28,
+      ease: 'power2.in',
+      onComplete: onClose,
+    });
+  };
 
   // Свайп-навигация (мобилка): листаем влево/вправо.
   // Свайп, начатый на самом ползунке сравнения, не листает — двигает ручку.
@@ -274,7 +327,7 @@ function Lightbox({ index, onClose, onPrev, onNext }: {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') animateClose();
       if (e.key === 'ArrowLeft') onPrev();
       if (e.key === 'ArrowRight') onNext();
     };
@@ -288,8 +341,8 @@ function Lightbox({ index, onClose, onPrev, onNext }: {
   }, [onClose, onPrev, onNext]);
 
   const content = (
-    <div className={styles.lightbox} onClick={onClose} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-      <button type="button" className={styles.lightboxClose} onClick={onClose} aria-label="Close">
+    <div ref={overlayRef} className={styles.lightbox} onClick={animateClose} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <button type="button" className={styles.lightboxClose} onClick={animateClose} aria-label="Close">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
         </svg>
@@ -308,7 +361,7 @@ function Lightbox({ index, onClose, onPrev, onNext }: {
         </button>
       )}
 
-      <div className={styles.lightboxStage} onClick={(e) => e.stopPropagation()}>
+      <div ref={stageRef} className={styles.lightboxStage} onClick={(e) => e.stopPropagation()}>
         {item.kind === 'compare' ? (
           <div className={styles.lightboxCompare}>
             <CompareView item={item} pos={getPos(index)} onPos={(p) => setPos(index, p)} />
@@ -343,6 +396,7 @@ function Lightbox({ index, onClose, onPrev, onNext }: {
 
 export function MediaProvider({ items, children }: { items: MediaItem[]; children: ReactNode }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [originRect, setOriginRect] = useState<DOMRect | null>(null);
   const [positions, setPositions] = useState<Record<number, number>>({});
 
   const getPos = useCallback((i: number) => positions[i] ?? 50, [positions]);
@@ -350,7 +404,10 @@ export function MediaProvider({ items, children }: { items: MediaItem[]; childre
     setPositions((prev) => ({ ...prev, [i]: p }));
   }, []);
 
-  const open = useCallback((i: number) => setOpenIndex(i), []);
+  const open = useCallback((i: number, rect?: DOMRect) => {
+    setOriginRect(rect ?? null);
+    setOpenIndex(i);
+  }, []);
   const close = useCallback(() => setOpenIndex(null), []);
   const prev = useCallback(() => {
     setOpenIndex((i) => (i === null ? i : (i - 1 + items.length) % items.length));
@@ -363,7 +420,7 @@ export function MediaProvider({ items, children }: { items: MediaItem[]; childre
     <Ctx.Provider value={{ items, open, getPos, setPos }}>
       {children}
       {openIndex !== null && (
-        <Lightbox index={openIndex} onClose={close} onPrev={prev} onNext={next} />
+        <Lightbox index={openIndex} originRect={originRect} onClose={close} onPrev={prev} onNext={next} />
       )}
     </Ctx.Provider>
   );

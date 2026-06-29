@@ -133,11 +133,11 @@ function BigCard({
 
   return (
     <div className={styles.cardWrap}>
-      <motion.div
+      <div
         ref={tilt.ref}
         onMouseMove={tilt.onMouseMove}
         onMouseLeave={tilt.onMouseLeave}
-        style={{ ...tilt.style, perspective: 1400, width: '100%' }}
+        style={{ width: '100%' }}
       >
         <Link
           href={`/projects/${project.slug}`}
@@ -184,7 +184,7 @@ function BigCard({
             </div>
           </div>
         </Link>
-      </motion.div>
+      </div>
     </div>
   );
 }

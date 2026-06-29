@@ -274,70 +274,7 @@
   display: block;
 }
 
-/* ── Figma-frame "draw" reveal (same as standalone project cards) ── */
-.caseCardWrap[data-reveal] {
-  opacity: 0;
-}
-.caseCardWrap[data-reveal] .figmaCursor {
-  opacity: 0;
-}
-.caseCardWrap[data-reveal].caseFigmaIn {
-  animation: caseAppear 1.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-}
-.caseCardWrap[data-reveal].caseFigmaIn .figmaCursor {
-  animation: figmaCursorMove 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-}
-
-/* Курсор-крестик в углу (Figma frame tool) */
-.figmaCursor {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 18px;
-  height: 18px;
-  background: #0c0c0e;
-  border: 1.5px solid #ffffff;
-  border-radius: 3px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-}
-.figmaCursor svg {
-  display: block;
-  width: 10px;
-  height: 10px;
-}
-
-@keyframes caseAppear {
-  0% {
-    opacity: 1;
-    clip-path: inset(0 100% 100% 0 round 16px);
-  }
-  100% {
-    opacity: 1;
-    clip-path: inset(-50px -50px -50px -50px round 16px);
-  }
-}
-@keyframes figmaCursorMove {
-  0%   { opacity: 1; top: -8px; left: -8px; }
-  90%  { opacity: 1; top: calc(100% - 10px); left: calc(100% - 10px); }
-  100% { opacity: 0; top: calc(100% - 10px); left: calc(100% - 10px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .caseCardWrap[data-reveal] {
-    opacity: 1;
-  }
-  .caseCardWrap[data-reveal].caseFigmaIn {
-    animation: none;
-  }
-  .figmaCursor {
-    display: none;
-  }
-}
+/* Карточки кейсов появляются через GSAP (useCardReveal). */
 
 /* ── PROCESS TAB ────────────────────────────────────────── */
 .processLayout {

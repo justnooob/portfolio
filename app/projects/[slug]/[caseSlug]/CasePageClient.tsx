@@ -2,10 +2,13 @@
 
 import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
+import { useContentReveal } from '@/lib/useReveal';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import FinalCta from '@/components/FinalCta';
 import { translations, projects } from '@/lib/data';
+import SplitHeading from '@/components/SplitHeading';
+import Magnetic from '@/components/Magnetic';
 import styles from '../project.module.css';
 import cStyles from './case.module.css';
 import { CaseMediaProvider, MediaSingle, MediaCompare, type MediaItem } from './CaseMedia';
@@ -38,6 +41,7 @@ function getNextCaseLink(productSlug: string, caseSlug: string): string {
 export default function CasePageClient({ productSlug, caseSlug }: Props) {
   const { locale } = useApp();
   const t = translations[locale];
+  const contentRef = useContentReveal<HTMLDivElement>();
 
   const product = projects.find((p) => p.slug === productSlug);
   const cases = product?.cases ?? [];
@@ -146,7 +150,7 @@ export default function CasePageClient({ productSlug, caseSlug }: Props) {
             </div>
             <div className={styles.year}>{product.year}</div>
           </div>
-          <h1 className={styles.title}>{caseStudy.name[locale]}</h1>
+          <SplitHeading as="h1" className={styles.title} text={caseStudy.name[locale]} type="lines" delay={0.15} stagger={0.1} />
           <p className={styles.subtitle}>{product.shortDesc[locale]}</p>
         </div>
       </div>
@@ -168,7 +172,7 @@ export default function CasePageClient({ productSlug, caseSlug }: Props) {
       </div>
 
       {/* CONTENT */}
-      <div className={styles.content}>
+      <div className={styles.content} ref={contentRef}>
 
         {/* HERO IMAGE — отдельный провайдер: открывается, но не листается в общей галерее */}
         <div className={cStyles.heroImage}>
@@ -370,27 +374,33 @@ export default function CasePageClient({ productSlug, caseSlug }: Props) {
 
         {/* FOOTER */}
         <div className={styles.projectFooter}>
-          <Link href={`/projects#${productSlug}`} scroll={false} className="btn-secondary">
-            {locale === 'ru' ? 'Назад к кейсам' : 'Back to cases'}
-          </Link>
+          <Magnetic>
+            <Link href={`/projects#${productSlug}`} scroll={false} className="btn-secondary">
+              {locale === 'ru' ? 'Назад к кейсам' : 'Back to cases'}
+            </Link>
+          </Magnetic>
           {product.behanceUrl && (
-            <a href={product.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta btn-behance">
-              {t.project.viewBehance}
+            <Magnetic>
+              <a href={product.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta btn-behance">
+                {t.project.viewBehance}
+                <span className="btn-cta-ico-wrap">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </a>
+            </Magnetic>
+          )}
+          <Magnetic>
+            <Link href={nextCaseLink} className="btn-cta btn-cta-next">
+              {locale === 'ru' ? 'Следующий кейс' : 'Next case'}
               <span className="btn-cta-ico-wrap">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M3.5 7H10.5M10.5 7L7 3.5M10.5 7L7 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </span>
-            </a>
-          )}
-          <Link href={nextCaseLink} className="btn-cta btn-cta-next">
-            {locale === 'ru' ? 'Следующий кейс' : 'Next case'}
-            <span className="btn-cta-ico-wrap">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M3.5 7H10.5M10.5 7L7 3.5M10.5 7L7 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-          </Link>
+            </Link>
+          </Magnetic>
         </div>
       </div>
 

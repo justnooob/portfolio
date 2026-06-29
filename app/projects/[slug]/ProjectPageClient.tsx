@@ -3,17 +3,20 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useApp } from '@/components/AppProvider';
-import { useReveal } from '@/lib/useReveal';
+import { useReveal, useContentReveal } from '@/lib/useReveal';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import FinalCta from '@/components/FinalCta';
 import { MediaProvider, MediaSingle, type MediaItem } from '@/components/MediaViewer';
 import { translations, projects } from '@/lib/data';
+import SplitHeading from '@/components/SplitHeading';
+import Magnetic from '@/components/Magnetic';
 import styles from './project.module.css';
 
 export default function ProjectPageClient({ slug }: { slug: string }) {
   const { locale } = useApp();
   const t = translations[locale];
+  const contentRef = useContentReveal<HTMLDivElement>();
   const [resultsExpanded, setResultsExpanded] = useState(false);
   const { ref: screensRef, visible: screensVisible } = useReveal<HTMLDivElement>();
 
@@ -92,7 +95,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
             </div>
             <div className={styles.year}>{project.year}</div>
           </div>
-          <h1 className={styles.title}>{project.name[locale]}</h1>
+          <SplitHeading as="h1" className={styles.title} text={project.name[locale]} type="lines" delay={0.15} stagger={0.1} />
           <p className={styles.subtitle}>{project.shortDesc[locale]}</p>
           {project.metrics && (
             <div className={styles.metrics}>
@@ -124,7 +127,7 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
       </div>
 
       {/* CONTENT */}
-      <div className={styles.content}>
+      <div className={styles.content} ref={contentRef}>
         {project.context && (
           <section className={styles.block}>
             <div className={styles.blockLbl}>{locale === 'ru' ? 'Контекст' : 'Context'}</div>
@@ -248,28 +251,34 @@ export default function ProjectPageClient({ slug }: { slug: string }) {
 
         {/* BUTTONS: Back + Behance + Next project */}
         <div className={styles.projectFooter}>
-          <Link href={`/projects#${slug}`} scroll={false} className="btn-secondary">
-            {locale === 'ru' ? 'Назад к кейсам' : 'Back to cases'}
-          </Link>
+          <Magnetic>
+            <Link href={`/projects#${slug}`} scroll={false} className="btn-secondary">
+              {locale === 'ru' ? 'Назад к кейсам' : 'Back to cases'}
+            </Link>
+          </Magnetic>
           {project.behanceUrl && (
-            <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta btn-behance">
-              {t.project.viewBehance}
-              <span className="btn-cta-ico-wrap">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </a>
+            <Magnetic>
+              <a href={project.behanceUrl} target="_blank" rel="noopener noreferrer" className="btn-cta btn-behance">
+                {t.project.viewBehance}
+                <span className="btn-cta-ico-wrap">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </a>
+            </Magnetic>
           )}
           {nextProject && (
-            <Link href={`/projects/${nextProject.slug}`} className="btn-cta btn-cta-next">
-              {locale === 'ru' ? 'Следующий проект' : 'Next project'}
-              <span className="btn-cta-ico-wrap">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3.5 7H10.5M10.5 7L7 3.5M10.5 7L7 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </Link>
+            <Magnetic>
+              <Link href={`/projects/${nextProject.slug}`} className="btn-cta btn-cta-next">
+                {locale === 'ru' ? 'Следующий проект' : 'Next project'}
+                <span className="btn-cta-ico-wrap">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.5 7H10.5M10.5 7L7 3.5M10.5 7L7 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </Link>
+            </Magnetic>
           )}
         </div>
       </div>

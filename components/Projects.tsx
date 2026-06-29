@@ -1,9 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { useApp } from './AppProvider';
-import { useReveal } from '@/lib/useReveal';
+import { useReveal, useCardReveal } from '@/lib/useReveal';
 import { translations, projects, Project, ProjectCategory } from '@/lib/data';
 import { useTilt, easeOut } from './motion-utils';
 import styles from './Projects.module.css';
@@ -19,8 +18,8 @@ interface ProjectCardProps {
 function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
   const { locale, theme } = useApp();
   const t = translations[locale];
-  // ref на обёртку — она получает clip-path "Figma frame draw" анимацию
-  const { ref, visible } = useReveal<HTMLDivElement>();
+  // ref на обёртку — она получает GSAP card-reveal (всплытие + clip + parallax картинки)
+  const { cardRef, imgRef } = useCardReveal<HTMLDivElement, HTMLImageElement>();
   // 3D-tilt при hover
   const tilt = useTilt<HTMLDivElement>(3.5);
 
@@ -32,26 +31,12 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
       ? project.listCoverImageLight ?? project.coverImageLight ?? project.listCoverImage ?? project.coverImage
       : project.listCoverImage ?? project.coverImage;
 
-  /**
-   * С какой стороны картинка выезжает после раскрытия рамки:
-   * - грид 2 колонки: левая → справа налево; правая → слева направо
-   * - грид 3 колонки: левая → справа; центр → сверху; правая → слева
-   */
-  const col = index % columns;
-  let coverDirClass = '';
-  if (columns === 2) {
-    coverDirClass = col === 0 ? styles.coverFromRight : styles.coverFromLeft;
-  } else {
-    if (col === 0) coverDirClass = styles.coverFromRight;
-    else if (col === 1) coverDirClass = styles.coverFromTop;
-    else coverDirClass = styles.coverFromLeft;
-  }
-
   const renderPreview = () => {
     if (cover) {
       return (
         <div className={styles.preview} style={{ background: project.color }}>
           <img
+            ref={imgRef}
             src={cover}
             alt={project.name[locale]}
             className={styles.coverImg}
@@ -106,22 +91,14 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
             └─ body (название, описание, мета)
     */
     <div
-      ref={ref}
+      ref={cardRef}
       id={project.slug}
-      className={`${styles.cardWrap} ${coverDirClass} ${visible ? styles.cardFigmaIn : ''}`}
+      className={styles.cardWrap}
     >
-      {/* Курсор-крестик (Figma frame tool) */}
-      <span className={styles.figmaCursor} aria-hidden="true">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 1V13M1 7H13" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-        </svg>
-      </span>
-
-      <motion.div
+      <div
         ref={tilt.ref}
         onMouseMove={tilt.onMouseMove}
         onMouseLeave={tilt.onMouseLeave}
-        style={{ ...tilt.style, perspective: 1200 }}
       >
         <Link href={`/projects/${project.slug}`} className={styles.card}>
           {/* coverSlide — обёртка над картинкой для slide-in анимации */}
@@ -154,7 +131,7 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
             </div>
           </div>
         </Link>
-      </motion.div>
+      </div>
     </div>
   );
 }

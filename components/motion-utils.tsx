@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import { useMotionValue, useSpring, MotionValue } from 'framer-motion';
+import { gsap, useGSAP } from '@/lib/gsap';
 
 export const easeOut = [0.16, 1, 0.3, 1] as const;
 export const easeInOut = [0.65, 0, 0.35, 1] as const;
@@ -62,17 +62,24 @@ export const staggerContainerSlow = {
 };
 
 /**
- * Хук magnetic-эффекта: курсор «притягивает» элемент.
- * Возвращает ref, motion-style объект и хэндлеры.
+ * Хук magnetic-эффекта на GSAP: курсор «притягивает» элемент.
+ * Возвращает ref и хэндлеры (анимация через gsap.quickTo, без framer-style).
  *
  * intensity — насколько сильно элемент тянется (0..1, обычно 0.2-0.4)
  */
 export function useMagnetic<T extends HTMLElement>(intensity = 0.25) {
   const ref = useRef<T>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 220, damping: 18, mass: 0.4 });
+  const xTo = useRef<((v: number) => void) | null>(null);
+  const yTo = useRef<((v: number) => void) | null>(null);
+
+  useGSAP(
+    () => {
+      if (!ref.current) return;
+      xTo.current = gsap.quickTo(ref.current, 'x', { duration: 0.4, ease: 'power3' });
+      yTo.current = gsap.quickTo(ref.current, 'y', { duration: 0.4, ease: 'power3' });
+    },
+    { scope: ref }
+  );
 
   const onMouseMove = (e: React.MouseEvent) => {
     const el = ref.current;
@@ -80,28 +87,36 @@ export function useMagnetic<T extends HTMLElement>(intensity = 0.25) {
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    x.set((e.clientX - cx) * intensity);
-    y.set((e.clientY - cy) * intensity * 1.2);
+    xTo.current?.((e.clientX - cx) * intensity);
+    yTo.current?.((e.clientY - cy) * intensity * 1.2);
   };
 
   const onMouseLeave = () => {
-    x.set(0);
-    y.set(0);
+    xTo.current?.(0);
+    yTo.current?.(0);
   };
 
-  return { ref, style: { x: sx, y: sy }, onMouseMove, onMouseLeave };
+  return { ref, onMouseMove, onMouseLeave };
 }
 
 /**
- * Tilt-эффект для карточек: при hover карточка наклоняется в сторону курсора (3D).
- * Используется на крупных карточках проектов.
+ * Tilt-эффект для карточек на GSAP: при hover карточка наклоняется в сторону
+ * курсора (3D). Возвращает ref и хэндлеры (анимация через gsap.quickTo).
  */
 export function useTilt<T extends HTMLElement>(maxAngle = 6) {
   const ref = useRef<T>(null);
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
-  const srx = useSpring(rx, { stiffness: 200, damping: 22 });
-  const sry = useSpring(ry, { stiffness: 200, damping: 22 });
+  const rxTo = useRef<((v: number) => void) | null>(null);
+  const ryTo = useRef<((v: number) => void) | null>(null);
+
+  useGSAP(
+    () => {
+      if (!ref.current) return;
+      gsap.set(ref.current, { transformPerspective: 1000, transformStyle: 'preserve-3d' });
+      rxTo.current = gsap.quickTo(ref.current, 'rotationX', { duration: 0.5, ease: 'power3' });
+      ryTo.current = gsap.quickTo(ref.current, 'rotationY', { duration: 0.5, ease: 'power3' });
+    },
+    { scope: ref }
+  );
 
   const onMouseMove = (e: React.MouseEvent) => {
     const el = ref.current;
@@ -110,20 +125,15 @@ export function useTilt<T extends HTMLElement>(maxAngle = 6) {
     // Нормализованные координаты от центра, [-1; 1]
     const px = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     const py = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-    rx.set(-py * maxAngle);
-    ry.set(px * maxAngle);
+    rxTo.current?.(-py * maxAngle);
+    ryTo.current?.(px * maxAngle);
   };
   const onMouseLeave = () => {
-    rx.set(0);
-    ry.set(0);
+    rxTo.current?.(0);
+    ryTo.current?.(0);
   };
 
-  return {
-    ref,
-    style: { rotateX: srx, rotateY: sry, transformStyle: 'preserve-3d' as const },
-    onMouseMove,
-    onMouseLeave,
-  };
+  return { ref, onMouseMove, onMouseLeave };
 }
 
 /**
@@ -149,20 +159,21 @@ export function useCounter(value: string, duration = 1400, trigger: boolean = tr
     const suffix = match[3];
     const isInt = !match[2].includes('.') && !match[2].includes(',');
 
-    const start = performance.now();
-    let raf = 0;
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-      const current = target * eased;
-      const formatted = isInt
-        ? Math.round(current).toString()
-        : current.toFixed(1).replace('.', match[2].includes(',') ? ',' : '.');
-      setDisplay(`${prefix}${formatted}${suffix}`);
-      if (t < 1) raf = requestAnimationFrame(tick);
+    const obj = { n: 0 };
+    const tween = gsap.to(obj, {
+      n: target,
+      duration: duration / 1000,
+      ease: 'power2.out',
+      onUpdate: () => {
+        const formatted = isInt
+          ? Math.round(obj.n).toString()
+          : obj.n.toFixed(1).replace('.', match[2].includes(',') ? ',' : '.');
+        setDisplay(`${prefix}${formatted}${suffix}`);
+      },
+    });
+    return () => {
+      tween.kill();
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
   }, [value, duration, trigger]);
 
   return display;

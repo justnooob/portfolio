@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import { useApp } from '@/components/AppProvider';
 import { translations } from '@/lib/data';
 import { easeOut } from '@/components/motion-utils';
+import SplitHeading from '@/components/SplitHeading';
 import styles from './projects-index.module.css';
 
 /**
@@ -60,9 +61,14 @@ export default function ProjectsIndexPage() {
             <span className={styles.dot} />
             {locale === 'ru' ? 'Проекты' : 'Selected work'}
           </div>
-          <h1 className={styles.title}>
-            <SplitText text={locale === 'ru' ? 'РАБОТЫ' : 'WORK'} />
-          </h1>
+          <SplitHeading
+            as="h1"
+            className={styles.title}
+            text={locale === 'ru' ? 'РАБОТЫ' : 'WORK'}
+            type="chars"
+            delay={0.25}
+            stagger={0.05}
+          />
           <p className={styles.sub}>
             {locale === 'ru'
               ? 'Подборка кейсов: AI SaaS, B2B-продукты, мобильные приложения, сайты и Telegram MiniApps.'
@@ -79,20 +85,3 @@ export default function ProjectsIndexPage() {
   );
 }
 
-function SplitText({ text }: { text: string }) {
-  return (
-    <span style={{ display: 'inline-block' }}>
-      {text.split('').map((ch, i) => (
-        <motion.span
-          key={i}
-          style={{ display: 'inline-block', whiteSpace: 'pre' }}
-          initial={{ y: '110%', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.85, ease: easeOut, delay: 0.3 + i * 0.05 }}
-        >
-          {ch}
-        </motion.span>
-      ))}
-    </span>
-  );
-}

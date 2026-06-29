@@ -40,11 +40,10 @@ export default function Featured() {
       </motion.div>
 
       <motion.div variants={dramaticCard} style={{ perspective: 1400, transformStyle: 'preserve-3d' }}>
-        <motion.div
+        <div
           ref={tilt.ref as any}
           onMouseMove={tilt.onMouseMove}
           onMouseLeave={tilt.onMouseLeave}
-          style={{ ...tilt.style, perspective: 1200 }}
         >
           <Link
             href={`/projects/${featured.slug}`}
@@ -113,7 +112,7 @@ export default function Featured() {
               </motion.div>
             </div>
           </Link>
-        </motion.div>
+        </div>
       </motion.div>
     </motion.div>
   );

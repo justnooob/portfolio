@@ -117,13 +117,13 @@ export default function FinalCta() {
 function MagneticWrap({ children }: { children: React.ReactNode }) {
   const m = useMagnetic<HTMLDivElement>(0.28);
   return (
-    <motion.div
+    <div
       ref={m.ref}
       onMouseMove={m.onMouseMove}
       onMouseLeave={m.onMouseLeave}
-      style={{ ...m.style, display: 'inline-block' }}
+      style={{ display: 'inline-block' }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

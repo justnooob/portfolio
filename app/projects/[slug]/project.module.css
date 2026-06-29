@@ -203,31 +203,8 @@
   padding: 72px 32px;
 }
 
-/* Плавное появление секций по мере скролла (scroll-driven).
-   Привязано к прогрессу скролла — блоки мягко проявляются «по мере скрола».
-   Где не поддерживается (Safari старый) — контент просто виден, без анимации. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .content > * {
-      animation: caseReveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 32%;
-    }
-  }
-}
-
-@keyframes caseReveal {
-  from {
-    opacity: 0;
-    transform: translateY(34px);
-    filter: blur(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: blur(0);
-  }
-}
+/* Появление блоков контента теперь управляется GSAP (useContentReveal),
+   синхронно с Lenis — поэтому CSS scroll-driven animation-timeline убран. */
 .block {
   margin-bottom: 56px;
 }

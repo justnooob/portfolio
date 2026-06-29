@@ -111,6 +111,16 @@ html.cursor-active * {
   cursor: none !important;
 }
 
+/* Цвет кастомного курсора: инверсия по теме (без свечения) */
+[data-theme='dark'] {
+  --cursor-fg: #ffffff;
+  --cursor-bg: #0c0c0e;
+}
+[data-theme='light'] {
+  --cursor-fg: #0c0c0e;
+  --cursor-bg: #ffffff;
+}
+
 /* Ограничение макс. ширины — до Full HD */
 main {
   max-width: var(--max-width);

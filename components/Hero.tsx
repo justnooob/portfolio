@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useApp } from './AppProvider';
 import { translations } from '@/lib/data';
+import { useGSAP, gsap, prefersReducedMotion } from '@/lib/gsap';
+import SplitHeading from './SplitHeading';
 import styles from './Hero.module.css';
 
 /**
@@ -46,38 +48,33 @@ export default function Hero() {
     setDeleting(false);
   }, [locale]);
 
-  // Parallax по hero
+  // Parallax по hero — scrub через GSAP/ScrollTrigger (синхронизирован с Lenis)
   const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
-  const titleY = useTransform(scrollY, [0, 600], [0, -80]);
-  const subtitleY = useTransform(scrollY, [0, 600], [0, -40]);
-  const titleOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
+  const titleBlockRef = useRef<HTMLDivElement>(null);
 
-  // Кнопка «Смотреть проекты» теперь ведёт на /projects (вынесли в отдельный роут)
-
-  // Разбиваем имя на слова с раздельной анимацией
-  const renderWord = (word: string, baseDelay: number) => (
-    <span className={styles.wordWrap}>
-      {word.split('').map((ch, i) => (
-        <motion.span
-          key={`${word}-${i}`}
-          className={styles.letter}
-          initial={{ y: '110%', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.85, ease, delay: baseDelay + i * 0.04 }}
-        >
-          {ch}
-        </motion.span>
-      ))}
-    </span>
+  useGSAP(
+    () => {
+      if (prefersReducedMotion() || !titleBlockRef.current) return;
+      gsap.to(titleBlockRef.current, {
+        yPercent: -16,
+        opacity: 0.25,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          // число вместо true → playhead «догоняет» скролл с лёгким лагом,
+          // поэтому при быстром скролле вверх hero не выскакивает резко
+          scrub: 0.8,
+        },
+      });
+    },
+    { scope: heroRef }
   );
 
   return (
     <div className={styles.hero} id="about" data-section="hero" ref={heroRef}>
-      <motion.div
-        className={styles.titleBlock}
-        style={{ y: titleY, opacity: titleOpacity }}
-      >
+      <div className={styles.titleBlock} ref={titleBlockRef}>
         <motion.div
           className={styles.badge}
           initial={{ opacity: 0, y: 20 }}
@@ -88,15 +85,19 @@ export default function Hero() {
           {t.hero.badge}
         </motion.div>
 
-        <h1 className={styles.title}>
-          <span className={styles.titleRow}>{renderWord(t.hero.name1, 0.4)}</span>
-          <span className={styles.titleRow}>{renderWord(t.hero.name2, 0.55)}</span>
-        </h1>
-      </motion.div>
+        <SplitHeading
+          as="h1"
+          className={styles.title}
+          text={`${t.hero.name1}\n${t.hero.name2}`}
+          type="lines, chars"
+          delay={0.25}
+          stagger={0.035}
+        />
+
+      </div>
 
       <motion.div
         className={styles.subtitleBlock}
-        style={{ y: subtitleY }}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease, delay: 1.0 }}
@@ -129,7 +130,7 @@ export default function Hero() {
             </a>
           </MagneticButton>
           <MagneticButton>
-            <a href="/Sorokin_Maxim_CV.pdf" download className="btn-secondary">
+            <a href="/Sorokin_CV.pdf" download="Sorokin_Maxim_CV.pdf" className="btn-secondary">
               {locale === 'ru' ? 'Скачать CV' : 'Download CV'}
             </a>
           </MagneticButton>
@@ -157,35 +158,41 @@ export default function Hero() {
 }
 
 /**
- * Magnetic-эффект для CTA: курсор «притягивает» кнопку.
+ * Magnetic-эффект для CTA: курсор «притягивает» кнопку (GSAP quickTo).
  */
 function MagneticButton({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 220, damping: 18, mass: 0.4 });
+  const xTo = useRef<((v: number) => void) | null>(null);
+  const yTo = useRef<((v: number) => void) | null>(null);
+
+  useGSAP(
+    () => {
+      if (!ref.current) return;
+      xTo.current = gsap.quickTo(ref.current, 'x', { duration: 0.4, ease: 'power3' });
+      yTo.current = gsap.quickTo(ref.current, 'y', { duration: 0.4, ease: 'power3' });
+    },
+    { scope: ref }
+  );
 
   return (
-    <motion.div
+    <div
       ref={ref}
       className={styles.magnetic}
-      style={{ x: sx, y: sy }}
       onMouseMove={(e) => {
         const el = ref.current;
         if (!el) return;
         const rect = el.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
-        x.set((e.clientX - cx) * 0.25);
-        y.set((e.clientY - cy) * 0.35);
+        xTo.current?.((e.clientX - cx) * 0.25);
+        yTo.current?.((e.clientY - cy) * 0.35);
       }}
       onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
+        xTo.current?.(0);
+        yTo.current?.(0);
       }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

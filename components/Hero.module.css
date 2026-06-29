@@ -69,6 +69,8 @@
   margin: 0;
   text-transform: uppercase;
   font-family: var(--font-sans);
+  /* Перенос между именем и фамилией (SplitText разбивает на строки по \n) */
+  white-space: pre-line;
 }
 
 .titleRow {

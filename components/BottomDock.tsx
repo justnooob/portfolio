@@ -172,18 +172,17 @@ function DockButton({
   label: string;
   children: React.ReactNode;
 }) {
-  const m = useMagnetic<HTMLAnchorElement>(0.18);
+  const m = useMagnetic<HTMLSpanElement>(0.18);
   return (
     <Link
       href={href}
       className={`${styles.btn} ${active ? styles.btnActive : ''}`}
-      ref={m.ref as any}
       onMouseMove={m.onMouseMove}
       onMouseLeave={m.onMouseLeave}
     >
-      <motion.span style={m.style} className={styles.btnInner}>
+      <span ref={m.ref} className={styles.btnInner}>
         {children}
-      </motion.span>
+      </span>
       <span className={styles.tooltip}>{label}</span>
       {active && <span className={styles.activeDot} />}
     </Link>
@@ -199,20 +198,19 @@ function DockExternal({
   label: string;
   children: React.ReactNode;
 }) {
-  const m = useMagnetic<HTMLAnchorElement>(0.18);
+  const m = useMagnetic<HTMLSpanElement>(0.18);
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       className={styles.btn}
-      ref={m.ref as any}
       onMouseMove={m.onMouseMove}
       onMouseLeave={m.onMouseLeave}
     >
-      <motion.span style={m.style} className={styles.btnInner}>
+      <span ref={m.ref} className={styles.btnInner}>
         {children}
-      </motion.span>
+      </span>
       <span className={styles.tooltip}>{label}</span>
     </a>
   );

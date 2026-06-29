@@ -1,113 +1,15 @@
 
-/* === FIGMA FRAME АНИМАЦИЯ КАРТОЧЕК ПРОЕКТОВ ===
-   Стратегия (важно для observer):
-   - data-reveal="true" → карточка ПРОСТО opacity:0 (НЕ clip-path!)
-     IntersectionObserver видит элемент с нормальными размерами.
-   - .cardFigmaIn (когда observer сработал) → запускает animation которая
-     одновременно делает opacity 1 + раскрывает clip-path от 100% до 0%.
-*/
-
+/* Карточки проектов появляются через GSAP (useCardReveal). */
 .cardWrap {
   position: relative;
   /* Якорь возврата с проекта: отступ под фиксированный nav */
   scroll-margin-top: 80px;
 }
-/* Состояние ожидания: невидимо но обзёрвируется */
-.cardWrap[data-reveal] {
-  opacity: 0;
-}
-.cardWrap[data-reveal] .figmaCursor {
-  opacity: 0;
-}
 
-/* Когда observer сработал — запускаем композитную анимацию */
-.cardWrap[data-reveal].cardFigmaIn {
-  animation: cardAppear 1.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-}
-.cardWrap[data-reveal].cardFigmaIn .figmaCursor {
-  animation: figmaCursorMove 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-}
-
-/* Курсор-крестик в углу (Figma frame tool) */
-.figmaCursor {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 18px;
-  height: 18px;
-  background: #0c0c0e;
-  border: 1.5px solid #ffffff;
-  border-radius: 3px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-}
-.figmaCursor svg {
-  display: block;
-  width: 10px;
-  height: 10px;
-}
-
-/* === Slide-in для картинки внутри карточки === */
+/* Обёртка картинки внутри карточки — overflow нужен для parallax изображения */
 .coverSlide {
   position: relative;
   overflow: hidden;
-  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.cardWrap[data-reveal] .coverSlide {
-  /* Изначальное положение картинки за пределами карточки */
-}
-.cardWrap[data-reveal].coverFromRight .coverSlide {
-  transform: translateX(100%);
-}
-.cardWrap[data-reveal].coverFromLeft .coverSlide {
-  transform: translateX(-100%);
-}
-.cardWrap[data-reveal].coverFromTop .coverSlide {
-  transform: translateY(-100%);
-}
-.cardWrap[data-reveal].cardFigmaIn .coverSlide {
-  transform: translate(0, 0);
-  transition-delay: 1.4s;
-}
-
-/* Композитная анимация появления карточки.
-   На 0% — невидима с clip-path (Figma frame tool тянем).
-   На 100% — полностью раскрыта. */
-@keyframes cardAppear {
-  0% {
-    opacity: 1;
-    clip-path: inset(0 100% 100% 0 round 16px);
-  }
-  100% {
-    opacity: 1;
-    clip-path: inset(-50px -50px -50px -50px round 16px);
-  }
-}
-@keyframes figmaCursorMove {
-  0%   { opacity: 1; top: -8px; left: -8px; }
-  90%  { opacity: 1; top: calc(100% - 10px); left: calc(100% - 10px); }
-  100% { opacity: 0; top: calc(100% - 10px); left: calc(100% - 10px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cardWrap[data-reveal] {
-    opacity: 1;
-  }
-  .cardWrap[data-reveal].cardFigmaIn {
-    animation: none;
-  }
-  .cardWrap[data-reveal] .coverSlide,
-  .cardWrap[data-reveal].cardFigmaIn .coverSlide {
-    transform: none;
-    transition: none;
-  }
-  .figmaCursor {
-    display: none;
-  }
 }
 
 .section {

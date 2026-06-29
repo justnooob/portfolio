@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useApp } from './AppProvider';
-import { useReveal } from '@/lib/useReveal';
+import { useReveal, useCardReveal } from '@/lib/useReveal';
 import { projects } from '@/lib/data';
 import { MediaProvider, MediaSingle, useMedia, type MediaItem } from './MediaViewer';
 import styles from './FeaturedProducts.module.css';
@@ -21,8 +21,8 @@ function CaseCard({
   sidecar?: boolean;
 }) {
   const { locale, theme } = useApp();
-  // Figma-frame "draw" reveal on scroll (same as standalone project cards)
-  const { ref, visible } = useReveal<HTMLDivElement>();
+  // GSAP card-reveal (всплытие + clip + parallax картинки) — единый с карточками /projects
+  const { cardRef, imgRef } = useCardReveal<HTMLDivElement, HTMLImageElement>();
   const desc = c.cardDesc?.[locale] ?? c.context?.[locale] ?? c.problem?.[locale] ?? '';
 
   // Light/dark variants: thumb-dark.jpg / thumb-light.jpg; fallback to hero.jpg
@@ -39,15 +39,9 @@ function CaseCard({
 
   return (
     <div
-      ref={ref}
-      className={`${styles.caseCardWrap} ${wide ? styles.caseCardWide : ''} ${sidecar ? styles.caseCardSidecar : ''} ${visible ? styles.caseFigmaIn : ''}`}
+      ref={cardRef}
+      className={`${styles.caseCardWrap} ${wide ? styles.caseCardWide : ''} ${sidecar ? styles.caseCardSidecar : ''}`}
     >
-      {/* Курсор-крестик (Figma frame tool) */}
-      <span className={styles.figmaCursor} aria-hidden="true">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 1V13M1 7H13" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      </span>
       <Link
         href={`/projects/${product.slug}/${c.slug}`}
         className={styles.caseCard}
@@ -74,6 +68,7 @@ function CaseCard({
                 />
               )}
               <img
+                ref={imgRef}
                 src={thumb}
                 alt={c.name[locale]}
                 className={styles.caseImgPhoto}
@@ -333,6 +328,7 @@ export default function FeaturedProducts({ hideBanner }: { hideBanner?: boolean 
   const { locale, theme } = useApp();
   const productProjects = projects.filter((p) => p.isProduct);
   const { ref: titleRef, visible: titleVisible } = useReveal<HTMLDivElement>();
+  const { ref: bannerRef, visible: bannerVisible } = useReveal<HTMLAnchorElement>();
 
   return (
     <section className={styles.section} id="projects">
@@ -352,7 +348,7 @@ export default function FeaturedProducts({ hideBanner }: { hideBanner?: boolean 
       </div>
 
       {!hideBanner && (
-        <Link href="/projects" className={styles.banner}>
+        <Link href="/projects" ref={bannerRef} className={`${styles.banner} reveal-scale ${bannerVisible ? 'visible' : ''}`}>
           <div className={styles.bannerInner}>
             <div className={styles.bannerText}>
               <span className={styles.bannerTitle}>
