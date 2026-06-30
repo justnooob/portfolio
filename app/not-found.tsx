@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRef } from 'react';
 import { useApp } from '@/components/AppProvider';
 import Nav from '@/components/Nav';
+import Magnetic from '@/components/Magnetic';
 import { useGSAP, gsap, prefersReducedMotion, EASE } from '@/lib/gsap';
 import styles from './not-found.module.css';
 
@@ -44,33 +45,37 @@ export default function NotFound() {
 
         <p className={styles.sub} data-reveal-404>
           {isRu
-            ? 'Страница не найдена — но это отличный повод обсудить новый проект.'
-            : 'This page was not found — but it’s a great reason to discuss a new project.'}
+            ? 'Страница не найдена, но это отличный повод обсудить новый проект.'
+            : 'This page was not found, but it’s a great reason to discuss a new project.'}
         </p>
 
         <div className={styles.btns} data-reveal-404>
-          <a
-            href="https://t.me/sfokin1337"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-cta"
-          >
-            {isRu ? 'Написать в Telegram' : 'Message on Telegram'}
-            <span className="btn-cta-ico-wrap">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path
-                  d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </a>
-          <Link href="/" className="btn-secondary">
-            {isRu ? 'На главную' : 'Back home'}
-          </Link>
+          <Magnetic>
+            <a
+              href="https://t.me/sfokin1337"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-cta"
+            >
+              {isRu ? 'Написать в Telegram' : 'Message on Telegram'}
+              <span className="btn-cta-ico-wrap">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M3.5 10.5L10.5 3.5M10.5 3.5H4.5M10.5 3.5V9.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <Link href="/" className="btn-secondary">
+              {isRu ? 'На главную' : 'Back home'}
+            </Link>
+          </Magnetic>
         </div>
       </div>
     </main>
