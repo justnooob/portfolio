@@ -186,9 +186,10 @@ export function splitHeadingReveal(
     return { split: null, cleanup: () => {} };
   }
 
+  // Без mask (overflow:clip) — иначе при плотном line-height обрезаются нижние
+  // выносные элементы букв (р, у, ц…). Строки/буквы просто выезжают снизу + fade.
   const split = SplitText.create(el, {
     type,
-    mask: type.includes('lines') ? 'lines' : type.includes('words') ? 'words' : 'chars',
     linesClass: 'gsapLine',
     autoSplit: true,
   });

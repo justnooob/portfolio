@@ -1,17 +1,27 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import { projects } from '@/lib/data';
 import ProjectPageClient from './ProjectPageClient';
+import ProductRedirect from '@/components/ProductRedirect';
 
 export function generateStaticParams() {
-  return projects
-    .filter((p) => !p.isProduct)
-    .map((project) => ({ slug: project.slug }));
+  // Генерируем все слаги: стенделон-проекты → страница кейса,
+  // продукты → страница-редирект на /projects (чтобы не было 404 на старых URL).
+  return projects.map((project) => ({ slug: project.slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const project = projects.find((p) => p.slug === params.slug);
   if (!project) return {};
+
+  // Продукты не имеют собственной страницы — указываем canonical на /projects и noindex
+  if (project.isProduct) {
+    return {
+      title: `${project.name.ru} — кейсы`,
+      alternates: { canonical: '/projects' },
+      robots: { index: false, follow: true },
+    };
+  }
+
   const url = `https://soromax.ru/projects/${project.slug}`;
   return {
     title: `${project.name.ru} — ${project.role.ru}`,
@@ -30,7 +40,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 export default function Page({ params }: { params: { slug: string } }) {
   const project = projects.find((p) => p.slug === params.slug);
   if (project?.isProduct) {
-    redirect('/#projects');
+    return <ProductRedirect />;
   }
   return <ProjectPageClient slug={params.slug} />;
 }
