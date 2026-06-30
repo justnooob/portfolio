@@ -12,8 +12,8 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://soromax.ru'),
   title: {
-    default: 'Максим Сорокин — UX/UI Product Designer · soromax.ru',
-    template: '%s · soromax.ru',
+    default: 'Максим Сорокин — UX/UI продуктовый дизайнер · soromax.ru',
+    template: '%s · Максим Сорокин',
   },
   description:
     'Максим Сорокин — UX/UI и продуктовый дизайнер с опытом более 7 лет. AI SaaS, Telegram Mini Apps, дизайн-системы, B2B-продукты и мобильные приложения. Портфолио и кейсы.',
@@ -52,14 +52,14 @@ export const metadata: Metadata = {
     locale: 'ru_RU',
     url: 'https://soromax.ru',
     siteName: 'Максим Сорокин · soromax.ru',
-    title: 'Максим Сорокин — UX/UI Product Designer',
+    title: 'Максим Сорокин — UX/UI продуктовый дизайнер',
     description:
       'UX/UI и продуктовый дизайнер с опытом более 7 лет. AI SaaS, Telegram Mini Apps, дизайн-системы.',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Максим Сорокин — UX/UI Product Designer' }],
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Максим Сорокин — UX/UI продуктовый дизайнер' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Максим Сорокин — UX/UI Product Designer',
+    title: 'Максим Сорокин — UX/UI продуктовый дизайнер',
     description:
       'UX/UI и продуктовый дизайнер с опытом более 7 лет. AI SaaS, Telegram Mini Apps, дизайн-системы.',
     images: ['/og.png'],
