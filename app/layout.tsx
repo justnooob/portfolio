@@ -7,6 +7,7 @@ import PageTransition from '@/components/PageTransition';
 import ScrollProgress from '@/components/ScrollProgress';
 import BottomDock from '@/components/BottomDock';
 import ScrollToTop from '@/components/ScrollToTop';
+import Script from 'next/script'
 import './globals.css';
 
 export const metadata: Metadata = {
