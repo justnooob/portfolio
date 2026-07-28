@@ -264,4 +264,25 @@
   .item {
       position: static;
   }
+  /* На мобильных отключаем интерактив логотипов */
+  .item {
+    cursor: default;
+  }
+  
+  .item .tip {
+    display: none !important;
+  }
+  
+  .item:hover .tip,
+  .item:active .tip,
+  .item:focus .tip {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  
+  .item,
+  .logo {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
