@@ -244,14 +244,15 @@
   .item:last-child .tip,
   .item:nth-last-child(2) .tip {
     position: fixed;
-    left: 50%;
-    top: 50%;
-    bottom: auto;
-    right: auto;
+    inset: 50% auto auto 50%;
+    width: min(340px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
     transform: translate(-50%, -50%);
+    margin: 0;
   }
   .item:hover .tip {
-    transform: translate(-50%, -50%);
+      opacity: 1;
+      pointer-events: auto;
   }
   .item .tip::after,
   .item:first-child .tip::after,
@@ -259,5 +260,8 @@
   .item:last-child .tip::after,
   .item:nth-last-child(2) .tip::after {
     display: none;
+  }
+  .item {
+      position: static;
   }
 }
