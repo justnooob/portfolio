@@ -15,7 +15,7 @@ export const structuredData = {
 
       jobTitle: 'Lead Product Designer',
       description:
-        'Lead UX/UI и Product Designer. Более 7 лет проектирую AI SaaS, B2B продукты, Telegram Mini Apps, мобильные приложения и дизайн-системы.',
+        'Продуктовый и UX/UI-дизайнер из Санкт-Петербурга с опытом более 7 лет. Проектирует AI SaaS-продукты, Telegram Mini Apps, B2B-платформы, дизайн-системы и мобильные приложения. Автор блога о продуктовом дизайне и влиянии ИИ на профессию дизайнера. Разработал сайт-портфолио soromax.ru в сотрудничестве с ИИ-инструментами (Claude, Claude Design).',
 
       knowsLanguage: ['Russian', 'English'],
 
@@ -30,6 +30,7 @@ export const structuredData = {
         'User Interface',
         'AI SaaS',
         'Artificial Intelligence',
+        'AI-Assisted Design',
         'Mobile App Design',
         'Telegram Mini Apps',
         'Interaction Design',
@@ -39,6 +40,8 @@ export const structuredData = {
         'Usability',
         'B2B Products',
         'Dashboard Design',
+        'Design Leadership',
+        'Portfolio Design',
       ],
 
       sameAs: [
@@ -73,7 +76,7 @@ export const structuredData = {
       '@id': 'https://soromax.ru/#image',
       url: 'https://soromax.ru/maksim-sorokin-product-designer.jpg',
       contentUrl: 'https://soromax.ru/maksim-sorokin-product-designer.jpg',
-      // TODO: впишите реальные пиксельные размеры файла — см. "Следующие шаги" ниже
+      // TODO: впишите реальные пиксельные размеры файла
       // width: ...,
       // height: ...,
       caption:
@@ -116,7 +119,7 @@ export const structuredData = {
       ],
     },
 
-    // Теперь подключена к WebPage через hasPart и имеет свой url —
+    // Подключена к WebPage через hasPart и имеет свой url —
     // раньше "висела в воздухе", ни на что не ссылаясь.
     {
       '@type': 'CollectionPage',
