@@ -87,15 +87,15 @@ export const structuredData = {
 
         "https://spb.hh.ru/resume/e091bcd6ff093a30910039ed1f48544f4f6749"
 
-        // сюда потом просто добавишь
-        // Behance
-        // LinkedIn
-        // GitHub
-        // Dribbble
-        // VC
-        // Habr
-        // Medium
-        // X
+        "https://www.behance.net/maksimsorokin"
+
+        "https://dprofile.ru/jobs/vacancies?sort=DATE&group=ALL&type=VACANCY"
+
+        "https://career.habr.com/profile/notifications"
+
+        "https://www.linkedin.com/in/maksim-sorokin-840258403/?skipRedirect=true"
+
+        "https://vk.ru/sfokin1337"
 
       ]
     },
