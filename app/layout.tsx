@@ -1,117 +1,142 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
+
 import { AppProvider } from '@/components/AppProvider';
-import CustomCursor from '@/components/CustomCursor';
-import Scene3DMount from '@/components/Scene3DMount';
-import SmoothScroll from '@/components/SmoothScroll';
-import PageTransition from '@/components/PageTransition';
-import ScrollProgress from '@/components/ScrollProgress';
 import BottomDock from '@/components/BottomDock';
+import CustomCursor from '@/components/CustomCursor';
+import PageTransition from '@/components/PageTransition';
+import Scene3DMount from '@/components/Scene3DMount';
+import ScrollProgress from '@/components/ScrollProgress';
 import ScrollToTop from '@/components/ScrollToTop';
-import Script from 'next/script'
+import SmoothScroll from '@/components/SmoothScroll';
+
+import { structuredData } from '@/lib/schema';
+
 import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://soromax.ru'),
+
   title: {
-    default: 'Максим Сорокин — UX/UI продуктовый дизайнер · soromax.ru',
-    template: '%s · Максим Сорокин',
+    default: 'Максим Сорокин — Product Designer | UX/UI Designer | AI SaaS',
+    template: '%s | Максим Сорокин',
   },
+
   description:
-    'Максим Сорокин — UX/UI и продуктовый дизайнер с опытом более 7 лет. AI SaaS, Telegram Mini Apps, дизайн-системы, B2B-продукты и мобильные приложения. Портфолио и кейсы.',
-  applicationName: 'Максим Сорокин · Портфолио',
-  authors: [{ name: 'Максим Сорокин', url: 'https://soromax.ru' }],
+    'Максим Сорокин — Product Designer и UX/UI Designer с опытом более 7 лет. Проектирование AI SaaS, Telegram Mini Apps, мобильных приложений, дизайн-систем и B2B-продуктов.',
+
+  applicationName: 'Soromax Portfolio',
+  generator: 'Next.js',
   creator: 'Максим Сорокин',
   publisher: 'Максим Сорокин',
+  referrer: 'origin-when-cross-origin',
+
+  authors: [
+    {
+      name: 'Максим Сорокин',
+      url: 'https://soromax.ru',
+    },
+  ],
+
   keywords: [
     'Максим Сорокин',
     'Maxim Sorokin',
-    'Максим Сорокин дизайнер',
+    'Soromax',
+    'Product Designer',
+    'UX Designer',
+    'UI Designer',
+    'UX/UI Designer',
+    'Lead Product Designer',
     'UX/UI дизайнер',
-    'продуктовый дизайнер',
-    'product designer',
-    'UX/UI designer',
-    'дизайнер интерфейсов',
-    'AI SaaS дизайн',
-    'дизайн-системы',
+    'Продуктовый дизайнер',
+    'Product Design',
+    'UX Design',
+    'UI Design',
+    'AI SaaS',
+    'Figma',
+    'Design Systems',
     'Telegram Mini Apps',
-    'портфолио дизайнера',
-    'soromax',
+    'Dashboard Design',
+    'Mobile App Design',
+    'UX Portfolio',
+    'UI Portfolio',
+    'Портфолио UX/UI дизайнера',
+    'Портфолио Product Designer',
+    'soromax.ru',
   ],
+
+  alternates: {
+    canonical: 'https://soromax.ru',
+  },
+
   icons: {
     icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
   },
-  alternates: {
-    canonical: '/',
-  },
+
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
+
   openGraph: {
     type: 'profile',
     locale: 'ru_RU',
     url: 'https://soromax.ru',
-    siteName: 'Максим Сорокин · soromax.ru',
-    title: 'Максим Сорокин — UX/UI продуктовый дизайнер',
+    siteName: 'Soromax',
+    title: 'Максим Сорокин — Product Designer | UX/UI Designer',
     description:
-      'UX/UI и продуктовый дизайнер с опытом более 7 лет. AI SaaS, Telegram Mini Apps, дизайн-системы.',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Максим Сорокин — UX/UI продуктовый дизайнер' }],
+      'Lead Product Designer с опытом более 7 лет. AI SaaS, Telegram Mini Apps, Design Systems, Mobile Apps.',
+    images: [
+      {
+        url: '/og-maksim-sorokin.png',
+        width: 1200,
+        height: 630,
+        alt: 'Максим Сорокин — Product Designer',
+      },
+    ],
   },
+
   twitter: {
     card: 'summary_large_image',
-    title: 'Максим Сорокин — UX/UI продуктовый дизайнер',
-    description:
-      'UX/UI и продуктовый дизайнер с опытом более 7 лет. AI SaaS, Telegram Mini Apps, дизайн-системы.',
-    images: ['/og.png'],
+    title: 'Максим Сорокин — Product Designer',
+    description: 'UX/UI Designer • Product Designer • AI SaaS',
+    images: ['/og-maksim-sorokin.png'],
   },
+
   verification: {
     google: 'vXb7S4YWZ-2PSuG4eNrf-6nK1e_GhYmnu4yaOqyXi6A',
     yandex: '17a33846382e19fb',
   },
 };
 
-// Schema.org structured data — помогает Google/Яндексу понять, что это персона
-// (имя, должность, навыки, профили) и улучшает выдачу по имени и должности.
-const personJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Максим Сорокин',
-  alternateName: 'Maxim Sorokin',
-  url: 'https://soromax.ru',
-  image: 'https://soromax.ru/me.jpg',
-  jobTitle: 'UX/UI Product Designer',
-  description:
-    'UX/UI и продуктовый дизайнер с опытом более 7 лет: AI SaaS, Telegram Mini Apps, дизайн-системы, B2B-продукты и мобильные приложения.',
-  knowsAbout: [
-    'UX/UI Design',
-    'Product Design',
-    'AI SaaS',
-    'Design Systems',
-    'Telegram Mini Apps',
-    'Mobile App Design',
-    'B2B Product Design',
-  ],
-  sameAs: [
-    'https://t.me/sfokin1337',
-    'https://setka.ru/users/140f8a9b-bda6-4796-806d-ad68256b7d86',
-    'https://spb.hh.ru/resume/e091bcd6ff093a30910039ed1f48544f4f6749',
-  ],
-};
-
-const siteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Максим Сорокин · Портфолио',
-  url: 'https://soromax.ru',
-  inLanguage: 'ru-RU',
-  author: { '@type': 'Person', name: 'Максим Сорокин' },
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="ru" data-theme="dark">
+    <html lang="ru" data-theme="dark" suppressHydrationWarning>
       <body>
+        <Script
+          id="schema-org"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
+
         <AppProvider>
           <SmoothScroll />
           <Scene3DMount />
@@ -121,21 +146,48 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <BottomDock />
           <ScrollToTop />
         </AppProvider>
-               {/* Yandex.Metrika counter */}
+
         <Script id="yandex-metrika" strategy="lazyOnload">
           {`
-            (function(m,e,t,r,i,k,a){
-                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-                m[i].l=1*new Date();
-                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-            })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111031642', 'ym');
-            ym(111031642, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-          `}
+(function(m,e,t,r,i,k,a){
+m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();
+for (var j=0;j<document.scripts.length;j++){
+if(document.scripts[j].src===r){return;}
+}
+k=e.createElement(t),
+a=e.getElementsByTagName(t)[0],
+k.async=1,
+k.src=r,
+a.parentNode.insertBefore(k,a);
+})(window,document,'script',
+'https://mc.yandex.ru/metrika/tag.js?id=111031642','ym');
+
+ym(
+111031642,
+'init',
+{
+  ssr:true,
+  webvisor:true,
+  clickmap:true,
+  trackLinks:true,
+  accurateTrackBounce:true,
+  ecommerce:"dataLayer",
+  defer:true
+});
+`}
         </Script>
+
         <noscript>
           <div>
-            <img src="https://mc.yandex.ru/watch/111031642" style={{ position: 'absolute', left: '-9999px' }} alt="" />
+            <img
+              src="https://mc.yandex.ru/watch/111031642"
+              style={{
+                position: 'absolute',
+                left: '-9999px',
+              }}
+              alt=""
+            />
           </div>
         </noscript>
       </body>
