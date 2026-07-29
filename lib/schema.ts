@@ -85,15 +85,15 @@ export const structuredData = {
 
         "https://setka.ru/users/140f8a9b-bda6-4796-806d-ad68256b7d86",
 
-        "https://spb.hh.ru/resume/e091bcd6ff093a30910039ed1f48544f4f6749"
+        "https://spb.hh.ru/resume/e091bcd6ff093a30910039ed1f48544f4f6749",
 
-        "https://www.behance.net/maksimsorokin"
+        "https://www.behance.net/maksimsorokin",
 
-        "https://dprofile.ru/jobs/vacancies?sort=DATE&group=ALL&type=VACANCY"
+        "https://dprofile.ru/jobs/vacancies?sort=DATE&group=ALL&type=VACANCY",
 
-        "https://career.habr.com/profile/notifications"
+        "https://career.habr.com/profile/notifications",
 
-        "https://www.linkedin.com/in/maksim-sorokin-840258403/?skipRedirect=true"
+        "https://www.linkedin.com/in/maksim-sorokin-840258403/?skipRedirect=true",
 
         "https://vk.ru/sfokin1337"
 
