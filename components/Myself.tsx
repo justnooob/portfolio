@@ -166,7 +166,7 @@ export default function Myself() {
           >
             <motion.div className={styles.photoWrap} style={{ y: photoY, scale: photoScale }}>
               <img
-                src="/me.jpg"
+                src="/maksim-sorokin-product-designer.jpg"
                 alt={t.myself.photoAlt}
                 className={styles.photo}
                 loading="lazy"
