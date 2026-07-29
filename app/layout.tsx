@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    'Максим Сорокин — Product Designer и UX/UI Designer с опытом более 7 лет. Проектирование AI SaaS, Telegram Mini Apps, мобильных приложений, дизайн-систем и B2B-продуктов.',
+    'Продуктовый и UX/UI-дизайнер из Санкт-Петербурга с опытом более 7 лет. Проектирует AI SaaS-продукты, Telegram Mini Apps, B2B-платформы, дизайн-системы и мобильные приложения. Автор блога о продуктовом дизайне и влиянии ИИ на профессию дизайнера. Разработал сайт-портфолио soromax.ru в сотрудничестве с ИИ-инструментами (Claude, Claude Design).',
 
   applicationName: 'Soromax Portfolio',
   generator: 'Next.js',
@@ -96,7 +96,7 @@ export const metadata: Metadata = {
     siteName: 'Soromax',
     title: 'Максим Сорокин — Product Designer | UX/UI Designer',
     description:
-      'Lead Product Designer с опытом более 7 лет. AI SaaS, Telegram Mini Apps, Design Systems, Mobile Apps.',
+      'Продуктовый и UX/UI-дизайнер из Санкт-Петербурга с опытом более 7 лет. Проектирует AI SaaS-продукты, Telegram Mini Apps, B2B-платформы, дизайн-системы и мобильные приложения. Автор блога о продуктовом дизайне и влиянии ИИ на профессию дизайнера. Разработал сайт-портфолио soromax.ru в сотрудничестве с ИИ-инструментами (Claude, Claude Design).',
     images: [
       {
         url: '/og-maksim-sorokin.png',
