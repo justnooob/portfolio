@@ -173,7 +173,6 @@ ym(
   trackLinks:true,
   accurateTrackBounce:true,
   ecommerce:"dataLayer",
-  defer:true
 });
 `}
         </Script>
