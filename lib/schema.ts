@@ -53,6 +53,9 @@ export const structuredData = {
         'https://career.habr.com/profile/notifications',
         'https://www.linkedin.com/in/maksim-sorokin-840258403/?skipRedirect=true',
         'https://vk.ru/sfokin1337',
+        'https://habr.com/ru/users/MSorokin16/',
+        'https://vc.ru/id6061893',
+        'https://t-j.ru/user6475098/#article',
       ],
     },
 
