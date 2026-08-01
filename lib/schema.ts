@@ -56,6 +56,7 @@ export const structuredData = {
         'https://habr.com/ru/users/MSorokin16/',
         'https://vc.ru/id6061893',
         'https://t-j.ru/user6475098/#article',
+        'https://www.threads.com/@justnooob1337',
       ],
     },
 
