@@ -38,5 +38,13 @@ export default function SplitHeading({
   );
 
   // Сохраняем переносы строк (white-space задаётся в CSS получателя при необходимости)
-  return createElement(as, { ref, className }, text);
+  return createElement(
+  as,
+  {
+    ref,
+    className,
+    key: `${as}-${text}`
+  },
+  text
+);
 }
