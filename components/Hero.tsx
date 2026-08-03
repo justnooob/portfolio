@@ -84,9 +84,7 @@ export default function Hero() {
           <span className={styles.dot} />
           {t.hero.badge}
         </motion.div>
-        <p style={{ color: 'red', fontSize: 40 }}>
-            {t.hero.name1} {t.hero.name2}
-          </p>
+
         <SplitHeading
           as="h1"
           className={styles.title}
