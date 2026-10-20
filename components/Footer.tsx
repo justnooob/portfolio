@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useApp } from './AppProvider';
 import styles from './Footer.module.css';
 
@@ -33,14 +34,13 @@ export default function Footer() {
           <span className={styles.arrow}>↗</span>
         </a>
 
-        <a
-          href="/Sorokin_CV.pdf"
-          download="Sorokin_CV.pdf"
+        <Link
+          href="/cv/"
           className={`${styles.cell} ${styles.cellCv}`}
         >
           <span className={styles.label}>{cvLabel}</span>
-          <span className={styles.arrowDown}>↓</span>
-        </a>
+          <span className={styles.arrow}>↗</span>
+        </Link>
 
         {/* Ряд 2 col 1 */}
         <a

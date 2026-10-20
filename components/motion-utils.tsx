@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import { gsap, useGSAP } from '@/lib/gsap';
+import { gsap, useGSAP } from '@/lib/gsap-core';
 
 export const easeOut = [0.16, 1, 0.3, 1] as const;
 export const easeInOut = [0.65, 0, 0.35, 1] as const;
@@ -74,7 +74,7 @@ export function useMagnetic<T extends HTMLElement>(intensity = 0.25) {
 
   useGSAP(
     () => {
-      if (!ref.current) return;
+      if (!ref.current || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
       xTo.current = gsap.quickTo(ref.current, 'x', { duration: 0.4, ease: 'power3' });
       yTo.current = gsap.quickTo(ref.current, 'y', { duration: 0.4, ease: 'power3' });
     },
@@ -110,7 +110,7 @@ export function useTilt<T extends HTMLElement>(maxAngle = 6) {
 
   useGSAP(
     () => {
-      if (!ref.current) return;
+      if (!ref.current || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
       gsap.set(ref.current, { transformPerspective: 1000, transformStyle: 'preserve-3d' });
       rxTo.current = gsap.quickTo(ref.current, 'rotationX', { duration: 0.5, ease: 'power3' });
       ryTo.current = gsap.quickTo(ref.current, 'rotationY', { duration: 0.5, ease: 'power3' });

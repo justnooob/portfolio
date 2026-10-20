@@ -145,13 +145,15 @@
 }
 
 .body {
-  max-height: 0;
+  display: grid;
+  grid-template-rows: 0fr;
   overflow: hidden;
-  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .open .body {
-  max-height: 600px;
+  grid-template-rows: 1fr;
 }
+.bodyClip { min-height: 0; overflow: hidden; }
 .bodyIn {
   padding: 22px 24px 24px 262px;
   border-top: 0.5px solid var(--border);
@@ -281,4 +283,18 @@
   .bodyIn {
     padding: 16px 18px 20px 18px;
   }
+}
+
+/* Employer-specific optical correction inside the existing logo column. */
+.logoImg[data-employer='nevatrip'] { height: 32px; max-width: 150px; }
+.logoImg[data-employer='uk-medicina'] { height: 26px; }
+.logoImg[data-employer='hobbist'] { height: 24px; }
+.logoImg[data-employer='smetter'] { height: 30px; }
+.logoImg[data-employer='aezakmi'] { height: 32px; }
+.logoImg[data-employer='atlant'] { height: 34px; }
+@media (max-width: 768px) {
+  .logoImg[data-employer] { width: 140px; max-width: 140px; object-position: left center; }
+  .logoImg[data-employer='nevatrip'] { height: 34px; }
+  .logoImg[data-employer='hobbist'] { height: 24px; }
+  .logoImg[data-employer='uk-medicina'] { height: 24px; }
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useApp } from './AppProvider';
 import { useMagnetic, easeOut } from './motion-utils';
@@ -35,9 +35,10 @@ export default function BottomDock() {
     );
     observer.observe(footer);
     return () => observer.disconnect();
-  }, [mounted]);
+  }, [mounted, pathname]);
 
   const isHome = pathname === '/';
+  const isCv = pathname === '/cv' || pathname === '/cv/';
   const isWork = pathname === '/projects' || pathname.startsWith('/projects/');
 
   const labelHome = locale === 'ru' ? 'Главная' : 'Home';
@@ -95,10 +96,10 @@ export default function BottomDock() {
           </svg>
         </DockButton>
 
-        {/* CV (PDF) */}
-        <DockExternal href="/Sorokin_CV.pdf" label={labelCv}>
+        {/* HTML CV */}
+        <DockButton href="/cv/" active={isCv} label={labelCv}>
           <span className={styles.btnText}>CV</span>
-        </DockExternal>
+        </DockButton>
 
         {/* Contact (Telegram) */}
         <DockExternal href="https://t.me/sfokin1337" label={labelContact}>
@@ -173,9 +174,15 @@ function DockButton({
   children: React.ReactNode;
 }) {
   const m = useMagnetic<HTMLSpanElement>(0.18);
+  const router = useRouter();
   return (
     <Link
       href={href}
+      prefetch={false}
+      onMouseEnter={() => router.prefetch(href)}
+      onFocus={() => router.prefetch(href)}
+      aria-label={label}
+      aria-current={active ? 'page' : undefined}
       className={`${styles.btn} ${active ? styles.btnActive : ''}`}
       onMouseMove={m.onMouseMove}
       onMouseLeave={m.onMouseLeave}

@@ -13,25 +13,21 @@
  * Весь GSAP — строго клиентский (Next.js SSR не должен дёргать gsap/ScrollTrigger).
  */
 
-import { gsap } from 'gsap';
+import { gsap, useGSAP, EASE, prefersReducedMotion } from './gsap-core';
+import { scrollEffects } from './scroll-effects';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
-import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
-import { useGSAP } from '@gsap/react';
 
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, SplitText, MorphSVGPlugin, useGSAP);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+  scrollEffects.update = () => ScrollTrigger.update();
+  scrollEffects.refresh = () => ScrollTrigger.refresh();
 }
 
 /* ── Пресеты ────────────────────────────────────────────────── */
 
-/** Единые easing-кривые. EASE.out совпадает по ощущению с прежним [0.16,1,0.3,1]. */
-export const EASE = {
-  out: 'power3.out',
-  outSoft: 'power2.out',
-  inOut: 'power2.inOut',
-  expo: 'expo.out',
-} as const;
+
+
 
 /** Базовые длительности (сек) — чтобы reveal/заголовки были согласованы. */
 export const DUR = {
@@ -40,13 +36,8 @@ export const DUR = {
   slow: 1.1,
 } as const;
 
-/** Уважение к prefers-reduced-motion. */
-export function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
-}
+
+
 
 /** Десктоп ли (для pinned/horizontal эффектов, которые на мобилке деградируют). */
 export function isDesktop(): boolean {
@@ -216,4 +207,4 @@ export function splitHeadingReveal(
   };
 }
 
-export { gsap, ScrollTrigger, SplitText, useGSAP };
+export { gsap, ScrollTrigger, SplitText, useGSAP, EASE, prefersReducedMotion };

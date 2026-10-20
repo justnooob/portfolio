@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { gsap } from '@/lib/gsap';
+import { gsap } from '@/lib/gsap-core';
+import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 import styles from './CustomCursor.module.css';
 
 /**
@@ -27,6 +28,7 @@ export default function CustomCursor() {
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
     if (isTouch || !isFinePointer) return;
 
+    gsap.registerPlugin(MorphSVGPlugin);
     document.documentElement.classList.add('cursor-active');
 
     const wrap = wrapRef.current!;
@@ -82,6 +84,7 @@ export default function CustomCursor() {
       document.removeEventListener('mouseleave', onLeave);
       window.removeEventListener('mousedown', onDown);
       window.removeEventListener('mouseup', onUp);
+      gsap.killTweensOf([wrap, path, arrow]);
       document.documentElement.classList.remove('cursor-active');
     };
   }, []);

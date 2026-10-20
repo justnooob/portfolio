@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 
 import { AppProvider } from '@/components/AppProvider';
-import CustomCursor from '@/components/CustomCursor';
+import CursorMount from '@/components/CursorMount';
 import Scene3DMount from '@/components/Scene3DMount';
 import SmoothScroll from '@/components/SmoothScroll';
 import PageTransition from '@/components/PageTransition';
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://soromax.ru'),
 
   title: {
-    default: 'Максим Сорокин — Product Designer | UX/UI Designer',
+    default: 'Максим Сорокин, Product Designer | UX/UI Designer',
     template: '%s · Максим Сорокин',
   },
 
   description:
-    'Максим Сорокин — Product Designer и UX/UI дизайнер с опытом более 7 лет. AI SaaS, Telegram Mini Apps, дизайн-системы, мобильные приложения и B2B-продукты. Портфолио, кейсы и статьи.',
+    'Максим Сорокин, Product Designer и UX/UI дизайнер с опытом более 7 лет. AI SaaS, Telegram Mini Apps, дизайн-системы, мобильные приложения и B2B-продукты. Портфолио, кейсы и статьи.',
 
   applicationName: 'Soromax Portfolio',
 
@@ -94,7 +94,7 @@ export const metadata: Metadata = {
     url: 'https://soromax.ru',
     siteName: 'Soromax',
 
-    title: 'Максим Сорокин — Product Designer',
+    title: 'Максим Сорокин, Product Designer',
 
     description:
       'Lead Product Designer. AI SaaS, Telegram Mini Apps, Mobile Apps, Design Systems.',
@@ -104,7 +104,7 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'Максим Сорокин — Product Designer',
+        alt: 'Максим Сорокин, Product Designer',
       },
     ],
   },
@@ -112,7 +112,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
 
-    title: 'Максим Сорокин — Product Designer',
+    title: 'Максим Сорокин, Product Designer',
 
     description:
       'UX/UI Designer • Product Designer • AI SaaS',
@@ -147,7 +147,7 @@ export default function RootLayout({
           <SmoothScroll />
           <Scene3DMount />
           <ScrollProgress />
-          <CustomCursor />
+          <CursorMount />
           <PageTransition>
             {children}
           </PageTransition>

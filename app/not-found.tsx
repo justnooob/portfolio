@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { useApp } from '@/components/AppProvider';
 import Nav from '@/components/Nav';
 import Magnetic from '@/components/Magnetic';
-import { useGSAP, gsap, prefersReducedMotion, EASE } from '@/lib/gsap';
+import { useGSAP, gsap, prefersReducedMotion, EASE } from '@/lib/gsap-core';
 import styles from './not-found.module.css';
 
 export default function NotFound() {

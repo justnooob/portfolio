@@ -20,7 +20,7 @@ export function generateMetadata({
   const desc = (c.cardDesc ?? c.context)?.ru ?? product.shortDesc.ru;
   const url = `https://soromax.ru/projects/${product.slug}/${c.slug}`;
   return {
-    title: `${c.name.ru} — ${product.name.ru}`,
+    title: `${c.name.ru}. ${product.name.ru}`,
     description: desc,
     alternates: { canonical: `/projects/${product.slug}/${c.slug}` },
     openGraph: {

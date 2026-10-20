@@ -16,6 +16,7 @@ export default function ScrollProgress() {
 
   return (
     <motion.div
+      data-screen-decoration
       style={{
         scaleX,
         transformOrigin: 'left',

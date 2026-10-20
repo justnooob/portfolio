@@ -16,7 +16,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   // Продукты не имеют собственной страницы — указываем canonical на /projects и noindex
   if (project.isProduct) {
     return {
-      title: `${project.name.ru} — кейсы`,
+      title: `${project.name.ru}. Кейсы`,
       alternates: { canonical: '/projects' },
       robots: { index: false, follow: true },
     };
@@ -24,7 +24,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 
   const url = `https://soromax.ru/projects/${project.slug}`;
   return {
-    title: `${project.name.ru} — ${project.role.ru}`,
+    title: `${project.name.ru}. ${project.role.ru}`,
     description: project.shortDesc.ru,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {

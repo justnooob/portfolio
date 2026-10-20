@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useRef, useMemo, useEffect, useLayoutEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useApp } from './AppProvider';
@@ -498,6 +498,7 @@ function lerpV3(a: Vec3, b: Vec3, t: number): Vec3 {
 }
 
 interface SharedRefs {
+  readyRef:        React.MutableRefObject<boolean>;
   mouseRef:        React.MutableRefObject<{ x: number; y: number }>;
   themeRef:        React.MutableRefObject<number>;
   stageRef:        React.MutableRefObject<'preload' | 'hero'>;
@@ -507,11 +508,14 @@ interface SharedRefs {
   dissolveRef:     React.MutableRefObject<boolean>;
 }
 
+let presetCache: { sf: number; presets: Preset[]; value: { target: Preset; ca: THREE.Color; cb: THREE.Color; cc: THREE.Color } } | undefined;
+
 // Вычисляет интерполированный пресет для текущего sectionFloat
 function getTargetPreset(
   sf: number,
   presets: Preset[],
 ): { target: Preset; ca: THREE.Color; cb: THREE.Color; cc: THREE.Color } {
+  if (presetCache?.sf === sf && presetCache.presets === presets) return presetCache.value;
   const clamped = Math.max(0, Math.min(presets.length - 1, sf));
   const i = Math.floor(clamped);
   const frac = clamped - i;
@@ -537,15 +541,19 @@ function getTargetPreset(
   const ca = new THREE.Color(a.colorA).lerp(new THREE.Color(b.colorA), frac);
   const cb = new THREE.Color(a.colorB).lerp(new THREE.Color(b.colorB), frac);
   const cc = new THREE.Color(a.colorC).lerp(new THREE.Color(b.colorC), frac);
-  return { target, ca, cb, cc };
+  const value = { target, ca, cb, cc };
+  presetCache = { sf, presets, value };
+  return value;
 }
 
 // ─────────────────────── MORPH SPHERE ────────────────────────────────
 
-function MorphSphere({ mouseRef, themeRef, stageRef, sectionFloatRef, spherePosRef, dissolveRef }: SharedRefs) {
+function MorphSphere({ readyRef, mouseRef, themeRef, stageRef, sectionFloatRef, spherePosRef, dissolveRef }: SharedRefs) {
   const meshRef = useRef<THREE.Mesh>(null);
   const matRef  = useRef<THREE.ShaderMaterial>(null);
   const rotRef  = useRef({ x: 0, y: 0, z: 0 });
+  const scratch = useMemo(() => ({ position: new THREE.Vector3(), scale: new THREE.Vector3(), squash: new THREE.Vector3(),
+    ca: new THREE.Color(), cb: new THREE.Color(), cc: new THREE.Color() }), []);
 
   const uniforms = useMemo(() => ({
     uTime:      { value: 0 },
@@ -565,7 +573,7 @@ function MorphSphere({ mouseRef, themeRef, stageRef, sectionFloatRef, spherePosR
   }), []);
 
   useFrame((state, delta) => {
-    if (!meshRef.current || !matRef.current) return;
+    if (!readyRef.current || !meshRef.current || !matRef.current) return;
     const u = matRef.current.uniforms;
     u.uTime.value = state.clock.elapsedTime;
 
@@ -574,9 +582,9 @@ function MorphSphere({ mouseRef, themeRef, stageRef, sectionFloatRef, spherePosR
 
     if (stageRef.current === 'preload') {
       target = PRESET_PRELOAD;
-      ca = new THREE.Color(PRESET_PRELOAD.colorA);
-      cb = new THREE.Color(PRESET_PRELOAD.colorB);
-      cc = new THREE.Color(PRESET_PRELOAD.colorC);
+      ca = scratch.ca.set(PRESET_PRELOAD.colorA);
+      cb = scratch.cb.set(PRESET_PRELOAD.colorB);
+      cc = scratch.cc.set(PRESET_PRELOAD.colorC);
     } else {
       ({ target, ca, cb, cc } = getTargetPreset(sectionFloatRef.current, presets));
     }
@@ -589,9 +597,9 @@ function MorphSphere({ mouseRef, themeRef, stageRef, sectionFloatRef, spherePosR
       u.uOpacity.value  += (0.002 - u.uOpacity.value) * Math.min(delta * 2.5, 0.2);
       u.uRingMode.value  = 0;
       // Держим голубой цвет (preset 0)
-      const blueA = new THREE.Color('#061828');
-      const blueB = new THREE.Color('#60a5fa');
-      const blueC = new THREE.Color('#bae6fd');
+      const blueA = scratch.ca.set('#061828');
+      const blueB = scratch.cb.set('#60a5fa');
+      const blueC = scratch.cc.set('#bae6fd');
       (u.uColorA.value as THREE.Color).lerp(blueA, Math.min(delta * 2, 0.15));
       (u.uColorB.value as THREE.Color).lerp(blueB, Math.min(delta * 2, 0.15));
       (u.uColorC.value as THREE.Color).lerp(blueC, Math.min(delta * 2, 0.15));
@@ -606,7 +614,7 @@ function MorphSphere({ mouseRef, themeRef, stageRef, sectionFloatRef, spherePosR
     u.uSpikes.value    = ease(u.uSpikes.value,     target.spikes,    1.6);
     u.uRingMode.value  = ease(u.uRingMode.value,   target.ringMode,  2.0);
     (u.uSquash.value as THREE.Vector3).lerp(
-      new THREE.Vector3(target.squash[0], target.squash[1], target.squash[2]),
+      scratch.squash.set(...target.squash),
       Math.min(delta * 1.8, 0.12)
     );
     u.uMouseX.value = ease(u.uMouseX.value, mouseRef.current.x, 4);
@@ -617,10 +625,10 @@ function MorphSphere({ mouseRef, themeRef, stageRef, sectionFloatRef, spherePosR
     (u.uColorB.value as THREE.Color).lerp(cb, Math.min(delta * 2.4, 0.18));
     (u.uColorC.value as THREE.Color).lerp(cc, Math.min(delta * 2.4, 0.18));
 
-    const tPos = new THREE.Vector3(...target.position);
+    const tPos = scratch.position.set(...target.position);
     meshRef.current.position.lerp(tPos, Math.min(delta * 1.8, 0.12));
     const s = target.scale;
-    meshRef.current.scale.lerp(new THREE.Vector3(s, s, s), Math.min(delta * 1.8, 0.12));
+    meshRef.current.scale.lerp(scratch.scale.set(s, s, s), Math.min(delta * 1.8, 0.12));
 
     rotRef.current.x += (target.rotation[0] + mouseRef.current.y * 0.15) * delta;
     rotRef.current.y += target.rotation[1] * delta;
@@ -648,7 +656,7 @@ function MorphSphere({ mouseRef, themeRef, stageRef, sectionFloatRef, spherePosR
 
 // ──────────────────── AMBIENT BACKGROUND PARTICLES ───────────────────
 
-function BackgroundParticles({ themeRef, stageRef, sectionFloatRef, dissolveRef }: Omit<SharedRefs,'mouseRef'|'spherePosRef'>) {
+function BackgroundParticles({ readyRef, themeRef, stageRef, sectionFloatRef, dissolveRef }: Omit<SharedRefs,'mouseRef'|'spherePosRef'>) {
   const pointsRef = useRef<THREE.Points>(null);
 
   const { positions, count } = useMemo(() => {
@@ -666,7 +674,7 @@ function BackgroundParticles({ themeRef, stageRef, sectionFloatRef, dissolveRef 
   }, []);
 
   useFrame((_, delta) => {
-    if (!pointsRef.current) return;
+    if (!readyRef.current || !pointsRef.current) return;
     pointsRef.current.rotation.y += delta * 0.016;
     pointsRef.current.rotation.x += delta * 0.004;
 
@@ -675,6 +683,7 @@ function BackgroundParticles({ themeRef, stageRef, sectionFloatRef, dissolveRef 
     // На странице проектов — частицы полностью скрыты
     if (dissolveRef.current) {
       mat.opacity = 0;
+      pointsRef.current.visible = false;
       return;
     }
 
@@ -688,6 +697,7 @@ function BackgroundParticles({ themeRef, stageRef, sectionFloatRef, dissolveRef 
     const tc = themeRef.current > 0.5 ? '#5566aa' : '#aabbff';
     mat.color.lerp(new THREE.Color(tc), Math.min(delta * 2, 0.12));
     mat.opacity += (targetOp - mat.opacity) * Math.min(delta * 2, 0.12);
+    pointsRef.current.visible = mat.opacity > 0.0001;
   });
 
   return (
@@ -704,8 +714,9 @@ function BackgroundParticles({ themeRef, stageRef, sectionFloatRef, dissolveRef 
 
 const COUNT_DYN = 480;
 
-function DynamicParticles({ themeRef, stageRef, sectionFloatRef, spherePosRef, dissolveRef }: Omit<SharedRefs,'mouseRef'>) {
+function DynamicParticles({ readyRef, themeRef, stageRef, sectionFloatRef, spherePosRef, dissolveRef }: Omit<SharedRefs,'mouseRef'>) {
   const matRef = useRef<THREE.ShaderMaterial>(null);
+  const pointsRef = useRef<THREE.Points>(null);
 
   const { spherePositions, wildPositions, phases } = useMemo(() => {
     const sp = new Float32Array(COUNT_DYN * 3);
@@ -739,7 +750,7 @@ function DynamicParticles({ themeRef, stageRef, sectionFloatRef, spherePosRef, d
   }), []);
 
   useFrame((state, delta) => {
-    if (!matRef.current) return;
+    if (!readyRef.current || !matRef.current) return;
     const u = matRef.current.uniforms;
     u.uTime.value = state.clock.elapsedTime;
     u.uTheme.value += (themeRef.current - u.uTheme.value) * Math.min(delta * 3, 0.2);
@@ -749,6 +760,7 @@ function DynamicParticles({ themeRef, stageRef, sectionFloatRef, spherePosRef, d
 
     if (dissolveRef.current) {
       // Страница проектов — dynamic particles скрыты
+      if (pointsRef.current) pointsRef.current.visible = false;
       u.uOpacity.value  = 0;
       u.uExplodeT.value = 0;
       return;
@@ -779,6 +791,8 @@ function DynamicParticles({ themeRef, stageRef, sectionFloatRef, spherePosRef, d
     const opSpd = dissolveRef.current ? 3.5 : 2.0;
     u.uOpacity.value += (tOp - (u.uOpacity.value as number)) * Math.min(delta * opSpd, 0.2);
 
+    if (pointsRef.current) pointsRef.current.visible = u.uOpacity.value > 0.0001;
+
     // Следим за позицией сферы
     (u.uSphereOffset.value as THREE.Vector3).lerp(spherePosRef.current, Math.min(delta * 1.8, 0.12));
 
@@ -788,7 +802,7 @@ function DynamicParticles({ themeRef, stageRef, sectionFloatRef, spherePosRef, d
 
   return (
     // frustumCulled=false: частицы летят за пределы bounding sphere
-    <points frustumCulled={false}>
+    <points ref={pointsRef} frustumCulled={false}>
       <bufferGeometry>
         {/* position = wildPositions даёт большой bounding sphere для culling */}
         <bufferAttribute attach="attributes-position"   args={[wildPositions,   3]} />
@@ -811,9 +825,41 @@ function DynamicParticles({ themeRef, stageRef, sectionFloatRef, spherePosRef, d
 
 // ──────────────────── BLUR / DPR CONTROLLER ──────────────────────────
 
-function ResponsivePerf() {
-  const { gl } = useThree();
-  useEffect(() => { gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.75)); }, [gl]);
+function SceneRenderer({ active, readyRef, rootRef }: {
+  active: boolean;
+  readyRef: React.MutableRefObject<boolean>;
+  rootRef: React.RefObject<HTMLDivElement>;
+}) {
+  const { gl, scene, camera, clock, invalidate } = useThree();
+  useLayoutEffect(() => {
+    let cancelled = false;
+    performance.mark('scene:compile-start');
+    // Warm identical shaders without blocking on LINK_STATUS during the first draw.
+    gl.compileAsync(scene, camera).catch(error => {
+      if (!cancelled) console.warn('Scene shader warmup failed; using normal rendering.', error);
+    }).then(() => {
+      if (cancelled) return;
+      readyRef.current = true;
+      performance.mark('scene:compile-ready');
+      rootRef.current?.setAttribute('data-scene-ready', 'true');
+      invalidate();
+    });
+    return () => { cancelled = true; };
+  }, [gl, scene, camera, invalidate, readyRef, rootRef]);
+
+  useEffect(() => {
+    // Freeze scene time as well as rendering, preventing a jump on tab return.
+    const elapsed = clock.elapsedTime;
+    if (active) { clock.start(); clock.elapsedTime = elapsed; invalidate(); }
+    else clock.stop();
+    rootRef.current?.setAttribute('data-scene-active', String(active));
+  }, [active, clock, invalidate, rootRef]);
+
+  useFrame(() => {
+    if (!active || !readyRef.current) return;
+    gl.render(scene, camera);
+    invalidate();
+  }, 1);
   return null;
 }
 
@@ -840,14 +886,17 @@ function SceneBlurController({
       );
     }
     currentBlur.current += (target - currentBlur.current) * Math.min(delta * 2, 0.12);
-    document.documentElement.style.setProperty('--scene-blur', `${currentBlur.current.toFixed(1)}px`);
+    const value = `${currentBlur.current.toFixed(1)}px`;
+    if (document.documentElement.style.getPropertyValue('--scene-blur') !== value) {
+      document.documentElement.style.setProperty('--scene-blur', value);
+    }
   });
   return null;
 }
 
 // ──────────────────── ROOT COMPONENT ─────────────────────────────────
 
-export default function Scene3D({ dissolved = false }: { dissolved?: boolean }) {
+export default function Scene3D({ dissolved = false, dprLimit = 1.75 }: { dissolved?: boolean; dprLimit?: number }) {
   const { theme } = useApp();
 
   const mouseRef        = useRef({ x: 0, y: 0 });
@@ -857,14 +906,17 @@ export default function Scene3D({ dissolved = false }: { dissolved?: boolean }) 
   const spherePosRef    = useRef(new THREE.Vector3(2, 0.4, 0));
   const dissolveRef     = useRef(dissolved);
 
-  const [reduceMotion, setReduceMotion] = useState(false);
-
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const readyRef = useRef(false);
+  const [active, setActive] = useState(true);
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReduceMotion(mq.matches);
-    const h = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
-    mq.addEventListener('change', h);
-    return () => mq.removeEventListener('change', h);
+    let intersects = true;
+    const update = () => setActive(!document.hidden && intersects);
+    const observer = new IntersectionObserver(([entry]) => { intersects = entry.isIntersecting; update(); });
+    if (sceneRef.current) observer.observe(sceneRef.current);
+    document.addEventListener('visibilitychange', update);
+    update();
+    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', update); };
   }, []);
 
   useEffect(() => { themeRef.current = theme === 'light' ? 1 : 0; }, [theme]);
@@ -892,7 +944,9 @@ export default function Scene3D({ dissolved = false }: { dissolved?: boolean }) 
   }, []);
 
   useEffect(() => {
-    const onScroll = () => {
+    let frame = 0;
+    const updateSections = () => {
+      frame = 0;
       const nodes = Array.from(document.querySelectorAll<HTMLElement>('[data-section]'));
       if (nodes.length === 0) return;
 
@@ -931,6 +985,7 @@ export default function Scene3D({ dissolved = false }: { dissolved?: boolean }) 
       sectionFloatRef.current = curPreset + (nbrPreset - curPreset) * Math.abs(frac);
     };
 
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(updateSections); };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     onScroll();
@@ -939,23 +994,22 @@ export default function Scene3D({ dissolved = false }: { dissolved?: boolean }) 
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
       clearTimeout(t);
+      cancelAnimationFrame(frame);
     };
-  }, []);
-
-  if (reduceMotion) return null;
+  }, [dissolved]);
 
   return (
-    <div className={styles.scene} aria-hidden="true">
+    <div ref={sceneRef} className={styles.scene} aria-hidden="true">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 42 }}
-        dpr={[1, 1.5]}
+        dpr={[1, dprLimit]}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        frameloop="always"
+        frameloop="demand"
       >
-        <ResponsivePerf />
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 5, 5]} intensity={0.4} />
         <MorphSphere
+          readyRef={readyRef}
           mouseRef={mouseRef}
           themeRef={themeRef}
           stageRef={stageRef}
@@ -964,18 +1018,21 @@ export default function Scene3D({ dissolved = false }: { dissolved?: boolean }) 
           dissolveRef={dissolveRef}
         />
         <BackgroundParticles
+          readyRef={readyRef}
           themeRef={themeRef}
           stageRef={stageRef}
           sectionFloatRef={sectionFloatRef}
           dissolveRef={dissolveRef}
         />
         <DynamicParticles
+          readyRef={readyRef}
           themeRef={themeRef}
           stageRef={stageRef}
           dissolveRef={dissolveRef}
           sectionFloatRef={sectionFloatRef}
           spherePosRef={spherePosRef}
         />
+        <SceneRenderer active={active} readyRef={readyRef} rootRef={sceneRef} />
         <SceneBlurController sectionFloatRef={sectionFloatRef} stageRef={stageRef} dissolveRef={dissolveRef} />
       </Canvas>
     </div>

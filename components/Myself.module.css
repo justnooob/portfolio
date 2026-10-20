@@ -219,3 +219,6 @@
     aspect-ratio: 4 / 3;
   }
 }
+
+.chip { text-decoration: none; cursor: pointer; }
+.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }

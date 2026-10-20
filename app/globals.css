@@ -577,3 +577,14 @@ img {
   }
   .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
 }
+
+/* A clean, selectable resume document for printing in either theme. */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  html:has([data-cv-page]), body:has([data-cv-page]) { background: white !important; color: #111 !important; overflow: visible !important; }
+  body:has([data-cv-page]) [class*='BottomDock_'],
+  body:has([data-cv-page]) [class*='CustomCursor_'],
+  body:has([data-cv-page]) [class*='ScrollToTop_'],
+  body:has([data-cv-page]) [data-screen-decoration] { display: none !important; }
+  body:has([data-cv-page]) * { animation: none !important; transition: none !important; }
+}

@@ -24,9 +24,9 @@
 }
 
 .row {
-  display: flex;
-  gap: 36px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 244px));
+  gap: 28px 36px;
   justify-content: center;
   align-items: center;
 }
@@ -42,7 +42,8 @@
   height: 60px;
   /* Фиксированная ширина под самый широкий логотип (Сметтер ~217px) + отступы.
      Все логотипы центрируются внутри одинакового контейнера. */
-  width: 244px;
+  width: 100%;
+  min-width: 0;
   padding: 8px 16px;
   flex-shrink: 0;
 }
@@ -285,4 +286,40 @@
   .logo {
     -webkit-tap-highlight-color: transparent;
   }
+}
+
+@media (max-width: 900px) { .row { grid-template-columns: repeat(2, minmax(0, 244px)); gap: 20px; } }
+@media (max-width: 480px) { .row { gap: 16px 8px; } .item { padding: 8px; } .logo { max-width: 100%; } }
+
+/* Keep edge tooltips inside the viewport in both grid layouts. */
+@media (min-width: 901px) {
+  .item:nth-child(3n) .tip { left: auto; right: 0; transform: translate(0, 6px); }
+  .item:nth-child(3n):hover .tip { transform: translate(0, 0); }
+  .item:nth-child(3n) .tip::after { left: auto; right: 32px; }
+  .item:nth-child(3n + 1) .tip { left: 0; right: auto; transform: translate(0, 6px); }
+  .item:nth-child(3n + 1):hover .tip { transform: translate(0, 0); }
+  .item:nth-child(3n + 1) .tip::after { left: 32px; right: auto; }
+}
+@media (min-width: 769px) and (max-width: 900px) {
+  .item:nth-child(2n) .tip { left: auto; right: 0; transform: translate(0, 6px); }
+  .item:nth-child(2n):hover .tip { transform: translate(0, 0); }
+  .item:nth-child(2n) .tip::after { left: auto; right: 32px; }
+  .item:nth-child(2n + 1) .tip { left: 0; right: auto; transform: translate(0, 6px); }
+  .item:nth-child(2n + 1):hover .tip { transform: translate(0, 0); }
+  .item:nth-child(2n + 1) .tip::after { left: 32px; right: auto; }
+}
+
+/* Optical sizes account for lowercase wordmarks, symbols and intrinsic padding. */
+.logo[data-employer='nevatrip'] { height: 44px; max-width: 193px; }
+.logo[data-employer='uk-medicina'] { height: 30px; }
+.logo[data-employer='hobbist'] { height: 30px; max-width: 184px; }
+.logo[data-employer='smetter'] { height: 38px; max-width: 206px; }
+.logo[data-employer='aezakmi'] { height: 40px; }
+.logo[data-employer='atlant'] { height: 42px; max-width: 186px; }
+@media (max-width: 768px) {
+  .logo[data-employer] { width: 100%; max-width: 140px; height: 36px; }
+  .logo[data-employer='nevatrip'] { max-width: 138px; height: 36px; }
+  .logo[data-employer='hobbist'] { max-width: 128px; height: 25px; }
+  .logo[data-employer='uk-medicina'] { height: 24px; }
+  .logo[data-employer='atlant'] { max-width: 128px; }
 }
