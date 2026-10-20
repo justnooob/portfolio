@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react';
 import Lenis from 'lenis';
-import { gsap, ScrollTrigger } from '@/lib/gsap';
+import { gsap } from '@/lib/gsap-core';
+import { scrollEffects } from '@/lib/scroll-effects';
 
 /**
  * Глобальный плавный скролл через Lenis.
@@ -38,19 +39,19 @@ export default function SmoothScroll() {
     // Интеграция с GSAP ScrollTrigger:
     // - гоняем Lenis через единый тикер GSAP (один rAF на всё)
     // - при каждом скролле Lenis обновляем ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+    const updateTriggers = () => scrollEffects.update();
+    lenis.on('scroll', updateTriggers);
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
     // Пересчёт позиций триггеров после загрузки шрифтов/картинок (layout сдвигается)
-    const refresh = () => ScrollTrigger.refresh();
+    const refresh = () => scrollEffects.refresh();
     window.addEventListener('load', refresh);
     if (document.fonts?.ready) document.fonts.ready.then(refresh);
     const refreshTimer = setTimeout(refresh, 600);
 
     // Перехватываем нативные scrollIntoView, чтобы они шли через Lenis
-    const origScrollTo = window.scrollTo.bind(window);
     const origElScrollIntoView = Element.prototype.scrollIntoView;
 
     Element.prototype.scrollIntoView = function (arg) {

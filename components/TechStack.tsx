@@ -141,13 +141,14 @@ export default function TechStack() {
 }
 
 function ToolCard({ tool }: { tool: Tool }) {
+  const { locale } = useApp();
   return (
     <a
       href={tool.url}
       target="_blank"
       rel="noopener noreferrer"
       className={`${styles.card} tech-stack-card`}
-      aria-label={tool.name}
+      aria-label={locale === 'ru' ? `${tool.name}, официальный сайт, новая вкладка` : `${tool.name}, official website, new tab`}
     >
       <div className={styles.logo}>{tool.logo}</div>
     </a>

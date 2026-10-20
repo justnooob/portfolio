@@ -19,35 +19,6 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export default function Hero() {
   const { locale } = useApp();
   const t = translations[locale];
-  const words = t.hero.typewriter;
-
-  const [display, setDisplay] = useState('');
-  const [wordIdx, setWordIdx] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-
-  // Typewriter
-  useEffect(() => {
-    const current = words[wordIdx];
-    let timeout: NodeJS.Timeout;
-    if (!deleting && display.length < current.length) {
-      timeout = setTimeout(() => setDisplay(current.slice(0, display.length + 1)), 60);
-    } else if (!deleting && display.length === current.length) {
-      timeout = setTimeout(() => setDeleting(true), 1800);
-    } else if (deleting && display.length > 0) {
-      timeout = setTimeout(() => setDisplay(current.slice(0, display.length - 1)), 35);
-    } else if (deleting && display.length === 0) {
-      setDeleting(false);
-      setWordIdx((i) => (i + 1) % words.length);
-    }
-    return () => clearTimeout(timeout);
-  }, [display, deleting, wordIdx, words]);
-
-  useEffect(() => {
-    setDisplay('');
-    setWordIdx(0);
-    setDeleting(false);
-  }, [locale]);
-
   // Parallax по hero — scrub через GSAP/ScrollTrigger (синхронизирован с Lenis)
   const heroRef = useRef<HTMLDivElement>(null);
   const titleBlockRef = useRef<HTMLDivElement>(null);
@@ -104,7 +75,7 @@ export default function Hero() {
       >
         <div className={styles.leftCol}>
           <div className={styles.type}>
-            <span className={styles.twText}>{display}</span>
+            <Typewriter key={locale} words={t.hero.typewriter} />
             <span className={styles.cursor} />
           </div>
           <div className={styles.btns}>
@@ -130,8 +101,8 @@ export default function Hero() {
             </a>
           </MagneticButton>
           <MagneticButton>
-            <a href="/Sorokin_CV.pdf" download="Sorokin_CV.pdf" className="btn-secondary">
-              {locale === 'ru' ? 'Скачать CV' : 'Download CV'}
+            <a href="/cv/" className="btn-secondary">
+              {locale === 'ru' ? 'Посмотреть CV' : 'View CV'}
             </a>
           </MagneticButton>
           </div>
@@ -195,4 +166,30 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
       {children}
     </div>
   );
+}
+
+function Typewriter({ words }: { words: string[] }) {
+
+  const [display, setDisplay] = useState('');
+  const [wordIdx, setWordIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  // Typewriter
+  useEffect(() => {
+    const current = words[wordIdx];
+    let timeout: NodeJS.Timeout;
+    if (!deleting && display.length < current.length) {
+      timeout = setTimeout(() => setDisplay(current.slice(0, display.length + 1)), 60);
+    } else if (!deleting && display.length === current.length) {
+      timeout = setTimeout(() => setDeleting(true), 1800);
+    } else if (deleting && display.length > 0) {
+      timeout = setTimeout(() => setDisplay(current.slice(0, display.length - 1)), 35);
+    } else if (deleting && display.length === 0) {
+      setDeleting(false);
+      setWordIdx((i) => (i + 1) % words.length);
+    }
+    return () => clearTimeout(timeout);
+  }, [display, deleting, wordIdx, words]);
+
+  return <span className={styles.twText}>{display}</span>;
 }

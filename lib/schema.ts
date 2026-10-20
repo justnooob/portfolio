@@ -84,7 +84,7 @@ export const structuredData = {
       // width: ...,
       // height: ...,
       caption:
-        'Максим Сорокин — Product Designer. UX/UI, AI SaaS, Design Systems.',
+        'Максим Сорокин. Product Designer. UX/UI, AI SaaS, Design Systems.',
     },
 
     {
@@ -102,7 +102,7 @@ export const structuredData = {
       '@type': ['WebPage', 'ProfilePage'],
       '@id': 'https://soromax.ru/#webpage',
       url: 'https://soromax.ru',
-      name: 'Максим Сорокин — UX/UI Product Designer',
+      name: 'Максим Сорокин, UX/UI Product Designer',
       isPartOf: { '@id': 'https://soromax.ru/#website' },
       about: { '@id': 'https://soromax.ru/#person' },
       mainEntity: { '@id': 'https://soromax.ru/#person' },

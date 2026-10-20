@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const staticPages: MetadataRoute.Sitemap = [
+    { url: `${BASE}/cv/`, lastModified: new Date('2026-10-20'), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE}/`, lastModified: now, changeFrequency: 'monthly', priority: 1 },
     { url: `${BASE}/projects/`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
   ];

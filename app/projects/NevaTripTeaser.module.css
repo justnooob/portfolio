@@ -1,0 +1,9 @@
+.section { padding: 24px 32px 64px; }
+.card { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; border: 0.5px solid var(--border); border-radius: 20px; overflow: hidden; background: var(--bg-elev); }
+.placeholder { display: flex; align-items: center; padding: 48px; background: var(--bg-section); min-height: 240px; }
+.placeholder p { margin: 0; max-width: 420px; font-size: clamp(24px, 3vw, 40px); line-height: 1.2; letter-spacing: -0.03em; color: var(--text-strong); }
+.info { padding: 40px; align-self: center; min-width: 0; }
+.info h2 { color: var(--text-strong); font-size: 28px; margin: 0 0 12px; }
+.info p { color: var(--text-soft); line-height: 1.6; }
+.info .tags { font-size: 12px; color: var(--text-faint); }
+@media (max-width: 768px) { .section { padding: 20px 20px 40px; } .card { grid-template-columns: 1fr; } .placeholder { min-height: 180px; padding: 28px; } .info { padding: 28px; } }

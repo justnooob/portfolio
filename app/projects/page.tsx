@@ -12,6 +12,7 @@ import { translations } from '@/lib/data';
 import { easeOut } from '@/components/motion-utils';
 import SplitHeading from '@/components/SplitHeading';
 import styles from './projects-index.module.css';
+import NevaTripTeaser from './NevaTripTeaser';
 
 /**
  * Отдельная страница со всеми проектами.
@@ -71,13 +72,14 @@ export default function ProjectsIndexPage() {
           />
           <p className={styles.sub}>
             {locale === 'ru'
-              ? 'Подборка кейсов: AI SaaS, B2B-продукты, мобильные приложения, сайты и Telegram MiniApps.'
-              : 'A curated set of cases: AI SaaS, B2B products, mobile apps, websites and Telegram MiniApps.'}
+              ? 'Подборка кейсов по AI SaaS, B2B-продукты, мобильные приложения, сайты и Telegram MiniApps.'
+              : 'A curated set of cases covering AI SaaS, B2B products, mobile apps, websites and Telegram MiniApps.'}
           </p>
         </motion.div>
       </section>
 
       <FeaturedProducts hideBanner />
+      <NevaTripTeaser />
       <Projects olderOnly />
       <FinalCta />
       <Footer />

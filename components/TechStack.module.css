@@ -253,3 +253,7 @@
     height: 22px;
   }
 }
+
+.card, :global(html.cursor-active) .card { cursor: pointer !important; }
+.card::before { pointer-events: none; }
+.card:focus-visible { outline: 2px solid var(--accent); outline-offset: -5px; z-index: 2; }

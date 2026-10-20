@@ -101,12 +101,14 @@ export default function Logos() {
                 <img
                   src={exp.logoSrcLight}
                   alt={exp.company[locale]}
+                  data-employer={exp.id}
                   className={styles.logo}
                 />
               ) : (exp.logoSrc ? (
                 <img
                   src={exp.logoSrc}
                   alt={exp.company[locale]}
+                  data-employer={exp.id}
                   className={styles.logo}
                 />
               ) : (

@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useApp } from './AppProvider';
 import { translations } from '@/lib/data';
 import styles from './Nav.module.css';
 
 export default function Nav() {
+  const router = useRouter();
   const { locale, setLocale, theme, toggleTheme } = useApp();
   const t = translations[locale];
   const [menuOpen, setMenuOpen] = useState(false);
@@ -52,7 +54,7 @@ export default function Nav() {
     <>
       <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`} data-hero={heroMode || undefined}>
         <div className={styles.navInner}>
-          <Link href="/" className={styles.logo} onClick={closeMenu}>
+          <Link href="/" prefetch={false} onMouseEnter={() => router.prefetch('/')} onFocus={() => router.prefetch('/')} className={styles.logo} onClick={closeMenu}>
             <img
               src={theme === 'dark' ? '/soromax-light.svg' : '/soromax-dark.svg'}
               alt="Soromax"

@@ -18,43 +18,62 @@ export function useCardReveal<
   const imgRef = useRef<I>(null);
 
   useGSAP(
-    () => {
+    (_, contextSafe) => {
       const card = cardRef.current;
       if (!card) return;
       if (prefersReducedMotion()) return;
 
-      gsap.from(card, {
-        opacity: 0,
-        y: 48,
-        scale: 0.96,
-        filter: 'blur(8px)',
-        clipPath: 'inset(0% 0% 100% 0% round 16px)',
-        duration: 0.95,
-        ease: EASE.out,
-        clearProps: 'filter,clipPath',
-        scrollTrigger: { trigger: card, start: 'top 90%', once: true },
-      });
+      let initialized = false;
+      const setup = () => {
+        if (initialized) return;
+        initialized = true;
+        gsap.from(card, {
+          opacity: 0,
+          y: 48,
+          scale: 0.96,
+          filter: 'blur(8px)',
+          clipPath: 'inset(0% 0% 100% 0% round 16px)',
+          duration: 0.95,
+          ease: EASE.out,
+          clearProps: 'filter,clipPath',
+          scrollTrigger: { trigger: card, start: 'top 90%', once: true },
+        });
 
-      // Мягкий parallax изображения внутри карточки.
-      // scale даёт запас по краям, чтобы сдвиг не обнажал фон контейнера.
-      const img = imgRef.current;
-      if (img) {
-        gsap.set(img, { scale: 1.14, transformOrigin: 'center center' });
-        gsap.fromTo(
-          img,
-          { yPercent: -5 },
-          {
-            yPercent: 5,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
-        );
+        // Мягкий parallax изображения внутри карточки.
+        // scale даёт запас по краям, чтобы сдвиг не обнажал фон контейнера.
+        const img = imgRef.current;
+        if (img) {
+          gsap.set(img, { scale: 1.14, transformOrigin: 'center center' });
+          gsap.fromTo(
+            img,
+            { yPercent: -5 },
+            {
+              yPercent: 5,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+              },
+            }
+          );
+        }
+      };
+      const initialize = contextSafe ? contextSafe(setup) : setup;
+      if (card.getBoundingClientRect().top < window.innerHeight + 400) {
+        initialize();
+        return;
       }
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          initialize();
+          observer.disconnect();
+        }
+      }, { rootMargin: '400px 0px' });
+      observer.observe(card);
+      return () => observer.disconnect();
+
     },
     { scope: cardRef }
   );

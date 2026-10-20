@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, type ReactNode } from 'react';
-import { useGSAP, gsap } from '@/lib/gsap';
+import { useGSAP, gsap } from '@/lib/gsap-core';
 
 /**
  * Magnetic-обёртка на GSAP quickTo: курсор «притягивает» вложенный элемент.

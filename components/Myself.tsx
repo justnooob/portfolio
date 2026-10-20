@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 import { useApp } from './AppProvider';
 import { useReveal } from '@/lib/useReveal';
+import { responsiveImage } from '@/lib/responsive-images';
 import { translations } from '@/lib/data';
 import styles from './Myself.module.css';
 
@@ -165,12 +166,16 @@ export default function Myself() {
             className={`${styles.photoOuter} reveal-photo-zoom ${photoVisible ? 'visible' : ''}`}
           >
             <motion.div className={styles.photoWrap} style={{ y: photoY, scale: photoScale }}>
+              <picture>
+              <source type="image/webp" srcSet={responsiveImage('/maksim-sorokin-product-designer.jpg')} sizes="(max-width: 900px) 90vw, 400px" />
               <img
                 src="/maksim-sorokin-product-designer.jpg"
-                alt="Максим Сорокин — Продуктовый дизайнер, UX/UI дизайнер"
+                alt={locale === 'ru' ? 'Максим Сорокин, продуктовый дизайнер и UX/UI дизайнер' : 'Maxim Sorokin, Product Designer and UX/UI Designer'}
                 className={styles.photo}
                 decoding="async"
+                loading="lazy"
               />
+              </picture>
             </motion.div>
           </div>
         </div>
@@ -338,12 +343,12 @@ function ChipFill({ item, filled, colors }: { item: { label: string; icon: IconN
   const color = useTransform(t, [0, 1], [colors.nFrom, colors.nTo]);
   const iconColor = useTransform(t, [0, 1], [colors.aFrom, colors.aTo]);
   return (
-    <motion.span className={styles.chip} style={{ opacity, color }}>
+    <motion.a href={item.icon === 'ai' || item.icon === 'saas' ? '/#okk-pro' : '/#hobbist'} className={styles.chip} style={{ opacity, color }}>
       <motion.span className={styles.chipIconWrap} style={{ color: iconColor }}>
         <ChipIcon name={item.icon} />
       </motion.span>
       {item.label}
-    </motion.span>
+    </motion.a>
   );
 }
 

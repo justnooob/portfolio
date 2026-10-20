@@ -70,6 +70,7 @@ function ExperienceCard({
           <img
             src={logoForTheme}
             alt={exp.company[locale]}
+                  data-employer={exp.id}
             className={`${styles.logoImg}${exp.id === 'freelance' ? ` ${styles.logoImgSoromax}` : ''}${exp.id === 'uk-medicina' ? ` ${styles.logoImgOkk}` : ''}`}
           />
         ) : (
@@ -112,24 +113,26 @@ function ExperienceCard({
         <div className={styles.chev}>⌄</div>
       </div>
       <div className={styles.body}>
-        <div className={styles.bodyIn}>
-          <div className={styles.product}>{exp.product[locale]}</div>
-          <div className={styles.metrics}>
-            {exp.metrics.map((m, j) => (
-              <div key={j} className={styles.metric}>
-                <div className={styles.metricNum}>
-                  <KpiCount value={m.value} trigger={isOpen} />
+        <div className={styles.bodyClip}>
+          <div className={styles.bodyIn}>
+            <div className={styles.product}>{exp.product[locale]}</div>
+            <div className={styles.metrics}>
+              {exp.metrics.map((m, j) => (
+                <div key={j} className={styles.metric}>
+                  <div className={styles.metricNum}>
+                    <KpiCount value={m.value} trigger={isOpen} />
+                  </div>
+                  <div className={styles.metricLbl}>{m.label[locale]}</div>
                 </div>
-                <div className={styles.metricLbl}>{m.label[locale]}</div>
-              </div>
-            ))}
-          </div>
-          <div className={styles.achList}>
-            {exp.achievements[locale].map((a, j) => (
-              <div key={j} className={styles.ach}>
-                {a}
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className={styles.achList}>
+              {exp.achievements[locale].map((a, j) => (
+                <div key={j} className={styles.ach}>
+                  {a}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

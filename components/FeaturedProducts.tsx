@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useApp } from './AppProvider';
 import { useReveal, useCardReveal } from '@/lib/useReveal';
+import { responsiveImage } from '@/lib/responsive-images';
 import { projects } from '@/lib/data';
 import { MediaProvider, MediaSingle, useMedia, type MediaItem } from './MediaViewer';
 import styles from './FeaturedProducts.module.css';
@@ -37,6 +38,9 @@ function CaseCard({
     ? (darkFail ? thumbFallback : thumbDark)
     : (lightFail ? thumbFallback : thumbLight);
 
+  const pcThumb = sidecar && product.sidecarPcThumb
+    ? product.sidecarPcThumb[theme] : undefined;
+
   return (
     <div
       ref={cardRef}
@@ -61,12 +65,16 @@ function CaseCard({
             <span className={styles.caseImgLabel}>{c.name[locale]}</span>
           ) : (
             <picture>
+              {pcThumb && responsiveImage(pcThumb) && <source media="(min-width: 1025px)"
+                type="image/webp" srcSet={responsiveImage(pcThumb)} sizes="(min-width: 1440px) 640px, 50vw" />}
               {sidecar && product.sidecarPcThumb && (
                 <source
                   media="(min-width: 1025px)"
                   srcSet={theme === 'dark' ? product.sidecarPcThumb.dark : product.sidecarPcThumb.light}
                 />
               )}
+              {responsiveImage(thumb) && <source type="image/webp" srcSet={responsiveImage(thumb)}
+                sizes={wide ? '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 900px' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px'} />}
               <img
                 ref={imgRef}
                 src={thumb}
@@ -272,7 +280,7 @@ function ProductBlock({ product }: { product: typeof projects[0] }) {
   };
 
   return (
-    <div className={styles.product} id={product.slug} ref={productRef}>
+    <div className={styles.product} id={product.slug} tabIndex={-1} ref={productRef}>
       <div className={styles.stickyHead}>
         <div
           ref={headRef}
@@ -283,7 +291,7 @@ function ProductBlock({ product }: { product: typeof projects[0] }) {
             <span className={styles.productTitleYear}>{product.year}</span>
           </h2>
           <div className={styles.productSubtitle}>
-            <span>{locale === 'ru' ? 'Должность' : 'Role'}: {product.role[locale]}</span>
+            <span>{locale === 'ru' ? 'Должность' : 'Role'} {product.role[locale]}</span>
             <span className={styles.subtitleDot}>·</span>
             <span>{product.duration[locale]}</span>
           </div>
@@ -364,12 +372,17 @@ export default function FeaturedProducts({ hideBanner }: { hideBanner?: boolean 
           </div>
           {/* Decorative right-side background image with gradient fade */}
           <div className={styles.bannerBg} aria-hidden="true">
+            <picture>
+            <source type="image/webp" srcSet={responsiveImage(theme === 'dark' ? '/projects/banner-bg-dark.jpg' : '/projects/banner-bg-light.jpg')} sizes="50vw" />
             <img
               src={theme === 'dark' ? '/projects/banner-bg-dark.jpg' : '/projects/banner-bg-light.jpg'}
               alt=""
               className={styles.bannerBgImg}
+              loading="lazy"
+              decoding="async"
               onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
             />
+            </picture>
           </div>
         </Link>
       )}

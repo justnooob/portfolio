@@ -1,4 +1,4 @@
-﻿export type Locale = 'ru' | 'en';
+export type Locale = 'ru' | 'en';
 
 export const translations = {
   ru: {
@@ -42,7 +42,7 @@ export const translations = {
     },
     experience: {
       title: 'Опыт работы',
-      sub: 'Более 7 лет · 5 компаний + фриланс',
+      sub: 'Более 7 лет · 6 компаний + фриланс',
       role: 'Роль',
       metrics: 'Метрики',
       thisSite: 'Этот сайт',
@@ -123,7 +123,7 @@ export const translations = {
     },
     experience: {
       title: 'Experience',
-      sub: 'Over 7 years · 5 companies + freelance',
+      sub: 'Over 7 years · 6 companies + freelance',
       role: 'Role',
       metrics: 'Metrics',
       thisSite: 'This site',
@@ -277,8 +277,8 @@ export const projects: Project[] = [
     company: { ru: 'УК Медицина', en: 'UK Medicina' },
     name: { ru: 'IYWI (OKK.PRO)', en: 'IYWI (OKK.PRO)' },
     shortDesc: {
-      ru: 'AI-продукт для анализа качества консультаций в стоматологических клиниках. Полный продуктовый дизайн с нуля: веб, iOS, Android, дизайн-система, лендинги.',
-      en: 'AI-powered product for analyzing consultation quality in dental clinics. Full product design from scratch: web, iOS, Android, design system, landings.',
+      ru: 'AI-продукт для анализа качества консультаций в стоматологических клиниках. Полный продуктовый дизайн с нуля. Веб, iOS, Android, дизайн-система, лендинги.',
+      en: 'AI-powered product for analyzing consultation quality in dental clinics. Full product design from scratch. Web, iOS, Android, design system, landings.',
     },
     tags: {
       ru: ['AI SaaS', 'Design System', 'Web + Mobile'],
@@ -350,8 +350,8 @@ export const projects: Project[] = [
       ],
     },
     process: {
-      ru: 'Отвечал за полный цикл Product Design: Discovery, UX Research, Prototyping, Delivery и post-release оптимизацию. Спроектировал Information Architecture, User Flows и ключевые сценарии MVP для 4 ролей пользователей. Создал дизайн-систему с component library и UI Kit для команды 6+ разработчиков, сократив выход новых фич на 2 недели. Разработал web-версию продукта с нуля и адаптировал под iOS и Android. Провёл 8 A/B-тестов и usability-testing гипотез: retention вырос на 15% за 2 месяца. Применял data-driven подход и продуктовую аналитику для оптимизации activation-flow. Выполнял handoff, Design QA и дизайн-ревью, снизив UI-несоответствия после релизов на 60%. Интегрировал AI tools в процессы UX Research, генерации гипотез и прототипирования.',
-      en: 'Responsible for the full Product Design cycle: Discovery, UX Research, Prototyping, Delivery, and post-release optimization. Designed Information Architecture, User Flows, and key MVP scenarios for 4 user roles. Built a design system with component library and UI Kit for a team of 6+ developers, reducing new feature delivery by 2 weeks. Developed the web product from scratch and adapted it for iOS and Android. Conducted 8 A/B tests and usability testing: user retention grew by 15% in 2 months. Applied data-driven approach and product analytics to optimize activation flows. Performed handoff, Design QA, and design reviews, reducing UI discrepancies after releases by 60%. Integrated AI tools into UX Research, hypothesis generation, and prototyping.',
+      ru: 'Вёл полный цикл Product Design от Discovery, UX Research и прототипирования до Delivery и оптимизации после релиза. Спроектировал Information Architecture, User Flows и ключевые сценарии MVP для 4 ролей пользователей. Создал дизайн-систему с component library и UI Kit для команды 6+ разработчиков, сократив выход новых фич на 2 недели. Разработал web-версию продукта с нуля и адаптировал под iOS и Android. Провёл 8 A/B-тестов и usability-testing гипотез. Retention вырос на 15% за 2 месяца. Применял data-driven подход и продуктовую аналитику для оптимизации activation-flow. Выполнял handoff, Design QA и дизайн-ревью, снизив UI-несоответствия после релизов на 60%. Интегрировал AI tools в процессы UX Research, генерации гипотез и прототипирования.',
+      en: 'Owned the full product design cycle from discovery, UX research and prototyping through delivery and post-release optimization. Designed Information Architecture, User Flows, and key MVP scenarios for 4 user roles. Built a design system with component library and UI Kit for a team of 6+ developers, reducing new feature delivery by 2 weeks. Developed the web product from scratch and adapted it for iOS and Android. Conducted 8 A/B tests and usability testing. User retention grew by 15% in 2 months. Applied data-driven approach and product analytics to optimize activation flows. Performed handoff, Design QA, and design reviews, reducing UI discrepancies after releases by 60%. Integrated AI tools into UX Research, hypothesis generation, and prototyping.',
     },
     keyFeatures: {
       ru: [
@@ -402,8 +402,8 @@ export const projects: Project[] = [
           en: 'Doctors, treatment curators, head of sales, chief physicians',
         },
         problem: {
-          ru: 'Пользователи не понимали: сколько заработали, сколько осталось до выполнения плана, какие навыки требуют улучшения, какое обучение необходимо пройти.',
-          en: 'Users did not understand: how much they earned, how much was left to reach the plan, which skills needed improvement, what training they needed to complete.',
+          ru: 'Пользователи не понимали, сколько заработали, сколько осталось до выполнения плана, какие навыки требуют улучшения, какое обучение необходимо пройти.',
+          en: 'Users did not understand how much they earned, how much was left to reach the plan, which skills needed improvement, what training they needed to complete.',
         },
         constraints: {
           ru: ['Основная аудитория использовала мобильные устройства', 'Все решения должны были легко адаптироваться под мобильные платформы'],
@@ -448,8 +448,8 @@ export const projects: Project[] = [
           en: ['Single entry point for all roles', 'Daily motivator through the financial module', 'Learning recommendations tied to skills'],
         },
         conclusion: {
-          ru: 'Дэшборд стал центральным хабом продукта. Главный урок: структура данных важнее визуала. Правильные блоки в правильном порядке решают задачу лучше любой анимации.',
-          en: 'The dashboard became the product\'s central hub. Key lesson: data structure matters more than visuals. The right blocks in the right order solve the problem better than any animation.',
+          ru: 'Дэшборд стал центральным хабом продукта. Главный урок в том, что структура данных важнее визуала. Правильные блоки в правильном порядке решают задачу лучше любой анимации.',
+          en: 'The dashboard became the product\'s central hub. The key lesson is that data structure matters more than visuals. The right blocks in the right order solve the problem better than any animation.',
         },
       },
       {
@@ -507,8 +507,8 @@ export const projects: Project[] = [
           en: ['Filter system reduces search time', 'Drag & drop merging of consultation parts', 'Contextual hints from transcript'],
         },
         conclusion: {
-          ru: 'Главный урок: когда AI не справляется, дизайн должен восполнить пробел ручными механиками. Хорошо спроектированный UX может компенсировать технические ограничения.',
-          en: 'Key lesson: when AI falls short, design must fill the gap with manual mechanics. Well-designed UX can compensate for technical limitations.',
+          ru: 'Когда AI не справляется, дизайн должен восполнить пробел ручными механиками. Хорошо спроектированный UX может компенсировать технические ограничения.',
+          en: 'When AI falls short, design must fill the gap with manual mechanics. Well-designed UX can compensate for technical limitations.',
         },
       },
       {
@@ -554,7 +554,7 @@ export const projects: Project[] = [
           },
         ],
         beforeAfter: {
-          before: { ru: 'Обучение происходило в нескольких системах: Moodle, iSpring и Lexis Voice.', en: 'Learning took place across multiple systems: Moodle, iSpring, and Lexis Voice.' },
+          before: { ru: 'Обучение происходило в нескольких системах, включая Moodle, iSpring и Lexis Voice.', en: 'Learning took place across multiple systems, including Moodle, iSpring, and Lexis Voice.' },
           after: { ru: 'Все образовательные сценарии стали частью единой платформы с единым стилем.', en: 'All educational scenarios became part of a unified platform with a consistent style.' },
         },
         difficulties: {
@@ -575,11 +575,11 @@ export const projects: Project[] = [
         featured: false,
         name: { ru: 'Функционал РОПа и главврача', en: 'Head of Sales & Chief Physician Tools' },
         cardDesc: { ru: 'Дашборды, аналитика, отчёты и управление командой.', en: 'Dashboards, analytics, reports, and team management.' },
-        context: { ru: 'РОПу и главврачу нужен сводный контроль над работой команды: дашборды с ключевыми показателями, аналитика по консультациям, отчёты и инструменты управления командой.', en: 'The head of sales and the chief physician need consolidated control over the team: dashboards with key metrics, consultation analytics, reports, and team management tools.' },
-        task: { ru: 'Спроектировать функционал для РОПа и главврача: дашборды, аналитику, отчёты и управление командой в единой дизайн-системе.', en: 'Design functionality for the head of sales and the chief physician: dashboards, analytics, reports, and team management within a unified design system.' },
-        solution: { ru: 'Разработал ролевые рабочие пространства: дашборды с KPI, детальную аналитику по консультациям и навыкам, выгружаемые отчёты и блок управления командой - распределение нагрузки, контроль и обучение.', en: 'Built role-based workspaces: KPI dashboards, detailed consultation and skill analytics, exportable reports, and a team management block - workload distribution, control, and training.' },
+        context: { ru: 'РОПу и главврачу нужен сводный контроль над работой команды. Нужны дашборды с ключевыми показателями, аналитика по консультациям, отчёты и инструменты управления командой.', en: 'The head of sales and the chief physician need consolidated control over the team through dashboards with key metrics, consultation analytics, reports, and team management tools.' },
+        task: { ru: 'Спроектировать функционал для РОПа и главврача, объединяющий дашборды, аналитику, отчёты и управление командой в единой дизайн-системе.', en: 'Design functionality for the head of sales and the chief physician with dashboards, analytics, reports, and team management within a unified design system.' },
+        solution: { ru: 'Разработал ролевые рабочие пространства. Добавил дашборды с KPI, детальную аналитику по консультациям и навыкам, выгружаемые отчёты и блок управления командой - распределение нагрузки, контроль и обучение.', en: 'Built role-based workspaces with KPI dashboards, detailed consultation and skill analytics, exportable reports, and a team management block - workload distribution, control, and training.' },
         results: { ru: ['Единый интерфейс под роли РОПа и главврача', 'Дашборды, аналитика, отчёты и управление командой', 'Ролевые акценты без дублирования компонентов'], en: ['Unified interface for head of sales and chief physician roles', 'Dashboards, analytics, reports, and team management', 'Role-based emphasis without component duplication'] },
-        conclusion: { ru: 'Ролевая адаптация доказала ценность единой дизайн-системы: смена акцентов для РОПа и главврача не требовала новых компонентов.', en: 'Role-based adaptation proved the value of a unified design system: shifting emphasis for the head of sales and the chief physician required no new components.' },
+        conclusion: { ru: 'Ролевая адаптация доказала ценность единой дизайн-системы. Смена акцентов для РОПа и главврача не требовала новых компонентов.', en: 'Role-based adaptation proved the value of a unified design system. Shifting emphasis for the head of sales and the chief physician required no new components.' },
       },
       {
         slug: 'director-dashboard',
@@ -587,8 +587,8 @@ export const projects: Project[] = [
         name: { ru: 'Функционал Руководителя', en: 'Executive & Owner Tools' },
         cardDesc: { ru: 'Админ-панель с данными по врачам и кураторам, мониторингом устройств и финансами по сети.', en: 'Admin panel with doctor and curator data, device monitoring, and network finances.' },
         context: { ru: 'Руководителю нужен сводный обзор сразу по врачам и кураторам и мониторинг записывающих устройств в кабинетах. Владельцу сети - показатели по всей сети клиник и по отдельным филиалам. По сути админ-панель с финансовой аналитикой.', en: 'A manager needs a consolidated view across both doctors and curators plus monitoring of the recording devices in the offices. A network owner needs metrics across the entire clinic network and by individual branches - essentially an admin panel with financial analytics.' },
-        task: { ru: 'Спроектировать админ-панель руководителя: сводные данные по врачам и кураторам, мониторинг устройств в кабинетах и финансовую аналитику по сети и филиалам.', en: 'Design a manager admin panel: consolidated data across doctors and curators, in-office device monitoring, and financial analytics across the network and branches.' },
-        solution: { ru: 'Многоуровневая аналитика: сеть → филиал → сотрудник (врач или куратор). Добавил мониторинг записывающих устройств в кабинетах и финансовый блок. Владелец видит показатели по всей сети и детализирует до конкретного филиала или человека.', en: 'Multi-level analytics: network → branch → employee (doctor or curator). Added monitoring of in-office recording devices and a financial block. The owner sees network-wide metrics and can drill down to a specific branch or person.' },
+        task: { ru: 'Спроектировать админ-панель руководителя, объединяющую сводные данные по врачам и кураторам, мониторинг устройств в кабинетах и финансовую аналитику по сети и филиалам.', en: 'Design a manager admin panel with consolidated data across doctors and curators, in-office device monitoring, and financial analytics across the network and branches.' },
+        solution: { ru: 'Многоуровневая аналитика охватывает сеть → филиал → сотрудник (врач или куратор). Добавил мониторинг записывающих устройств в кабинетах и финансовый блок. Владелец видит показатели по всей сети и детализирует до конкретного филиала или человека.', en: 'Multi-level analytics covers network → branch → employee (doctor or curator). Added monitoring of in-office recording devices and a financial block. The owner sees network-wide metrics and can drill down to a specific branch or person.' },
         results: { ru: ['Сводные данные по врачам и кураторам', 'Мониторинг записывающих устройств в кабинетах', 'Финансовая аналитика по сети и филиалам', 'Детализация сеть → филиал → сотрудник'], en: ['Consolidated data across doctors and curators', 'Monitoring of in-office recording devices', 'Financial analytics across network and branches', 'Drill-down network → branch → employee'] },
         conclusion: { ru: 'Иерархическая аналитика с финансовым блоком и мониторингом устройств - ключевой инструмент для масштабирования продукта на сети клиник.', en: 'Hierarchical analytics with a financial block and device monitoring is a key tool for scaling the product to clinic networks.' },
       },
@@ -608,47 +608,39 @@ export const projects: Project[] = [
     logo: 'H',
     logoColor: '#e879f9',
     behanceUrl: 'https://www.behance.net/gallery/233364373/Hobbist-Dating-App-UXUI-Design',
-    year: '2024–2025',
+    year: '2024 - 2026',
     company: { ru: 'Hobbist', en: 'Hobbist' },
     name: { ru: 'Hobbist', en: 'Hobbist' },
-    shortDesc: {
-      ru: 'Dating-приложение в Telegram MiniApps. UX/UI, дизайн-система, юзабилити-тесты.',
-      en: 'Dating app in Telegram MiniApps. UX/UI, design system, usability tests.',
-    },
+    shortDesc: {"ru": "Telegram Mini App и веб-платформа для знакомств по общим интересам. Продуктовый дизайн, развитие ключевых сценариев и дизайн-системы.", "en": "Telegram Mini App and web platform for dating through shared interests. Product design, core user journeys and design system development."},
     tags: { ru: ['TG MiniApp', 'UI Kit', 'Research'], en: ['TG MiniApp', 'UI Kit', 'Research'] },
     metrics: [
       { value: '+20%', label: { ru: 'DAU', en: 'DAU' } },
-      { value: '+25%', label: { ru: 'конверсия', en: 'conversion' } },
-      { value: '50+', label: { ru: 'макетов', en: 'screens' } },
+      { value: '+25%', label: { ru: 'онбординг', en: 'onboarding' } },
+      { value: '50+', label: { ru: 'интерфейсов / состояний', en: 'screens' } },
     ],
-    overview: {
-      ru: 'Dating-продукт в Telegram Mini Apps и web-платформа для знакомств по хобби и интересам.',
-      en: 'Dating product in Telegram Mini Apps and web platform for matching by hobbies and interests.',
-    },
+    overview: {"ru": "Развитие Telegram Mini App и веб-платформы для знакомств и общения на основе общих интересов. Отвечал за UX/UI, дизайн-систему и ключевые сценарии от онбординга до начала общения. Руководил командой из 2 дизайнеров. Спроектировал продуктовую логику и интерфейсы ИИ-помощника для рекомендаций новых увлечений на основе библиотеки интересов и улучшения качества подбора собеседников.", "en": "Developed a Telegram Mini App and web platform for dating and conversation through shared interests. Owned UX/UI, the design system and core journeys from onboarding to starting a conversation. Led 2 designers. Designed the AI assistant product logic and interfaces for hobby recommendations based on the interests library and better matching."},
     role: { ru: 'Ведущий продуктовый дизайнер', en: 'Lead Product Designer' },
-    duration: { ru: '1 год (сент 2024 - сент 2025)', en: '1 year (Sep 2024 - Sep 2025)' },
+    duration: { ru: 'сентябрь 2024 - октябрь 2026 · 2 года 2 месяца', en: 'Sep 2024 - Oct 2026 · 2 years 2 months' },
     tools: ['Figma', 'Telegram MiniApps', 'Principle'],
-    challenge: {
-      ru: 'Создать MVP для dating-приложения внутри Telegram, учитывая особенности платформы и ограничения TG MiniApps.',
-      en: 'Build MVP for a dating app inside Telegram, considering platform specifics and TG MiniApps constraints.',
-    },
-    solution: {
-      ru: 'Разработал 50+ макетов MVP, создал компонентный UI Kit, провёл 5 глубинных интервью с пользователями, руководил командой 2 дизайнеров.',
-      en: 'Designed 50+ MVP screens, built a component UI Kit, conducted 5 in-depth user interviews, managed a team of 2 designers.',
-    },
+    challenge: {"ru": "Развивать продукт для знакомств по общим интересам с учётом ограничений Telegram. Упростить онбординг, наполнение библиотеки, подбор собеседников и переход от мэтча к общению.", "en": "Develop an interest-based dating product within Telegram constraints. Simplify onboarding, building an interests library, matching and starting a conversation."},
+    solution: {"ru": "Спроектировал 50+ интерфейсов и состояний, развивал компонентную дизайн-систему и пользовательские сценарии. Руководил 2 дизайнерами, проводил исследования и дизайн-ревью. Спроектировал логику и интерфейсы ИИ-помощника для рекомендаций увлечений на основе библиотеки интересов и улучшения подбора собеседников.", "en": "Designed 50+ interfaces and states, developed the component design system and user journeys. Led 2 designers, conducted research and design reviews. Designed AI assistant logic and interfaces for hobby recommendations based on the interests library and improved matching."},
     results: {
-      ru: [
-        'DAU вырос на 20% за 3 месяца после редизайна',
-        'Конверсия онбординга и регистрации +25%',
-        'UI Kit ускорил работу команды с 10 до 7 дней на спринт',
-        'Количество правок после ревью сократилось на 40%',
+      "ru": [
+        "DAU +20%",
+        "Конверсия прохождения онбординга +25%",
+        "50+ интерфейсов и состояний",
+        "Выросло число мэтчей на пользователя",
+        "Увеличилась конверсия из мэтча в начало переписки",
+        "Пользователи стали ежемесячно добавлять больше позиций в библиотеку интересов"
       ],
-      en: [
-        'DAU grew by 20% in 3 months after redesign',
-        'Onboarding and registration conversion +25%',
-        'UI Kit sped up team from 10 to 7 days per sprint',
-        'Post-review edits reduced by 40%',
-      ],
+      "en": [
+        "DAU +20%",
+        "Onboarding completion conversion +25%",
+        "50+ interfaces and states",
+        "More matches per user",
+        "Higher conversion from a match to starting a conversation",
+        "Users added more items to their interests library each month"
+      ]
     },
     context: {
       ru: 'HOBBIST это dating-приложение в Telegram MiniApps, знакомящее людей по хобби. Требовалось создать привлекательный MVP с учётом технических ограничений платформы.',
@@ -675,12 +667,12 @@ export const projects: Project[] = [
       ],
     },
     process: {
-      ru: 'Руководил командой 3 дизайнеров: менторство, дизайн-ревью, выстраивание процессов. Отвечал за Product Discovery и UX-проектирование с нуля: onboarding-flow, User Flows и key user journeys для mobile и web. Разработал 50+ экранов MVP и компонентную дизайн-систему, сократив время выхода новых фич на 1–2 недели. Провёл UX-исследования: глубинные интервью, CJM-анализ, usability-testing. Оптимизировал activation-сценарии на основе продуктовых метрик и A/B тестирования. Подготавливал интерактивные прототипы, проводил handoff и сопровождал delivery.',
-      en: 'Led a team of 3 designers: mentoring, design reviews, workflow setup. Responsible for Product Discovery and UX design from scratch: onboarding flow, User Flows, and key user journeys for mobile and web. Built 50+ MVP screens and a component design system, reducing new feature delivery by 1–2 weeks. Conducted UX research: in-depth interviews, CJM analysis, usability testing. Optimized activation scenarios using product metrics and A/B testing. Prepared interactive prototypes, conducted handoff, and supported the delivery process.',
+      ru: 'Руководил командой 2 дизайнеров. Менторство, дизайн-ревью, выстраивание процессов. Отвечал за Product Discovery и UX-проектирование с нуля, включая onboarding-flow, User Flows и key user journeys для mobile и web. Разработал 50+ интерфейсов и состояний MVP и компонентную дизайн-систему. Провёл UX-исследования, включая глубинные интервью, CJM-анализ, usability-testing. Оптимизировал activation-сценарии на основе продуктовых метрик и A/B тестирования. Подготавливал интерактивные прототипы, проводил handoff и сопровождал delivery.',
+      en: 'Led a team of 2 designers. Mentoring, design reviews, workflow setup. Responsible for Product Discovery and UX design from scratch, including onboarding flow, User Flows, and key user journeys for mobile and web. Built 50+ MVP interfaces and states and a component design system. Conducted UX research, including in-depth interviews, CJM analysis, usability testing. Optimized activation scenarios using product metrics and A/B testing. Prepared interactive prototypes, conducted handoff, and supported the delivery process.',
     },
     keyFeatures: {
-      ru: ['Product Discovery + UX Research', 'Руководство командой 3 дизайнеров', '50+ экранов MVP', 'Компонентная дизайн-система', 'A/B тестирование', 'TG Mini Apps + Web'],
-      en: ['Product Discovery + UX Research', 'Team Lead (3 designers)', '50+ MVP screens', 'Component design system', 'A/B testing', 'TG Mini Apps + Web'],
+      ru: ['Product Discovery + UX Research', 'Руководство командой 2 дизайнеров', '50+ экранов MVP', 'Компонентная дизайн-система', 'A/B тестирование', 'TG Mini Apps + Web'],
+      en: ['Product Discovery + UX Research', 'Team Lead (2 designers)', '50+ MVP screens', 'Component design system', 'A/B testing', 'TG Mini Apps + Web'],
     },
     uiDirection: {
       ru: 'Быстрый, минималистичный UX под Telegram-формат, акцент на простоту и скорость действий.',
@@ -707,8 +699,8 @@ export const projects: Project[] = [
           en: 'The product was built from scratch. The core idea is dating through shared interests.',
         },
         users: {
-          ru: 'Пользователи 18–35 лет, ищущие глубокое общение через общие интересы в кино, музыке и книгах',
-          en: 'Users aged 18–35 looking for deep connections through shared interests in film, music, and books',
+          ru: 'Пользователи 18 - 35 лет, ищущие глубокое общение через общие интересы в кино, музыке и книгах',
+          en: 'Users aged 18 - 35 looking for deep connections through shared interests in film, music, and books',
         },
         problem: {
           ru: 'Существующие дейтинг-продукты строят подбор пользователей через возраст, расстояние и фотографии. Глубина интересов не учитывается.',
@@ -721,7 +713,7 @@ export const projects: Project[] = [
         keyDecisions: [
           {
             problem: { ru: 'Одна библиотека интересов не отражает многогранность пользователя', en: 'A single interest library does not reflect the multifaceted nature of the user' },
-            solution: { ru: 'Пять отдельных библиотек: фильмы, книги, музыка, игры, медиа с единым интерфейсом, который легко масштабировать и расширять в будущем', en: 'Five separate libraries: films, books, music, games, media with a unified interface that is easy to scale and expand in the future' },
+            solution: { ru: 'Пять отдельных библиотек для фильмов, книг, музыки, игр и медиа с единым интерфейсом, который легко масштабировать и расширять в будущем', en: 'Five separate libraries for films, books, music, games, media with a unified interface that is easy to scale and expand in the future' },
             why: { ru: 'Разные медиа создают разные точки для разговора и лучше раскрывают личность', en: 'Different media create different conversation starters and better reveal personality' },
             result: { ru: 'Пользователи заполняют профиль через знакомое потребление контента', en: 'Users fill out their profile through familiar content consumption' },
           },
@@ -733,13 +725,13 @@ export const projects: Project[] = [
           },
           {
             problem: { ru: 'Заполнение библиотеки с нуля занимает много времени и снижает конверсию', en: 'Filling the library from scratch takes a long time and reduces conversion' },
-            solution: { ru: 'Импорт интересов из внешних источников: история просмотров, любимые исполнители', en: 'Import interests from external sources: viewing history, favorite artists' },
+            solution: { ru: 'Импорт интересов из внешних источников по истории просмотров и любимым исполнителям', en: 'Import interests from external sources using viewing history and favorite artists' },
             why: { ru: 'Пользователи уже записали свои интересы в других сервисах. Не надо делать это заново', en: 'Users have already recorded their interests in other services. No need to do it again' },
             result: { ru: 'Время заполнения профиля сократилось, конверсия онбординга выросла', en: 'Profile completion time reduced, onboarding conversion increased' },
           },
           {
             problem: { ru: 'Библиотека должна быть полезна не только для мэтчинга, но и как личный архив', en: 'The library should be useful not only for matching but also as a personal archive' },
-            solution: { ru: 'Библиотека как самостоятельная ценность: персональный каталог с историей', en: 'Library as standalone value: personal catalog with history' },
+            solution: { ru: 'Персональный каталог с историей делает библиотеку самостоятельной ценностью', en: 'A personal catalog with history makes the library valuable on its own' },
             why: { ru: 'Пользователи возвращаются в приложение не только ради дейтинга, но и ради своего контента', en: 'Users return to the app not only for dating but also for their own content' },
             result: { ru: 'Retention вырос. Библиотека стала ежедневным сценарием использования', en: 'Retention grew. The library became a daily usage scenario' },
           },
@@ -753,13 +745,13 @@ export const projects: Project[] = [
           en: 'Exploring a new domain and designing for Telegram Mini Apps with a limited set of UI patterns.',
         },
         results: {
-          ru: ['Пять библиотек: фильмы, книги, музыка, игры, медиа — легко масштабируются', 'Оценки и рецензии для структурированного мэтчинга', 'Импорт интересов из внешних источников'],
-          en: ['Five libraries: films, books, music, games, media — easily scalable', 'Ratings and reviews for structured matching', 'Interest import from external sources'],
+          ru: ['Пять легко масштабируемых библиотек для фильмов, книг, музыки, игр и медиа', 'Оценки и рецензии для структурированного мэтчинга', 'Импорт интересов из внешних источников'],
+          en: ['Five scalable libraries for films, books, music, games and media', 'Ratings and reviews for structured matching', 'Interest import from external sources'],
         },
         galleryCount: 2,
         conclusion: {
-          ru: 'Библиотека интересов - ключевой инсайт продукта: люди легче рассказывают о себе через любимый контент, чем через анкеты. Это снижает барьер входа и делает данные для мэтчинга богаче.',
-          en: 'The interest library is the product\'s key insight: people find it easier to describe themselves through favorite content than through questionnaires. This lowers the entry barrier and enriches matching data.',
+          ru: 'Библиотека интересов - ключевой инсайт продукта. Люди легче рассказывают о себе через любимый контент, чем через анкеты. Это снижает барьер входа и делает данные для мэтчинга богаче.',
+          en: 'The interest library is the product\'s key insight. People find it easier to describe themselves through favorite content than through questionnaires. This lowers the entry barrier and enriches matching data.',
         },
       },
       {
@@ -791,19 +783,19 @@ export const projects: Project[] = [
           },
           {
             problem: { ru: 'Подробная информация мешает быстрому принятию решения', en: 'Detailed information interferes with quick decision-making' },
-            solution: { ru: 'Минималистичная карточка: фото, имя, процент совпадения и три топ-интереса', en: 'Minimalist card: photo, name, match percentage, and three top interests' },
+            solution: { ru: 'Минималистичная карточка с фото, имя, процент совпадения и три топ-интереса', en: 'Minimalist card with photo, name, match percentage, and three top interests' },
             why: { ru: 'Дейтинг - это сначала импульс, потом анализ. Деталям место на следующем экране', en: 'Dating is first impulse, then analysis. Details belong on the next screen' },
             result: { ru: 'Скорость принятия решений выросла без потери качества мэтчинга', en: 'Decision-making speed increased without loss of match quality' },
           },
           {
             problem: { ru: 'После мэтча непонятно что объединяет двух людей', en: 'After a match it\'s unclear what unites two people' },
-            solution: { ru: 'Детализированный профиль с разбивкой совпадений по категориям: кино, музыка, книги', en: 'Detailed profile with match breakdown by category: film, music, books' },
+            solution: { ru: 'Детализированный профиль с разбивкой совпадений по категориям, включая кино, музыка, книги', en: 'Detailed profile with match breakdown by category, including film, music, books' },
             why: { ru: 'Категорийный анализ даёт конкретные темы для разговора вместо абстрактной совместимости', en: 'Category analysis provides specific conversation topics instead of abstract compatibility' },
             result: { ru: 'Пользователи находят темы для разговора до первого сообщения', en: 'Users find conversation topics before sending the first message' },
           },
           {
             problem: { ru: 'Сложно понять насколько глубоко совпадают вкусы. Процент не всё объясняет', en: 'Hard to understand how deeply tastes align. A percentage doesn\'t explain everything' },
-            solution: { ru: 'Экран сравнения интересов: что совпадает и в чём различия', en: 'Interest comparison screen: what matches and where differences lie' },
+            solution: { ru: 'Экран сравнения интересов показывает, что совпадает и в чём различия', en: 'Interest comparison screen showing what matches and where differences lie' },
             why: { ru: 'Различия интересны не меньше совпадений. Они создают почву для новых открытий', en: 'Differences are just as interesting as matches. They create ground for new discoveries' },
             result: { ru: 'Разговор стал начинаться как с точек совпадения, так и с точек различия', en: 'Conversations began starting from both match points and difference points' },
           },
@@ -821,8 +813,8 @@ export const projects: Project[] = [
           en: ['Match percentage as the main metric', 'Detailed profile with category breakdown', 'Interest comparison screen'],
         },
         conclusion: {
-          ru: 'Мэтчинг через интересы доказал: люди хотят не просто красивое лицо, а точку входа в разговор. Правильная структура данных создаёт этот контекст автоматически.',
-          en: 'Interest-based matching proved: people want not just an attractive face, but an entry point into conversation. The right data structure creates this context automatically.',
+          ru: 'Мэтчинг через интересы показал, что люди хотят не просто красивое лицо, а точку входа в разговор. Правильная структура данных создаёт этот контекст автоматически.',
+          en: 'Interest-based matching showed that people want not just an attractive face, but an entry point into conversation. The right data structure creates this context automatically.',
         },
         galleryCount: 2,
       },
@@ -830,7 +822,7 @@ export const projects: Project[] = [
         slug: 'onboarding',
         featured: false,
         name: { ru: 'Онбординг', en: 'Onboarding' },
-        context: { ru: 'Пользователь заходил в приложение впервые и не понимал чем оно отличается от обычного дейтинга.', en: 'User opened the app for the first time and did not understand how it differed from regular dating.' },
+        context: { ru: 'Пользователь заходил в приложение впервые и не понимал, чем оно отличается от обычного дейтинга.', en: 'User opened the app for the first time and did not understand how it differed from regular dating.' },
         task: { ru: 'Спроектировать онбординг, который объясняет концепцию и мотивирует заполнить библиотеку интересов.', en: 'Design an onboarding that explains the concept and motivates users to fill their interest library.' },
         solution: { ru: 'Короткий онбординг, прохождение которого занимает несколько минут, с акцентом на уникальность мэтчинга по интересам, затем сразу переход к заполнению библиотеки.', en: 'A short onboarding that takes a few minutes to complete, emphasizing the uniqueness of interest-based matching, then immediate transition to filling the library.' },
         results: { ru: ['Конверсия онбординга выросла на 25%', 'Пользователи понимают концепцию до первого мэтча'], en: ['Onboarding conversion grew by 25%', 'Users understand the concept before the first match'] },
@@ -844,7 +836,7 @@ export const projects: Project[] = [
         task: { ru: 'Спроектировать чат с учётом контекста общих интересов и ограничений Telegram Mini Apps.', en: 'Design a chat considering the context of shared interests and Telegram Mini Apps constraints.' },
         solution: { ru: 'Чат с быстрым доступом к профилю мэтча и общим интересам прямо в шапке диалога.', en: 'Chat with quick access to the match profile and shared interests directly in the dialog header.' },
         results: { ru: ['Контекст интересов доступен в чате', 'Быстрый переход к профилю мэтча'], en: ['Interest context available in chat', 'Quick transition to match profile'] },
-        conclusion: { ru: 'Хороший чат для дейтинга отличается от мессенджера наличием контекста отношений: кто этот человек и почему вы совпали.', en: 'A good dating chat differs from a messenger by having relationship context: who this person is and why you matched.' },
+        conclusion: { ru: 'Хороший чат для дейтинга отличается от мессенджера наличием контекста отношений. Кто этот человек и почему вы совпали.', en: 'A good dating chat differs from a messenger by having relationship context. Who this person is and why you matched.' },
         galleryCount: 2,
       },
       {
@@ -853,7 +845,7 @@ export const projects: Project[] = [
         name: { ru: 'Профиль пользователя', en: 'User Profile' },
         context: { ru: 'Профиль является витриной пользователя и основным источником данных для мэтчинга.', en: 'The profile is the user\'s showcase and the primary data source for matching.' },
         task: { ru: 'Спроектировать профиль, который одновременно является визиткой и персональным архивом интересов.', en: 'Design a profile that serves both as a business card and a personal interest archive.' },
-        solution: { ru: 'Профиль с двумя режимами: краткая визитка для мэтчинга и полный архив интересов с рецензиями.', en: 'Profile with two modes: a brief business card for matching and a full interest archive with reviews.' },
+        solution: { ru: 'Профиль объединяет краткую визитку для мэтчинга и полный архив интересов с рецензиями.', en: 'The profile combines a brief business card for matching with a full interest archive and reviews.' },
         results: { ru: ['Профиль работает и как визитка, и как архив', 'Интересы структурированы по категориям'], en: ['Profile works both as a business card and as an archive', 'Interests structured by category'] },
         conclusion: { ru: 'Профиль в дейтинг-приложении - это не резюме, а живой артефакт интересов. Чем богаче данные, тем точнее мэтчинг.', en: 'A profile in a dating app is not a resume but a living artifact of interests. The richer the data, the more accurate the matching.' },
         galleryCount: 2,
@@ -889,8 +881,8 @@ export const projects: Project[] = [
       { value: '100%', label: { ru: 'приёмка', en: 'acceptance' } },
     ],
     overview: {
-      ru: 'SaaS-платформа для автоматизации строительного бизнеса: закупки, задачи, обмеры, финансы. Веб + iOS/Android.',
-      en: 'SaaS platform for construction business automation: procurement, tasks, measurements, finance. Web + iOS/Android.',
+      ru: 'SaaS-платформа для автоматизации строительного бизнеса. Закупки, задачи, обмеры, финансы. Веб + iOS/Android.',
+      en: 'SaaS platform for construction business automation. Procurement, tasks, measurements, finance. Web + iOS/Android.',
     },
     role: { ru: 'Продуктовый дизайнер', en: 'Product Designer' },
     duration: { ru: '4 месяца (июн - сент 2024)', en: '4 months (Jun - Sep 2024)' },
@@ -918,8 +910,8 @@ export const projects: Project[] = [
       ],
     },
     context: {
-      ru: 'BuildIT это SaaS-платформа для управления строительными проектами: сметы, задачи, закупки, финансы. Требовалось расширить функциональность и улучшить UX.',
-      en: 'BuildIT is a SaaS platform for construction project management: estimates, tasks, procurement, finances. The task was to expand functionality and improve UX.',
+      ru: 'BuildIT это SaaS-платформа для управления строительными проектами. Сметы, задачи, закупки, финансы. Требовалось расширить функциональность и улучшить UX.',
+      en: 'BuildIT is a SaaS platform for construction project management. Estimates, tasks, procurement, finances. The task was to expand functionality and improve UX.',
     },
     problem: {
       ru: '(1) Пользователи жаловались на сложность интерфейса, (2) Низкая скорость создания смет, (3) Не хватало прозрачности в задачах и закупках.',
@@ -942,8 +934,8 @@ export const projects: Project[] = [
       ],
     },
     process: {
-      ru: 'Проектировал сложные B2B-интерфейсы: CRM-модули и internal tools для web, iOS и Android. Разрабатывал Information Architecture, User Flows и UX-сценарии для новых модулей платформы. Спроектировал SaaS-модули закупок, задач и обмеров с нуля, упростив внутренние бизнес-процессы пользователей. Работал с data-heavy интерфейсами: таблицы, фильтры, dashboard-сценарии и multi-step workflows. Улучшил NPS продукта с 35 до 62 после редизайна ключевых модулей. Развивал дизайн-систему для web и mobile, ускорив передачу в разработку на 25%.',
-      en: 'Designed complex B2B interfaces: CRM modules and internal tools for web, iOS, and Android. Developed Information Architecture, User Flows, and UX scenarios for new platform modules. Designed SaaS modules for procurement, tasks, and measurements from scratch, simplifying internal business processes. Worked with data-heavy interfaces: tables, filters, dashboard scenarios, and multi-step workflows. Improved product NPS from 35 to 62 after key module redesign. Developed the design system for web and mobile, accelerating handoff to development by 25%.',
+      ru: 'Проектировал сложные B2B-интерфейсы, включая CRM-модули и internal tools для web, iOS и Android. Разрабатывал Information Architecture, User Flows и UX-сценарии для новых модулей платформы. Спроектировал SaaS-модули закупок, задач и обмеров с нуля, упростив внутренние бизнес-процессы пользователей. Работал с data-heavy интерфейсами, включая таблицы, фильтры, dashboard-сценарии и multi-step workflows. Улучшил NPS продукта с 35 до 62 после редизайна ключевых модулей. Развивал дизайн-систему для web и mobile, ускорив передачу в разработку на 25%.',
+      en: 'Designed complex B2B interfaces, including CRM modules and internal tools for web, iOS, and Android. Developed Information Architecture, User Flows, and UX scenarios for new platform modules. Designed SaaS modules for procurement, tasks, and measurements from scratch, simplifying internal business processes. Worked with data-heavy interfaces, including tables, filters, dashboard scenarios, and multi-step workflows. Improved product NPS from 35 to 62 after key module redesign. Developed the design system for web and mobile, accelerating handoff to development by 25%.',
     },
     keyFeatures: {
       ru: ['B2B-интерфейсы (web, iOS, Android)', 'Information Architecture + User Flows', 'Data-heavy интерфейсы', 'Модули закупок, задач, обмеров', 'Единая дизайн-система'],
@@ -990,7 +982,7 @@ export const projects: Project[] = [
           },
           {
             problem: { ru: 'Строительные проекты требуют визуализации параллельных задач', en: 'Construction projects require visualization of parallel tasks' },
-            solution: { ru: 'Канбан-доска со строительными статусами: в работе, на объекте, на проверке, выполнено', en: 'Kanban board with construction statuses: in progress, on site, under review, completed' },
+            solution: { ru: 'Канбан-доска со строительными статусами. В работе, на объекте, на проверке, выполнено', en: 'Kanban board with construction statuses. In progress, on site, under review, completed' },
             why: { ru: 'Канбан отражает физический процесс строительства лучше чем абстрактные статусы', en: 'Kanban reflects the physical construction process better than abstract statuses' },
             result: { ru: 'Прорабы видят статус всех задач на объекте с первого взгляда', en: 'Site managers see the status of all site tasks at a glance' },
           },
@@ -1002,13 +994,13 @@ export const projects: Project[] = [
           },
           {
             problem: { ru: 'Обычные таск-трекеры не знают строительной специфики', en: 'Generic task trackers do not understand construction specifics' },
-            solution: { ru: 'Строительные статусы и метаданные: объект, подрядчик, смета', en: 'Construction statuses and metadata: site, contractor, estimate' },
+            solution: { ru: 'Строительные статусы и метаданные объекта, подрядчика и сметы', en: 'Construction statuses and metadata for site, contractor, estimate' },
             why: { ru: 'Контекст строительного проекта встроен в задачу. Не нужно объяснять коллегам что это значит', en: 'Construction project context is built into the task. No need to explain to colleagues what it means' },
             result: { ru: 'Задачи несут полный строительный контекст без дополнительных полей', en: 'Tasks carry full construction context without additional fields' },
           },
         ],
         beforeAfter: {
-          before: { ru: 'Информация была распределена между несколькими системами: мессенджерами и сторонними таск-трекерами.', en: 'Information was spread across multiple systems: messengers and third-party task trackers.' },
+          before: { ru: 'Информация была распределена между несколькими системами, включая мессенджеры и сторонние таск-трекеры.', en: 'Information was spread across multiple systems, including messengers and third-party task trackers.' },
           after: { ru: 'Появилось единое пространство управления задачами внутри строительной платформы.', en: 'A unified task management space appeared inside the construction platform.' },
         },
         difficulties: {
@@ -1016,8 +1008,8 @@ export const projects: Project[] = [
           en: 'Designing for different user roles (site manager, project manager, director) while developing the design system in parallel.',
         },
         results: {
-          ru: ['Единое пространство управления задачами', '3 представления: список, канбан, календарь', 'Строительные статусы и контекст в каждой задаче'],
-          en: ['Unified task management space', '3 views: list, kanban, calendar', 'Construction statuses and context in every task'],
+          ru: ['Единое пространство управления задачами', '3 представления. Список, канбан, календарь', 'Строительные статусы и контекст в каждой задаче'],
+          en: ['Unified task management space', '3 views. List, kanban, calendar', 'Construction statuses and context in every task'],
         },
         conclusion: {
           ru: 'Строительный таск-трекер - это не просто адаптация Jira. Специфика отрасли требует иных статусов, иных связей и иного контекста. Правильное проектирование под домен важнее универсальности.',
@@ -1044,7 +1036,7 @@ export const projects: Project[] = [
         keyDecisions: [
           {
             problem: { ru: 'Полный редизайн разрушит привычки пользователей и вызовет отторжение', en: 'A full redesign would break user habits and cause rejection' },
-            solution: { ru: 'Эволюционный редизайн: улучшаем существующее вместо полной замены', en: 'Evolutionary redesign: improving existing rather than replacing entirely' },
+            solution: { ru: 'Эволюционный редизайн улучшает существующее вместо полной замены', en: 'Evolutionary redesign improves existing rather than replacing entirely' },
             why: { ru: 'Пользователи приняли изменения легче, когда базовая логика осталась знакомой', en: 'Users accepted changes more easily when the basic logic remained familiar' },
             result: { ru: 'Редизайн прошёл без волны негативной обратной связи', en: 'Redesign passed without a wave of negative feedback' },
           },
@@ -1112,7 +1104,7 @@ export const projects: Project[] = [
         task: { ru: 'Переработать финансовый модуль на основе данных Яндекс.Метрики и обратной связи пользователей.', en: 'Redesign the finance module based on Yandex.Metrica data and user feedback.' },
         solution: { ru: 'Финансовый дэшборд с P&L по объектам, кассовыми разрывами и интеграцией со сметами.', en: 'Financial dashboard with P&L by site, cash gaps, and estimate integration.' },
         results: { ru: ['Финансы связаны со сметами и задачами', 'Видимость кассовых разрывов'], en: ['Finances linked to estimates and tasks', 'Cash gap visibility'] },
-        conclusion: { ru: 'Финансовый модуль стал завершающим звеном в цепочке: обмеры → смета → закупки → финансы. Связанность данных - главная ценность платформы.', en: 'The finance module became the final link in the chain: measurements → estimate → procurement → finances. Data connectivity is the platform\'s main value.' },
+        conclusion: { ru: 'Финансовый модуль стал завершающим звеном цепочки от обмеров через сметы и закупки к финансам. Связанность данных - главная ценность платформы.', en: 'The finance module became the final link in the chain from measurements through estimates and procurement to finances. Data connectivity is the platform\'s main value.' },
         galleryCount: 2,
       },
     ],
@@ -1578,8 +1570,8 @@ export const projects: Project[] = [
       { title: { ru: 'Hero Screen', en: 'Hero Screen' }, image: '/projects/webinar/1.jpg' },
     ],
     conclusion: {
-      ru: 'Супер-минималистичный дизайн может быть максимально эффективным: убрав всё лишнее, оставив только одно действие, удалось создать страницу с высокой конверсией.',
-      en: 'Ultra-minimalist design can be maximally effective: removing everything unnecessary and leaving only one action created a page with high conversion.',
+      ru: 'Супер-минималистичный дизайн может быть максимально эффективным. Убрав всё лишнее, оставив только одно действие, удалось создать страницу с высокой конверсией.',
+      en: 'Ultra-minimalist design can be maximally effective. Removing everything unnecessary and leaving only one action created a page with high conversion.',
     },
   },
       {
@@ -1812,6 +1804,27 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    id: 'nevatrip', logo: 'N', logoColor: '#31b8e8',
+    logoSrc: '/logos/nevatrip-dark.png', logoSrcLight: '/logos/nevatrip-light.png',
+    company: { ru: 'Неватрип', en: 'NevaTrip' }, website: 'nevatrip.ru',
+    location: { ru: 'Санкт-Петербург', en: 'Saint Petersburg' },
+    role: { ru: 'Продуктовый дизайнер', en: 'Product Designer' },
+    period: { ru: 'август 2026 - настоящее время', en: 'Aug 2026 - Present' },
+    kpi: { value: '4', label: { ru: 'UX-итерации', en: 'UX iterations' } },
+    product: { ru: 'B2C e-commerce-платформа для поиска и покупки билетов на водные прогулки и экскурсии. Цели работы заключаются в том, чтобы увеличить конверсию в покупку и снизить нагрузку на контакт-центр.', en: 'B2C e-commerce platform for finding and buying boat tour and excursion tickets. The goals are to increase purchase conversion and reduce contact center workload.' },
+    metrics: [
+      { value: '4', label: { ru: 'последовательные UX-итерации', en: 'sequential UX iterations' } },
+      { value: 'Desktop / Mobile', label: { ru: 'адаптация сценариев', en: 'journey optimization' } },
+      { value: 'A/B', label: { ru: 'стратегия тестирования', en: 'testing strategy' } },
+    ],
+    achievements: {
+      ru: ['UX-аудит детальной страницы тура с особым вниманием к mobile', 'Анализ Яндекс.Метрики, тепловых карт и обращений в контакт-центр; выявление проблем выбора и покупки билетов', 'Формулирование и приоритизация UX-гипотез', '4 последовательные итерации UX-оптимизации desktop и mobile без полного редизайна; улучшение информационной архитектуры и пользовательских сценариев', 'Проектирование подхода к A/B-тестированию и измерениям CR, CTA CTR, Scroll Depth и обращений в контакт-центр'],
+      en: ['UX audit of the tour detail page with a focus on mobile', 'Analysis of Yandex Metrica, heatmaps and contact center requests to identify ticket selection and purchase issues', 'Formulated and prioritized UX hypotheses', '4 sequential UX optimization iterations for desktop and mobile without a full redesign; improved information architecture and user journeys', 'Designed an A/B testing approach and measurement plan for CR, CTA CTR, Scroll Depth and contact center requests'],
+    },
+    products: [{ icon: 'web', iconColor: '#31b8e8', name: 'NevaTrip', desc: { ru: 'Онлайн-бронирование экскурсий и билетов на водные прогулки', en: 'Online booking of excursions and boat tour tickets' } }],
+  },
+
+  {
     id: 'uk-medicina',
     logo: 'МИ',
     logoColor: '#4fa3ff',
@@ -1858,25 +1871,29 @@ export const experiences: Experience[] = [
     website: 'hobbist.com',
     location: { ru: 'Удалённо', en: 'Remote' },
     role: { ru: 'Ведущий продуктовый дизайнер', en: 'Lead Product Designer' },
-    period: { ru: 'сент 2024 - сент 2025 · 1 год', en: 'Sep 2024 - Sep 2025 · 1 yr' },
+    period: { ru: 'сентябрь 2024 - октябрь 2026 · 2 года 2 месяца', en: 'Sep 2024 - Oct 2026 · 2 years 2 months' },
     kpi: { value: '+20%', label: { ru: 'DAU', en: 'DAU' } },
-    product: { ru: 'Dating-приложение TG MiniApps + веб. Руководил командой 2 дизайнеров.', en: 'Dating app TG MiniApps + web. Managed team of 2 designers.' },
+    product: {"ru": "Telegram Mini App и веб-платформа для знакомств и общения по общим интересам. Отвечал за UX/UI, дизайн-систему и ключевые сценарии. Руководил 2 дизайнерами. Спроектировал ИИ-помощника для рекомендаций увлечений на основе библиотеки интересов, улучшения подбора собеседников и перехода от мэтча к общению.", "en": "Telegram Mini App and web platform for dating and conversation through shared interests. Owned UX/UI, the design system and core user journeys. Led 2 designers. Designed an AI assistant for hobby recommendations based on the interests library, better matching and the transition to conversation."},
     metrics: [
-      { value: '50+', label: { ru: 'макетов MVP', en: 'MVP screens' } },
-      { value: '+25%', label: { ru: 'конверсия', en: 'conversion' } },
-      { value: '−40%', label: { ru: 'правок', en: 'edits' } },
+      { value: '50+', label: { ru: 'интерфейсов / состояний', en: 'interfaces / states' } },
+      { value: '+25%', label: { ru: 'прохождение онбординга', en: 'onboarding completion' } },
+      { value: '2', label: { ru: 'дизайнера в команде', en: 'designers led' } },
     ],
     achievements: {
-      ru: [
-        'Компонентный UI Kit. Спринт с 10 до 7 дней',
-        '5 глубинных интервью с пользователями',
-        'Кросс-платформенный опыт MiniApps + веб',
+      "ru": [
+        "Выросло число мэтчей на пользователя",
+        "Увеличилась конверсия из мэтча в начало переписки",
+        "Пользователи стали ежемесячно добавлять больше позиций в библиотеку интересов",
+        "Компонентный UI Kit и 5 глубинных интервью",
+        "Развитие дизайн-системы и проектирование ИИ-помощника"
       ],
-      en: [
-        'Component UI Kit. Sprint from 10 to 7 days',
-        '5 in-depth user interviews',
-        'Cross-platform experience MiniApps + web',
-      ],
+      "en": [
+        "More matches per user",
+        "Higher conversion from a match to starting a conversation",
+        "Users added more items to their interests library each month",
+        "Component UI Kit and 5 in-depth interviews",
+        "Design system development and AI assistant design"
+      ]
     },
     products: [
       { icon: 'telegram', iconColor: '#e879f9', name: 'Hobbist Dating', desc: { ru: 'Telegram MiniApp', en: 'Telegram MiniApp' } },
@@ -1964,8 +1981,8 @@ export const experiences: Experience[] = [
     period: { ru: 'март 2023 - июль 2023 · март 2019 - янв 2021 · 2+ года', en: 'Mar 2023 - Jul 2023 · Mar 2019 - Jan 2021 · 2+ yr' },
     kpi: { value: '6', label: { ru: 'проектов', en: 'projects' } },
     product: {
-      ru: 'Коммерческие и некоммерческие проекты в двух периодах: 2019–2021 и 2023. Сайты, фирменный стиль, UX-исследования, передача в разработку.',
-      en: 'Commercial and non-commercial projects across two periods: 2019–2021 and 2023. Websites, brand identity, UX research, dev handoff.',
+      ru: 'Коммерческие и некоммерческие проекты в периодах 2019 - 2021 и 2023. Сайты, фирменный стиль, UX-исследования, передача в разработку.',
+      en: 'Commercial and non-commercial projects in 2019 - 2021 and 2023. Websites, brand identity, UX research, dev handoff.',
     },
     metrics: [
       { value: '6', label: { ru: 'проектов с нуля', en: 'projects from scratch' } },
@@ -1978,7 +1995,7 @@ export const experiences: Experience[] = [
         'Согласование макетов с заказчиками, итерации',
         'Веб + мобильная версия для архитектурного бюро',
         'Вайрфреймы и фирменный стиль для службы помощи на дорогах',
-        'UX-исследования и прототипирование для IT-стартапов (2019–2021)',
+        'UX-исследования и прототипирование для IT-стартапов (2019 - 2021)',
         'Дизайн мобильных приложений и брендинг для малого бизнеса',
       ],
       en: [
@@ -1986,7 +2003,7 @@ export const experiences: Experience[] = [
         'Mockup approval with clients, iterations',
         'Web + mobile version for architecture studio',
         'Wireframes and brand identity for roadside assistance service',
-        'UX research and prototyping for IT startups (2019–2021)',
+        'UX research and prototyping for IT startups (2019 - 2021)',
         'Mobile app design and branding for small businesses',
       ],
     },

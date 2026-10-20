@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useMemo, useCallback, ReactNode } from 'react';
 import type { Locale } from '@/lib/data';
 
 type Theme = 'dark' | 'light';
@@ -65,8 +65,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('locale', locale);
   }, [locale, mounted]);
 
-  const setLocale = (l: Locale) => setLocaleState(l);
-  const setTheme = (t: Theme) => setThemeState(t);
+  const setLocale = useCallback((l: Locale) => setLocaleState(l), []);
+  const setTheme = useCallback((t: Theme) => setThemeState(t), []);
 
   /**
    * Переключение темы с красивой анимацией:
@@ -75,7 +75,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
    * - используется View Transitions API (Chrome 111+, Edge 111+, Safari 18+)
    * - в неподдерживаемых браузерах просто меняется тема без анимации
    */
-  const toggleTheme = (originX?: number, originY?: number) => {
+  const toggleTheme = useCallback((originX?: number, originY?: number) => {
     const newTheme: Theme = theme === 'dark' ? 'light' : 'dark';
 
     if (!supportsViewTransitions() || typeof window === 'undefined') {
@@ -103,10 +103,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     transition.finished.finally(() => {
       root.removeAttribute('data-theme-anim');
     });
-  };
+  }, [theme]);
 
+  const value = useMemo(() => ({ locale, setLocale, theme, setTheme, toggleTheme }),
+    [locale, setLocale, theme, setTheme, toggleTheme]);
   return (
-    <AppContext.Provider value={{ locale, setLocale, theme, setTheme, toggleTheme }}>
+    <AppContext.Provider value={value}>
       {children}
     </AppContext.Provider>
   );
