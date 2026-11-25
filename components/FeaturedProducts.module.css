@@ -750,3 +750,31 @@
 @media (max-width: 768px) {
   .mobileCaseCard.caseCardSidecar .caseImg { aspect-ratio: 3 / 2; flex: none; min-height: 0; }
 }
+
+/* A continuous specular rim rather than a flat stroke. */
+.caseCard {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid transparent;
+  border-radius: 26px;
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
+.caseCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: var(--glass-rim);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+@supports not (mask-composite: exclude) {
+  .caseCard { border-color:var(--glass-border); }
+}
+@media (max-width:768px) { .caseCard {border-radius:22px;} }

@@ -15,7 +15,7 @@ function CvActions() {
   const t = cvContent[locale];
   return <div className={`${styles.actions} ${styles.screenOnly}`} data-cv-actions>
     <button type="button" className={styles.print} onClick={printCv}>{t.print}</button>
-    <a href="/Sorokin_CV.pdf" download="Sorokin_CV.pdf" className={styles.download}>{locale === 'ru' ? 'Предыдущий PDF' : 'Previous PDF'} <span aria-hidden="true">↓</span></a>
+    <a href="/Sorokin_CV.pdf" download="Sorokin_CV.pdf" className={styles.download}>{t.download} <span aria-hidden="true">↓</span></a>
   </div>;
 }
 
@@ -37,7 +37,7 @@ export default function CvContent() {
           <h1 id="cv-name">{t.name}</h1>
           <p className={styles.role}>{t.role}</p>
           <p className={styles.domains}>{t.domains}</p>
-          <div className={styles.updated}><time dateTime="2026-11-25">{t.updated}</time><span>{locale === 'ru' ? 'Актуальную версию можно сохранить через печать' : 'Print to save the current version as PDF'}</span></div>
+          <div className={styles.updated}><time dateTime="2026-11-25">{t.updated}</time><span>{t.pdf}</span></div>
         </header>
         <div className={styles.columns}>
           <aside className={styles.sidebar} aria-label={t.contact}>
@@ -88,7 +88,10 @@ export default function CvContent() {
             <section className={styles.section} id="cv-skills"><h2>{t.skills}</h2><ul className={styles.skills}>{[...cvSkills, ...cvLeadershipSkills[locale]].map(skill => <li key={skill}>{skill}</li>)}</ul></section>
           </div>
         </div>
-        <div className={`${styles.bottomActions} ${styles.screenOnly}`}><CvActions /></div>
+        <div className={`${styles.bottomActions} ${styles.screenOnly}`}>
+          <Link href="/" prefetch={false} onMouseEnter={() => router.prefetch('/')} onFocus={() => router.prefetch('/')} className={styles.back}>← {t.back}</Link>
+          <CvActions />
+        </div>
       </article>
     </div>
     <div className={styles.screenOnly}><Footer /></div>

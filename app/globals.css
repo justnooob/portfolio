@@ -606,3 +606,20 @@ img {
  --glass-shadow:inset 0 1px 0 #fff,0 8px 24px rgba(25,45,80,.07);
  --glass-shadow-hover:inset 0 1px 0 #fff,0 16px 36px rgba(25,45,80,.13);
 }
+
+/* Liquid-glass inspired optical edge. Theme-specific translucent layers,
+   opposing highlights and inner shading simulate a rounded glass bevel. */
+:root, [data-theme='dark'] {
+  --glass-surface: radial-gradient(ellipse at 4% 0%,rgba(88,151,255,.15),transparent 47%), radial-gradient(ellipse at 100% 100%,rgba(80,155,255,.08),transparent 50%), linear-gradient(155deg,rgba(255,255,255,.12),rgba(255,255,255,.035) 42%,rgba(0,0,0,.16) 70%,rgba(255,255,255,.07)), rgba(18,20,25,.65);
+  --glass-chip: radial-gradient(ellipse at 20% 0%,rgba(132,193,255,.21),transparent 70%),rgba(26,29,37,.42);
+  --glass-rim: linear-gradient(145deg,rgba(255,255,255,.58),rgba(255,255,255,.13) 29%,rgba(255,255,255,.045) 54%,rgba(111,179,255,.17) 80%,rgba(255,255,255,.32));
+  --glass-shadow: inset 0 2px 3px rgba(255,255,255,.16),inset 0 -3px 7px rgba(0,0,0,.32),0 10px 30px rgba(0,0,0,.24);
+  --glass-shadow-hover: inset 0 2px 4px rgba(255,255,255,.23),inset 0 -3px 7px rgba(0,0,0,.30),0 14px 38px rgba(0,0,0,.32);
+}
+[data-theme='light'] {
+  --glass-surface: radial-gradient(ellipse at 4% 0%,rgba(255,255,255,.96),transparent 50%),radial-gradient(ellipse at 95% 100%,rgba(120,180,255,.16),transparent 55%),linear-gradient(155deg,rgba(255,255,255,.68),rgba(238,244,253,.44) 55%,rgba(255,255,255,.68)),rgba(234,240,249,.43);
+  --glass-chip: radial-gradient(ellipse at 20% 0%,rgba(255,255,255,.95),transparent 70%),rgba(224,239,255,.42);
+  --glass-rim: linear-gradient(145deg,#fff,rgba(255,255,255,.88) 24%,rgba(100,137,180,.24) 52%,rgba(255,255,255,.92) 78%,rgba(120,160,210,.32));
+  --glass-shadow: inset 0 2px 4px rgba(255,255,255,.95),inset 0 -3px 7px rgba(112,151,202,.16),0 10px 28px rgba(34,67,115,.10),0 2px 5px rgba(34,67,115,.08);
+  --glass-shadow-hover: inset 0 2px 4px #fff,inset 0 -3px 8px rgba(112,151,202,.20),0 14px 38px rgba(34,67,115,.16);
+}
