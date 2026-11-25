@@ -298,3 +298,39 @@
   .logoImg[data-employer='hobbist'] { height: 24px; }
   .logoImg[data-employer='uk-medicina'] { height: 24px; }
 }
+
+/* Shared liquid-glass treatment, matching the featured case cards. */
+.card {
+  position: relative;
+  isolation: isolate;
+  background: var(--glass-surface);
+  border: 1px solid transparent;
+  border-radius: 26px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: var(--glass-rim);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+@supports not (mask-composite: exclude) {
+  .card { border-color:var(--glass-border); }
+}
+@media(max-width:768px) { .card {border-radius:22px;} }
+
+.card { transition: border-color .25s, box-shadow .25s, transform .25s; }
+.card:hover, .card.open { background:var(--glass-surface); border-color:transparent; box-shadow:var(--glass-shadow-hover); }
+.metrics { background:var(--glass-chip); border:1px solid var(--glass-border); border-radius:14px; box-shadow:inset 0 1px 2px rgba(255,255,255,.12); }
+@supports not (mask-composite: exclude) { .card:hover,.card.open { border-color:var(--glass-border); } }
+@media(prefers-reduced-motion:reduce) { .card { transition:none; } .card:hover { transform:none; } }

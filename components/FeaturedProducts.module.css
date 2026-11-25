@@ -778,3 +778,40 @@
   .caseCard { border-color:var(--glass-border); }
 }
 @media (max-width:768px) { .caseCard {border-radius:22px;} }
+
+/* Shared liquid-glass treatment, matching the featured case cards. */
+.banner {
+  position: relative;
+  isolation: isolate;
+  background: var(--glass-surface);
+  border: 1px solid transparent;
+  border-radius: 26px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
+.banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: var(--glass-rim);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+@supports not (mask-composite: exclude) {
+  .banner { border-color:var(--glass-border); }
+}
+@media(max-width:768px) { .banner {border-radius:22px;} }
+
+.banner { margin:0; transition:box-shadow .25s, transform .25s; }
+.banner:hover { background:var(--glass-surface); box-shadow:var(--glass-shadow-hover); }
+.banner:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.bannerBg { border-radius:inherit; }
+@media(max-width:768px) { .banner { margin:0; } }
+@media(prefers-reduced-motion:reduce) { .banner { transition:none; } }

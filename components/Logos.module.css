@@ -11,3 +11,20 @@
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(max-width:640px){.section{padding:24px 0 30px}.item{width:172px;flex-basis:172px;height:62px;padding:10px 20px}.logo{height:29px}.logo[data-employer='evitar']{height:27px}.track{animation-duration:87s}}
 @media(prefers-reduced-motion:reduce){.track{animation:none;width:100%;transform:none}.viewport{mask-image:none;-webkit-mask-image:none}.group{width:100%;flex-wrap:wrap;justify-content:center}.group[aria-hidden='true']{display:none}.item{flex:0 1 180px}.item[aria-hidden='true']{display:none}}
+
+.logoLink { display:flex; align-items:center; justify-content:center; width:100%; height:100%; min-width:0; color:inherit; text-decoration:none; border-radius:12px; }
+a.logoLink { cursor:pointer; touch-action:manipulation; }
+a.logoLink .logo { transition:opacity .18s ease, transform .18s ease; }
+@media (hover:hover) and (pointer:fine) { a.logoLink:hover .logo { transform:scale(1.04); } }
+a.logoLink:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+/* Mouse and touch keep the continuous loop. When navigating by keyboard,
+   show one stationary, fully visible set so focus cannot travel off-screen. */
+@supports selector(:has(a:focus-visible)) {
+  .viewport:has(.logoLink:focus-visible) { mask-image:none; -webkit-mask-image:none; }
+  .track:has(.logoLink:focus-visible) { animation:none; transform:none; width:100%; }
+  .track:has(.logoLink:focus-visible) .group { min-width:0; width:100%; flex-wrap:wrap; justify-content:center; }
+  .track:has(.logoLink:focus-visible) .group[aria-hidden='true'],
+  .track:has(.logoLink:focus-visible) .item[aria-hidden='true'] { display:none; }
+  .track:has(.logoLink:focus-visible) .item { flex:0 1 180px; }
+}
+@media (prefers-reduced-motion:reduce) { a.logoLink .logo { transition:none; transform:none; } }
