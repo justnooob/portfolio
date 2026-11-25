@@ -75,8 +75,7 @@ export default function Hero() {
       >
         <div className={styles.leftCol}>
           <div className={styles.type}>
-            <Typewriter key={locale} words={t.hero.typewriter} />
-            <span className={styles.cursor} />
+            <span>Senior Product Designer</span>
           </div>
           <div className={styles.btns}>
           <MagneticButton>
@@ -107,7 +106,7 @@ export default function Hero() {
           </MagneticButton>
           </div>
         </div>
-        <p className={styles.desc}>{t.hero.description}</p>
+        <div className={styles.introText}><p className={styles.desc}>{t.hero.description}</p><a href="#projects" className={styles.workLink}>{locale === 'ru' ? 'Смотреть кейсы' : 'Explore case studies'} <span aria-hidden="true">↘</span></a></div>
       </motion.div>
 
       {/* Маленькая подсказка о скролле */}
