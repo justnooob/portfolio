@@ -74,7 +74,7 @@ function CaseCard({
                 />
               )}
               {responsiveImage(thumb) && <source type="image/webp" srcSet={responsiveImage(thumb)}
-                sizes={wide ? '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 900px' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px'} />}
+                sizes={product.slug === 'hobbist' && (wide || sidecar) ? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 1000px' : wide ? '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 900px' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px'} />}
               <img
                 src={thumb}
                 alt={c.name[locale]}
@@ -104,7 +104,7 @@ function CasesGrid({ product }: { product: typeof projects[0] }) {
   const cases = product.cases ?? [];
 
   return (
-    <div className={styles.casesGrid}>
+    <div className={`${styles.casesGrid} ${product.slug === 'hobbist' ? styles.hobbistGrid : ''}`}>
       {cases.map((c, i) => {
         const wide = cases.length === 5 && i === 0;
         const sidecar = cases.length === 5 && i === 1;
