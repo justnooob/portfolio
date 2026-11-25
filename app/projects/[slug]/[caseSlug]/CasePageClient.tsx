@@ -129,7 +129,7 @@ export default function CasePageClient({ productSlug, caseSlug }: Props) {
 
   return (
     <CaseMediaProvider items={media}>
-    <main>
+    <main className={productSlug === 'hobbist' ? cStyles.mobileCase : undefined}>
       <Nav />
 
       {/* HERO */}
@@ -151,7 +151,7 @@ export default function CasePageClient({ productSlug, caseSlug }: Props) {
             <div className={styles.year}>{product.year}</div>
           </div>
           <SplitHeading as="h1" className={styles.title} text={caseStudy.name[locale]} type="lines" delay={0.15} stagger={0.1} />
-          <p className={styles.subtitle}>{product.shortDesc[locale]}</p>
+          <p className={styles.subtitle}>{caseStudy.cardDesc?.[locale] ?? product.shortDesc[locale]}</p>
         </div>
       </div>
 

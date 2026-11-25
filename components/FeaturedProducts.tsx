@@ -23,7 +23,7 @@ function CaseCard({
 }) {
   const { locale, theme } = useApp();
   // GSAP card-reveal (всплытие + clip + parallax картинки) — единый с карточками /projects
-  const { cardRef, imgRef } = useCardReveal<HTMLDivElement, HTMLImageElement>();
+  const { cardRef } = useCardReveal<HTMLDivElement, HTMLImageElement>();
   const desc = c.cardDesc?.[locale] ?? c.context?.[locale] ?? c.problem?.[locale] ?? '';
 
   // Light/dark variants: thumb-dark.jpg / thumb-light.jpg; fallback to hero.jpg
@@ -44,7 +44,7 @@ function CaseCard({
   return (
     <div
       ref={cardRef}
-      className={`${styles.caseCardWrap} ${wide ? styles.caseCardWide : ''} ${sidecar ? styles.caseCardSidecar : ''}`}
+      className={`${styles.caseCardWrap} ${wide ? styles.caseCardWide : ''} ${sidecar ? styles.caseCardSidecar : ''} ${product.slug === 'hobbist' ? styles.mobileCaseCard : ''}`}
     >
       <Link
         href={`/projects/${product.slug}/${c.slug}`}
@@ -76,7 +76,6 @@ function CaseCard({
               {responsiveImage(thumb) && <source type="image/webp" srcSet={responsiveImage(thumb)}
                 sizes={wide ? '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 900px' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px'} />}
               <img
-                ref={imgRef}
                 src={thumb}
                 alt={c.name[locale]}
                 className={styles.caseImgPhoto}
@@ -317,6 +316,11 @@ function ProductBlock({ product }: { product: typeof projects[0] }) {
         <p className={styles.productDesc}>{product.shortDesc[locale]}</p>
       )}
 
+      {product.metrics && product.metrics.length > 0 && (
+        <div className={styles.outcomes} aria-label={locale === 'ru' ? 'Результаты проекта' : 'Project outcomes'}>
+          {product.metrics.slice(0, 4).map((metric, i) => <div className={styles.outcome} key={i}><strong>{metric.value}</strong><span>{metric.label[locale]}</span></div>)}
+        </div>
+      )}
       <div
         ref={contentRef}
         className={`${styles.productContent} ${contentVisible ? styles.productContentVisible : ''}`}

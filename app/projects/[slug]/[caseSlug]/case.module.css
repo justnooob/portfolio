@@ -289,3 +289,11 @@
   }
 
 }
+
+/* Mobile product screenshots: keep the complete device, including its top and bottom. */
+.mobileCase .heroImage{width:100%;margin-left:0;height:clamp(340px,52vw,740px);border-radius:22px}
+.mobileCase .heroImage img,.mobileCase .decisionImage img,.mobileCase .galleryItem img{object-fit:contain;object-position:center}
+.mobileCase .decisionImage{aspect-ratio:3 / 2}
+.mobileCase .gallery{width:100%;margin-left:0;padding:0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.mobileCase .galleryItem{aspect-ratio:3 / 2}
+@media(max-width:768px){.mobileCase .heroImage{height:auto;aspect-ratio:4 / 3}.mobileCase .gallery{grid-template-columns:1fr}.mobileCase .decisionImage{aspect-ratio:4 / 3}.mobileCase .galleryItem{aspect-ratio:4 / 3}}

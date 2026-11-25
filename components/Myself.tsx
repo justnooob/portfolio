@@ -137,7 +137,6 @@ export default function Myself() {
 
 
   const { ref: labelRef, visible: labelVisible } = useReveal<HTMLDivElement>();
-  const { ref: photoRef, visible: photoVisible } = useReveal<HTMLDivElement>();
 
   return (
     <section ref={sectionRef} className={styles.section} data-section="myself" id="myself">
@@ -160,8 +159,7 @@ export default function Myself() {
           </div>
 
           <div
-            ref={photoRef}
-            className={`${styles.photoOuter} reveal-photo-zoom ${photoVisible ? 'visible' : ''}`}
+            className={styles.photoOuter}
           >
             <motion.div className={styles.photoWrap}>
               <picture>

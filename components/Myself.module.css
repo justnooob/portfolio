@@ -222,3 +222,11 @@
 
 .chip { text-decoration: none; cursor: pointer; }
 .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* Preserve the original portrait proportions at every breakpoint. */
+.photoOuter{aspect-ratio:auto;max-width:420px}
+.photoWrap{height:auto;will-change:auto}
+.photoWrap picture{display:block;width:100%}
+.photo{height:auto;width:100%;object-fit:contain;object-position:center;display:block}
+@media(max-width:900px){.photoOuter{aspect-ratio:auto;max-width:420px}}
+@media(max-width:640px){.photoOuter{aspect-ratio:auto;max-width:min(100%,420px)}}
