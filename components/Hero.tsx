@@ -52,7 +52,6 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease, delay: 0.2 }}
         >
-          <span className={styles.dot} />
           {t.hero.badge}
         </motion.div>
 
@@ -106,7 +105,7 @@ export default function Hero() {
           </MagneticButton>
           </div>
         </div>
-        <div className={styles.introText}><p className={styles.desc}>{t.hero.description}</p><a href="#projects" className={styles.workLink}>{locale === 'ru' ? 'Смотреть кейсы' : 'Explore case studies'} <span aria-hidden="true">↘</span></a></div>
+        <p className={styles.desc}>{t.hero.description}</p>
       </motion.div>
 
       {/* Маленькая подсказка о скролле */}

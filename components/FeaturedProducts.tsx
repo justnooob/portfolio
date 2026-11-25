@@ -316,11 +316,6 @@ function ProductBlock({ product }: { product: typeof projects[0] }) {
         <p className={styles.productDesc}>{product.shortDesc[locale]}</p>
       )}
 
-      {product.metrics && product.metrics.length > 0 && (
-        <div className={styles.outcomes} aria-label={locale === 'ru' ? 'Результаты проекта' : 'Project outcomes'}>
-          {product.metrics.slice(0, 4).map((metric, i) => <div className={styles.outcome} key={i}><strong>{metric.value}</strong><span>{metric.label[locale]}</span></div>)}
-        </div>
-      )}
       <div
         ref={contentRef}
         className={`${styles.productContent} ${contentVisible ? styles.productContentVisible : ''}`}

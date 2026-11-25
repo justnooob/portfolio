@@ -27,8 +27,8 @@ jobs:
       - name: Render social preview
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends librsvg2-bin fonts-dejavu-core
-          rsvg-convert public/og-keyvisual.svg -o public/og-keyvisual.png
+          sudo apt-get install -y --no-install-recommends python3-pil
+          /usr/bin/python3 -c "from PIL import Image; im=Image.open('public/og-approved.webp'); assert im.size == (600,315); im.convert('RGB').save('public/og-keyvisual.png', optimize=True)"
 
       - name: Build
         run: npm run build

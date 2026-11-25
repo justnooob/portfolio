@@ -102,8 +102,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og-keyvisual.png',
-        width: 1200,
-        height: 630,
+        width: 600,
+        height: 315,
         alt: 'Максим Сорокин, Product Designer',
       },
     ],
