@@ -209,3 +209,53 @@
     display: none; /* На тач-устройствах тултипы не нужны */
   }
 }
+
+/* Desktop dock: use the same glass rim as the hero status label. Keep
+   original mobile dimensions, controls and navigation behavior. */
+@media(min-width:901px) {
+  .dock, [data-theme='light'] .dock {
+    position:relative;
+    isolation:isolate;
+    border:1px solid transparent;
+    border-radius:26px;
+    background:var(--glass-chip);
+    background-color:color-mix(in srgb,var(--bg) 65%,transparent);
+    backdrop-filter:blur(28px) saturate(175%);
+    -webkit-backdrop-filter:blur(28px) saturate(175%);
+    box-shadow:var(--glass-shadow);
+  }
+  .dock::after {
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    padding:2px;
+    background:var(--glass-rim);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    mask-composite:exclude;
+    pointer-events:none;
+    z-index:2;
+  }
+  .btnActive, .btnActive:hover, [data-theme='light'] .btnActive:hover {
+    background:linear-gradient(145deg,rgba(var(--accent-rgb),.19),rgba(var(--accent-rgb),.07));
+    box-shadow:var(--glass-control-shadow);
+  }
+  .langPill, .themeBtn, [data-theme='light'] .langPill, [data-theme='light'] .themeBtn {
+    position:relative;
+    border:1px solid var(--glass-border);
+    background:var(--glass-chip);
+    box-shadow:var(--glass-control-shadow);
+  }
+  .langPill:hover, .themeBtn:hover {
+    box-shadow:var(--glass-control-hover);
+  }
+  .btn:focus-visible,.langPill:focus-visible,.themeBtn:focus-visible {
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+  @supports not (mask-composite:exclude) {
+    .dock, [data-theme='light'] .dock {border-color:var(--glass-border);}
+  }
+}

@@ -518,3 +518,78 @@
     min-height: 300px;
   }
 }
+.expandBtn {
+  position:relative;
+  isolation:isolate;
+  border:1px solid transparent;
+  border-radius:100px;
+  background:var(--glass-chip);
+  box-shadow:var(--glass-control-shadow);
+  backdrop-filter:blur(22px) saturate(170%);
+  -webkit-backdrop-filter:blur(22px) saturate(170%);
+  transition:box-shadow .25s ease, color .2s ease, transform .25s ease;
+}
+.expandBtn::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  padding:1.5px;
+  border-radius:inherit;
+  background:var(--glass-rim);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+  z-index:2;
+}
+.expandBtn:hover {
+  background:var(--glass-chip);
+  border-color:transparent;
+  box-shadow:var(--glass-control-hover);
+}
+@supports not (mask-composite:exclude) {
+  .expandBtn, .expandBtn:hover {border-color:var(--glass-border);}
+}
+@media(prefers-reduced-motion:reduce) {
+  .expandBtn {transition:none;}
+}
+
+.back, [data-theme='light'] .back {
+  position:relative;
+  isolation:isolate;
+  border:1px solid transparent;
+  border-radius:100px;
+  background:var(--glass-chip);
+  box-shadow:var(--glass-control-shadow);
+  backdrop-filter:blur(22px) saturate(170%);
+  -webkit-backdrop-filter:blur(22px) saturate(170%);
+  transition:box-shadow .25s ease, color .2s ease, transform .25s ease;
+}
+.back::after, [data-theme='light'] .back::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  padding:1.5px;
+  border-radius:inherit;
+  background:var(--glass-rim);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+  z-index:2;
+}
+.back:hover, [data-theme='light'] .back:hover {
+  background:var(--glass-chip);
+  border-color:transparent;
+  box-shadow:var(--glass-control-hover);
+}
+@supports not (mask-composite:exclude) {
+  .back, [data-theme='light'] .back, .back:hover, [data-theme='light'] .back:hover {border-color:var(--glass-border);}
+}
+@media(prefers-reduced-motion:reduce) {
+  .back, [data-theme='light'] .back {transition:none;}
+}
+
+.back:focus-visible,.expandBtn:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}

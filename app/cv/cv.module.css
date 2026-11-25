@@ -81,3 +81,43 @@
 /* Mirror the top CV navigation at the end of the document. */
 .bottomActions { display:flex; align-items:center; justify-content:space-between; gap:20px; }
 @media (max-width:640px) { .bottomActions { align-items:flex-start; flex-direction:column-reverse; gap:18px; } }
+
+.print {
+  position:relative;
+  isolation:isolate;
+  border:1px solid transparent;
+  border-radius:9px;
+  background:var(--glass-chip);
+  box-shadow:var(--glass-control-shadow);
+  backdrop-filter:blur(22px) saturate(170%);
+  -webkit-backdrop-filter:blur(22px) saturate(170%);
+  transition:box-shadow .25s ease, color .2s ease, transform .25s ease;
+}
+.print::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  padding:1.5px;
+  border-radius:inherit;
+  background:var(--glass-rim);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+  z-index:2;
+}
+.print:hover {
+  background:var(--glass-chip);
+  border-color:transparent;
+  box-shadow:var(--glass-control-hover);
+}
+@supports not (mask-composite:exclude) {
+  .print, .print:hover {border-color:var(--glass-border);}
+}
+@media(prefers-reduced-motion:reduce) {
+  .print {transition:none;}
+}
+
+.print:hover {color:var(--text-strong);}
+.print:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}

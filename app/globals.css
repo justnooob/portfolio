@@ -623,3 +623,54 @@ img {
   --glass-shadow: inset 0 2px 4px rgba(255,255,255,.95),inset 0 -3px 7px rgba(112,151,202,.16),0 10px 28px rgba(34,67,115,.10),0 2px 5px rgba(34,67,115,.08);
   --glass-shadow-hover: inset 0 2px 4px #fff,inset 0 -3px 8px rgba(112,151,202,.20),0 14px 38px rgba(34,67,115,.16);
 }
+
+/* Shared optical treatment for secondary controls. Compact shadows keep
+   action hierarchy distinct from large glass cards. */
+:root,[data-theme='dark'] {
+  --glass-control-shadow:inset 0 1px 2px rgba(255,255,255,.19),inset 0 -2px 5px rgba(0,0,0,.24),0 3px 9px rgba(0,0,0,.19);
+  --glass-control-hover:inset 0 1px 3px rgba(255,255,255,.28),inset 0 -2px 5px rgba(0,0,0,.22),0 5px 14px rgba(0,0,0,.28);
+}
+[data-theme='light'] {
+  --glass-control-shadow:inset 0 1px 3px rgba(255,255,255,.95),inset 0 -2px 5px rgba(112,151,202,.14),0 3px 9px rgba(34,67,115,.09);
+  --glass-control-hover:inset 0 1px 3px #fff,inset 0 -2px 5px rgba(112,151,202,.22),0 5px 14px rgba(34,67,115,.14);
+}
+
+.btn-secondary {
+  position:relative;
+  isolation:isolate;
+  border:1px solid transparent;
+  border-radius:100px;
+  background:var(--glass-chip);
+  box-shadow:var(--glass-control-shadow);
+  backdrop-filter:blur(22px) saturate(170%);
+  -webkit-backdrop-filter:blur(22px) saturate(170%);
+  transition:box-shadow .25s ease, color .2s ease, transform .25s ease;
+}
+.btn-secondary::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  padding:1.5px;
+  border-radius:inherit;
+  background:var(--glass-rim);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+  z-index:2;
+}
+.btn-secondary:hover {
+  background:var(--glass-chip);
+  border-color:transparent;
+  box-shadow:var(--glass-control-hover);
+}
+@supports not (mask-composite:exclude) {
+  .btn-secondary, .btn-secondary:hover {border-color:var(--glass-border);}
+}
+@media(prefers-reduced-motion:reduce) {
+  .btn-secondary {transition:none;}
+}
+
+.btn-secondary:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
+.btn-secondary:active {transform:scale(.98);}
