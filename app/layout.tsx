@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://soromax.ru'),
 
   title: {
-    default: 'Максим Сорокин, Product Designer | UX/UI Designer',
+    default: 'Максим Сорокин · Senior Product Designer',
     template: '%s · Максим Сорокин',
   },
 
@@ -97,11 +97,11 @@ export const metadata: Metadata = {
     title: 'Максим Сорокин, Product Designer',
 
     description:
-      'Lead Product Designer. AI SaaS, Telegram Mini Apps, Mobile Apps, Design Systems.',
+      'Senior Product Designer · AI SaaS · B2B & B2C · Design Systems',
 
     images: [
       {
-        url: '/og.png',
+        url: '/og-keyvisual.png',
         width: 1200,
         height: 630,
         alt: 'Максим Сорокин, Product Designer',
@@ -115,9 +115,9 @@ export const metadata: Metadata = {
     title: 'Максим Сорокин, Product Designer',
 
     description:
-      'UX/UI Designer • Product Designer • AI SaaS',
+      'Senior Product Designer · AI SaaS · B2B & B2C',
 
-    images: ['/og.png'],
+    images: ['/og-keyvisual.png'],
   },
 
   verification: {

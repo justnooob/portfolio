@@ -24,6 +24,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Render social preview
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends librsvg2-bin fonts-dejavu-core
+          rsvg-convert public/og-keyvisual.svg -o public/og-keyvisual.png
+
       - name: Build
         run: npm run build
 

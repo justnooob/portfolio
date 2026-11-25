@@ -28,7 +28,7 @@ export function generateMetadata({
       url,
       title: `${c.name.ru} · ${product.name.ru} · Максим Сорокин`,
       description: desc,
-      images: [{ url: '/og.png', width: 1200, height: 630 }],
+      images: [{ url: '/og-keyvisual.png', width: 1200, height: 630 }],
     },
   };
 }
