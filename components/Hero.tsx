@@ -7,11 +7,12 @@ import { useApp } from './AppProvider';
 import { translations } from '@/lib/data';
 import { useGSAP, gsap, prefersReducedMotion } from '@/lib/gsap';
 import SplitHeading from './SplitHeading';
+import Scene3DMount from './Scene3DMount';
 import styles from './Hero.module.css';
 
 /**
  * Большая типографика на всю ширину + 3D-сфера справа (рендерится в Scene3D
- * за main'ом). Magnetic CTA, parallax по тексту от скролла.
+ * внутри hero). Magnetic CTA, parallax по тексту от скролла.
  */
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -45,6 +46,7 @@ export default function Hero() {
 
   return (
     <div className={styles.hero} id="about" data-section="hero" ref={heroRef}>
+      <Scene3DMount />
       <div className={styles.titleBlock} ref={titleBlockRef}>
         <motion.div
           className={styles.badge}

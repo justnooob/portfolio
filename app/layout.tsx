@@ -3,7 +3,6 @@ import Script from 'next/script';
 
 import { AppProvider } from '@/components/AppProvider';
 import CursorMount from '@/components/CursorMount';
-import Scene3DMount from '@/components/Scene3DMount';
 import SmoothScroll from '@/components/SmoothScroll';
 import PageTransition from '@/components/PageTransition';
 import ScrollProgress from '@/components/ScrollProgress';
@@ -145,7 +144,6 @@ export default function RootLayout({
 
         <AppProvider>
           <SmoothScroll />
-          <Scene3DMount />
           <ScrollProgress />
           <CursorMount />
           <PageTransition>

@@ -925,8 +925,10 @@ export default function Scene3D({ dissolved = false, dprLimit = 1.75 }: { dissol
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
-      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseRef.current.y = -((e.clientY / window.innerHeight) * 2 - 1);
+      const rect = sceneRef.current?.getBoundingClientRect();
+      if (!rect || rect.width === 0 || rect.height === 0) return;
+      mouseRef.current.x = Math.max(-1, Math.min(1, ((e.clientX - rect.left) / rect.width) * 2 - 1));
+      mouseRef.current.y = Math.max(-1, Math.min(1, -(((e.clientY - rect.top) / rect.height) * 2 - 1)));
     };
     window.addEventListener('mousemove', onMove, { passive: true });
     return () => window.removeEventListener('mousemove', onMove);
@@ -943,60 +945,9 @@ export default function Scene3D({ dissolved = false, dprLimit = 1.75 }: { dissol
     return () => obs.disconnect();
   }, []);
 
-  useEffect(() => {
-    let frame = 0;
-    const updateSections = () => {
-      frame = 0;
-      const nodes = Array.from(document.querySelectorAll<HTMLElement>('[data-section]'));
-      if (nodes.length === 0) return;
-
-      const items = nodes.map((el) => ({
-        name: (el.dataset.section || 'hero') as SectionName,
-        rect: el.getBoundingClientRect(),
-      }));
-
-      const vc = window.innerHeight * 0.5;
-      let activeI = 0, bestDist = Infinity;
-      for (let i = 0; i < items.length; i++) {
-        const r = items[i].rect;
-        const dist = Math.abs(r.top + r.height / 2 - vc);
-        if (dist < bestDist) { bestDist = dist; activeI = i; }
-      }
-
-      const cur = items[activeI];
-      const curCenter = cur.rect.top + cur.rect.height / 2;
-      let frac = 0, nbrI = activeI;
-
-      if (curCenter < vc && activeI + 1 < items.length) {
-        nbrI = activeI + 1;
-        const nb = items[nbrI];
-        const span = (nb.rect.top + nb.rect.height / 2) - curCenter || 1;
-        frac = (vc - curCenter) / span;
-      } else if (curCenter > vc && activeI - 1 >= 0) {
-        nbrI = activeI - 1;
-        const nb = items[nbrI];
-        const span = curCenter - (nb.rect.top + nb.rect.height / 2) || 1;
-        frac = -(curCenter - vc) / span;
-      }
-      frac = Math.max(-0.999, Math.min(0.999, frac));
-
-      const curPreset = SECTION_INDEX[cur.name] ?? 0;
-      const nbrPreset = SECTION_INDEX[items[nbrI].name] ?? curPreset;
-      sectionFloatRef.current = curPreset + (nbrPreset - curPreset) * Math.abs(frac);
-    };
-
-    const onScroll = () => { if (!frame) frame = requestAnimationFrame(updateSections); };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    onScroll();
-    const t = setTimeout(onScroll, 200);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      clearTimeout(t);
-      cancelAnimationFrame(frame);
-    };
-  }, [dissolved]);
+  // The sphere belongs to the hero only. Keep the hero preset fixed;
+  // its shader deformation, rotation and pointer response continue as before.
+  // SceneRenderer already pauses when its container leaves the viewport.
 
   return (
     <div ref={sceneRef} className={styles.scene} aria-hidden="true">
@@ -1033,7 +984,7 @@ export default function Scene3D({ dissolved = false, dprLimit = 1.75 }: { dissol
           spherePosRef={spherePosRef}
         />
         <SceneRenderer active={active} readyRef={readyRef} rootRef={sceneRef} />
-        <SceneBlurController sectionFloatRef={sectionFloatRef} stageRef={stageRef} dissolveRef={dissolveRef} />
+        
       </Canvas>
     </div>
   );

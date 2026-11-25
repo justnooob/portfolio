@@ -2,12 +2,10 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 
 const Scene3D = dynamic(() => import('./Scene3D'), { ssr: false });
 
 export default function Scene3DMount() {
-  const pathname = usePathname();
   const [mobile, setMobile] = useState(false);
   const [visibleOnce, setVisibleOnce] = useState(false);
   const [motionAllowed, setMotionAllowed] = useState(false);
@@ -23,7 +21,6 @@ export default function Scene3DMount() {
     update(); media.addEventListener('change', update);
     return () => { media.removeEventListener('change', update); viewport.removeEventListener('change', onResize); document.removeEventListener('visibilitychange', onVisibility); };
   }, []);
-  if (!motionAllowed || !visibleOnce || pathname === '/cv' || pathname === '/cv/') return null;
-  const dissolved = pathname.startsWith('/projects/');
-  return <Scene3D dissolved={dissolved} dprLimit={mobile ? 1.5 : 1.75} />;
+  if (!motionAllowed || !visibleOnce) return null;
+  return <Scene3D dprLimit={mobile ? 1.5 : 1.75} />;
 }

@@ -2,231 +2,118 @@
   position: relative;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  padding: 140px 32px 160px;
+  padding: 120px 32px 140px;
   overflow: hidden;
 }
-
-.inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  position: relative;
-}
-
-.label {
-  font-size: 11px;
-  color: var(--text-faint);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-}
-
+.inner { max-width:var(--max-width); margin:0 auto; position:relative; }
 .grid {
-  display: grid;
-  grid-template-columns: 2.2fr 1fr;
-  gap: 80px;
-  align-items: center;
+  display:grid;
+  grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);
+  gap:clamp(40px,6vw,88px);
+  align-items:center;
 }
-
-/* Левая колонка: лейбл «я» + текстовые строки. Центрируется вертикально
-   относительно фото справа через align-items: center на родительском grid. */
-.leftCol {
-  display: flex;
-  flex-direction: column;
-}
-
-.text {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* Каждая строка-ряд — общий типографический размер. */
+.leftCol { display:flex; flex-direction:column; min-width:0; }
+.text { display:flex; flex-direction:column; gap:18px; }
 .lineRow {
-  font-size: clamp(21px, 2.5vw, 38px);
-  font-weight: 500;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  color: var(--text-strong);
-  font-family: var(--font-sans);
+  font-size:clamp(21px,2.5vw,38px);
+  font-weight:500;
+  line-height:1.3;
+  letter-spacing:-.02em;
+  color:var(--text-strong);
+  font-family:var(--font-sans);
 }
-
-/* ─────────── Заливаемый текст ─────────── */
-.fillText {
-  display: block;
-}
-/* Слово — единый блок (буквы не разрываются), переносы строк — по пробелам. */
-.word {
-  display: inline-block;
-  white-space: nowrap;
-}
-.letter {
-  /* цвет задаётся inline через framer-motion */
-  will-change: color;
-}
-
-/* ─────────── «метрики» + sparkline вверх ─────────── */
-.metricWordWrap {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4em;
-  white-space: nowrap;
-}
-.spark {
-  display: inline-block;
-  width: clamp(64px, 8vw, 108px);
-  aspect-ratio: 3 / 1;
-  align-self: center;
-  transform: translateY(-0.12em);
-}
-.sparkSvg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.sparkDot {
-  filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.75));
-}
-
-/* ─────────── Стрелка «исследования → релиза» (растёт из нуля) ─────────── */
+.accent { color:var(--accent); }
 .arrow {
-  display: inline-flex;
-  align-items: center;
-  overflow: hidden;
-  vertical-align: middle;
-  width: 0;
+  display:inline-flex;
+  width:clamp(46px,5.2vw,76px);
+  margin-inline:.2em;
+  vertical-align:middle;
+  color:var(--accent);
 }
-.arrowSvg {
-  display: block;
-  flex: none;
-  overflow: visible;
-}
-
-/* ─────────── Стек — ровные чипы ─────────── */
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
+.arrowSvg { display:block; width:100%; height:auto; }
+.chips { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
 .chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 38px;
-  padding: 0 16px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  background: var(--bg-elev);
-  white-space: nowrap;
-  will-change: transform, opacity;
-  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  display:inline-flex; align-items:center; gap:7px;
+  height:38px; padding:0 16px;
+  font-size:15px; font-weight:600; letter-spacing:-.01em; line-height:1;
+  border:1px solid var(--border); border-radius:100px;
+  background:var(--bg-elev); color:var(--text-strong);
+  white-space:nowrap; text-decoration:none; cursor:pointer;
+  transition:border-color .2s,background .2s,transform .2s;
 }
-.chip:hover {
-  border-color: var(--border-hover);
-  background: var(--bg-elev-2);
-  transform: translateY(-2px);
-}
-.chipIconWrap {
-  display: inline-flex;
-  flex: none;
-}
-.chipIcon {
-  width: 17px;
-  height: 17px;
-  flex: none;
-  color: inherit;
-}
+.chip:hover { border-color:var(--border-hover); background:var(--bg-elev-2); transform:translateY(-2px); }
+.chip:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
+.chipIconWrap { display:inline-flex; flex:none; color:var(--accent); }
+.chipIcon { width:17px; height:17px; flex:none; color:inherit; }
 
-/* Внешний обёртка — для reveal-анимации (clip-path).
-   Размер совпадает с фото, чтобы clip-path кропал именно фото, а не пустое пространство.
-   Внутренний photoWrap делает свою parallax-анимацию через framer-motion. */
+/* Editorial portrait with a slim glass frame and a restrained blue halo. */
 .photoOuter {
-  width: 100%;
-  max-width: 380px;
-  margin-left: auto;
-  aspect-ratio: 4 / 5;
-  border-radius: 24px;
+  position:relative;
+  isolation:isolate;
+  width:100%;
+  max-width:460px;
+  margin-left:auto;
+  border-radius:30px;
+  padding:8px;
+  background:var(--glass-surface);
+  border:1px solid var(--glass-border);
+  box-shadow:var(--glass-shadow);
 }
-
+.photoOuter::before {
+  content:'';
+  position:absolute;
+  inset:-40px;
+  z-index:-1;
+  border-radius:inherit;
+  background:radial-gradient(ellipse at 80% 36%,rgba(var(--accent-rgb),.15),transparent 68%);
+  pointer-events:none;
+}
+.photoOuter::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  padding:2px;
+  background:var(--glass-rim);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+}
 .photoWrap {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 24px;
-  overflow: hidden;
-  background: var(--bg-elev);
-  will-change: transform;
+  position:relative;
+  width:100%;
+  aspect-ratio:4 / 5;
+  border-radius:22px;
+  overflow:hidden;
+  background:var(--bg-elev);
 }
-
+.photoWrap picture { position:absolute; inset:0; display:block; }
 .photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  position:absolute;
+  top:0; right:0;
+  width:125%; max-width:none; height:125%;
+  object-fit:cover;
+  object-position:center 10%;
+  display:block;
 }
-
-@media (max-width: 900px) {
-  .section {
-    padding: 90px 20px 110px;
-  }
-  .label {
-    margin-bottom: 14px;
-  }
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-  .photoOuter {
-    max-width: 360px;
-    margin: 0 auto;
-    aspect-ratio: 1 / 1;
-  }
-  /* На мобилке кропаем низ фото, а не равномерно сверху и снизу */
-  .photo {
-    object-position: center top;
-  }
-  .text {
-    gap: 20px;
-  }
-  .lineRow {
-    font-size: clamp(23px, 6.5vw, 33px);
-  }
+@media(max-width:900px) {
+  .section { padding:90px 20px 100px; }
+  .grid { grid-template-columns:1fr; gap:36px; }
+  .photoOuter { max-width:440px; margin:0 auto; }
+  .text { gap:20px; }
+  .lineRow { font-size:clamp(23px,6.5vw,33px); }
 }
-
-@media (max-width: 640px) {
-  .section {
-    padding: 70px 16px 80px;
-  }
-  .lineRow {
-    font-size: clamp(19px, 5.4vw, 24px);
-  }
-  .chip {
-    height: 34px;
-    padding: 0 13px;
-    font-size: 13.5px;
-  }
-  .chipIcon {
-    width: 15px;
-    height: 15px;
-  }
-  .photoOuter {
-    max-width: 100%;
-    aspect-ratio: 4 / 3;
-  }
+@media(max-width:640px) {
+  .section { padding:70px 16px 80px; }
+  .lineRow { font-size:clamp(19px,5.4vw,24px); }
+  .chip { height:34px; padding:0 13px; font-size:13.5px; }
+  .chipIcon { width:15px; height:15px; }
+  .photoOuter { max-width:min(100%,400px); padding:6px; border-radius:25px; }
+  .photoWrap { border-radius:18px; }
 }
-
-.chip { text-decoration: none; cursor: pointer; }
-.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-
-/* Preserve the original portrait proportions at every breakpoint. */
-.photoOuter{aspect-ratio:auto;max-width:420px}
-.photoWrap{height:auto;will-change:auto}
-.photoWrap picture{display:block;width:100%}
-.photo{height:auto;width:100%;object-fit:contain;object-position:center;display:block}
-@media(max-width:900px){.photoOuter{aspect-ratio:auto;max-width:420px}}
-@media(max-width:640px){.photoOuter{aspect-ratio:auto;max-width:min(100%,420px)}}
+@media(prefers-reduced-motion:reduce) {
+  .chip { transition:none; }
+  .chip:hover { transform:none; }
+}
