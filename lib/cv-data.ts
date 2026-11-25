@@ -19,7 +19,7 @@ export const cvContent = {
     "location": "Санкт-Петербург, м. Фрунзенская",
     "emailNote": "Предпочитаемый способ связи",
     "about": "Обо мне",
-    "summary": "Senior Product Designer с опытом Lead и Product Manager. Создаю и развиваю B2B, B2C и AI SaaS-продукты, проектирую сложные интерфейсы и дизайн-системы. Самостоятельно веду задачи от исследования до релиза и оценки результата. Руководил двумя дизайнерами, занимался наймом и координировал команду из 6+ разработчиков. Технический бэкграунд — ИТМО.",
+    "summary": "Senior Product Designer с опытом Lead и Product Manager. Создаю и развиваю B2B, B2C и AI SaaS-продукты, проектирую сложные интерфейсы и дизайн-системы. Самостоятельно веду задачи от исследования до релиза и оценки результата. Руководил двумя дизайнерами, занимался наймом и координировал команду из 6+ разработчиков. Получил техническое образование в ИТМО.",
     "conditions": "Условия работы",
     "preferences": [
       "Полная занятость",
@@ -31,7 +31,7 @@ export const cvContent = {
     "personal": "Родился 16 марта 2000",
     "experience": "Опыт работы",
     "total": "7 лет 9 месяцев по резюме",
-    "overlap": "После релиза MVP Hobbist — частичная занятость; OKK.PRO — полная; NevaTrip — проектная.",
+    "overlap": "После релиза MVP Hobbist перешёл на частичную занятость. В OKK.PRO работал полный день. С NevaTrip сотрудничаю на проектной основе.",
     "education": "Образование",
     "courses": "Курсы и практика",
     "skills": "Навыки",
@@ -56,7 +56,7 @@ export const cvContent = {
     "location": "Saint Petersburg, Frunzenskaya",
     "emailNote": "Preferred contact method",
     "about": "Profile",
-    "summary": "Senior Product Designer with Lead and Product Manager experience. I build and develop B2B, B2C and AI SaaS products, complex interfaces and design systems. I own work from research to release and measurement. I managed two designers, recruited designers and coordinated 6+ developers. Technical background: ITMO.",
+    "summary": "Senior Product Designer with Lead and Product Manager experience. I build and develop B2B, B2C and AI SaaS products, complex interfaces and design systems. I own work from research to release and measurement. I managed two designers, recruited designers and coordinated 6+ developers. I have a technical educational background from ITMO.",
     "conditions": "Work preferences",
     "preferences": [
       "Full-time employment",
@@ -88,8 +88,8 @@ export const cvJobs: CvJob[] = [
     "id": "nevatrip",
     "sourceId": "nevatrip",
     "summary": {
-      "ru": "Проектная работа над UX страницы тура B2C e-commerce-платформы: повышение конверсии в покупку и снижение нагрузки на контакт-центр — цели, а не подтверждённые результаты.",
-      "en": "Project-based UX work on a B2C e-commerce tour page: improving purchase conversion and reducing contact center workload are objectives, not measured outcomes."
+      "ru": "Проектная работа над UX страницы тура B2C e-commerce-платформы. Цели проекта заключаются в повышении конверсии в покупку и снижении нагрузки на контакт-центр. Результаты ещё не подтверждены.",
+      "en": "Project-based UX work on a B2C e-commerce tour page. The goals are to improve purchase conversion and reduce contact center workload. Results have not yet been confirmed."
     },
     "bullets": {
       "ru": [
@@ -110,15 +110,15 @@ export const cvJobs: CvJob[] = [
     "id": "hobbist",
     "sourceId": "hobbist",
     "summary": {
-      "ru": "Возглавлял продуктовый дизайн Hobbist с момента разработки MVP. Проектировал библиотеку интересов, мэтчинг, онбординг, чаты и профиль для Telegram Mini App и Web. Руководил двумя дизайнерами (графическим и UX/UI), подбирал UX/UI-дизайнера, оценивал тестовые и проводил собеседования. После релиза MVP перешёл на частичную занятость: делегирование, приёмка макетов и согласование с разработкой. Спроектировал ИИ-ассистента для рекомендаций интересов и подбора собеседников.",
+      "ru": "Возглавлял продуктовый дизайн Hobbist с момента разработки MVP. Проектировал библиотеку интересов, мэтчинг, онбординг, чаты и профиль для Telegram Mini App и Web. Руководил двумя дизайнерами (графическим и UX/UI), подбирал UX/UI-дизайнера, оценивал тестовые и проводил собеседования. После релиза MVP перешёл на частичную занятость. Сосредоточился на делегировании задач, приёмке макетов и согласовании решений с разработкой. Спроектировал ИИ-ассистента для рекомендаций интересов и подбора собеседников.",
       "en": "Led product design at Hobbist from MVP development. Designed the interests library, matching, onboarding, chats and profiles for Telegram Mini App and web. Managed two designers (graphic and UX/UI), recruited the UX/UI designer, reviewed assignments and interviewed candidates. After MVP release, moved to part-time work focused on delegation, design acceptance and engineering alignment. Designed an AI assistant for interest recommendations and matching."
     },
     "bullets": {
       "ru": [
-        "Увеличил долю ежедневно активных пользователей с 32% до 52% за 2 месяца; конверсию прохождения онбординга — с 58% до 83%.",
+        "Увеличил долю ежедневно активных пользователей с 32% до 52% за 2 месяца. Повысил конверсию прохождения онбординга с 58% до 83%.",
         "Повысил конверсию из мэтча в переписку с 23% до 38%, сократив количество действий до начала диалога.",
         "Увеличил среднее количество интересов, добавляемых одним пользователем в месяц, с 19 до 26 благодаря ИИ-рекомендациям и оптимизации библиотеки.",
-        "Спроектировал более 50 интерфейсов и состояний: онбординг, библиотека, мэтчинг, чаты и профиль; разработал логику и интерфейсы ИИ-ассистента.",
+        "Спроектировал более 50 интерфейсов и состояний. Работал над онбордингом, библиотекой, мэтчингом, чатами и профилем. Разработал логику и интерфейсы ИИ-ассистента.",
         "Развивал дизайн-систему для Mini App и Web, унифицировал компоненты, состояния и паттерны.",
         "Руководил двумя дизайнерами; нанимал UX/UI-дизайнера, оценивал тестовые задания и проводил собеседования.",
         "После релиза MVP перешёл на частичную занятость, сохранив распределение задач, дизайн-ревью, приёмку макетов и согласование с разработкой."
@@ -138,15 +138,15 @@ export const cvJobs: CvJob[] = [
     "id": "uk-medicina",
     "sourceId": "uk-medicina",
     "summary": {
-      "ru": "Спроектировал AI SaaS с нуля для сети МИА.РФ: рабочие пространства врачей и кураторов, консультации, голосовые тренажёры, отчёты для главврачей, РОПов и руководителей. Совмещал дизайн с функциями Product Manager: общался с заказчиком, анализировал конкурентов, формировал roadmap, планировал спринты и координировал 6+ разработчиков.",
-      "en": "Designed an AI SaaS product from scratch for the MIA.RF clinic network: workspaces for doctors and curators, consultations, voice training, reporting for chief physicians, sales leads and executives. Combined design and Product Manager responsibilities: client communication, competitor analysis, roadmap, sprint planning and coordination of 6+ developers."
+      "ru": "Спроектировал AI SaaS с нуля для сети МИА.РФ. Создал рабочие пространства врачей и кураторов, интерфейсы консультаций, голосовые тренажёры и отчёты для главврачей, РОПов и руководителей. Совмещал дизайн с функциями Product Manager. Общался с заказчиком, анализировал конкурентов, формировал roadmap, планировал спринты и координировал 6+ разработчиков.",
+      "en": "Designed an AI SaaS product from scratch for the MIA.RF clinic network. Built workspaces for doctors and curators, consultation interfaces, voice training and reporting for chief physicians, sales leads and executives. Combined design and Product Manager responsibilities. Communicated with the client, analyzed competitors, built the roadmap, planned sprints and coordinated 6+ developers."
     },
     "bullets": {
       "ru": [
         "Повысил удержание с 37% до 52% за 2 месяца по результатам проверки гипотез и оптимизации сценариев.",
         "Снизил долю UI-несоответствий после релизов с 82% до 22% с помощью Design QA и дизайн-ревью.",
         "Создал дизайн-систему и библиотеку компонентов для 6+ разработчиков, сократив срок выпуска новой функциональности на 2 недели.",
-        "Спроектировал веб-продукт с нуля и адаптировал интерфейсы для iOS и Android: кабинеты, консультации, обучение, аналитика и отчётность.",
+        "Спроектировал веб-продукт с нуля и адаптировал интерфейсы для iOS и Android. В продукте объединил кабинеты, консультации, обучение, аналитику и отчётность.",
         "Провёл 8 A/B-тестов и юзабилити-тестирования; работал с активацией и продуктовой аналитикой.",
         "Как Product Manager общался с заказчиком, анализировал конкурентов, составлял roadmap и участвовал в приоритизации.",
         "Планировал спринты, готовил тикеты и контролировал выполнение задач команды из 6+ разработчиков.",
@@ -157,7 +157,7 @@ export const cvJobs: CvJob[] = [
         "Raised retention from 37% to 52% in two months following hypothesis validation and journey optimization.",
         "Reduced the post-release UI discrepancy rate from 82% to 22% through design QA and reviews.",
         "Built a design system and component library for 6+ developers, shortening new feature delivery by two weeks.",
-        "Designed the web product from scratch and adapted interfaces for iOS and Android: workspaces, consultations, training, analytics and reporting.",
+        "Designed the web product from scratch and adapted interfaces for iOS and Android. The product brings together workspaces, consultations, training, analytics and reporting.",
         "Conducted eight A/B tests and usability testing; worked with activation and product analytics.",
         "As Product Manager, communicated with the client, analyzed competitors, built a roadmap and contributed to prioritization.",
         "Planned sprints, prepared tickets and tracked delivery across 6+ developers.",

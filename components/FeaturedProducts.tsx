@@ -367,7 +367,7 @@ export default function FeaturedProducts({ hideBanner }: { hideBanner?: boolean 
                 {locale === 'ru' ? 'Все кейсы' : 'All Cases'}
               </span>
               <span className={styles.bannerSub}>
-                {locale === 'ru' ? 'SaaS, Mobile, Web - полный архив работ' : 'SaaS, Mobile, Web - full work archive'}
+                {locale === 'ru' ? 'Полный архив работ в SaaS, Mobile и Web' : 'Full archive of SaaS, mobile and web projects'}
               </span>
             </div>
             <span className={styles.bannerBtn}>
