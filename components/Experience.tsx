@@ -141,6 +141,7 @@ function ExperienceCard({
 }
 
 function KpiCount({ value, trigger }: { value: string; trigger: boolean }) {
-  const display = useCounter(value, 1300, trigger);
-  return <>{display}</>;
+  const staticValue = value.includes('→') || value.includes(' ');
+  const display = useCounter(value, 1300, trigger && !staticValue);
+  return <>{staticValue ? value : display}</>;
 }

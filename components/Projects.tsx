@@ -19,7 +19,7 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
   const { locale, theme } = useApp();
   const t = translations[locale];
   // ref на обёртку — она получает GSAP card-reveal (всплытие + clip + parallax картинки)
-  const { cardRef, imgRef } = useCardReveal<HTMLDivElement, HTMLImageElement>();
+  const { cardRef } = useCardReveal<HTMLDivElement, HTMLImageElement>();
   // 3D-tilt при hover
   const tilt = useTilt<HTMLDivElement>(3.5);
 
@@ -36,7 +36,6 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
       return (
         <div className={styles.preview} style={{ background: project.color }}>
           <img
-            ref={imgRef}
             src={cover}
             alt={project.name[locale]}
             className={styles.coverImg}

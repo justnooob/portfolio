@@ -13,7 +13,7 @@ export const structuredData = {
       url: 'https://soromax.ru',
       image: { '@id': 'https://soromax.ru/#image' },
 
-      jobTitle: 'Lead Product Designer',
+      jobTitle: 'Senior Product Designer',
       description:
         'Продуктовый и UX/UI-дизайнер из Санкт-Петербурга с опытом более 7 лет. Проектирует AI SaaS-продукты, Telegram Mini Apps, B2B-платформы, дизайн-системы и мобильные приложения. Автор блога о продуктовом дизайне и влиянии ИИ на профессию дизайнера. Разработал сайт-портфолио soromax.ru в сотрудничестве с ИИ-инструментами (Claude, Claude Design).',
 

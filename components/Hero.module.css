@@ -45,19 +45,6 @@
   margin-right: auto;
 }
 
-.dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
-  animation: pulse 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 12px var(--accent); transform: scale(1); }
-  50% { box-shadow: 0 0 24px var(--accent); transform: scale(1.2); }
-}
 
 /* === ОГРОМНЫЙ ЗАГОЛОВОК === */
 .title {
@@ -240,4 +227,17 @@
   .scrollHint {
     bottom: 140px;
   }
+}
+
+/* Compact translucent city label in both themes. */
+.badge {
+  gap: 0;
+  padding: 8px 18px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--glass-chip);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
 }

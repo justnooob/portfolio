@@ -52,7 +52,6 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease, delay: 0.2 }}
         >
-          <span className={styles.dot} />
           {t.hero.badge}
         </motion.div>
 
@@ -75,8 +74,7 @@ export default function Hero() {
       >
         <div className={styles.leftCol}>
           <div className={styles.type}>
-            <Typewriter key={locale} words={t.hero.typewriter} />
-            <span className={styles.cursor} />
+            <span>Senior Product Designer</span>
           </div>
           <div className={styles.btns}>
           <MagneticButton>

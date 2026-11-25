@@ -23,7 +23,7 @@ function CaseCard({
 }) {
   const { locale, theme } = useApp();
   // GSAP card-reveal (всплытие + clip + parallax картинки) — единый с карточками /projects
-  const { cardRef, imgRef } = useCardReveal<HTMLDivElement, HTMLImageElement>();
+  const { cardRef } = useCardReveal<HTMLDivElement, HTMLImageElement>();
   const desc = c.cardDesc?.[locale] ?? c.context?.[locale] ?? c.problem?.[locale] ?? '';
 
   // Light/dark variants: thumb-dark.jpg / thumb-light.jpg; fallback to hero.jpg
@@ -44,7 +44,7 @@ function CaseCard({
   return (
     <div
       ref={cardRef}
-      className={`${styles.caseCardWrap} ${wide ? styles.caseCardWide : ''} ${sidecar ? styles.caseCardSidecar : ''}`}
+      className={`${styles.caseCardWrap} ${wide ? styles.caseCardWide : ''} ${sidecar ? styles.caseCardSidecar : ''} ${product.slug === 'hobbist' ? styles.mobileCaseCard : ''}`}
     >
       <Link
         href={`/projects/${product.slug}/${c.slug}`}
@@ -76,7 +76,6 @@ function CaseCard({
               {responsiveImage(thumb) && <source type="image/webp" srcSet={responsiveImage(thumb)}
                 sizes={wide ? '(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 900px' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px'} />}
               <img
-                ref={imgRef}
                 src={thumb}
                 alt={c.name[locale]}
                 className={styles.caseImgPhoto}
@@ -363,7 +362,7 @@ export default function FeaturedProducts({ hideBanner }: { hideBanner?: boolean 
                 {locale === 'ru' ? 'Все кейсы' : 'All Cases'}
               </span>
               <span className={styles.bannerSub}>
-                {locale === 'ru' ? 'SaaS, Mobile, Web - полный архив работ' : 'SaaS, Mobile, Web - full work archive'}
+                {locale === 'ru' ? 'Полный архив работ в SaaS, Mobile и Web' : 'Full archive of SaaS, mobile and web projects'}
               </span>
             </div>
             <span className={styles.bannerBtn}>

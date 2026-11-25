@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: 'Работы. Кейсы UX/UI и продуктового дизайна · Максим Сорокин',
     description:
       'Кейсы по AI SaaS, B2B-продукты, мобильные приложения, сайты и Telegram Mini Apps.',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Максим Сорокин, UX/UI Product Designer' }],
+    images: [{ url: '/og-keyvisual.png', width: 600, height: 315, alt: 'Максим Сорокин, UX/UI Product Designer' }],
   },
 };
 

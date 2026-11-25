@@ -72,8 +72,8 @@ export default function ProjectsIndexPage() {
           />
           <p className={styles.sub}>
             {locale === 'ru'
-              ? 'Подборка кейсов по AI SaaS, B2B-продукты, мобильные приложения, сайты и Telegram MiniApps.'
-              : 'A curated set of cases covering AI SaaS, B2B products, mobile apps, websites and Telegram MiniApps.'}
+              ? 'Избранные продуктовые кейсы: AI SaaS, сложные B2B-интерфейсы, мобильные продукты и Telegram Mini Apps.'
+              : 'Selected product case studies: AI SaaS, complex B2B interfaces, mobile products and Telegram Mini Apps.'}
           </p>
         </motion.div>
       </section>
