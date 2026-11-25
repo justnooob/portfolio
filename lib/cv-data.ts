@@ -12,7 +12,7 @@ export const cvContent = {
     "role": "Senior Product Designer",
     "domains": "B2B · B2C · SaaS · AI · E-commerce",
     "updated": "Обновлено 25 ноября 2026",
-    "download": "Скачать резюме",
+    "download": "Скачать PDF",
     "pdf": "PDF на русском",
     "print": "Распечатать",
     "contact": "Контакты",
@@ -49,7 +49,7 @@ export const cvContent = {
     "role": "Senior Product Designer",
     "domains": "B2B · B2C · SaaS · AI · E-commerce",
     "updated": "Updated November 25, 2026",
-    "download": "Download CV",
+    "download": "Download PDF",
     "pdf": "PDF in Russian",
     "print": "Print",
     "contact": "Contact",
@@ -206,13 +206,13 @@ export const cvJobs: CvJob[] = [
     "bullets": {
       "ru": [
         "Спроектировал 8 мобильных продуктов с нуля с суммарным количеством установок более 200 000.",
-        "Внедрил motion design и микровзаимодействия; после изменений удержание выросло с 16% до 34%.",
+        "Внедрил motion design, микроанимации и обновил UI. После изменений удержание выросло с 16% до 34%.",
         "Сократил сроки подготовки макетов с 5 до 3 рабочих дней (−40%), оптимизируя проектирование и взаимодействие с разработкой.",
         "Работал с продуктовыми метриками, интерактивными прототипами, компонентными библиотеками Figma и Design QA."
       ],
       "en": [
         "Designed eight mobile products from scratch with over 200,000 installs combined.",
-        "Introduced motion design and microinteractions; retention rose from 16% to 34% following the changes.",
+        "Introduced motion design and microinteractions and updated the UI. Retention rose from 16% to 34% following the changes.",
         "Reduced design preparation from five to three working days (−40%) by improving design and engineering collaboration.",
         "Worked with product metrics, interactive prototypes, Figma component libraries and design QA."
       ]
