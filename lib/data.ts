@@ -592,7 +592,7 @@ export const projects: Project[] = [
     slug: 'hobbist',
     category: 'mobile',
     isProduct: true,
-    productTags: ['B2C', 'Mobile', 'iOS · Android'],
+    productTags: ['B2C', 'Telegram Mini App', 'Web'],
     color: 'linear-gradient(135deg, #4ade80 0%, #84cc16 50%, #22d3ee 100%)',
     coverImage: '/projects/hobbist-dark.jpg',
     coverImageLight: '/projects/hobbist-light.jpg',
@@ -734,8 +734,8 @@ export const projects: Project[] = [
           en: 'Exploring a new domain and designing for Telegram Mini Apps with a limited set of UI patterns.',
         },
         results: {
-          ru: ['Пять легко масштабируемых библиотек для фильмов, книг, музыки, игр и медиа', 'Оценки и рецензии для структурированного мэтчинга', 'Импорт интересов из внешних источников'],
-          en: ['Five scalable libraries for films, books, music, games and media', 'Ratings and reviews for structured matching', 'Interest import from external sources'],
+          ru: ['Пять легко масштабируемых библиотек для фильмов, книг, музыки, игр и медиа', 'Оценки и рецензии для структурированного мэтчинга', 'Импорт интересов из внешних источников', 'На уровне продукта: 19 → 26 интересов, добавляемых на пользователя в месяц'],
+          en: ['Five scalable libraries for films, books, music, games and media', 'Ratings and reviews for structured matching', 'Interest import from external sources', 'Product-level result: 19 → 26 interests added per user per month'],
         },
         galleryCount: 2,
         conclusion: {
@@ -827,7 +827,7 @@ export const projects: Project[] = [
         context: { ru: 'После мэтча пользователям нужно общаться внутри приложения.', en: 'After a match, users need to communicate inside the app.' },
         task: { ru: 'Спроектировать чат с учётом контекста общих интересов и ограничений Telegram Mini Apps.', en: 'Design a chat considering the context of shared interests and Telegram Mini Apps constraints.' },
         solution: { ru: 'Чат с быстрым доступом к профилю мэтча и общим интересам прямо в шапке диалога.', en: 'Chat with quick access to the match profile and shared interests directly in the dialog header.' },
-        results: { ru: ['Контекст интересов доступен в чате', 'Быстрый переход к профилю мэтча'], en: ['Interest context available in chat', 'Quick transition to match profile'] },
+        results: { ru: ['Контекст интересов доступен в чате', 'Быстрый переход к профилю мэтча', 'Конверсия из мэтча в переписку: 23% → 38% на уровне продукта'], en: ['Interest context available in chat', 'Quick transition to match profile', 'Product-level match-to-chat conversion: 23% → 38%'] },
         conclusion: { ru: 'Хороший чат для дейтинга отличается от мессенджера наличием контекста отношений. Кто этот человек и почему вы совпали.', en: 'A good dating chat differs from a messenger by having relationship context. Who this person is and why you matched.' },
         galleryCount: 2,
       },
