@@ -15,7 +15,7 @@ function CvActions() {
   const t = cvContent[locale];
   return <div className={`${styles.actions} ${styles.screenOnly}`} data-cv-actions>
     <button type="button" className={styles.print} onClick={printCv}>{t.print}</button>
-    <a href="/Sorokin_CV.pdf" download="Sorokin_CV.pdf" className={styles.download}>{t.download} <span aria-hidden="true">↓</span></a>
+    <a href="/Sorokin_CV.pdf" download="Sorokin_CV.pdf" className={styles.download}>{locale === 'ru' ? 'Предыдущий PDF' : 'Previous PDF'} <span aria-hidden="true">↓</span></a>
   </div>;
 }
 
@@ -37,7 +37,7 @@ export default function CvContent() {
           <h1 id="cv-name">{t.name}</h1>
           <p className={styles.role}>{t.role}</p>
           <p className={styles.domains}>{t.domains}</p>
-          <div className={styles.updated}><time dateTime="2026-10-20">{t.updated}</time><span>{t.pdf}</span></div>
+          <div className={styles.updated}><time dateTime="2026-11-25">{t.updated}</time><span>{locale === 'ru' ? 'Актуальную версию можно сохранить через печать' : 'Print to save the current version as PDF'}</span></div>
         </header>
         <div className={styles.columns}>
           <aside className={styles.sidebar} aria-label={t.contact}>

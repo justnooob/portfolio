@@ -44,18 +44,18 @@ const CHIPS: { label: string; icon: IconName }[] = [
 
 const CONTENT: Record<'ru' | 'en', Line[]> = {
   ru: [
-    { kind: 'metric', lead: 'Делаю продукты, которые двигают ', word: 'метрики' },
+    { kind: 'metric', lead: 'Проектирую продукты, меняющие ', word: 'метрики' },
     { kind: 'text', segs: [{ text: '7+ лет', accent: true }, { text: ' опыта. Технический бэкграунд.', accent: false }] },
     { kind: 'process', pre: 'От ', from: 'исследования', mid: 'до ', to: 'релиза' },
     { kind: 'chips', items: CHIPS },
-    { kind: 'text', segs: [{ text: 'Веду ', accent: false }, { text: 'команды', accent: true }, { text: ' и процессы.', accent: false }] },
+    { kind: 'text', segs: [{ text: 'Управляю ', accent: false }, { text: 'дизайном', accent: true }, { text: ' и разработкой.', accent: false }] },
   ],
   en: [
-    { kind: 'metric', lead: 'Building products that move ', word: 'metrics' },
+    { kind: 'metric', lead: 'Designing products that improve ', word: 'metrics' },
     { kind: 'text', segs: [{ text: '7+ years', accent: true }, { text: ' of experience. Technical background.', accent: false }] },
     { kind: 'process', pre: 'From ', from: 'research', mid: 'to ', to: 'release' },
     { kind: 'chips', items: CHIPS },
-    { kind: 'text', segs: [{ text: 'I lead ', accent: false }, { text: 'teams', accent: true }, { text: ' and processes.', accent: false }] },
+    { kind: 'text', segs: [{ text: 'I lead ', accent: false }, { text: 'design', accent: true }, { text: ' and coordinate engineering.', accent: false }] },
   ],
 };
 
@@ -135,8 +135,6 @@ export default function Myself() {
     return () => window.removeEventListener('resize', f);
   }, []);
 
-  const photoY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
-  const photoScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.06, 1, 1.06]);
 
   const { ref: labelRef, visible: labelVisible } = useReveal<HTMLDivElement>();
   const { ref: photoRef, visible: photoVisible } = useReveal<HTMLDivElement>();
@@ -165,7 +163,7 @@ export default function Myself() {
             ref={photoRef}
             className={`${styles.photoOuter} reveal-photo-zoom ${photoVisible ? 'visible' : ''}`}
           >
-            <motion.div className={styles.photoWrap} style={{ y: photoY, scale: photoScale }}>
+            <motion.div className={styles.photoWrap}>
               <picture>
               <source type="image/webp" srcSet={responsiveImage('/maksim-sorokin-product-designer.jpg')} sizes="(max-width: 900px) 90vw, 400px" />
               <img
