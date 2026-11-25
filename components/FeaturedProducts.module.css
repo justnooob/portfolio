@@ -820,20 +820,20 @@
 /* The process panel remounts on every tab switch. Reveal its content in
    short, staggered steps, without changing layout or delaying the tab itself. */
 @keyframes processTabEnter {
-  from { opacity:0; transform:translateY(18px); }
+  from { opacity:0; transform:translateY(22px); }
   to { opacity:1; transform:translateY(0); }
 }
 @media (prefers-reduced-motion: no-preference) {
   .processMain > *,
   .processSidebar > * {
-    animation:processTabEnter .55s cubic-bezier(.16,1,.3,1) backwards;
+    animation:processTabEnter .85s cubic-bezier(.25,.1,.25,1) backwards;
   }
-  .processMain > :nth-child(2) { animation-delay:75ms; }
-  .processMain > :nth-child(3) { animation-delay:150ms; }
-  .processSidebar > :first-child { animation-delay:45ms; }
-  .processSidebar > :nth-child(2) { animation-delay:120ms; }
+  .processMain > :nth-child(2) { animation-delay:100ms; }
+  .processMain > :nth-child(3) { animation-delay:200ms; }
+  .processSidebar > :first-child { animation-delay:65ms; }
+  .processSidebar > :nth-child(2) { animation-delay:165ms; }
   @media (max-width:1024px) {
-    .processSidebar > :first-child { animation-delay:180ms; }
-    .processSidebar > :nth-child(2) { animation-delay:240ms; }
+    .processSidebar > :first-child { animation-delay:230ms; }
+    .processSidebar > :nth-child(2) { animation-delay:320ms; }
   }
 }

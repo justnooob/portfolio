@@ -92,7 +92,7 @@
 .photoWrap picture { position:absolute; inset:0; display:block; }
 .photo {
   position:absolute;
-  top:0; right:-4%;
+  top:0; right:-6%;
   width:125%; max-width:none; height:125%;
   object-fit:cover;
   object-position:center 10%;
