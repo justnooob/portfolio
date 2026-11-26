@@ -284,16 +284,10 @@
      Уменьшаем высоту превью чтобы картинки не обрезались. */
   .preview {
     height: 220px;
-    /* Монохромный фон вместо цветных градиентов */
-    background: #131313 !important;
   }
   .coverImg {
     object-fit: contain;
     object-position: center;
-  }
-  /* Светлая тема */
-  :global([data-theme='light']) .preview {
-    background: #edeff7 !important;
   }
 }
 
@@ -333,3 +327,22 @@
   .card { border-color:var(--glass-border); }
 }
 @media (max-width:768px) { .card {border-radius:22px;} }
+
+/* A common neutral media surface in both themes. Never use the project's
+   brand gradient behind its thumbnail: the exposed edges can look like
+   coloured reflections on the surrounding glass card. */
+.preview, .selfPreview { background:var(--glass-media); }
+.coverSlide { background:var(--glass-media); }
+:global([data-theme='dark']) .preview,
+:global([data-theme='dark']) .selfPreview,
+:global([data-theme='dark']) .coverSlide { background:#151515; }
+:global([data-theme='light']) .preview,
+:global([data-theme='light']) .selfPreview,
+:global([data-theme='light']) .coverSlide { background:#edeff7; }
+
+/* Match the optical glass material used on the featured project cards. */
+:global([data-theme='dark']) .card {
+  backdrop-filter:blur(8px) saturate(130%);
+  -webkit-backdrop-filter:blur(8px) saturate(130%);
+}
+:global([data-theme='dark']) .card::after { padding:1px; }

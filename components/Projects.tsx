@@ -34,7 +34,7 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
   const renderPreview = () => {
     if (cover) {
       return (
-        <div className={styles.preview} style={{ background: project.color }}>
+        <div className={styles.preview}>
           <img
             src={cover}
             alt={project.name[locale]}
@@ -49,7 +49,7 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
     }
     if (project.isThisSite) {
       return (
-        <div className={styles.selfPreview} style={{ background: project.color }}>
+        <div className={styles.selfPreview}>
           <div className={styles.selfBadge}>{t.experience.thisSite}</div>
           <div className={styles.selfName}>sorokin.design</div>
           <div className={styles.selfSub}>Portfolio 2026</div>
@@ -59,20 +59,20 @@ function ProjectCard({ project, index = 0, columns = 2 }: ProjectCardProps) {
     const previewCls = `${styles.preview} ${project.lightText ? styles.previewLight : ''}`;
     if (project.category === 'mobile') {
       return (
-        <div className={previewCls} style={{ background: project.color }}>
+        <div className={previewCls}>
           <div className={styles.phone}></div>
         </div>
       );
     }
     if (project.category === 'web') {
       return (
-        <div className={previewCls} style={{ background: project.color }}>
+        <div className={previewCls}>
           <div className={styles.browser}></div>
         </div>
       );
     }
     return (
-      <div className={previewCls} style={{ background: project.color }}>
+      <div className={previewCls}>
         <div className={styles.mock}>{project.name[locale]}</div>
       </div>
     );
