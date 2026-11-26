@@ -18,7 +18,7 @@ export default function Logos() {
     <section className={styles.section} data-section="logos" aria-label={translations[locale].logos.label}>
       <div className={styles.inner}>
         <div className={styles.head}>
-          <h2 className={styles.label}>{locale === 'ru' ? 'Компании и продуктовые команды' : 'Companies and product teams'}</h2>
+          <h2 className={styles.label}>{translations[locale].logos.label}</h2>
         </div>
         <div className={styles.viewport}>
           <div className={styles.track}>

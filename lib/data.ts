@@ -28,7 +28,7 @@ export const translations = {
       photoAlt: 'Максим Сорокин',
     },
     logos: {
-      label: 'Компании, где я работал',
+      label: 'Компании, с которыми я работал',
       workedOn: 'Над чем работал',
     },
     featured: {

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useMemo, useCallback, ReactNode } from 'react';
 import type { Locale } from '@/lib/data';
+import { useLocaleTyping } from '@/lib/useLocaleTyping';
 
 type Theme = 'dark' | 'light';
 
@@ -24,7 +25,7 @@ function supportsViewTransitions(): boolean {
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>('ru');
-  const [theme, setThemeState] = useState<Theme>('light');
+  const [theme, setThemeState] = useState<Theme>('dark');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('locale', locale);
   }, [locale, mounted]);
 
-  const setLocale = useCallback((l: Locale) => setLocaleState(l), []);
+  const setLocale = useLocaleTyping(locale, setLocaleState);
   const setTheme = useCallback((t: Theme) => setThemeState(t), []);
 
   /**
