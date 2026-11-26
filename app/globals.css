@@ -707,3 +707,18 @@ img {
   backdrop-filter: var(--glass-lens) blur(2px) saturate(145%);
   -webkit-backdrop-filter: var(--glass-lens) blur(2px) saturate(145%);
 }
+
+/* Home-only vertical rhythm. Extra space lives outside each section so its
+   internal grid, glass surface, media sizes and padding stay intact. */
+.home-page > .hero-about-scene + [data-section='logos'] { margin-block-start:24px; }
+.home-page > [data-section='logos'] + #projects { margin-block-start:64px; }
+.home-page > #projects + #experience { margin-block-start:72px; }
+.home-page > #experience + [data-section='tech-stack'] { margin-block-start:24px; }
+.home-page > [data-section='tech-stack'] + [data-section='finalCta'] { margin-block-start:32px; }
+@media (max-width:768px) {
+  .home-page > .hero-about-scene + [data-section='logos'] { margin-block-start:12px; }
+  .home-page > [data-section='logos'] + #projects { margin-block-start:32px; }
+  .home-page > #projects + #experience { margin-block-start:36px; }
+  .home-page > #experience + [data-section='tech-stack'] { margin-block-start:12px; }
+  .home-page > [data-section='tech-stack'] + [data-section='finalCta'] { margin-block-start:16px; }
+}
