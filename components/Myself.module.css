@@ -154,3 +154,8 @@
 @media(prefers-reduced-motion:reduce) {
   .chip {transition:none;}
 }
+
+:global([data-theme='dark']) .section { --about-accent:#8be4d2; }
+:global([data-theme='dark']) .accent,
+:global([data-theme='dark']) .arrow,
+:global([data-theme='dark']) .chipIconWrap { color:var(--about-accent); }

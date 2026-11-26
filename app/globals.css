@@ -674,3 +674,26 @@ img {
 
 .btn-secondary:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
 .btn-secondary:active {transform:scale(.98);}
+
+/* Quiet optical glass: neutral tint, thin directional highlights, shallow depth.
+   The light theme keeps its existing treatment. */
+:root, [data-theme='dark'] {
+  --glass-surface: linear-gradient(155deg, rgba(255,255,255,.065), rgba(255,255,255,.018) 48%, rgba(255,255,255,.035)), rgba(21,22,26,.64);
+  --glass-chip: linear-gradient(155deg, rgba(255,255,255,.085), rgba(255,255,255,.025) 65%), rgba(22,23,27,.52);
+  --glass-rim: linear-gradient(150deg, rgba(255,255,255,.27), rgba(255,255,255,.10) 25%, rgba(255,255,255,.035) 52%, rgba(255,255,255,.08) 76%, rgba(255,255,255,.16));
+  --glass-border: rgba(255,255,255,.095);
+  --glass-shadow: inset 0 1px 1px rgba(255,255,255,.06), inset 0 -1px 2px rgba(0,0,0,.16), 0 6px 20px rgba(0,0,0,.17);
+  --glass-shadow-hover: inset 0 1px 1px rgba(255,255,255,.11), 0 9px 24px rgba(0,0,0,.23);
+  --glass-control-shadow: inset 0 1px 1px rgba(255,255,255,.09), 0 2px 8px rgba(0,0,0,.16);
+  --glass-control-hover: inset 0 1px 1px rgba(255,255,255,.16), 0 4px 12px rgba(0,0,0,.22);
+  --fcta-grad: radial-gradient(ellipse 58% 64% at 50% 37%,rgba(91,141,226,.11),rgba(91,141,226,.04) 45%,transparent 78%);
+}
+[data-theme='light'] {
+  --fcta-grad: radial-gradient(ellipse 58% 64% at 50% 37%,rgba(37,99,235,.065),transparent 78%);
+}
+.hero-about-scene { position:relative; isolation:isolate; }
+.hero-about-particles { position:absolute; top:0; left:50%; width:100vw; height:100%; transform:translateX(-50%); pointer-events:none; z-index:-1; display:block; }
+@media(prefers-reduced-motion:reduce) { .hero-about-particles { display:none; } }
+/* Hide only the not-yet-typed glyphs; the final layout and accessible text
+   remain present throughout. No React-owned text nodes are rewritten. */
+::highlight(locale-typing-hidden) { color:transparent; text-shadow:none; }

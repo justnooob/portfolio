@@ -81,7 +81,7 @@ export default function FinalCta() {
         <h2 className={styles.title}>
           <span className={styles.titleLine}>{t.finalCta.title1}</span>
           <span className={`${styles.titleLine} ${styles.titleLineTw}`}>
-            <span className={styles.twSpan}>
+            <span className={styles.twSpan} data-locale-typing="off">
               <span className={styles.twText}>
                 {display || '\u00A0'}
               </span>

@@ -654,62 +654,6 @@ function MorphSphere({ readyRef, mouseRef, themeRef, stageRef, sectionFloatRef, 
   );
 }
 
-// ──────────────────── AMBIENT BACKGROUND PARTICLES ───────────────────
-
-function BackgroundParticles({ readyRef, themeRef, stageRef, sectionFloatRef, dissolveRef }: Omit<SharedRefs,'mouseRef'|'spherePosRef'>) {
-  const pointsRef = useRef<THREE.Points>(null);
-
-  const { positions, count } = useMemo(() => {
-    const count = 600;
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const r = 5 + Math.random() * 6;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      positions[i*3]   = r * Math.sin(phi) * Math.cos(theta);
-      positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-      positions[i*3+2] = r * Math.cos(phi) - 2;
-    }
-    return { positions, count };
-  }, []);
-
-  useFrame((_, delta) => {
-    if (!readyRef.current || !pointsRef.current) return;
-    pointsRef.current.rotation.y += delta * 0.016;
-    pointsRef.current.rotation.x += delta * 0.004;
-
-    const mat = pointsRef.current.material as THREE.PointsMaterial;
-
-    // На странице проектов — частицы полностью скрыты
-    if (dissolveRef.current) {
-      mat.opacity = 0;
-      pointsRef.current.visible = false;
-      return;
-    }
-
-    const presets = themeRef.current > 0.5 ? PRESETS_LIGHT : PRESETS_DARK;
-    let targetOp = 0.4;
-    if (stageRef.current !== 'preload') {
-      const { target } = getTargetPreset(sectionFloatRef.current, presets);
-      targetOp = target.particleOpacity;
-    }
-
-    const tc = themeRef.current > 0.5 ? '#5566aa' : '#aabbff';
-    mat.color.lerp(new THREE.Color(tc), Math.min(delta * 2, 0.12));
-    mat.opacity += (targetOp - mat.opacity) * Math.min(delta * 2, 0.12);
-    pointsRef.current.visible = mat.opacity > 0.0001;
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.035} color="#aabbff" transparent opacity={0.4} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} />
-    </points>
-  );
-}
-
 // ──────────────────── DYNAMIC EXPLOSION PARTICLES ────────────────────
 
 const COUNT_DYN = 480;
@@ -968,13 +912,7 @@ export default function Scene3D({ dissolved = false, dprLimit = 1.75 }: { dissol
           spherePosRef={spherePosRef}
           dissolveRef={dissolveRef}
         />
-        <BackgroundParticles
-          readyRef={readyRef}
-          themeRef={themeRef}
-          stageRef={stageRef}
-          sectionFloatRef={sectionFloatRef}
-          dissolveRef={dissolveRef}
-        />
+        {/* Ambient stars are drawn in the shared Hero / About layer. */}
         <DynamicParticles
           readyRef={readyRef}
           themeRef={themeRef}

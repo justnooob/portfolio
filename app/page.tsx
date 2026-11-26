@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import Nav from '@/components/Nav';
 import HomeAnchors from '@/components/HomeAnchors';
 import Hero from '@/components/Hero';
+import AmbientParticles from '@/components/AmbientParticles';
 import Myself from '@/components/Myself';
 import Logos from '@/components/Logos';
 import FeaturedProducts from '@/components/FeaturedProducts';
@@ -49,8 +50,11 @@ export default function Home() {
       >
         <HomeAnchors ready={preloaderDone} />
         <Nav />
-        <Hero />
-        <Myself />
+        <div className="hero-about-scene">
+          <AmbientParticles />
+          <Hero />
+          <Myself />
+        </div>
         <Logos />
         <FeaturedProducts />
         <Experience />

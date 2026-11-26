@@ -290,7 +290,7 @@ function ProductBlock({ product }: { product: typeof projects[0] }) {
             <span className={styles.productTitleYear}>{product.year}</span>
           </h2>
           <div className={styles.productSubtitle}>
-            <span>{locale === 'ru' ? 'Должность' : 'Role'} {product.role[locale]}</span>
+            <span>{product.role[locale]}</span>
             <span className={styles.subtitleDot}>·</span>
             <span>{product.duration[locale]}</span>
           </div>

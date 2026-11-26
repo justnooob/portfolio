@@ -120,3 +120,8 @@
     font-size: 15px;
   }
 }
+
+/* Fade in before the central halo instead of illuminating the upper edge. */
+.section { border-top:0; }
+.glow { mask-image:linear-gradient(to bottom,transparent 0%,#000 27%,#000 73%,transparent 100%); -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 27%,#000 73%,transparent 100%); }
+@media(prefers-reduced-motion:reduce){.glow{animation:none}}
