@@ -4,8 +4,7 @@
 }
 
 /* DARK THEME (default) */
-:root,
-[data-theme='dark'] {
+:root:not([data-theme]), [data-theme='dark'] {
   --bg: #0c0c0e;
   --bg-elev: rgba(255, 255, 255, 0.03);
   --bg-elev-2: rgba(255, 255, 255, 0.04);
@@ -590,7 +589,7 @@ img {
 }
 
 /* Layered glass surface; contrast belongs to the content, not the effect. */
-:root,[data-theme='dark']{
+:root:not([data-theme]), [data-theme='dark'] {
  --glass-surface:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025) 65%),rgba(12,12,14,.75);
  --glass-chip:linear-gradient(145deg,rgba(255,255,255,.13),rgba(79,163,255,.04)),rgba(12,12,14,.35);
  --glass-border:rgba(255,255,255,.13);
@@ -609,7 +608,7 @@ img {
 
 /* Liquid-glass inspired optical edge. Theme-specific translucent layers,
    opposing highlights and inner shading simulate a rounded glass bevel. */
-:root, [data-theme='dark'] {
+:root:not([data-theme]), [data-theme='dark'] {
   --glass-surface: radial-gradient(ellipse at 4% 0%,rgba(88,151,255,.15),transparent 47%), radial-gradient(ellipse at 100% 100%,rgba(80,155,255,.08),transparent 50%), linear-gradient(155deg,rgba(255,255,255,.12),rgba(255,255,255,.035) 42%,rgba(0,0,0,.16) 70%,rgba(255,255,255,.07)), rgba(18,20,25,.65);
   --glass-chip: radial-gradient(ellipse at 20% 0%,rgba(132,193,255,.21),transparent 70%),rgba(26,29,37,.42);
   --glass-rim: linear-gradient(145deg,rgba(255,255,255,.58),rgba(255,255,255,.13) 29%,rgba(255,255,255,.045) 54%,rgba(111,179,255,.17) 80%,rgba(255,255,255,.32));
@@ -626,7 +625,7 @@ img {
 
 /* Shared optical treatment for secondary controls. Compact shadows keep
    action hierarchy distinct from large glass cards. */
-:root,[data-theme='dark'] {
+:root:not([data-theme]), [data-theme='dark'] {
   --glass-control-shadow:inset 0 1px 2px rgba(255,255,255,.19),inset 0 -2px 5px rgba(0,0,0,.24),0 3px 9px rgba(0,0,0,.19);
   --glass-control-hover:inset 0 1px 3px rgba(255,255,255,.28),inset 0 -2px 5px rgba(0,0,0,.22),0 5px 14px rgba(0,0,0,.28);
 }
@@ -677,7 +676,7 @@ img {
 
 /* Quiet optical glass: neutral tint, thin directional highlights, shallow depth.
    The light theme keeps its existing treatment. */
-:root, [data-theme='dark'] {
+:root:not([data-theme]), [data-theme='dark'] {
   --glass-surface: linear-gradient(155deg, rgba(255,255,255,.065), rgba(255,255,255,.018) 48%, rgba(255,255,255,.035)), rgba(21,22,26,.64);
   --glass-chip: linear-gradient(155deg, rgba(255,255,255,.085), rgba(255,255,255,.025) 65%), rgba(22,23,27,.52);
   --glass-rim: linear-gradient(150deg, rgba(255,255,255,.27), rgba(255,255,255,.10) 25%, rgba(255,255,255,.035) 52%, rgba(255,255,255,.08) 76%, rgba(255,255,255,.16));
