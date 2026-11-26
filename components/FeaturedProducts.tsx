@@ -44,7 +44,7 @@ function CaseCard({
   return (
     <div
       ref={cardRef}
-      className={`${styles.caseCardWrap} ${wide ? styles.caseCardWide : ''} ${sidecar ? styles.caseCardSidecar : ''} ${product.slug === 'hobbist' ? styles.mobileCaseCard : ''}`}
+      className={`${styles.caseCardWrap} ${wide ? styles.caseCardWide : ''} ${sidecar ? styles.caseCardSidecar : ''} ${product.slug === 'hobbist' ? styles.mobileCaseCard : ''} ${product.slug === 'okk-pro' ? styles.okkCaseCard : ''}`}
     >
       <Link
         href={`/projects/${product.slug}/${c.slug}`}

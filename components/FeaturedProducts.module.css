@@ -841,3 +841,10 @@
 /* Large editorial surfaces should not resemble raised metal controls. */
 :global([data-theme='dark']) .caseCard, :global([data-theme='dark']) .banner { backdrop-filter:blur(8px) saturate(130%); -webkit-backdrop-filter:blur(8px) saturate(130%); }
 :global([data-theme='dark']) .caseCard::after, :global([data-theme='dark']) .banner::after { padding:1px; }
+
+/* OKK artwork includes a safe decorative background around its centered UI.
+   Fill the actual responsive media rectangle rather than letterboxing the
+   slightly narrower 1654×951 assets inside a 16:9 slot. The desktop sidecar
+   still uses its own portrait source selected by <picture>. */
+.okkCaseCard .caseImg picture { position:absolute; inset:0; width:100%; height:100%; }
+.okkCaseCard .caseImgPhoto { width:100%; height:100%; object-fit:cover; object-position:center; }
