@@ -17,6 +17,6 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends python3-pil
-          /usr/bin/python3 -c "from PIL import Image; im=Image.open('public/og-approved.webp'); assert im.size == (600,315); im.convert('RGB').save('public/og-keyvisual.png', optimize=True)"
+          /usr/bin/python3 -c "from PIL import Image; im=Image.open('public/og-keyvisual-dark-safe.webp'); assert im.size == (1200,630); im.convert('RGB').save('public/og-keyvisual.png', optimize=True)"
       - run: npm run build
-      - run: test -s out/og-keyvisual.png
+      - run: test -s out/og-keyvisual.png && test -s out/og-keyvisual-dark-safe.webp

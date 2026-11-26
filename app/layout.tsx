@@ -101,9 +101,9 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: '/og-keyvisual.png',
-        width: 600,
-        height: 315,
+        url: '/og-keyvisual-dark-safe.webp', type: 'image/webp',
+        width: 1200,
+        height: 630,
         alt: 'Максим Сорокин, Product Designer',
       },
     ],
@@ -117,7 +117,7 @@ export const metadata: Metadata = {
     description:
       'Senior Product Designer · AI SaaS · B2B & B2C',
 
-    images: ['/og-keyvisual.png'],
+    images: ['/og-keyvisual-dark-safe.webp'],
   },
 
   verification: {
