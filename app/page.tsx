@@ -44,6 +44,7 @@ export default function Home() {
           <Preloader onDone={finishPreloader} />
         )}
       <motion.main
+        className="home-page"
         initial={false}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}

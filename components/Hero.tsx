@@ -50,6 +50,7 @@ export default function Hero() {
       <div className={styles.titleBlock} ref={titleBlockRef}>
         <motion.div
           className={styles.badge}
+          data-optical-glass
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease, delay: 0.2 }}

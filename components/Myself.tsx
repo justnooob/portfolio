@@ -61,7 +61,7 @@ export default function Myself() {
                   ) : (
                     <div className={styles.chips}>
                       {line.items.map(item => (
-                        <a key={item.label} href={item.icon === 'ai' || item.icon === 'saas' ? '/#okk-pro' : '/#hobbist'} className={styles.chip}>
+                        <a key={item.label} href={item.icon === 'ai' || item.icon === 'saas' ? '/#okk-pro' : '/#hobbist'} className={styles.chip} data-optical-glass>
                           <span className={styles.chipIconWrap}><ChipIcon name={item.icon} /></span>{item.label}
                         </a>
                       ))}
