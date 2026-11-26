@@ -8,7 +8,6 @@ import Projects from '@/components/Projects';
 import FinalCta from '@/components/FinalCta';
 import Footer from '@/components/Footer';
 import { useApp } from '@/components/AppProvider';
-import { translations } from '@/lib/data';
 import { easeOut } from '@/components/motion-utils';
 import SplitHeading from '@/components/SplitHeading';
 import styles from './projects-index.module.css';
@@ -20,7 +19,6 @@ import NevaTripTeaser from './NevaTripTeaser';
  */
 export default function ProjectsIndexPage() {
   const { locale } = useApp();
-  const t = translations[locale];
 
   // Возврат с кейса/проекта по якорю (#slug): плавно докручиваем к нужной
   // карточке. Старт — с текущей (верхней) позиции, скролл анимированный вниз/вверх.
@@ -58,10 +56,6 @@ export default function ProjectsIndexPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: easeOut }}
         >
-          <div className={styles.label}>
-            <span className={styles.dot} />
-            {locale === 'ru' ? 'Проекты' : 'Selected work'}
-          </div>
           <SplitHeading
             as="h1"
             className={styles.title}
@@ -70,11 +64,6 @@ export default function ProjectsIndexPage() {
             delay={0.25}
             stagger={0.05}
           />
-          <p className={styles.sub}>
-            {locale === 'ru'
-              ? 'Избранные продуктовые кейсы: AI SaaS, сложные B2B-интерфейсы, мобильные продукты и Telegram Mini Apps.'
-              : 'Selected product case studies: AI SaaS, complex B2B interfaces, mobile products and Telegram Mini Apps.'}
-          </p>
         </motion.div>
       </section>
 
