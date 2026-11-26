@@ -60,7 +60,7 @@ export default function BottomDock() {
       transition={{ duration: 0.4, ease: easeOut }}
       style={{ pointerEvents: nearFooter ? 'none' : undefined }}
     >
-      <div className={styles.dock}>
+      <div className={styles.dock} data-optical-glass>
         {/* Home */}
         <DockButton href="/" active={isHome} label={labelHome}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">

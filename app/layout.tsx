@@ -7,6 +7,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 import PageTransition from '@/components/PageTransition';
 import ScrollProgress from '@/components/ScrollProgress';
 import BottomDock from '@/components/BottomDock';
+import OpticalGlass from '@/components/OpticalGlass';
 import ScrollToTop from '@/components/ScrollToTop';
 
 import { structuredData } from '@/lib/schema';
@@ -150,6 +151,7 @@ export default function RootLayout({
             {children}
           </PageTransition>
           <BottomDock />
+          <OpticalGlass />
           <ScrollToTop />
         </AppProvider>
 

@@ -16,7 +16,7 @@
 .text { display:flex; flex-direction:column; gap:0; }
 .lineRow {
   font-size:clamp(21px,2.5vw,38px);
-  font-weight:500;
+  font-weight:400;
   line-height:1.2;
   letter-spacing:-.02em;
   color:var(--text-strong);
@@ -154,7 +154,11 @@
   .chip {transition:none;}
 }
 
-:global([data-theme='dark']) .section { --about-accent:#8be4d2; }
+:global([data-theme='dark']) .section { --about-accent:#83bfea; }
 :global([data-theme='dark']) .accent,
 :global([data-theme='dark']) .arrow,
 :global([data-theme='dark']) .chipIconWrap { color:var(--about-accent); }
+
+:global([data-theme='dark']) .chip { backdrop-filter:blur(7px) saturate(140%); -webkit-backdrop-filter:blur(7px) saturate(140%); font-weight:500; }
+:global([data-theme='dark']) .chip::after, :global([data-theme='dark']) .photoOuter::after { padding:1px; }
+:global([data-theme='dark']) .chip[data-glass-lens] { backdrop-filter:var(--glass-lens) blur(2px) saturate(145%); -webkit-backdrop-filter:var(--glass-lens) blur(2px) saturate(145%); }

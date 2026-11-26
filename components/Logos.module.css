@@ -33,3 +33,6 @@ a.logoLink:focus-visible { outline:2px solid var(--accent); outline-offset:2px; 
 .section { background:var(--glass-surface); border-color:var(--glass-border); box-shadow:inset 0 1px 0 rgba(255,255,255,.055); backdrop-filter:blur(16px) saturate(115%); -webkit-backdrop-filter:blur(16px) saturate(115%); }
 .item { background:linear-gradient(155deg,rgba(255,255,255,.025),transparent 75%); box-shadow:inset -1px 0 0 var(--glass-border); }
 :global([data-theme='light']) .item { background:linear-gradient(155deg,rgba(255,255,255,.34),transparent 75%); }
+
+:global([data-theme='dark']) .section { box-shadow:none; backdrop-filter:blur(8px) saturate(130%); -webkit-backdrop-filter:blur(8px) saturate(130%); }
+:global([data-theme='dark']) .item { background:radial-gradient(ellipse at 12% 0%,rgba(156,205,255,.04),transparent 68%); box-shadow:inset -1px 0 0 var(--glass-border); }

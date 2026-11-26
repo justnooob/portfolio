@@ -674,17 +674,17 @@ img {
 .btn-secondary:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
 .btn-secondary:active {transform:scale(.98);}
 
-/* Quiet optical glass: neutral tint, thin directional highlights, shallow depth.
-   The light theme keeps its existing treatment. */
+/* Dark optical material: clear center, localized reflections, no metallic bevel.
+   Keep light-theme tokens unchanged. SVG edge lens is progressive enhancement. */
 :root:not([data-theme]), [data-theme='dark'] {
-  --glass-surface: linear-gradient(155deg, rgba(255,255,255,.065), rgba(255,255,255,.018) 48%, rgba(255,255,255,.035)), rgba(21,22,26,.64);
-  --glass-chip: linear-gradient(155deg, rgba(255,255,255,.085), rgba(255,255,255,.025) 65%), rgba(22,23,27,.52);
-  --glass-rim: linear-gradient(150deg, rgba(255,255,255,.27), rgba(255,255,255,.10) 25%, rgba(255,255,255,.035) 52%, rgba(255,255,255,.08) 76%, rgba(255,255,255,.16));
-  --glass-border: rgba(255,255,255,.095);
-  --glass-shadow: inset 0 1px 1px rgba(255,255,255,.06), inset 0 -1px 2px rgba(0,0,0,.16), 0 6px 20px rgba(0,0,0,.17);
-  --glass-shadow-hover: inset 0 1px 1px rgba(255,255,255,.11), 0 9px 24px rgba(0,0,0,.23);
-  --glass-control-shadow: inset 0 1px 1px rgba(255,255,255,.09), 0 2px 8px rgba(0,0,0,.16);
-  --glass-control-hover: inset 0 1px 1px rgba(255,255,255,.16), 0 4px 12px rgba(0,0,0,.22);
+  --glass-surface: radial-gradient(ellipse at 9% 0%,rgba(108,167,225,.075),transparent 46%), radial-gradient(ellipse at 94% 100%,rgba(76,130,190,.045),transparent 44%), rgba(145,180,225,.025);
+  --glass-chip: radial-gradient(ellipse at 18% 0%,rgba(150,201,255,.105),transparent 62%), rgba(145,180,225,.045);
+  --glass-rim: radial-gradient(ellipse at 14% 0%,rgba(211,237,255,.64),rgba(160,210,255,.16) 30%,transparent 62%), radial-gradient(ellipse at 92% 100%,rgba(157,211,255,.38),transparent 54%), rgba(145,180,225,.10);
+  --glass-border: rgba(150,190,235,.12);
+  --glass-shadow: 0 5px 22px rgba(0,0,0,.18);
+  --glass-shadow-hover: 0 8px 27px rgba(0,0,0,.23);
+  --glass-control-shadow: 0 2px 9px rgba(0,0,0,.20);
+  --glass-control-hover: 0 4px 13px rgba(0,0,0,.25);
   --fcta-grad: radial-gradient(ellipse 58% 64% at 50% 37%,rgba(91,141,226,.11),rgba(91,141,226,.04) 45%,transparent 78%);
 }
 [data-theme='light'] {
@@ -696,3 +696,14 @@ img {
 /* Hide only the not-yet-typed glyphs; the final layout and accessible text
    remain present throughout. No React-owned text nodes are rewritten. */
 ::highlight(locale-typing-hidden) { color:transparent; text-shadow:none; }
+
+/* Keep the fallback translucent even on engines that cannot lens the live DOM. */
+[data-theme='dark'] .btn-secondary {
+  backdrop-filter:blur(7px) saturate(140%);
+  -webkit-backdrop-filter:blur(7px) saturate(140%);
+}
+[data-theme='dark'] .btn-secondary::after { padding:1px; }
+[data-theme='dark'] [data-glass-lens] {
+  backdrop-filter: var(--glass-lens) blur(2px) saturate(145%);
+  -webkit-backdrop-filter: var(--glass-lens) blur(2px) saturate(145%);
+}

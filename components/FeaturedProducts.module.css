@@ -837,3 +837,7 @@
     .processSidebar > :nth-child(2) { animation-delay:320ms; }
   }
 }
+
+/* Large editorial surfaces should not resemble raised metal controls. */
+:global([data-theme='dark']) .caseCard, :global([data-theme='dark']) .banner { backdrop-filter:blur(8px) saturate(130%); -webkit-backdrop-filter:blur(8px) saturate(130%); }
+:global([data-theme='dark']) .caseCard::after, :global([data-theme='dark']) .banner::after { padding:1px; }
