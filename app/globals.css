@@ -723,11 +723,11 @@ img {
   .home-page > [data-section='tech-stack'] + [data-section='finalCta'] { margin-block-start:16px; }
 }
 
-/* Match the desktop Hero → About breathing room (260px + 120px).
+/* Use a balanced 250px desktop gap between major content blocks.
    Account for each section's existing edge padding; leave tablet/mobile
    and the About → Logos transition untouched. */
 @media (min-width:1025px) {
-  .home-page { --home-major-content-gap:380px; }
+  .home-page { --home-major-content-gap:250px; }
   .home-page > [data-section='logos'] + #projects { margin-block-start:calc(var(--home-major-content-gap) - 80px); }
   .home-page > #projects + #experience { margin-block-start:calc(var(--home-major-content-gap) - 100px); }
   .home-page > #experience + [data-section='tech-stack'] { margin-block-start:calc(var(--home-major-content-gap) - 200px); }
