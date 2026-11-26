@@ -32,7 +32,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
       url,
       title: `${project.name.ru} · Максим Сорокин`,
       description: project.shortDesc.ru,
-      images: [{ url: '/og-keyvisual.png', width: 600, height: 315 }],
+      images: [{ url: '/og-keyvisual-dark-safe.webp', type: 'image/webp', width: 1200, height: 630 }],
     },
   };
 }
